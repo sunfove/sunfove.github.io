@@ -1,3 +1,6 @@
+body {
+  background: url("/images/bg1.jpg");
+}
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
@@ -1712,7 +1715,7 @@ article:last-child .post-eof {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff7cb9;
+  background: #ec65be;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
