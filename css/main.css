@@ -1591,6 +1591,13 @@ article:last-child .post-eof {
   align-self: center;
   height: 30px;
 }
+.post-copyright {
+  background-color: #f9f9f9;
+  border-left: 3px solid #ff1700;
+  list-style: none;
+  margin: 2em 0 0;
+  padding: 0.5em 1em;
+}
 .sidebar {
   background: #222;
   bottom: 0;
@@ -1672,7 +1679,7 @@ article:last-child .post-eof {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #3c2236;
+  background: #0a61fa;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1921,8 +1928,11 @@ article:last-child .post-eof {
 .footer-inner {
   text-align: center;
 }
+#animate {
+  animation: iconAnimate 1.33s ease-in-out infinite;
+}
 .with-love {
-  color: #808080;
+  color: #ff8c00;
   display: inline-block;
   margin: 0 5px;
 }
@@ -2352,7 +2362,7 @@ ul.breadcrumb li + li:last-child {
   }
 }
 .content-wrap {
-  background: #fff;
+  background: rgba(255,255,255,0.8);
   border-radius: initial;
   box-shadow: initial;
   box-sizing: border-box;
@@ -2414,7 +2424,7 @@ ul.breadcrumb li + li:last-child {
 }
 .site-meta {
   background: #222;
-  color: #fff;
+  color: #00f;
   padding: 20px 0;
 }
 @media (max-width: 991px) {
@@ -2462,7 +2472,7 @@ ul.breadcrumb li + li:last-child {
 .menu-item-active a,
 .menu .menu-item a:hover,
 .menu .menu-item span.exturl:hover {
-  background: #f9f9f9;
+  background: #87ceeb;
   border-bottom-color: #fff;
 }
 .menu-item-active a::after,
