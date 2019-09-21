@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/dream/index.html</loc>
+    
+    <lastmod>2019-09-21T12:32:27.449Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/09/21/Hexo%E9%85%8D%E7%BD%AE%E4%B9%8B%E8%B7%AF/</loc>
     
     <lastmod>2019-09-21T08:08:48.661Z</lastmod>
