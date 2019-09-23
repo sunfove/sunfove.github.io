@@ -33,4 +33,19 @@
     <url>%2F2019%2F09%2F21%2Ftest-01%2F</url>
     <content type="text"></content>
   </entry>
+  <entry>
+    <title></title>
+    <url>%2FREADME.html</url>
+    <content type="text"><![CDATA[sunfove.github.io]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[标签]]></title>
+    <url>%2Ftags%2Findex.html</url>
+    <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[分类]]></title>
+    <url>%2Fcategories%2Findex.html</url>
+    <content type="text"></content>
+  </entry>
 </search>
