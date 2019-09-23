@@ -64,7 +64,7 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     translation: {
@@ -82,13 +82,13 @@
 
   <meta property="og:type" content="article">
 <meta property="og:title" content="test_04">
-<meta property="og:url" content="www.sunfove.xyz/2019/09/21/test-04/index.html">
+<meta property="og:url" content="https://sunfove.xyz/2019/09/21/test-04/index.html">
 <meta property="og:site_name" content="明明如月">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-09-21T03:07:59.249Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="test_04">
-  <link rel="canonical" href="www.sunfove.xyz/2019/09/21/test-04/">
+  <link rel="canonical" href="https://sunfove.xyz/2019/09/21/test-04/">
 
 
 <script id="page-configurations">
@@ -222,36 +222,9 @@
     <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
-      <li class="menu-item menu-item-search">
-        <a href="javascript:;" class="popup-trigger">
-        
-          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
-      </li>
-    
   </ul>
 
 </nav>
-  <div class="site-search">
-    <div class="popup search-popup">
-    <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
-           placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
-  </div>
 
 </div>
     </header>
@@ -280,7 +253,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="www.sunfove.xyz/2019/09/21/test-04/">
+    <link itemprop="mainEntityOfPage" href="https://sunfove.xyz/2019/09/21/test-04/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sunfove">
@@ -396,7 +369,7 @@
     <strong>本文作者： </strong>Sunfove</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="/www.sunfove.xyz/2019/09/21/test-04/" title="test_04">www.sunfove.xyz/2019/09/21/test-04/</a>
+    <a href="https://sunfove.xyz/2019/09/21/test-04/" title="test_04">https://sunfove.xyz/2019/09/21/test-04/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -664,8 +637,6 @@
 
 
 
-
-  <script src="/js/local-search.js?v=7.4.0"></script>
 
 
 
