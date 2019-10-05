@@ -77,21 +77,21 @@
 
 
 
-  <meta name="description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。 1. FDTD原始结果&amp;em">
+  <meta name="description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。">
 <meta name="keywords" content="Matlab,FDTD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FDTD数据导出到Matlab作图">
 <meta property="og:url" content="https://sunfove.xyz/2019/10/05/FDTD数据导出到Matlab作图/index.html">
 <meta property="og:site_name" content="明明如月">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。 1. FDTD原始结果&amp;em">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://sunfove.xyz/images/loading.png">
 <meta property="og:image" content="https://sunfove.xyz/images/loading.png">
 <meta property="og:image" content="https://sunfove.xyz/images/loading.png">
-<meta property="og:updated_time" content="2019-10-05T15:48:51.808Z">
+<meta property="og:updated_time" content="2019-10-05T15:50:57.160Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FDTD数据导出到Matlab作图">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。 1. FDTD原始结果&amp;em">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。">
 <meta name="twitter:image" content="https://sunfove.xyz/images/loading.png">
   <link rel="canonical" href="https://sunfove.xyz/2019/10/05/FDTD数据导出到Matlab作图/">
 
@@ -309,7 +309,7 @@
                 
               
 
-              <time title="创建时间：2019-10-05 23:46:33 / 修改时间：23:48:51" itemprop="dateCreated datePublished" datetime="2019-10-05T23:46:33+08:00">2019-10-05</time>
+              <time title="创建时间：2019-10-05 23:46:33 / 修改时间：23:50:57" itemprop="dateCreated datePublished" datetime="2019-10-05T23:46:33+08:00">2019-10-05</time>
             </span>
           
             
@@ -375,6 +375,7 @@
 
       
         <p>&emsp;&emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。<br>&emsp;&emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。</p>
+<a id="more"></a>
 <h3 id="1-FDTD原始结果"><a href="#1-FDTD原始结果" class="headerlink" title="1. FDTD原始结果"></a>1. FDTD原始结果</h3><p>&emsp;&emsp;这里我们选用三角纳米片的电场分布仿真结果进行举例。图1是FDTD直接输出的结果（截图），可以明显看出，x方向和y方向的比例并不相同，而且不容易调节成比例尺相同，我目前有两个可行的方案可以解决这个问题，一种是先建立一个方形的图片，利用签字笔在电脑屏幕上画出方形的边界，然后再反复调节FDTD的图片，使其边界和画出的边界重合；第二种方案相对更精准也更方便，借用Snipaste截图软件创建一个方形的贴图，这个好处是这个贴图可以一直置于顶层，然后再调节FDTD中图片的边界即可。这两种方案都是调节好之后进行截图，因为直接另存，图片更加模糊，而且也没有在FDTD Solutions软件中找到可以设置分辨率的选项（FDTD Solutions版本为2018版），因此可以使用高分辨率截图软件或者较高分辨率的软件，然后将图片放到PS或者AI中进行分辨率的进一步调节。FDTD中能够调节的着实比较少，很有必要继续调整。<br><img src="/images/loading.png" data-original="https://upload-images.jianshu.io/upload_images/763395-11e1317a1552e4d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1 FDTD结果"></p>
 <h3 id="2-FDTD结果导出到Matlab"><a href="#2-FDTD结果导出到Matlab" class="headerlink" title="2. FDTD结果导出到Matlab"></a>2. FDTD结果导出到Matlab</h3><p>&emsp;&emsp;FDTD数据导入到Matlab主要参考Lumerical官网的介绍文档<a href="https://kb.lumerical.com/ref_scripts_matlabsave.html" target="_blank" rel="noopener">matlabsave</a>。<br>&emsp;&emsp;可以通过如下脚本实现电场的读取：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">E=getresult(&quot;z=0&quot;,&quot;E&quot;);</span><br><span class="line">E2=getelectric(&quot;z=0&quot;);</span><br><span class="line">E1=sqrt(E2);</span><br><span class="line">matlabsave(&quot;tri120.mat&quot;,E,E1);</span><br></pre></td></tr></table></figure>
