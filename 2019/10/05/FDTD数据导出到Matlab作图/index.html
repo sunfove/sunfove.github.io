@@ -77,19 +77,23 @@
 
 
 
-  <meta name="description" content="&amp;emsp;&amp;emsp;气候相当宜人，很适合出游踏青，可能就是这样的想法，找到一个漂亮的地方就出发了。&amp;emsp;&amp;emsp;我已经记不得同行的人是谁，也许本身就只有我一个人在感受。&amp;emsp;&amp;emsp;越过山顶的一条很宽的河，前面就是一个一片草地，让人很想躺上去感受一下春天的美妙。我躺下去的地方似乎有些奇怪，土质非常稀松，即使是在河边，这种松软的程度也是让我心中浮想不断。我往后望了一下，过河的">
-<meta name="keywords" content="梦,趣事">
+  <meta name="description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。 1. FDTD原始结果&amp;em">
+<meta name="keywords" content="Matlab,FDTD">
 <meta property="og:type" content="article">
-<meta property="og:title" content="踏青">
-<meta property="og:url" content="https://sunfove.xyz/2019/09/24/踏青/index.html">
+<meta property="og:title" content="FDTD数据导出到Matlab作图">
+<meta property="og:url" content="https://sunfove.xyz/2019/10/05/FDTD数据导出到Matlab作图/index.html">
 <meta property="og:site_name" content="明明如月">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;气候相当宜人，很适合出游踏青，可能就是这样的想法，找到一个漂亮的地方就出发了。&amp;emsp;&amp;emsp;我已经记不得同行的人是谁，也许本身就只有我一个人在感受。&amp;emsp;&amp;emsp;越过山顶的一条很宽的河，前面就是一个一片草地，让人很想躺上去感受一下春天的美妙。我躺下去的地方似乎有些奇怪，土质非常稀松，即使是在河边，这种松软的程度也是让我心中浮想不断。我往后望了一下，过河的">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。 1. FDTD原始结果&amp;em">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-24T17:04:56.175Z">
+<meta property="og:image" content="https://sunfove.xyz/images/loading.png">
+<meta property="og:image" content="https://sunfove.xyz/images/loading.png">
+<meta property="og:image" content="https://sunfove.xyz/images/loading.png">
+<meta property="og:updated_time" content="2019-10-05T15:48:51.808Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="踏青">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;气候相当宜人，很适合出游踏青，可能就是这样的想法，找到一个漂亮的地方就出发了。&amp;emsp;&amp;emsp;我已经记不得同行的人是谁，也许本身就只有我一个人在感受。&amp;emsp;&amp;emsp;越过山顶的一条很宽的河，前面就是一个一片草地，让人很想躺上去感受一下春天的美妙。我躺下去的地方似乎有些奇怪，土质非常稀松，即使是在河边，这种松软的程度也是让我心中浮想不断。我往后望了一下，过河的">
-  <link rel="canonical" href="https://sunfove.xyz/2019/09/24/踏青/">
+<meta name="twitter:title" content="FDTD数据导出到Matlab作图">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。&amp;emsp;&amp;emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。 1. FDTD原始结果&amp;em">
+<meta name="twitter:image" content="https://sunfove.xyz/images/loading.png">
+  <link rel="canonical" href="https://sunfove.xyz/2019/10/05/FDTD数据导出到Matlab作图/">
 
 
 <script id="page-configurations">
@@ -104,7 +108,7 @@
 </script>
 
 
-  <title>踏青 | 明明如月</title>
+  <title>FDTD数据导出到Matlab作图 | 明明如月</title>
   
 
 
@@ -277,7 +281,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="https://sunfove.xyz/2019/09/24/踏青/">
+    <link itemprop="mainEntityOfPage" href="https://sunfove.xyz/2019/10/05/FDTD数据导出到Matlab作图/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sunfove">
@@ -289,7 +293,7 @@
       <meta itemprop="name" content="明明如月">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">踏青
+        <h2 class="post-title" itemprop="name headline">FDTD数据导出到Matlab作图
 
           
         </h2>
@@ -305,19 +309,11 @@
                 
               
 
-              <time title="创建时间：2019-09-24 21:24:11" itemprop="dateCreated datePublished" datetime="2019-09-24T21:24:11+08:00">2019-09-24</time>
+              <time title="创建时间：2019-10-05 23:46:33 / 修改时间：23:48:51" itemprop="dateCreated datePublished" datetime="2019-10-05T23:46:33+08:00">2019-10-05</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-09-25 01:04:56" itemprop="dateModified" datetime="2019-09-25T01:04:56+08:00">2019-09-25</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -326,7 +322,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/梦/" itemprop="url" rel="index"><span itemprop="name">梦</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/软件/" itemprop="url" rel="index"><span itemprop="name">软件</span></a></span>
 
                 
                 
@@ -353,7 +349,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2019/09/24/踏青/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/09/24/踏青/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/2019/10/05/FDTD数据导出到Matlab作图/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/10/05/FDTD数据导出到Matlab作图/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -365,7 +361,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>997</span>
+              <span>1.8k</span>
             </span>
           
 
@@ -378,7 +374,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&emsp;&emsp;气候相当宜人，很适合出游踏青，可能就是这样的想法，找到一个漂亮的地方就出发了。<br>&emsp;&emsp;我已经记不得同行的人是谁，也许本身就只有我一个人在感受。<br>&emsp;&emsp;越过山顶的一条很宽的河，前面就是一个一片草地，让人很想躺上去感受一下春天的美妙。我躺下去的地方似乎有些奇怪，土质非常稀松，即使是在河边，这种松软的程度也是让我心中浮想不断。我往后望了一下，过河的人还有一大堆，没有桥，要一个个跨过去，他们有的在抬头看着太阳，有的在撩着自己的头发，春风如梳。<a id="more"></a><br>我拉住了一个看起来很有分量的中年人，至少从身材上看是这样的，魁梧又微胖，给人一种很可靠的感觉。这人竟然就真的坐下来了。<br>&emsp;&emsp;也许他怎么也不会想到我接下去想要告诉他的事情。我朝着稀疏的土指了指，“你看这里，我怀疑这里有一些奇怪的东西。”<br>&emsp;&emsp;“没什么奇怪的，也许是因为靠近河岸，这种土质很正常。”<br>&emsp;&emsp;“不，你没有仔细看。”我将手伸到里面，从里面逃出来一把，“河边的土怎么会有这种颗粒状的碎块呢？”<br>&emsp;&emsp;他好像很轻易的接受了我的说法，“那挖挖看。”<br>&emsp;&emsp;我警惕得看了一下周围，他们都沉醉在周围的风景里面，没人在乎我俩躺在这里晒太阳。<br>&emsp;&emsp;我们一起挖了一会，已经发现了真相，藏在里面的是尸体，一共有五具，盛放在没有顶的木棺材里，说是棺材，其实就是大堆碎木头了。尸体上甚至可以看到刚开始腐烂，但奇怪的是，并没有闻到强烈的气味。<br>&emsp;&emsp;本来是发现的兴奋，现在突然有些惊恐。把土盖好，我们慢慢离开了那个地方。走下半山腰，我们报了警，主要是我下意识得担心凶手就在附近，观察有没有人发现他的阴谋，如果引起凶手的注意，我们当然也是有危险的。报警以后，心情自然轻松愉悦多了。于是我们随意的聊了起来，他说他从刚才过河的时候就看出来我很不一样，但其实我是怎么过河的我自己也已经记不清楚了，再到后来发现尸体，就更肯定了我的能力。接着他告诉我他是一家软件公司的老板，问我有没有兴趣明天来上班，我当时很是开心，还很生硬的恭维了一句，心想这当然是个好事，可能证实没事做我才闲的到处游玩。老板随后给老婆打了电话，说可能晚点回去。我们边笑边聊，一直到了山脚下，撞见正要上山的警察。<br>&emsp;&emsp;醒来。</p>
+        <p>&emsp;&emsp;FDTD计算得到的电场分布，但是FDTD通过另存为jpg或者截屏所得到的图片分辨率很低，得到的图片往往不能直接使用。因此，可以通过脚本输入到Maltab，然后再利用Matlab处理图片并输出。<br>&emsp;&emsp;但是将数据从FDTD输出到Matlab中，并不是想象中那么简单，经历了好几次坑，反复摸索之后，得到了一种比较可行的方案，介绍如下。</p>
+<h3 id="1-FDTD原始结果"><a href="#1-FDTD原始结果" class="headerlink" title="1. FDTD原始结果"></a>1. FDTD原始结果</h3><p>&emsp;&emsp;这里我们选用三角纳米片的电场分布仿真结果进行举例。图1是FDTD直接输出的结果（截图），可以明显看出，x方向和y方向的比例并不相同，而且不容易调节成比例尺相同，我目前有两个可行的方案可以解决这个问题，一种是先建立一个方形的图片，利用签字笔在电脑屏幕上画出方形的边界，然后再反复调节FDTD的图片，使其边界和画出的边界重合；第二种方案相对更精准也更方便，借用Snipaste截图软件创建一个方形的贴图，这个好处是这个贴图可以一直置于顶层，然后再调节FDTD中图片的边界即可。这两种方案都是调节好之后进行截图，因为直接另存，图片更加模糊，而且也没有在FDTD Solutions软件中找到可以设置分辨率的选项（FDTD Solutions版本为2018版），因此可以使用高分辨率截图软件或者较高分辨率的软件，然后将图片放到PS或者AI中进行分辨率的进一步调节。FDTD中能够调节的着实比较少，很有必要继续调整。<br><img src="/images/loading.png" data-original="https://upload-images.jianshu.io/upload_images/763395-11e1317a1552e4d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1 FDTD结果"></p>
+<h3 id="2-FDTD结果导出到Matlab"><a href="#2-FDTD结果导出到Matlab" class="headerlink" title="2. FDTD结果导出到Matlab"></a>2. FDTD结果导出到Matlab</h3><p>&emsp;&emsp;FDTD数据导入到Matlab主要参考Lumerical官网的介绍文档<a href="https://kb.lumerical.com/ref_scripts_matlabsave.html" target="_blank" rel="noopener">matlabsave</a>。<br>&emsp;&emsp;可以通过如下脚本实现电场的读取：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">E=getresult(&quot;z=0&quot;,&quot;E&quot;);</span><br><span class="line">E2=getelectric(&quot;z=0&quot;);</span><br><span class="line">E1=sqrt(E2);</span><br><span class="line">matlabsave(&quot;tri120.mat&quot;,E,E1);</span><br></pre></td></tr></table></figure>
+
+<p>其中E得到的是一个struct结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">包含以下字段的 struct:</span><br><span class="line"></span><br><span class="line">                  E: [48841×3 double]</span><br><span class="line">  Lumerical_dataset: [1×1 struct]</span><br><span class="line">                  f: 4.2827e+14</span><br><span class="line">             lambda: 7.0000e-07</span><br><span class="line">                  x: [221×1 double]</span><br><span class="line">                  y: [221×1 double]</span><br><span class="line">                  z: 0</span><br></pre></td></tr></table></figure>
+
+<p>struct中E是一个包含三个x, y, z三个方向的电场分布，是矢量信息，而通过getelectric并开根号得到的是电场的标量数值。值得一说的是，对结构体struct中内容的调用可以采用E.x等命令进行直接读取。<br>值得注意的是，FDTD和Matlab采用的矩阵规则不同，输出后的结果需要进行非共轭转置，才能够和FDTD的结果进行对应。<br>x，y， E 等的信息除了利用getdata或getresult获取以外，也可以通过右键单击，将结果输出到脚本，可以得到相同的效果。<br><img src="/images/loading.png" data-original="https://upload-images.jianshu.io/upload_images/763395-de2f12e21ec76ce7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图2 导出x, y 信息"></p>
+<h3 id="3-Matlab作图"><a href="#3-Matlab作图" class="headerlink" title="3. Matlab作图"></a>3. Matlab作图</h3><p>将电场结果，x，y，z数据导出到matlab中之后，作图可以有多种方案，contour，contourf，pcolor等均可以实现，pcolor更为方便。<img src="/images/loading.png" data-original="https://upload-images.jianshu.io/upload_images/763395-b528ada89cb8a342.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3 pcolor处理结果">contourf和pcolor的语句如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[C,h] = contourf(E,M)    %counterf, M越大，越精细</span><br><span class="line">h = pcolor(x,y,E)        %pcolor</span><br></pre></td></tr></table></figure>
+
+<p>如图3为pcolor输出的结果。作图后，仍需进行如下调整：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set(h,&apos;LineStyle&apos;,&apos;none&apos;);     %线型设置为无</span><br><span class="line">colorbar                       %色标</span><br><span class="line">colormap jet                   %色标模式选用jet</span><br><span class="line">axis equal                     %x, y 等比例尺</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考：<a href="https://kb.lumerical.com/ref_scripts_tutorial_matlab_2d_plotting.html" target="_blank" rel="noopener">2D image plots</a><br>&emsp;&emsp;&emsp;<a href="https://kb.lumerical.com/ref_scripts_matlabsave.html" target="_blank" rel="noopener">matlabsave</a></p>
+</blockquote>
 
     </div>
 
@@ -418,7 +431,7 @@
     <strong>本文作者： </strong>Sunfove</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://sunfove.xyz/2019/09/24/踏青/" title="踏青">https://sunfove.xyz/2019/09/24/踏青/</a>
+    <a href="https://sunfove.xyz/2019/10/05/FDTD数据导出到Matlab作图/" title="FDTD数据导出到Matlab作图">https://sunfove.xyz/2019/10/05/FDTD数据导出到Matlab作图/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -433,9 +446,9 @@
           
           <div class="post-tags">
             
-              <a href="/tags/梦/" rel="tag"><i class="fa fa-tag"></i> 梦</a>
+              <a href="/tags/Matlab/" rel="tag"><i class="fa fa-tag"></i> Matlab</a>
             
-              <a href="/tags/趣事/" rel="tag"><i class="fa fa-tag"></i> 趣事</a>
+              <a href="/tags/FDTD/" rel="tag"><i class="fa fa-tag"></i> FDTD</a>
             
           </div>
         
@@ -445,8 +458,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/09/24/追火车/" rel="next" title="追火车">
-                  <i class="fa fa-chevron-left"></i> 追火车
+                <a href="/2019/10/05/琐碎003/" rel="next" title="琐碎003">
+                  <i class="fa fa-chevron-left"></i> 琐碎003
                 </a>
               
             </div>
@@ -454,10 +467,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/09/24/Matlab批处理/" rel="prev" title="Matlab批处理">
-                  Matlab批处理 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -511,6 +520,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-FDTD原始结果"><span class="nav-number">1.</span> <span class="nav-text">1. FDTD原始结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-FDTD结果导出到Matlab"><span class="nav-number">2.</span> <span class="nav-text">2. FDTD结果导出到Matlab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Matlab作图"><span class="nav-number">3.</span> <span class="nav-text">3. Matlab作图</span></a></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
