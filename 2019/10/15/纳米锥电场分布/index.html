@@ -86,7 +86,7 @@
 <meta property="og:description" content="利用FDTD Solutions得到纳米锥的仿真数据，输出到Matlab中重新作图。输入结果示意图：  百度云盘链接：https://pan.baidu.com/s/1Ljz4-N3lFgSQ5401yIa7zQ提取码：sfp4">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://sunfove.xyz/images/loading.png">
-<meta property="og:updated_time" content="2019-10-15T15:36:31.591Z">
+<meta property="og:updated_time" content="2019-10-15T15:46:51.547Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="纳米锥电场分布">
 <meta name="twitter:description" content="利用FDTD Solutions得到纳米锥的仿真数据，输出到Matlab中重新作图。输入结果示意图：  百度云盘链接：https://pan.baidu.com/s/1Ljz4-N3lFgSQ5401yIa7zQ提取码：sfp4">
@@ -306,7 +306,7 @@
                 
               
 
-              <time title="创建时间：2019-10-15 23:27:16 / 修改时间：23:36:31" itemprop="dateCreated datePublished" datetime="2019-10-15T23:27:16+08:00">2019-10-15</time>
+              <time title="创建时间：2019-10-15 23:27:16 / 修改时间：23:46:51" itemprop="dateCreated datePublished" datetime="2019-10-15T23:27:16+08:00">2019-10-15</time>
             </span>
           
             
@@ -365,7 +365,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>646</span>
+              <span>648</span>
             </span>
           
 
@@ -383,7 +383,7 @@
 <p>百度云盘链接：<a href="https://pan.baidu.com/s/1Ljz4-N3lFgSQ5401yIa7zQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1Ljz4-N3lFgSQ5401yIa7zQ</a><br>提取码：sfp4</p>
 </blockquote>
 <a id="more"></a>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% 将FDTD数据导入到Matlab中绘制电场分布图，对应文件：cone20191014</span></span><br><span class="line">X = x*<span class="number">10</span>^<span class="number">9</span>;  <span class="comment">%x是FDTD输出的x坐标</span></span><br><span class="line">Y = y*<span class="number">10</span>^<span class="number">9</span>;  <span class="comment">%x是FDTD输出的y坐标</span></span><br><span class="line">h = pcolor(X,Y,E2.');  <span class="comment">%E2是FDTD输出的电场平方</span></span><br><span class="line">set(h,<span class="string">'LineStyle'</span>,<span class="string">'none'</span>);      <span class="comment">%线型设置为无 </span></span><br><span class="line">axis equal  <span class="comment">%x，y的尺寸等比例</span></span><br><span class="line"> axis([<span class="number">-40</span> <span class="number">40</span> <span class="number">-40</span> <span class="number">40</span>])  <span class="comment">%规定x，y取值范围</span></span><br><span class="line">set(gca,<span class="string">"FontSize"</span>,<span class="number">25</span>,<span class="string">"Fontweight"</span>,<span class="string">'bold'</span>)  设定当前图层字体大小，粗细</span><br><span class="line">set(gca,<span class="string">'XTick'</span>,(<span class="number">-40</span>:<span class="number">20</span>:<span class="number">40</span>))  <span class="comment">%设定x方向的刻度标注</span></span><br><span class="line">set(gca,<span class="string">'YTick'</span>,(<span class="number">-40</span>:<span class="number">20</span>:<span class="number">40</span>))  <span class="comment">%设定y方向的刻度标注</span></span><br><span class="line">shading interp  <span class="comment">%对曲面或图形对象的颜色着色进行色彩的插值处理，使色彩平滑过渡</span></span><br><span class="line">xlabel(<span class="string">'x (nm)'</span>)  <span class="comment">%x标题</span></span><br><span class="line">ylabel(<span class="string">'y (nm)'</span>)  <span class="comment">%y标题</span></span><br><span class="line">colorbar  <span class="comment">%显示colorbar</span></span><br><span class="line">colormap jet  <span class="comment">%colorbar类型选择为jet</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% 将FDTD数据导入到Matlab中绘制电场分布图，对应文件：cone20191014.m</span></span><br><span class="line">X = x*<span class="number">10</span>^<span class="number">9</span>;  <span class="comment">%x是FDTD输出的x坐标</span></span><br><span class="line">Y = y*<span class="number">10</span>^<span class="number">9</span>;  <span class="comment">%x是FDTD输出的y坐标</span></span><br><span class="line">h = pcolor(X,Y,E2.');  <span class="comment">%E2是FDTD输出的电场平方</span></span><br><span class="line">set(h,<span class="string">'LineStyle'</span>,<span class="string">'none'</span>);      <span class="comment">%线型设置为无 </span></span><br><span class="line">axis equal  <span class="comment">%x，y的尺寸等比例</span></span><br><span class="line"> axis([<span class="number">-40</span> <span class="number">40</span> <span class="number">-40</span> <span class="number">40</span>])  <span class="comment">%规定x，y取值范围</span></span><br><span class="line">set(gca,<span class="string">"FontSize"</span>,<span class="number">25</span>,<span class="string">"Fontweight"</span>,<span class="string">'bold'</span>)  设定当前图层字体大小，粗细</span><br><span class="line">set(gca,<span class="string">'XTick'</span>,(<span class="number">-40</span>:<span class="number">20</span>:<span class="number">40</span>))  <span class="comment">%设定x方向的刻度标注</span></span><br><span class="line">set(gca,<span class="string">'YTick'</span>,(<span class="number">-40</span>:<span class="number">20</span>:<span class="number">40</span>))  <span class="comment">%设定y方向的刻度标注</span></span><br><span class="line">shading interp  <span class="comment">%对曲面或图形对象的颜色着色进行色彩的插值处理，使色彩平滑过渡</span></span><br><span class="line">xlabel(<span class="string">'x (nm)'</span>)  <span class="comment">%x标题</span></span><br><span class="line">ylabel(<span class="string">'y (nm)'</span>)  <span class="comment">%y标题</span></span><br><span class="line">colorbar  <span class="comment">%显示colorbar</span></span><br><span class="line">colormap jet  <span class="comment">%colorbar类型选择为jet</span></span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -465,6 +465,10 @@
 
             <div class="post-nav-prev post-nav-item">
               
+                <a href="/2019/10/17/琐碎011/" rel="prev" title="琐碎011">
+                  琐碎011 <i class="fa fa-chevron-right"></i>
+                </a>
+              
             </div>
           </div>
         
@@ -533,7 +537,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -635,7 +639,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">31k</span>
+    <span title="站点总字数">32k</span>
 </div>
   <div class="addthis_inline_share_toolbox">
     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d8359f784b814de" async="async"></script>
