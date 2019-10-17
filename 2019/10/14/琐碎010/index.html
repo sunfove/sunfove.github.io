@@ -6,7 +6,7 @@
 
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 3.9.0">
@@ -143,12 +143,12 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-  <div class="container use-motion">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -368,9 +368,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/images/loading.png" data-original="https://upload-images.jianshu.io/upload_images/763395-239ce3cd4b44b2b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
-<a id="more"></a>
-<p>&emsp;&emsp;《琐碎》记事已经有十篇了，回看这段时间的记录，能够明显地感觉到每一个都是过于匆忙，似乎完全是为了完成一些任务，并没有认真在写，对所写内容也极为不负责任，错别字和语句不通顺一大堆不说，内容也是十分空洞无味，有的自己看着都会觉着起鸡皮疙瘩，更不必说作为一个公开的博客来让别人来看了。自己都不满意，还要心存侥幸，这种心理极为可怕，难以成事，必须要改。<br>&emsp;&emsp;鉴于此，博客的更新必须遵循如下原则：</p>
+        <p><img src="/images/loading.png" data-original="https://upload-images.jianshu.io/upload_images/763395-239ce3cd4b44b2b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><a id="more"></a><br>&emsp;&emsp;《琐碎》记事已经有十篇了，回看这段时间的记录，能够明显地感觉到每一个都是过于匆忙，似乎完全是为了完成一些任务，并没有认真在写，对所写内容也极为不负责任，错别字和语句不通顺一大堆不说，内容也是十分空洞无味，有的自己看着都会觉着起鸡皮疙瘩，更不必说作为一个公开的博客来让别人来看了。自己都不满意，还要心存侥幸，这种心理极为可怕，难以成事，必须要改。<br>&emsp;&emsp;鉴于此，博客的更新必须遵循如下原则：</p>
 <blockquote>
 <ul>
 <li>宁缺毋滥。如果实在没有心境去写，干脆就不要写，或者说自己日记本上随便写写，既然想要做成博客，就要对自己的博客内容负责，如果自己都嫌弃，何以能谈分享。</li>
@@ -750,7 +748,24 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     path: location.pathname
   });
 }, window.Valine);
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 <script>!function(e){var r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function t(){for(var c=0;c<r.length;c++)t=r[c],void 0,0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=r[c];t=o,n=function(){r=r.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}t(),e.addEventListener("scroll",function(){!function(t,n){clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)}(t,e)})}(this);</script></body>
 </html>
