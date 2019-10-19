@@ -36,6 +36,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -49,9 +50,9 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -82,11 +83,9 @@
 <meta property="og:url" content="https://sunfove.xyz/2019/10/18/Hexo中插入数学公式/index.html">
 <meta property="og:site_name" content="明明如月">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-e189113a1253dcfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:updated_time" content="2019-10-18T15:55:15.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo中插入数学公式">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/763395-e189113a1253dcfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   <link rel="canonical" href="https://sunfove.xyz/2019/10/18/Hexo中插入数学公式/">
 
 
@@ -367,7 +366,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://upload-images.jianshu.io/upload_images/763395-e189113a1253dcfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="麦克斯韦方程组"><br><a id="more"></a><br>Hexo中插入数学公式时会出现显示问题，这里借用mathjax插件和writage工具来实现hexo中插入数学公式。<br>首先，安装hexo-math<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-math --save</span><br></pre></td></tr></table></figure></p>
+        <p><img data-original="https://upload-images.jianshu.io/upload_images/763395-e189113a1253dcfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="麦克斯韦方程组" data-src="/images/loading.png"><br><a id="more"></a><br>Hexo中插入数学公式时会出现显示问题，这里借用mathjax插件和writage工具来实现hexo中插入数学公式。<br>首先，安装hexo-math<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-math --save</span><br></pre></td></tr></table></figure></p>
 <p>在站点配置文件下添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">math:</span><br><span class="line">  engine: &apos;mathjax&apos; </span><br><span class="line">  mathjax:</span><br></pre></td></tr></table></figure></p>
 <p>在主题配置文件下修改：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">math:</span><br><span class="line">  enable: true</span><br><span class="line">  engine: mathjax</span><br><span class="line"></span><br><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  cdn: //cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure></p>
 <p>其中 per_page 根据提示，表示默认不加载 mathjax/katex 脚本，如果设置为 false，则是每篇文章都会去加载 mathjax 脚本，这里我设置为 true，然后在需要加载的文章抬头添加 mathjax: true 。<br>公式可以通过Latex语法规则编辑，同时也可以通过<a href="http://www.writage.com/" target="_blank" rel="noopener">Writage</a>插件，将Word中编辑好的公式，转化成markdown格式后使用。</p>
@@ -391,13 +390,13 @@
         
       
       <div style="display: inline-block">
-        <img src="/images/wechatpay.png" alt="Sunfove 微信支付">
+        <img src="/images/loading.png" data-original="/images/wechatpay.png" alt="Sunfove 微信支付">
         <p>微信支付</p>
       </div>
         
       
       <div style="display: inline-block">
-        <img src="/images/alipay.png" alt="Sunfove 支付宝">
+        <img src="/images/loading.png" data-original="/images/alipay.png" alt="Sunfove 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -522,7 +521,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -548,7 +547,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -624,7 +623,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">34k</span>
+    <span title="站点总字数">36k</span>
 </div>
   <div class="addthis_inline_share_toolbox">
     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d8359f784b814de" async="async"></script>
@@ -677,6 +676,9 @@
   <script src="/lib/anime.min.js?v=3.1.0"></script>
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 <script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
 <script src="/js/schemes/pisces.js?v=7.4.0"></script>
 <script src="/js/next-boot.js?v=7.4.0"></script>
@@ -816,5 +818,5 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 
-</body>
+<script>!function(e){var r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function t(){for(var c=0;c<r.length;c++)t=r[c],void 0,0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=r[c];t=o,n=function(){r=r.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}t(),e.addEventListener("scroll",function(){!function(t,n){clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)}(t,e)})}(this);</script></body>
 </html>

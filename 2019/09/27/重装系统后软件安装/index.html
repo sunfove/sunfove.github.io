@@ -36,6 +36,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -49,9 +50,9 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -82,11 +83,9 @@
 <meta property="og:url" content="https://sunfove.xyz/2019/09/27/重装系统后软件安装/index.html">
 <meta property="og:site_name" content="明明如月">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://sunfove.xyz/images/重装系统后软件安装/20190928122252773.png">
 <meta property="og:updated_time" content="2019-09-27T16:24:50.001Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="重装系统后软件安装">
-<meta name="twitter:image" content="https://sunfove.xyz/images/重装系统后软件安装/20190928122252773.png">
   <link rel="canonical" href="https://sunfove.xyz/2019/09/27/重装系统后软件安装/">
 
 
@@ -375,7 +374,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/images/重装系统后软件安装/20190928122252773.png" alt><br><a id="more"></a><br>系统重装系统后待装软件：</p>
+        <p><img data-original="/images/重装系统后软件安装/20190928122252773.png" alt data-src="/images/loading.png"><br><a id="more"></a><br>系统重装系统后待装软件：</p>
 <ol>
 <li><p>系统软件<br>1.1 输入法：搜狗输入法<br>1.2 浏览器：Chrome<br>1.3 ShadowsocksR<br>1.4 EasyConnect<br>1.5 IObitUninstaller<br>1.6  网易邮箱大师<br>1.7 微信<br>1.8 TIM<br>1.9 火绒安全<br>1.10 360压缩<br>1.11 360看图<br>1.12 Internet Download Manager<br>1.13 百度网盘<br>1.14 有道云笔记</p>
 </li>
@@ -411,13 +410,13 @@
         
       
       <div style="display: inline-block">
-        <img src="/images/wechatpay.png" alt="Sunfove 微信支付">
+        <img src="/images/loading.png" data-original="/images/wechatpay.png" alt="Sunfove 微信支付">
         <p>微信支付</p>
       </div>
         
       
       <div style="display: inline-block">
-        <img src="/images/alipay.png" alt="Sunfove 支付宝">
+        <img src="/images/loading.png" data-original="/images/alipay.png" alt="Sunfove 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -542,7 +541,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -568,7 +567,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -644,7 +643,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">34k</span>
+    <span title="站点总字数">36k</span>
 </div>
   <div class="addthis_inline_share_toolbox">
     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d8359f784b814de" async="async"></script>
@@ -697,6 +696,9 @@
   <script src="/lib/anime.min.js?v=3.1.0"></script>
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 <script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
 <script src="/js/schemes/pisces.js?v=7.4.0"></script>
 <script src="/js/next-boot.js?v=7.4.0"></script>
@@ -786,5 +788,5 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 
-</body>
+<script>!function(e){var r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function t(){for(var c=0;c<r.length;c++)t=r[c],void 0,0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=r[c];t=o,n=function(){r=r.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}t(),e.addEventListener("scroll",function(){!function(t,n){clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)}(t,e)})}(this);</script></body>
 </html>

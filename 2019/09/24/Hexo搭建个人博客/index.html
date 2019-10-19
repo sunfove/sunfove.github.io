@@ -36,6 +36,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -49,9 +50,9 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -84,18 +85,10 @@
 <meta property="og:site_name" content="明明如月">
 <meta property="og:description" content="HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexojs/hexo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-3393bb77d5fa0b4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-b94f5483f3aa35cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-73f5a0651ed10df0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-4ef52f38f401978a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-a1f395b8f18e5e2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-aef44e197a0d3b38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-f10b60840dbdb5a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:updated_time" content="2019-10-18T15:59:27.847Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo搭建个人博客">
 <meta name="twitter:description" content="HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexojs/hexo">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/763395-3393bb77d5fa0b4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   <link rel="canonical" href="https://sunfove.xyz/2019/09/24/Hexo搭建个人博客/">
 
 
@@ -410,7 +403,7 @@
 <h3 id="清空Github仓库内容"><a href="#清空Github仓库内容" class="headerlink" title="清空Github仓库内容"></a>清空Github仓库内容</h3><p>如果想要清空github仓库中的内容，可以先创建分支，然后清空本地master中的文件，保留.git和readme.md，清空后git到远程仓库中，可参考<a href="https://blog.csdn.net/sinat_34937826/article/details/90512474" target="_blank" rel="noopener">Github清空远程仓库</a><br>。</p>
 <h3 id="配置SSH-key"><a href="#配置SSH-key" class="headerlink" title="配置SSH key"></a>配置SSH key</h3><p>为什么要配置这个呢？因为你提交代码肯定要拥有你的github权限才可以，但是直接使用用户名和密码太不安全了，所以我们使用ssh key来解决本地和服务器的连接问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~/. ssh #检查本机已存在的ssh密钥</span><br></pre></td></tr></table></figure></p>
 <p>如果提示：No such file or directory 说明你是第一次使用git。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;邮件地址&quot;</span><br></pre></td></tr></table></figure></p>
-<p>然后连续3次回车，最终会生成一个文件在用户目录下，打开用户目录，找到 <code>.ssh\id_rsa.pub</code> 文件，记事本打开并复制里面的内容，打开你的github主页，进入个人设置 -&gt; SSH and GPG keys -&gt; New SSH key：<br><img src="https://upload-images.jianshu.io/upload_images/763395-3393bb77d5fa0b4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置SSH key">测试是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com # 注意邮箱地址不用改</span><br></pre></td></tr></table></figure></p>
+<p>然后连续3次回车，最终会生成一个文件在用户目录下，打开用户目录，找到 <code>.ssh\id_rsa.pub</code> 文件，记事本打开并复制里面的内容，打开你的github主页，进入个人设置 -&gt; SSH and GPG keys -&gt; New SSH key：<br><img data-original="https://upload-images.jianshu.io/upload_images/763395-3393bb77d5fa0b4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置SSH key" data-src="/images/loading.png">测试是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com # 注意邮箱地址不用改</span><br></pre></td></tr></table></figure></p>
 <p>看到如下提示，说明配置成功。</p>
 <blockquote>
 <p>You’ve successfully authenticated, but GitHub does not provide shell access.</p>
@@ -421,7 +414,7 @@
 </blockquote>
 <h3 id="Deploy到github中"><a href="#Deploy到github中" class="headerlink" title="Deploy到github中"></a>Deploy到github中</h3><p>修改站点配置文件(_config.yml)，修改 depoly ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git </span><br><span class="line">  repo: git@github.com:username/username.github.io.git //替换成自己的邮箱</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
 <p>如果不行，安装插件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
-<h3 id="修改主题"><a href="#修改主题" class="headerlink" title="修改主题"></a>修改主题</h3><p>hexo的主题非常之多，可以从官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener">主题</a>中自由选择。这里以next主题为例。<br>主题的下载可以通过git到hexo/theme或者直接download zip然后解压到hexo/theme文件夹。<br>在站点配置文件(_config.yml)中查找theme，<br><img src="https://upload-images.jianshu.io/upload_images/763395-b94f5483f3aa35cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="修改主题">然后将landscape修改为next或者hexo-theme-next，具体以theme中文件夹名称为主。<br><code>hexo d -g</code>后<code>hexo s</code>并刷新网页，可以看到主题已经更换成了next。</p>
+<h3 id="修改主题"><a href="#修改主题" class="headerlink" title="修改主题"></a>修改主题</h3><p>hexo的主题非常之多，可以从官网的<a href="https://hexo.io/themes/" target="_blank" rel="noopener">主题</a>中自由选择。这里以next主题为例。<br>主题的下载可以通过git到hexo/theme或者直接download zip然后解压到hexo/theme文件夹。<br>在站点配置文件(_config.yml)中查找theme，<br><img data-original="https://upload-images.jianshu.io/upload_images/763395-b94f5483f3aa35cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="修改主题" data-src="/images/loading.png">然后将landscape修改为next或者hexo-theme-next，具体以theme中文件夹名称为主。<br><code>hexo d -g</code>后<code>hexo s</code>并刷新网页，可以看到主题已经更换成了next。</p>
 <h2 id="Next主题修改"><a href="#Next主题修改" class="headerlink" title="Next主题修改"></a>Next主题修改</h2><h3 id="语言修改"><a href="#语言修改" class="headerlink" title="语言修改"></a>语言修改</h3><p>在站点文件_config.yml中查找language并将en修改为简体中文（zh-CN）：<br><figure class="highlight plain"><figcaption><span>Site</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title: 明明如月</span><br><span class="line">subtitle:</span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">author: sunfove</span><br><span class="line">language: zh-CN //语言名称要写对</span><br><span class="line">timezone:</span><br></pre></td></tr></table></figure></p>
 <p>注意更改的语言名称要写对，具体查看主题文件夹下的language文件夹中的名称。</p>
 <h3 id="新建带日期格式的博文"><a href="#新建带日期格式的博文" class="headerlink" title="新建带日期格式的博文"></a>新建带日期格式的博文</h3><p>使用hexo new post “博文名称”生成的博文以博文名称生成文件，当文件太多时不便于管理查看，生成yyyy-MM-dd-博文名称的名称有助于我们管理自己的博文。<br>在站点文件_config.yml中设置博客生成名称:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Writing</span><br><span class="line">new_post_name: :year-:month-:day-:title.md # File name of new posts</span><br></pre></td></tr></table></figure></p>
@@ -449,13 +442,13 @@
 <li>Pages - 新加 page；</li>
 <li>Posts - 新加或删除 post；双击一个 post，你可以编辑，预览，新增修改 tags、categories，选择发布或不发布；</li>
 <li>Settings - 一些配置；</li>
-<li>Deploy - 可以直接部署到 github。<br><img src="https://upload-images.jianshu.io/upload_images/763395-73f5a0651ed10df0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hexo admin"></li>
+<li>Deploy - 可以直接部署到 github。<br><img data-original="https://upload-images.jianshu.io/upload_images/763395-73f5a0651ed10df0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hexo admin" data-src="/images/loading.png"></li>
 </ul>
 <blockquote>
 <p>参考：<a href="https://albenw.github.io/posts/4ffa5bc6/" target="_blank" rel="noopener">hexo-admin安装使用</a></p>
 </blockquote>
 <p>注：按照这个方案配置hexo-admin后，会出现如下警告，但不太影响使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo s -g</span><br><span class="line">(node:12084) [DEP0061] DeprecationWarning: fs.SyncWriteStream is deprecated.</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000 . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure></p>
-<p>配置完成后，可以进行认证，详见：<a href="http://www.pianshen.com/article/1382194525/" target="_blank" rel="noopener">【hexo】安装并配置admin插件</a>。<br>这样登录admin就需要账号密码验证。<br><img src="https://upload-images.jianshu.io/upload_images/763395-4ef52f38f401978a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hexo admin认证"></p>
+<p>配置完成后，可以进行认证，详见：<a href="http://www.pianshen.com/article/1382194525/" target="_blank" rel="noopener">【hexo】安装并配置admin插件</a>。<br>这样登录admin就需要账号密码验证。<br><img data-original="https://upload-images.jianshu.io/upload_images/763395-4ef52f38f401978a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hexo admin认证" data-src="/images/loading.png"></p>
 <h3 id="阅读全文"><a href="#阅读全文" class="headerlink" title="阅读全文"></a>阅读全文</h3><p>推荐使用<code>&lt; !--more--&gt;</code> 进行手动截断，网上有很多教程自动截断，但文中包含中文和一些特殊符号的时候，判断可能会失效。自动截断教程可参考：<a href="https://www.jianshu.com/p/78c218f9d1e7" target="_blank" rel="noopener">Hexo-设置阅读全文</a>。</p>
 <h3 id="修改标签样式"><a href="#修改标签样式" class="headerlink" title="修改标签样式"></a>修改标签样式</h3><p>修改模板 <code>\themes\hexo-theme-next\layout\_macro/post.swig</code>，搜索 <code></code>，将 <code>#</code>换成<code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code></p>
 <h3 id="修改布局模板"><a href="#修改布局模板" class="headerlink" title="修改布局模板"></a>修改布局模板</h3><p>layout 布局模板放在 <code>scaffolds/</code>目录下，文件名称就是layout 名称。每次新建时，Hexo 会尝试在 scaffolds 文件夹中寻找同名文件，并根据其内容建立文章。所以可以在这里添加自己的 layout，作为常用的新建模板使用。同时你也可以编辑现有的 layout，比如 post 的 layout 默认是 <code>scaffolds\post.md</code>。</p>
@@ -503,7 +496,7 @@
 </blockquote>
 <p>注：有点问题，给关了。</p>
 <h3 id="设置菜单及对应页面"><a href="#设置菜单及对应页面" class="headerlink" title="设置菜单及对应页面"></a>设置菜单及对应页面</h3><p>在主题配置文件中查找menu：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || home</span><br><span class="line">  #about: /about/ || user</span><br><span class="line">  tags: /tags/ || tags</span><br><span class="line">  categories: /categories/ || th</span><br><span class="line">  archives: /archives/ || archive</span><br><span class="line">  #schedule: /schedule/ || calendar</span><br><span class="line">  #sitemap: /sitemap.xml || sitemap</span><br><span class="line">  #commonweal: /404/ || heartbeat</span><br></pre></td></tr></table></figure></p>
-<p>去掉#注释即可显示对应的菜单项，也可自定义新的菜单项。 ||之前的值是目标链接，之后的是分类页面的图标，图标名称来自于FontAwesome icon。若没有配置图标，默认会使用问号图标。<br><img src="https://upload-images.jianshu.io/upload_images/763395-a1f395b8f18e5e2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Encycolorpedia"></p>
+<p>去掉#注释即可显示对应的菜单项，也可自定义新的菜单项。 ||之前的值是目标链接，之后的是分类页面的图标，图标名称来自于FontAwesome icon。若没有配置图标，默认会使用问号图标。<br><img data-original="https://upload-images.jianshu.io/upload_images/763395-a1f395b8f18e5e2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Encycolorpedia" data-src="/images/loading.png"></p>
 <p>新添加的菜单需要翻译对应的中文<br>打开hexo/theme/next/languages/zh-CN.yml，在menu下自定义，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  resources: 资源</span><br></pre></td></tr></table></figure></p>
 <p>hexo new page “categories”<br>此时在根目录的source文件夹下会生成一个categories文件，文件中有一个index.md文件，修改内容如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 分类</span><br><span class="line">date: 2017-12-14 13:05:38</span><br><span class="line">type: &quot;categories&quot;</span><br><span class="line">comments: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
 <p>注：如果有启用评论，默认页面带有评论。需要关闭的话，添加字段comments并将值设置为false。</p>
@@ -537,9 +530,9 @@
 <p>参考：<a href="https://github.com/theme-next/hexo-symbols-count-time" target="_blank" rel="noopener">https://github.com/theme-next/hexo-symbols-count-time</a></p>
 <h3 id="社交账号"><a href="#社交账号" class="headerlink" title="社交账号"></a>社交账号</h3><p> Usage: <code>Key: permalink || icon</code><br>Key is the link label showing to end users. Value before <code>||</code> delimiter is the target permalink. Value after <code>||</code> delimiter is the name of Font Awesome icon. If icon (with or without delimiter) is not specified, globe icon will be loaded.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">social:</span><br><span class="line">  GitHub: https://github.com/sunfove || github</span><br><span class="line">  E-Mail: mailto:sunfove@gmail.com || envelope</span><br><span class="line">  #Weibo: https://weibo.com/yourname || weibo</span><br><span class="line">  #Google: https://plus.google.com/yourname || google</span><br><span class="line">  #Twitter: https://twitter.com/yourname || twitter</span><br><span class="line">  #FB Page: https://www.facebook.com/yourname || facebook</span><br><span class="line">  #VK Group: https://vk.com/yourname || vk</span><br><span class="line">  #StackOverflow: https://stackoverflow.com/yourname || stack-overflow</span><br><span class="line">  #YouTube: https://youtube.com/yourname || youtube</span><br><span class="line">  #Instagram: https://instagram.com/yourname || instagram</span><br><span class="line">  #Skype: skype:yourname?call|chat || skype</span><br></pre></td></tr></table></figure></p>
 <h3 id="友情链接"><a href="#友情链接" class="headerlink" title="友情链接"></a>友情链接</h3><p>Blog rolls：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">links_settings:</span><br><span class="line">  icon: link</span><br><span class="line">  title: 友情链接</span><br><span class="line">  # Available values: block | inline</span><br><span class="line">  layout: block</span><br><span class="line">links:</span><br><span class="line">  我的简书: https://www.jianshu.com/u/39e329082972</span><br></pre></td></tr></table></figure></p>
-<h3 id="评论系统"><a href="#评论系统" class="headerlink" title="评论系统"></a>评论系统</h3><p>评论系统采用了Valine和Leancloud结合，先在Leancloud申请账号，并创建应用<br><img src="https://upload-images.jianshu.io/upload_images/763395-aef44e197a0d3b38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="LeanCloud中创建的应用"></p>
+<h3 id="评论系统"><a href="#评论系统" class="headerlink" title="评论系统"></a>评论系统</h3><p>评论系统采用了Valine和Leancloud结合，先在Leancloud申请账号，并创建应用<br><img data-original="https://upload-images.jianshu.io/upload_images/763395-aef44e197a0d3b38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="LeanCloud中创建的应用" data-src="/images/loading.png"></p>
 <p>进入应用设置，在安全中心绑定域名，然后在应用keys中读取AppID和AppKey，进入主题配置文件中，查找valine，然后按照如下形式填写ID和Key。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">valine:</span><br><span class="line">  enable: true # When enable is set to be true, leancloud_visitors is recommended to be closed for the re-initialization problem within different leancloud adk version</span><br><span class="line">  appid:  # Your leancloud application appid</span><br><span class="line">  appkey:  # Your leancloud application appkey</span><br><span class="line">  notify: false # Mail notifier. See: https://github.com/xCss/Valine/wiki</span><br><span class="line">  verify: false # Verification code</span><br><span class="line">  placeholder: 说两句吧 # Comment box placeholder</span><br><span class="line">  avatar: monsterid # Gravatar style</span><br><span class="line">  guest_info: nick,mail,link # Custom comment header</span><br><span class="line">  pageSize: 10 # Pagination size</span><br><span class="line">  language: # Language, available values: en, zh-cn</span><br><span class="line">  visitor: false # leancloud-counter-security is not supported for now. When visitor is set to be true, appid and appkey are recommended to be the same as leancloud_visitors&apos; for counter compatibility. Article reading statistic https://valine.js.org/visitor.html</span><br><span class="line">  comment_count: true # If false, comment count will only be displayed in post page, not in home page</span><br><span class="line">  #post_meta_order: 0</span><br></pre></td></tr></table></figure></p>
-<p>其中Valine 的 avatar 参数用来设置评论头像，avatar 参数可选值如下:<br><img src="https://upload-images.jianshu.io/upload_images/763395-f10b60840dbdb5a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="不同的avatar样式"></p>
+<p>其中Valine 的 avatar 参数用来设置评论头像，avatar 参数可选值如下:<br><img data-original="https://upload-images.jianshu.io/upload_images/763395-f10b60840dbdb5a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="不同的avatar样式" data-src="/images/loading.png"></p>
 <h3 id="匿名聊天"><a href="#匿名聊天" class="headerlink" title="匿名聊天"></a>匿名聊天</h3><p>按照网上的说明配置Daovoice一直出现问题，后来使用了chatra，十天试用期，之后又尝试了tidio，以下是tidio配置说明。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tidio:</span><br><span class="line">  enable: true</span><br><span class="line">  key:  # Public Key, get it from dashboard. See: https://www.tidiochat.com/panel/settings/developer</span><br></pre></td></tr></table></figure></p>
 <p>id通过在tidio官网注册账号，然后输入中developer中找到public key，输入即可。但是加载速度似乎特别慢，可能因为服务器在国外的缘故。</p>
 <h3 id="打赏功能"><a href="#打赏功能" class="headerlink" title="打赏功能"></a>打赏功能</h3><p>添加打赏。在主题文件中查找reward：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> reward_settings:</span><br><span class="line">  # If true, reward would be displayed in every article by default.</span><br><span class="line">  # You can show or hide reward in a specific article throuth `reward: true | false` in Front-matter.</span><br><span class="line">  enable: true</span><br><span class="line">  animation: true</span><br><span class="line">  #comment: Donate comment here.</span><br><span class="line"></span><br><span class="line">reward:</span><br><span class="line">  #wechatpay: /images/wechatpay.png</span><br><span class="line">  #alipay: /images/alipay.png</span><br><span class="line">  #bitcoin: /images/bitcoin.png</span><br></pre></td></tr></table></figure></p>
@@ -569,13 +562,13 @@
         
       
       <div style="display: inline-block">
-        <img src="/images/wechatpay.png" alt="Sunfove 微信支付">
+        <img src="/images/loading.png" data-original="/images/wechatpay.png" alt="Sunfove 微信支付">
         <p>微信支付</p>
       </div>
         
       
       <div style="display: inline-block">
-        <img src="/images/alipay.png" alt="Sunfove 支付宝">
+        <img src="/images/loading.png" data-original="/images/alipay.png" alt="Sunfove 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -704,7 +697,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -730,7 +723,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -806,7 +799,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">34k</span>
+    <span title="站点总字数">36k</span>
 </div>
   <div class="addthis_inline_share_toolbox">
     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d8359f784b814de" async="async"></script>
@@ -859,6 +852,9 @@
   <script src="/lib/anime.min.js?v=3.1.0"></script>
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 <script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
 <script src="/js/schemes/pisces.js?v=7.4.0"></script>
 <script src="/js/next-boot.js?v=7.4.0"></script>
@@ -948,5 +944,5 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 
-</body>
+<script>!function(e){var r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function t(){for(var c=0;c<r.length;c++)t=r[c],void 0,0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=r[c];t=o,n=function(){r=r.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}t(),e.addEventListener("scroll",function(){!function(t,n){clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)}(t,e)})}(this);</script></body>
 </html>
