@@ -45,13 +45,13 @@
     scheme: 'Pisces',
     version: '7.4.0',
     exturl: false,
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true},
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: true,
+    lazyload: false,
     pangu: false,
     algolia: {
       appID: '',
@@ -84,12 +84,12 @@
 <meta property="og:site_name" content="明明如月">
 <meta property="og:description" content="利用FDTD Solutions得到纳米锥的仿真数据，输出到Matlab中重新作图。输入结果示意图：  百度云盘链接：https://pan.baidu.com/s/1Ljz4-N3lFgSQ5401yIa7zQ提取码：sfp4">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://sunfove.xyz/images/loading.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/763395-bd9cd79185160f7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:updated_time" content="2019-10-18T15:58:36.526Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="纳米锥电场分布">
 <meta name="twitter:description" content="利用FDTD Solutions得到纳米锥的仿真数据，输出到Matlab中重新作图。输入结果示意图：  百度云盘链接：https://pan.baidu.com/s/1Ljz4-N3lFgSQ5401yIa7zQ提取码：sfp4">
-<meta name="twitter:image" content="https://sunfove.xyz/images/loading.png">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/763395-bd9cd79185160f7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   <link rel="canonical" href="https://sunfove.xyz/2019/10/15/纳米锥电场分布/">
 
 
@@ -385,7 +385,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>利用FDTD Solutions得到纳米锥的仿真数据，输出到Matlab中重新作图。<br>输入结果示意图：<br><img src="/images/loading.png" data-original="https://upload-images.jianshu.io/upload_images/763395-bd9cd79185160f7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纳米锥电场平方的分布"></p>
+        <p>利用FDTD Solutions得到纳米锥的仿真数据，输出到Matlab中重新作图。<br>输入结果示意图：<br><img src="https://upload-images.jianshu.io/upload_images/763395-bd9cd79185160f7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纳米锥电场平方的分布"></p>
 <blockquote>
 <p>百度云盘链接：<a href="https://pan.baidu.com/s/1Ljz4-N3lFgSQ5401yIa7zQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1Ljz4-N3lFgSQ5401yIa7zQ</a><br>提取码：sfp4<br><a id="more"></a><br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% 将FDTD数据导入到Matlab中绘制电场分布图，对应文件：cone20191014.m</span></span><br><span class="line">X = x*<span class="number">10</span>^<span class="number">9</span>;  <span class="comment">%x是FDTD输出的x坐标</span></span><br><span class="line">Y = y*<span class="number">10</span>^<span class="number">9</span>;  <span class="comment">%x是FDTD输出的y坐标</span></span><br><span class="line">h = pcolor(X,Y,E2.');  <span class="comment">%E2是FDTD输出的电场平方</span></span><br><span class="line">set(h,<span class="string">'LineStyle'</span>,<span class="string">'none'</span>);      <span class="comment">%线型设置为无 </span></span><br><span class="line">axis equal  <span class="comment">%x，y的尺寸等比例</span></span><br><span class="line"> axis([<span class="number">-40</span> <span class="number">40</span> <span class="number">-40</span> <span class="number">40</span>])  <span class="comment">%规定x，y取值范围</span></span><br><span class="line">set(gca,<span class="string">"FontSize"</span>,<span class="number">25</span>,<span class="string">"Fontweight"</span>,<span class="string">'bold'</span>)  设定当前图层字体大小，粗细</span><br><span class="line">set(gca,<span class="string">'XTick'</span>,(<span class="number">-40</span>:<span class="number">20</span>:<span class="number">40</span>))  <span class="comment">%设定x方向的刻度标注</span></span><br><span class="line">set(gca,<span class="string">'YTick'</span>,(<span class="number">-40</span>:<span class="number">20</span>:<span class="number">40</span>))  <span class="comment">%设定y方向的刻度标注</span></span><br><span class="line">shading interp  <span class="comment">%对曲面或图形对象的颜色着色进行色彩的插值处理，使色彩平滑过渡</span></span><br><span class="line">xlabel(<span class="string">'x (nm)'</span>)  <span class="comment">%x标题</span></span><br><span class="line">ylabel(<span class="string">'y (nm)'</span>)  <span class="comment">%y标题</span></span><br><span class="line">colorbar  <span class="comment">%显示colorbar</span></span><br><span class="line">colormap jet  <span class="comment">%colorbar类型选择为jet</span></span><br></pre></td></tr></table></figure></p>
 </blockquote>
@@ -406,13 +406,13 @@
         
       
       <div style="display: inline-block">
-        <img src="/images/loading.png" data-original="/images/wechatpay.png" alt="Sunfove 微信支付">
+        <img src="/images/wechatpay.png" alt="Sunfove 微信支付">
         <p>微信支付</p>
       </div>
         
       
       <div style="display: inline-block">
-        <img src="/images/loading.png" data-original="/images/alipay.png" alt="Sunfove 支付宝">
+        <img src="/images/alipay.png" alt="Sunfove 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -554,7 +554,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -567,7 +567,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -696,7 +696,6 @@
   <script src="/lib/anime.min.js?v=3.1.0"></script>
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
 <script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
 <script src="/js/schemes/pisces.js?v=7.4.0"></script>
 <script src="/js/next-boot.js?v=7.4.0"></script>
@@ -786,5 +785,5 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 
-<script>!function(e){var r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function t(){for(var c=0;c<r.length;c++)t=r[c],void 0,0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=r[c];t=o,n=function(){r=r.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}t(),e.addEventListener("scroll",function(){!function(t,n){clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)}(t,e)})}(this);</script></body>
+</body>
 </html>
