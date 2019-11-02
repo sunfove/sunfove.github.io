@@ -388,8 +388,8 @@ td {
 }
 pre,
 .highlight {
-  background: #f7f7f7;
-  color: #4d4d4c;
+  background: #1d1f21;
+  color: #c5c8c6;
   line-height: 1.6;
   margin: 0 auto 20px;
 }
@@ -411,13 +411,13 @@ pre {
 }
 pre code {
   background: none;
-  color: #4d4d4c;
+  color: #c5c8c6;
   font-size: 0.875em;
   padding: 0;
   text-shadow: none;
 }
 .highlight *::selection {
-  background: #d6d6d6;
+  background: #373b41;
 }
 .highlight pre {
   border: 0;
@@ -436,7 +436,7 @@ pre code {
 .highlight figcaption {
   background: #eee;
   border-bottom: 1px solid #e9e9e9;
-  color: #4d4d4c;
+  color: #c5c8c6;
   line-height: 1em;
   margin: 0;
   padding: 0.5em;
@@ -450,21 +450,21 @@ pre code {
   clear: both;
 }
 .highlight figcaption a {
-  color: #4d4d4c;
+  color: #c5c8c6;
   float: right;
 }
 .highlight figcaption a:hover {
-  border-bottom-color: #4d4d4c;
+  border-bottom-color: #c5c8c6;
 }
 .highlight .gutter pre {
-  background-color: #eff2f3;
-  color: #869194;
+  background-color: #000;
+  color: #888f96;
   padding-left: 10px;
   padding-right: 10px;
   text-align: right;
 }
 .highlight .code pre {
-  background-color: #f7f7f7;
+  background-color: #1d1f21;
   padding-left: 10px;
   width: 100%;
 }
@@ -481,20 +481,20 @@ pre code {
   border: 0;
 }
 pre .deletion {
-  background: #fdd;
+  background: #800000;
 }
 pre .addition {
-  background: #dfd;
+  background: #008000;
 }
 pre .meta {
-  color: #eab700;
+  color: #f0c674;
   -moz-user-select: none;
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
 pre .comment {
-  color: #8e908c;
+  color: #969896;
 }
 pre .variable,
 pre .attribute,
@@ -509,7 +509,7 @@ pre .html .doctype,
 pre .css .id,
 pre .css .class,
 pre .css .pseudo {
-  color: #c82829;
+  color: #c66;
 }
 pre .number,
 pre .preprocessor,
@@ -519,7 +519,7 @@ pre .literal,
 pre .params,
 pre .constant,
 pre .command {
-  color: #f5871f;
+  color: #de935f;
 }
 pre .ruby .class .title,
 pre .css .rules .attribute,
@@ -532,11 +532,11 @@ pre .ruby .symbol,
 pre .xml .cdata,
 pre .special,
 pre .formula {
-  color: #718c00;
+  color: #b5bd68;
 }
 pre .title,
 pre .css .hexcolor {
-  color: #3e999f;
+  color: #8abeb7;
 }
 pre .function,
 pre .python .decorator,
@@ -546,11 +546,11 @@ pre .ruby .title .keyword,
 pre .perl .sub,
 pre .javascript .title,
 pre .coffeescript .title {
-  color: #4271ae;
+  color: #81a2be;
 }
 pre .keyword,
 pre .javascript .function {
-  color: #8959a8;
+  color: #b294bb;
 }
 .blockquote-center {
   border-left: none;
@@ -958,7 +958,7 @@ pre .javascript .function {
 }
 .headband {
   background: #222;
-  height: 3px;
+  height: 0px;
 }
 .site-meta {
   margin: 0;
@@ -1154,7 +1154,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #70e0ff;
+  background: #0026f9;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1516,6 +1516,7 @@ pre .javascript .function {
   }
 }
 .post-body {
+  opacity: 0.1;
   overflow-wrap: break-word;
   word-wrap: break-word;
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -2339,6 +2340,11 @@ ul.breadcrumb li + li:last-child {
   overflow-x: auto;
   overflow-y: hidden;
 }
+body {
+  background: url("/images/images/s2.jpg");
+  background-size: 100%;
+  opcacity: 1;
+}
 .header {
   margin: 0 auto;
   position: relative;
@@ -2360,8 +2366,9 @@ ul.breadcrumb li + li:last-child {
   }
 }
 .header-inner {
-  background: #fff;
-  border-radius: initial;
+  margin-top: 10px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 30px;
   box-shadow: initial;
   overflow: hidden;
   padding: 0;
@@ -2395,8 +2402,9 @@ ul.breadcrumb li + li:last-child {
   }
 }
 .content-wrap {
-  background: rgba(255,255,255,0.8);
-  border-radius: initial;
+  margin-top: 10px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 30px;
   box-shadow: initial;
   box-sizing: border-box;
   float: right;
@@ -2457,7 +2465,8 @@ ul.breadcrumb li + li:last-child {
   position: relative;
 }
 .site-meta {
-  background: #222;
+  background: url("/images/images/t9.jpg");
+  background-size: 100%;
   color: #fff;
   padding: 20px 0;
 }
@@ -2507,7 +2516,7 @@ ul.breadcrumb li + li:last-child {
 .menu .menu-item a:hover,
 .menu .menu-item span.exturl:hover {
   background: #87ceeb;
-  border-bottom-color: #fff;
+  border-color: #87ceeb;
 }
 .menu-item-active a::after,
 .menu .menu-item a:hover::after,
@@ -2566,8 +2575,8 @@ ul.breadcrumb li + li:last-child {
   background-color: #fff;
 }
 .sub-menu {
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  background: rgba(255,255,255,0.3);
+  border-radius: 30px;
   margin: 0;
   padding: 6px 0;
 }
@@ -2599,6 +2608,8 @@ ul.breadcrumb li + li:last-child {
 .sidebar {
   bottom: auto;
   right: auto;
+  background: rgba(0,255,255,0);
+  border-radius: 30px;
 }
 .sidebar a,
 .sidebar span.exturl {
@@ -2610,8 +2621,9 @@ ul.breadcrumb li + li:last-child {
   color: #222;
 }
 .sidebar-inner {
-  background: #fff;
-  border-radius: initial;
+  margin-top: 10px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 30px;
   box-shadow: initial;
   box-sizing: border-box;
   color: #555;
