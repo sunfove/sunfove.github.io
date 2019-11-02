@@ -1154,7 +1154,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #bba871;
+  background: #ff7e9d;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2465,7 +2465,7 @@ body {
   position: relative;
 }
 .site-meta {
-  background: url("/images/images/t9.jpg");
+  background: url("/images/images/t9s.jpg");
   background-size: 100%;
   color: #fff;
   padding: 20px 0;
