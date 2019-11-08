@@ -46,7 +46,7 @@
     version: '7.4.0',
     exturl: false,
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":true},
-    copycode: {"enable":false,"show_result":false,"style":null},
+    copycode: {"enable":true,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
@@ -79,13 +79,13 @@
   <meta name="keywords" content="hexo,math">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo中插入数学公式">
-<meta property="og:url" content="https://sunfove.xyz/2019/10/18/Hexo中插入数学公式/index.html">
+<meta property="og:url" content="sunfove.xyz/2019/10/18/Hexo中插入数学公式/index.html">
 <meta property="og:site_name" content="明明如月">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-18T15:55:15.814Z">
+<meta property="og:updated_time" content="2019-11-08T15:28:59.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo中插入数学公式">
-  <link rel="canonical" href="https://sunfove.xyz/2019/10/18/Hexo中插入数学公式/">
+  <link rel="canonical" href="sunfove.xyz/2019/10/18/Hexo中插入数学公式/">
 
 
 <script id="page-configurations">
@@ -272,7 +272,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="https://sunfove.xyz/2019/10/18/Hexo中插入数学公式/">
+    <link itemprop="mainEntityOfPage" href="sunfove.xyz/2019/10/18/Hexo中插入数学公式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sunfove">
@@ -300,11 +300,19 @@
                 
               
 
-              <time title="创建时间：2019-10-18 00:21:19 / 修改时间：23:55:15" itemprop="dateCreated datePublished" datetime="2019-10-18T00:21:19+08:00">2019-10-18</time>
+              <time title="创建时间：2019-10-18 00:21:19" itemprop="dateCreated datePublished" datetime="2019-10-18T00:21:19+08:00">2019-10-18</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-08 23:28:59" itemprop="dateModified" datetime="2019-11-08T23:28:59+08:00">2019-11-08</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -365,7 +373,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img data-original="https://upload-images.jianshu.io/upload_images/763395-e189113a1253dcfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="麦克斯韦方程组" data-src="/images/loading.png"><br><a id="more"></a><br>Hexo中插入数学公式时会出现显示问题，这里借用mathjax插件和writage工具来实现hexo中插入数学公式。<br>首先，安装hexo-math<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-math --save</span><br></pre></td></tr></table></figure></p>
+        <p><img alt data-src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/Hexo%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F.bmp"><br><a id="more"></a><br>Hexo中插入数学公式时会出现显示问题，这里借用mathjax插件和writage工具来实现hexo中插入数学公式。<br>首先，安装hexo-math<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-math --save</span><br></pre></td></tr></table></figure></p>
 <p>在站点配置文件下添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">math:</span><br><span class="line">  engine: &apos;mathjax&apos; </span><br><span class="line">  mathjax:</span><br></pre></td></tr></table></figure></p>
 <p>在主题配置文件下修改：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">math:</span><br><span class="line">  enable: true</span><br><span class="line">  engine: mathjax</span><br><span class="line"></span><br><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  cdn: //cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure></p>
 <p>其中 per_page 根据提示，表示默认不加载 mathjax/katex 脚本，如果设置为 false，则是每篇文章都会去加载 mathjax 脚本，这里我设置为 true，然后在需要加载的文章抬头添加 mathjax: true 。<br>公式可以通过Latex语法规则编辑，同时也可以通过<a href="http://www.writage.com/" target="_blank" rel="noopener">Writage</a>插件，将Word中编辑好的公式，转化成markdown格式后使用。</p>
@@ -389,13 +397,13 @@
         
       
       <div style="display: inline-block">
-        <img src="/images/loading.png" data-original="/images/wechatpay.png" alt="Sunfove 微信支付">
+        <img src="/images/wechatpay.png" alt="Sunfove 微信支付">
         <p>微信支付</p>
       </div>
         
       
       <div style="display: inline-block">
-        <img src="/images/loading.png" data-original="/images/alipay.png" alt="Sunfove 支付宝">
+        <img src="/images/alipay.png" alt="Sunfove 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -411,7 +419,7 @@
     <strong>本文作者： </strong>Sunfove</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://sunfove.xyz/2019/10/18/Hexo中插入数学公式/" title="Hexo中插入数学公式">https://sunfove.xyz/2019/10/18/Hexo中插入数学公式/</a>
+    <a href="/sunfove.xyz/2019/10/18/Hexo中插入数学公式/" title="Hexo中插入数学公式">sunfove.xyz/2019/10/18/Hexo中插入数学公式/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -448,8 +456,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/10/19/博客问题/" rel="prev" title="博客问题">
-                  博客问题 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/11/08/十月读书笔记/" rel="prev" title="十月读书笔记">
+                  十月读书笔记 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -520,7 +528,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -533,7 +541,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -546,7 +554,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
@@ -623,7 +631,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">36k</span>
+    <span title="站点总字数">35k</span>
 </div>
   <div class="addthis_inline_share_toolbox">
     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d8359f784b814de" async="async"></script>
@@ -816,5 +824,5 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 
-<script>!function(e){var r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function t(){for(var c=0;c<r.length;c++)t=r[c],void 0,0<=(n=t.getBoundingClientRect()).top&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=r[c];t=o,n=function(){r=r.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}t(),e.addEventListener("scroll",function(){!function(t,n){clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)}(t,e)})}(this);</script></body>
+</body>
 </html>

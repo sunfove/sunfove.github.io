@@ -386,10 +386,42 @@ td {
 .btn-bar + .btn-bar {
   margin-top: 4px;
 }
+.highlight-wrap {
+  position: relative;
+}
+.highlight-wrap:hover .copy-btn,
+.highlight-wrap .copy-btn:focus {
+  opacity: 1;
+}
+.copy-btn {
+  color: #333;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1.6;
+  opacity: 0;
+  outline: 0;
+  padding: 2px 6px;
+  position: absolute;
+  transition: opacity 0.3s ease-in-out;
+  vertical-align: middle;
+  white-space: nowrap;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  background-color: #eee;
+  background-image: linear-gradient(#fcfcfc, #eee);
+  border: 1px solid #d5d5d5;
+  border-radius: 3px;
+  font-size: 0.8125em;
+  right: 4px;
+  top: 8px;
+}
 pre,
 .highlight {
-  background: #1d1f21;
-  color: #c5c8c6;
+  background: #87ceff;
+  color: #586e75;
   line-height: 1.6;
   margin: 0 auto 20px;
 }
@@ -411,13 +443,13 @@ pre {
 }
 pre code {
   background: none;
-  color: #c5c8c6;
+  color: #586e75;
   font-size: 0.875em;
   padding: 0;
   text-shadow: none;
 }
 .highlight *::selection {
-  background: #373b41;
+  background: #c1ffc1;
 }
 .highlight pre {
   border: 0;
@@ -436,7 +468,7 @@ pre code {
 .highlight figcaption {
   background: #eee;
   border-bottom: 1px solid #e9e9e9;
-  color: #c5c8c6;
+  color: #586e75;
   line-height: 1em;
   margin: 0;
   padding: 0.5em;
@@ -450,21 +482,21 @@ pre code {
   clear: both;
 }
 .highlight figcaption a {
-  color: #c5c8c6;
+  color: #586e75;
   float: right;
 }
 .highlight figcaption a:hover {
-  border-bottom-color: #c5c8c6;
+  border-bottom-color: #586e75;
 }
 .highlight .gutter pre {
-  background-color: #000;
-  color: #888f96;
+  background-color: #87ceff;
+  color: #93a1a1;
   padding-left: 10px;
   padding-right: 10px;
   text-align: right;
 }
 .highlight .code pre {
-  background-color: #1d1f21;
+  background-color: #87ceff;
   padding-left: 10px;
   width: 100%;
 }
@@ -487,14 +519,14 @@ pre .addition {
   background: #008000;
 }
 pre .meta {
-  color: #f0c674;
+  color: #b58900;
   -moz-user-select: none;
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
 pre .comment {
-  color: #969896;
+  color: #93a1a1;
 }
 pre .variable,
 pre .attribute,
@@ -509,7 +541,7 @@ pre .html .doctype,
 pre .css .id,
 pre .css .class,
 pre .css .pseudo {
-  color: #c66;
+  color: #dc322f;
 }
 pre .number,
 pre .preprocessor,
@@ -519,7 +551,7 @@ pre .literal,
 pre .params,
 pre .constant,
 pre .command {
-  color: #de935f;
+  color: #cb4b16;
 }
 pre .ruby .class .title,
 pre .css .rules .attribute,
@@ -532,11 +564,11 @@ pre .ruby .symbol,
 pre .xml .cdata,
 pre .special,
 pre .formula {
-  color: #b5bd68;
+  color: #859900;
 }
 pre .title,
 pre .css .hexcolor {
-  color: #8abeb7;
+  color: #2aa198;
 }
 pre .function,
 pre .python .decorator,
@@ -546,11 +578,11 @@ pre .ruby .title .keyword,
 pre .perl .sub,
 pre .javascript .title,
 pre .coffeescript .title {
-  color: #81a2be;
+  color: #268bd2;
 }
 pre .keyword,
 pre .javascript .function {
-  color: #b294bb;
+  color: #6c71c4;
 }
 .blockquote-center {
   border-left: none;
@@ -1154,7 +1186,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #a460e0;
+  background: #086bd1;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2345,6 +2377,9 @@ ul.breadcrumb li + li:last-child {
 body {
   background: url("/images/images/s2s.jpg");
   background-size: 100%;
+}
+img.img-topic {
+  width: 100%;
 }
 .header {
   margin: 0 auto;
