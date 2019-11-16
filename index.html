@@ -249,13 +249,11 @@
       <span class="post-meta-item-icon">
         <i class="fa fa-comment-o"></i>
       </span>
-      <span class="post-meta-item-text">Changyan：</span>
+      <span class="post-meta-item-text">Valine：</span>
     
-    
-      <a title="changyan" href="/2019/11/16/test03/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://yoursite.com/2019/11/16/test03/" class="cy_cmt_count" data-xid="2019/11/16/test03/" itemprop="commentCount"></span>
-      </a>
-    
+    <a title="valine" href="/2019/11/16/test03/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/16/test03/" itemprop="commentCount"></span>
+    </a>
   </span>
   
   
@@ -370,13 +368,11 @@
       <span class="post-meta-item-icon">
         <i class="fa fa-comment-o"></i>
       </span>
-      <span class="post-meta-item-text">Changyan：</span>
+      <span class="post-meta-item-text">Valine：</span>
     
-    
-      <a title="changyan" href="/2019/11/15/test02/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://yoursite.com/2019/11/15/test02/" class="cy_cmt_count" data-xid="2019/11/15/test02/" itemprop="commentCount"></span>
-      </a>
-    
+    <a title="valine" href="/2019/11/15/test02/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/15/test02/" itemprop="commentCount"></span>
+    </a>
   </span>
   
   
@@ -476,13 +472,11 @@
       <span class="post-meta-item-icon">
         <i class="fa fa-comment-o"></i>
       </span>
-      <span class="post-meta-item-text">Changyan：</span>
+      <span class="post-meta-item-text">Valine：</span>
     
-    
-      <a title="changyan" href="/2019/11/15/test01/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://yoursite.com/2019/11/15/test01/" class="cy_cmt_count" data-xid="2019/11/15/test01/" itemprop="commentCount"></span>
-      </a>
-    
+    <a title="valine" href="/2019/11/15/test01/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/15/test01/" itemprop="commentCount"></span>
+    </a>
   </span>
   
   
@@ -571,13 +565,11 @@
       <span class="post-meta-item-icon">
         <i class="fa fa-comment-o"></i>
       </span>
-      <span class="post-meta-item-text">Changyan：</span>
+      <span class="post-meta-item-text">Valine：</span>
     
-    
-      <a title="changyan" href="/2019/11/15/hello-world/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://yoursite.com/2019/11/15/hello-world/" class="cy_cmt_count" data-xid="2019/11/15/hello-world/" itemprop="commentCount"></span>
-      </a>
-    
+    <a title="valine" href="/2019/11/15/hello-world/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/15/hello-world/" itemprop="commentCount"></span>
+    </a>
   </span>
   
   
@@ -871,8 +863,32 @@ if (document.querySelectorAll('pre.mermaid').length) {
       });
   </script>
 
-  <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyuxpCk8o"></script>
 
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: true,
+    appId: 'S6dQSLLsUyxWwVwbyixxdEvv-gzGzoHsz',
+    appKey: 'EtwEkp1RpDNM5BWzmqAHPhPG',
+    placeholder: "Just go go",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
 
 </body>
 </html>
