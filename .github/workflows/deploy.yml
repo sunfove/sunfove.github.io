@@ -1,0 +1,56 @@
+name: Hexo Auto Deploy
+
+on:
+  push:
+    branches:
+      - master  # 或者是 main，看你的主分支叫什么
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. 检出代码
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true # 如果你的主题是 git submodule 形式引入的，需要这个
+
+    # 2. 安装 Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # 推荐使用较新的 Node 版本
+
+    # 3. 缓存 NPM 依赖 (加速构建)
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    # 4. 安装 Hexo 依赖
+    - name: Install dependencies
+      run: |
+        npm install
+        # 如果有特定插件装不上，可以在这里手动 npm install xxx
+
+    # 5. 生成静态网页
+    - name: Build Hexo
+      run: |
+        npx hexo clean
+        npx hexo generate
+
+    # 6. 部署到阿里云服务器
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
+        ARGS: "-rlgoDzvc -i"
+        SOURCE: "public/"
+        REMOTE_HOST: ${{ secrets.HEXO_SERVER_IP }}
+        REMOTE_USER: ${{ secrets.HEXO_SERVER_USER }}
+        TARGET: "/var/www/html" # ⚠️ 必须修改为你 Nginx 配置的网站根目录
+        EXCLUDE: "/node_modules/"
