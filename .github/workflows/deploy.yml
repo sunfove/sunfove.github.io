@@ -3,7 +3,11 @@ name: Hexo Auto Deploy
 on:
   push:
     branches:
-      - master  # 或者是 main，看你的主分支叫什么
+      - master  # 确保这里是你存放源码的主分支名 (master 或 main)
+
+# 🆕 新增：给予机器人写权限，否则它无法推送到 gh-pages 分支
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -14,15 +18,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        submodules: true # 如果你的主题是 git submodule 形式引入的，需要这个
+        submodules: true
 
     # 2. 安装 Node.js
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20' # 推荐使用较新的 Node 版本
+        node-version: '20'
 
-    # 3. 缓存 NPM 依赖 (加速构建)
+    # 3. 缓存依赖
     - name: Cache dependencies
       uses: actions/cache@v4
       with:
@@ -31,20 +35,18 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
 
-    # 4. 安装 Hexo 依赖
+    # 4. 安装依赖
     - name: Install dependencies
-      run: |
-        npm install
-        # 如果有特定插件装不上，可以在这里手动 npm install xxx
+      run: npm install
 
-    # 5. 生成静态网页
+    # 5. 生成静态文件
     - name: Build Hexo
       run: |
         npx hexo clean
         npx hexo generate
 
-    # 6. 部署到阿里云服务器
-    - name: Deploy to Server
+    # 6. 部署到阿里云服务器 (任务一)
+    - name: Deploy to Aliyun
       uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
@@ -52,5 +54,13 @@ jobs:
         SOURCE: "public/"
         REMOTE_HOST: ${{ secrets.HEXO_SERVER_IP }}
         REMOTE_USER: ${{ secrets.HEXO_SERVER_USER }}
-        TARGET: "/var/www/html" # ⚠️ 必须修改为你 Nginx 配置的网站根目录
+        TARGET: "/var/www/html"
         EXCLUDE: "/node_modules/"
+
+    # 7. 🆕 部署到 GitHub Pages (任务二)
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }} # 这是 GitHub 自动生成的，无需你自己配置 Secret
+        publish_dir: ./public
+        publish_branch: gh-pages  # 网页文件将存放在 gh-pages 分支，保持源码分支整洁
