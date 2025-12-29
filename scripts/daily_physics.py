@@ -129,7 +129,7 @@ tags: [Learning, {sub_topic}]
 
     # 2. 写入文件
     # 🟢 关键修改：文件名加上小时 (hour_str)，确保一天三次不会重名
-    filename = f"{date_str}-{hour_str}-reading.md"
+    filename = f"{date_str}-{hour_str}-daily-reading.md"
     filepath = os.path.join(POSTS_DIR, filename)
 
     if not os.path.exists(filepath):
