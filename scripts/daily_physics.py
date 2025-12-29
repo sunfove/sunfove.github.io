@@ -5,10 +5,9 @@ import random
 import json
 
 # ================= 配置区 =================
-# 博客文章保存路径
 POSTS_DIR = 'source/_posts'
 
-# 如果本地运行没有环境变量，可以临时填在这里测试，但提交到 GitHub 时记得删掉！
+# 环境变量获取
 API_KEY = os.environ.get("LLM_API_KEY")
 BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.deepseek.com")
 
@@ -16,42 +15,45 @@ BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.deepseek.com")
 # =========================================
 
 def get_daily_english():
-    """获取金山词霸每日一句 (作为轻松的开头)"""
+    """获取金山词霸每日一句"""
     try:
         url = "http://open.iciba.com/dsapi/"
         res = requests.get(url, timeout=5).json()
         return res['content'], res['note'], res['picture2']
     except:
-        return "Light is the shadow of God.", "光是上帝的影子。", ""
+        return "Knowledge is power.", "知识就是力量。", ""
 
 
-def generate_physics_problem():
-    """调用 LLM 生成硬核物理/数学题"""
-    if not API_KEY:
-        return None, None
+def generate_deep_content():
+    """调用 LLM 生成深度内容"""
+    if API_KEY:
+        print(f"DEBUG: API Key found (starts with {API_KEY[:3]}...)")
+    else:
+        print("Error: LLM_API_KEY is missing.")
+        return None, None, None
 
-    # 决定今天的课题：70% 光学, 20% 微积分, 10% 概率论
-    topics = ["Optics (Physics)"] * 7 + ["Calculus"] * 2 + ["Probability Theory"] * 1
+    # 随机选择硬核主题
+    topics = ["Optics (Physics)", "Quantum Mechanics", "Calculus", "Linear Algebra", "Thermodynamics"]
     today_topic = random.choice(topics)
 
-    # 构造 Prompt (提示词)
-    system_prompt = "You are a rigorous physics and mathematics professor. You specialize in Optics."
+    # 🟢 关键修改：升级提示词，要求深度解析
+    system_prompt = "You are a distinguished professor known for your ability to explain complex concepts with extreme clarity and depth."
     user_prompt = f"""
-    Please generate a **thought-provoking problem** for me to solve today.
+    Please generate a challenging **{today_topic}** problem for my daily reading.
 
-    **Requirements:**
-    1. Subject: **{today_topic}**.
-    2. Language: **English**.
-    3. Content: The problem should be conceptual or calculation-based. It should be interesting and non-trivial.
-    4. Format: 
-       - First, present the **Problem** clearly.
-       - Then, provide a detailed **Solution** and **Explanation**.
+    **CRITICAL REQUIREMENTS:**
+    1. **Title**: The specific sub-topic (e.g., "Fraunhofer Diffraction" instead of just "Optics").
+    2. **Language**: English.
+    3. **Depth**: The solution MUST be detailed. **Do not give a one-sentence answer.** - Provide step-by-step mathematical derivations.
+       - Explain the physical intuition behind the formulas.
+       - Discuss the implications of the result.
+       - The solution should be at least 300 words long.
 
     **Output Format (JSON):**
     {{
-        "topic": "{today_topic}",
-        "question": "The question content...",
-        "answer": "The detailed solution..."
+        "sub_topic": "The specific concept name",
+        "question": "The problem statement...",
+        "answer": "The FULL, DETAILED explanation with math and text..."
     }}
     """
 
@@ -61,45 +63,46 @@ def generate_physics_problem():
     }
 
     data = {
-        "model": "deepseek-chat",  # 或者 "gpt-3.5-turbo"
+        "model": "deepseek-chat",  # 或 gpt-3.5-turbo / gpt-4
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ],
-        "response_format": {"type": "json_object"}  # 强制 JSON 格式，方便解析
+        "response_format": {"type": "json_object"}
     }
 
     try:
-        response = requests.post(f"{BASE_URL}/chat/completions", headers=headers, json=data, timeout=30)
+        response = requests.post(f"{BASE_URL}/chat/completions", headers=headers, json=data, timeout=60)
         result = response.json()
-        content_str = result['choices'][0]['message']['content']
-        content_json = json.loads(content_str)
-        return content_json['topic'], content_json['question'], content_json['answer']
+        content_json = json.loads(result['choices'][0]['message']['content'])
+        return content_json['sub_topic'], content_json['question'], content_json['answer']
     except Exception as e:
         print(f"AI Generation Failed: {e}")
-        # 备用：如果 AI 挂了，返回一个静态的兜底问题
-        return "Optics", "Why is the sky blue?", "Rayleigh scattering..."
+        return None, None, None
 
 
 def create_markdown():
-    today = datetime.date.today()
-    date_str = today.strftime("%Y-%m-%d")
+    # 获取当前时间
+    now = datetime.datetime.now()
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M")
+    hour_str = now.strftime("%H")  # 获取小时，用于生成唯一文件名
 
     # 1. 获取内容
     en_content, en_note, en_img = get_daily_english()
-    topic, question, answer = generate_physics_problem()
+    sub_topic, question, answer = generate_deep_content()
 
-    if not topic:
-        print("No API Key found or generation failed. Skipping.")
+    if not sub_topic:
+        print("Skipping generation due to API failure.")
         return
 
-    # 2. 生成 Markdown
-    # 注意：使用了 Hexo 的 {% fold %} 标签来折叠答案，防止一眼看到结果
+    # 🟢 关键修改：标题改为 Daily Reading，文件名加入时间防冲突
+    # 使用 YAML 格式的双引号防止报错
     md_content = f"""---
-title: "🧠 Daily Physics: {topic} | {date_str}"
-date: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-categories: 硬核日报
-tags: [Physics, {topic}, English]
+title: "📚 Daily Reading: {sub_topic} | {date_str} {time_str}"
+date: {now.strftime("%Y-%m-%d %H:%M:%S")}
+categories: Daily Reading
+tags: [Learning, {sub_topic}]
 ---
 
 ## ☕ Morning English
@@ -109,28 +112,24 @@ tags: [Physics, {topic}, English]
 
 ---
 
-## ⚛️ Today's Challenge: {topic}
+## 🧠 Deep Dive: {sub_topic}
 
-### ❓ Problem
+### ❓ The Challenge
 {question}
 
 ---
 
-### 💡 Solution & Analysis
-<details>
-<summary style="cursor: pointer; color: #2c3e50; font-weight: bold;">Click to reveal the solution</summary>
-
+### 📝 Detailed Analysis
 {answer}
-
-</details>
 
 ---
 
-*(Generated by AI Professor via GitHub Actions)*
+*(Auto-generated at {time_str})*
 """
 
-    # 3. 写入文件
-    filename = f"{date_str}-physics.md"
+    # 2. 写入文件
+    # 🟢 关键修改：文件名加上小时 (hour_str)，确保一天三次不会重名
+    filename = f"{date_str}-{hour_str}-reading.md"
     filepath = os.path.join(POSTS_DIR, filename)
 
     if not os.path.exists(filepath):
@@ -138,7 +137,7 @@ tags: [Physics, {topic}, English]
             f.write(md_content)
         print(f"Successfully generated: {filename}")
     else:
-        print("File already exists.")
+        print(f"File {filename} already exists. Skipping.")
 
 
 if __name__ == "__main__":
