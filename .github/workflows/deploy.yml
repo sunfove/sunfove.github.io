@@ -9,20 +9,11 @@ on:
 permissions:
   contents: write
 
-name: Hexo Auto Deploy
-
-on:
-  push:
-    branches:
-      - master
 
 # 🟢 新增：并发控制组
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
-permissions:
-  contents: write
 
 
 jobs:
