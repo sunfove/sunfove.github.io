@@ -24,10 +24,6 @@ concurrency:
 permissions:
   contents: write
 
-jobs:
-  build-and-deploy:
-    # ... 下面的代码保持不变 ...
-
 
 jobs:
   build-and-deploy:
