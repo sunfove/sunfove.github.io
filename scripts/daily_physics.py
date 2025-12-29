@@ -96,7 +96,7 @@ def create_markdown():
     # 2. 生成 Markdown
     # 注意：使用了 Hexo 的 {% fold %} 标签来折叠答案，防止一眼看到结果
     md_content = f"""---
-title: 🧠 Daily Physics: {topic} | {date_str}
+title: "🧠 Daily Physics: {topic} | {date_str}"
 date: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 categories: 硬核日报
 tags: [Physics, {topic}, English]
