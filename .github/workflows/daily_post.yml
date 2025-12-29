@@ -1,0 +1,57 @@
+name: Daily Physics Post
+
+on:
+  schedule:
+    # 每天北京时间早上 8:00 运行 (UTC 时间 0:00)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 允许你手动点击按钮测试运行
+
+permissions:
+  contents: write  # ⚠️ 必须给写权限，否则机器人无法把新文章推送到仓库
+
+jobs:
+  generate-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. 检出代码
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. 准备 Python 环境
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    # 3. 安装依赖库 (脚本里用到了 requests)
+    - name: Install dependencies
+      run: |
+        pip install requests
+
+    # 4. 运行生成脚本
+    - name: Run generation script
+      env: 
+        # 将 GitHub 后台配置的 Secrets 注入给 Python 脚本使用
+        LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+      run: |
+        # 确保你的 Python 脚本文件名和这里一致
+        python scripts/daily_physics.py
+
+    # 5. 提交并推送
+    - name: Commit and Push
+      run: |
+        git config --global user.name "GitHub Action Bot"
+        git config --global user.email "actions@github.com"
+        
+        git add .
+        
+        # 检查是否有新文件生成
+        if git diff --staged --quiet; then
+          echo "No changes to commit. (可能是 API 挂了或者文件已存在)"
+        else
+          git commit -m "feat: 🤖 自动生成每日物理日报"
+          # 推送代码，这将触发 deploy.yml 自动部署网站
+          git push
+        fi
