@@ -71,7 +71,7 @@ def generate_learning_content():
 
     2. **Part 2: Deep Reading Article**
        - Title: Create an engaging title based on {today_topic}.
-       - Length: **Long-form article (approx. 500-800 words)**. Do not write a short summary; write a full article.
+       - Length: **Long-form article (approx. 200-500 words)**. Do not write a short summary; write a full article.
        - Style: Professional, informative, and engaging (like The Economist or NatGeo).
        - **Analysis**: At the end, explain 3 complex sentence structures or idioms used in the text.
 
