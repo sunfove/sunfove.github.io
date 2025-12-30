@@ -190,11 +190,19 @@ Here are 10 key words selected from today's reading on **{topic}**:
     filename = f"{date_str}-daily-english.md"
     filepath = os.path.join(POSTS_DIR, filename)
 
-    # ⚠️ 调试模式：强制覆盖写入，方便你反复测试效果
-    with open(filepath, 'w', encoding='utf-8') as f:
-        f.write(md_content)
-    print(f"Successfully generated (Overwritten): {filename}")
+    # # ⚠️ 调试模式：强制覆盖写入，方便你反复测试效果
+    # with open(filepath, 'w', encoding='utf-8') as f:
+    #     f.write(md_content)
+    # print(f"Successfully generated (Overwritten): {filename}")
 
+    # ✅ 生产模式：先检查文件是否存在
+    if not os.path.exists(filepath):
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(md_content)
+        print(f"Successfully generated: {filename}")
+    else:
+        # 🛡️ 保护机制触发
+        print(f"File {filename} already exists. Skipping to protect your content.")
 
 if __name__ == "__main__":
     create_markdown()
