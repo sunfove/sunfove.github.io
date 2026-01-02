@@ -113,3 +113,12 @@ deploy:
   type: git
   repo: root@47.116.163.133:/var/repo/blog.git
   branch: master
+
+
+# Google/Bing 用的标准 Sitemap
+sitemap:
+  path: sitemap.xml
+
+# 百度专用 Sitemap
+baidusitemap:
+  path: baidusitemap.xml
