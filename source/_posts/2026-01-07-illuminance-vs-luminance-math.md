@@ -3,7 +3,6 @@ title: 📐 进阶推导：照度 (E) 与亮度 (L) 的数学本质与转化之�
 date: 2026-01-08 10:00:00
 tags: [光学算法, 朗伯体, 微积分, BRDF, 物理光学]
 categories: 光学理论
-index_img: /img/lambertian-model.jpg
 excerpt: 为什么 E = πL 而不是 2πL？朗伯余弦定律到底在说什么？本文通过球坐标系下的微积分推导，彻底揭示照度与亮度之间的数学关系。
 ---
 
