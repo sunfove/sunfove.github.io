@@ -4,6 +4,70 @@
   
   
   <entry>
+    <title>📐 进阶推导：照度 (E) 与亮度 (L) 的数学本质与转化之谜（含 π 的由来）</title>
+    <link href="/2026/01/08/illuminance-vs-luminance-math/"/>
+    <url>/2026/01/08/illuminance-vs-luminance-math/</url>
+    
+    <content type="html"><![CDATA[<p>在光学设计中，我们经常遇到这样的场景：<br>已知探测器接收到的照度是 $E$ (Lux)，想推算出光源看起来有多亮 $L$ (Nits)。</p><p>很多工程师直接套用公式 $E &#x3D; \pi L$。<br>但你有没有想过：<strong>立体角明明是 $2\pi$（半球），为什么系数却是 $\pi$？</strong></p><p>本文将从微分几何的角度，硬核推导两者的转化关系。</p><hr><h2 id="01-两个定义的再回顾"><a href="#01-两个定义的再回顾" class="headerlink" title="01. 两个定义的再回顾"></a>01. 两个定义的再回顾</h2><h3 id="照度-Illuminance-E"><a href="#照度-Illuminance-E" class="headerlink" title="照度 (Illuminance, $E$)"></a>照度 (Illuminance, $E$)</h3><p>$$E &#x3D; \frac{d\Phi}{dA}$$</p><ul><li><strong>物理含义</strong>：光通量在<strong>面积</strong>上的密度。</li><li><strong>几何直观</strong>：不管光是从哪个角度射进来的，只要落在这个面元 $dA$ 上，都算一份能量。它是“不挑食”的接收者。</li></ul><h3 id="亮度-Luminance-L"><a href="#亮度-Luminance-L" class="headerlink" title="亮度 (Luminance, $L$)"></a>亮度 (Luminance, $L$)</h3><p>$$L &#x3D; \frac{d^2\Phi}{dA \cdot \cos\theta \cdot d\Omega}$$</p><ul><li><strong>物理含义</strong>：光通量在<strong>投影面积</strong>和<strong>立体角</strong>上的双重密度。</li><li><strong>几何直观</strong>：它不仅要求光落在 $dA$ 上，还严格限制了光的<strong>入射&#x2F;出射角度</strong>。它是“极其挑剔”的描述者。</li></ul><hr><h2 id="02-关键连接点：朗伯体-Lambertian-Surface"><a href="#02-关键连接点：朗伯体-Lambertian-Surface" class="headerlink" title="02. 关键连接点：朗伯体 (Lambertian Surface)"></a>02. 关键连接点：朗伯体 (Lambertian Surface)</h2><p>要建立 $E$ 和 $L$ 的简单关系，必须引入一个理想模型：<strong>朗伯体</strong>（如理想的漫反射白板、纸张、墙壁）。</p><p><strong>定义</strong>：一个表面向各个方向反射（或发射）的光的<strong>亮度 $L$ 是常数</strong>，不随观察角度 $\theta$ 变化。<br>$$L(\theta) &#x3D; L_0 &#x3D; \text{Constant}$$</p><blockquote><p><strong>注意</strong>：虽然亮度 $L$ 不变，但发光强度 $I$ 却遵循<strong>余弦定律</strong>：<br>$$I(\theta) &#x3D; I_0 \cos\theta$$<br><em>(这就是为什么你侧着看纸张，觉得亮度没变，但实际上侧面发出的总能量变少了，只是因为你的投影面积也按 $\cos\theta$ 变小了，两者抵消。)</em></p></blockquote><p>[Image of Lambertian cosine law diagram]</p><hr><h2 id="03-核心推导：-pi-是怎么来的？"><a href="#03-核心推导：-pi-是怎么来的？" class="headerlink" title="03. 核心推导：$\pi$ 是怎么来的？"></a>03. 核心推导：$\pi$ 是怎么来的？</h2><p>假设我们有一个朗伯发光面 $dA$，亮度为 $L$。我们要计算它向半球空间辐射的总光出射度（也可以理解为对外的照度贡献）$M$。</p><p>根据定义，光通量是亮度在立体角上的积分：<br>$$d\Phi &#x3D; \int_{\Omega} L \cdot dA \cos\theta \cdot d\Omega$$</p><p>我们要对<strong>半球空间 (Hemisphere)</strong> 进行积分。<br>在球坐标系下，立体角微元 $d\Omega$ 的表达式为：<br>$$d\Omega &#x3D; \sin\theta d\theta d\phi$$<br><em>(其中 $\theta$ 是天顶角 $0 \to \pi&#x2F;2$，$\phi$ 是方位角 $0 \to 2\pi$)</em></p><p>代入积分公式：<br>$$M &#x3D; \frac{d\Phi}{dA} &#x3D; \int_{0}^{2\pi} d\phi \int_{0}^{\frac{\pi}{2}} L \cdot \cos\theta \cdot \sin\theta d\theta$$</p><p>因为是朗伯体，<strong>$L$ 是常数</strong>，可以提到积分号外面：<br>$$M &#x3D; L \int_{0}^{2\pi} d\phi \int_{0}^{\frac{\pi}{2}} \cos\theta \sin\theta d\theta$$</p><p><strong>第一步：积方位角 $\phi$</strong><br>$$\int_{0}^{2\pi} d\phi &#x3D; 2\pi$$</p><p><strong>第二步：积天顶角 $\theta$</strong><br>利用三角恒等式 $\sin\theta \cos\theta &#x3D; \frac{1}{2}\sin(2\theta)$：<br>$$\int_{0}^{\frac{\pi}{2}} \cos\theta \sin\theta d\theta &#x3D; \left[ -\frac{1}{2} \cos^2\theta \right]_0^{\pi&#x2F;2} &#x3D; -\frac{1}{2}(0 - 1) &#x3D; \frac{1}{2}$$</p><p><strong>第三步：合并结果</strong><br>$$M &#x3D; L \cdot (2\pi) \cdot (\frac{1}{2})$$<br>$$M &#x3D; \pi L$$</p><p><strong>结论</strong>：<br>对于朗伯体，光出射度（或等效照度）与亮度的关系是：<br>$$\mathbf{E &#x3D; \pi L}$$</p><p>这就是为什么系数是 $\pi$ 而不是 $2\pi$。<strong>那个丢失的 $1&#x2F;2$ 来自于 $\cos\theta$ (投影面积修正) 在积分过程中的衰减作用。</strong></p><hr><h2 id="04-现实世界的复杂性：BRDF"><a href="#04-现实世界的复杂性：BRDF" class="headerlink" title="04. 现实世界的复杂性：BRDF"></a>04. 现实世界的复杂性：BRDF</h2><p>如果表面不是朗伯体（比如镜子、金属、有光泽的塑料），$L$ 就不是常数，而是角度 $\theta$ 的函数。</p><p>这时候，简单的 $\pi$ 就不管用了，我们需要引入 <strong>BRDF (双向反射分布函数)</strong>：<br>$$f_r(\omega_i, \omega_o) &#x3D; \frac{dL_o(\omega_o)}{dE_i(\omega_i)}$$</p><ul><li><strong>反射亮度</strong> &#x3D; <strong>入射照度</strong> $\times$ <strong>BRDF</strong><br>$$L_{out} &#x3D; \int_{\Omega} f_r \cdot L_{in} \cos\theta_i d\omega_i$$</li></ul><p>在 Zemax 或 TracePro 等光学软件中，当你定义一个表面属性时，实际上就是在定义这个 $f_r$ 函数（是 Gaussian 散射，还是 Lambertian 散射，还是 ABg 散射模型）。</p><hr><h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><ol><li><p><strong>公式记忆</strong>：</p><ul><li>一般情况：$L$ 是 $E$ 在角度上的微分。</li><li><strong>朗伯体特例</strong>：$E &#x3D; \pi L$。</li></ul></li><li><p><strong>单位换算</strong>：</p><ul><li>如果你看到单位 <strong>Lambert (L)</strong>，它等于 $1&#x2F;\pi \ cd&#x2F;cm^2$。</li><li>如果你看到单位 <strong>Foot-Lambert (fL)</strong>，它等于 $1&#x2F;\pi \ cd&#x2F;ft^2$。</li><li>这些古老的单位里包含 $\pi$，就是为了让 $E$ 和 $L$ 的数值在朗伯体下相等（为了偷懒）。但在现代 SI 单位（Lux 和 Nit）中，你必须手动乘除这个 $\pi$。</li></ul></li><li><p><strong>应用场景</strong>：</p><ul><li><strong>屏幕校色</strong>：色度仪测的是 $L$ (nits)，但计算屏幕总辐射功率时，如果假设屏幕是朗伯体，可以乘以 $\pi$ 估算总光通量密度。</li><li><strong>环境光传感器</strong>：手机上的光感测的是 $E$ (lux)，它无法分辨光是集中来自一个灯泡，还是来自均匀的天花板。</li></ul></li></ol><hr>]]></content>
+    
+    
+    <categories>
+      
+      <category>光学理论</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>光学算法</tag>
+      
+      <tag>朗伯体</tag>
+      
+      <tag>微积分</tag>
+      
+      <tag>BRDF</tag>
+      
+      <tag>物理光学</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>📐 光学学习笔记：详解光通量、照度、强度与亮度</title>
+    <link href="/2026/01/07/2026-01-07-optics-photometry-basics/"/>
+    <url>/2026/01/07/2026-01-07-optics-photometry-basics/</url>
+    
+    <content type="html"><![CDATA[<p>在微纳光学（Micro-nano optics）和光学系统设计中，准确理解光的度量单位是建模的基础。</p><p>很多人分不清 <strong>Radiometry（辐射度学）</strong> 和 <strong>Photometry（光度学）</strong>。</p><ul><li><strong>辐射度学</strong>是纯物理的能量度量（客观，单位：瓦特 Watt）。</li><li><strong>光度学</strong>是基于人眼感知的度量（主观，单位：流明 Lumen）。</li></ul><p>本文将从数学定义的角度，彻底理清光度学四大金刚：<strong>光通量、光强、照度、亮度</strong>。</p><hr><h2 id="01-全局概览图谱"><a href="#01-全局概览图谱" class="headerlink" title="01. 全局概览图谱"></a>01. 全局概览图谱</h2><p>在进入公式之前，先看这张经典的转换关系图。这是光学工程师必须印在脑子里的“地图”。<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260107_105357.png"></p><ul><li><strong>光源 (Source)</strong> 发出光通量 $\Phi$。</li><li>光在<strong>立体角 (Solid Angle)</strong> 内的密度是光强 $I$。</li><li>光打在<strong>接收面 (Surface)</strong> 上的密度是照度 $E$。</li><li><strong>人眼 (Observer)</strong> 或是相机看到的发光面的明暗程度是亮度 $L$。</li></ul><hr><h2 id="02-深度拆解：四大物理量"><a href="#02-深度拆解：四大物理量" class="headerlink" title="02. 深度拆解：四大物理量"></a>02. 深度拆解：四大物理量</h2><h3 id="1-光通量-Luminous-Flux-Phi-v"><a href="#1-光通量-Luminous-Flux-Phi-v" class="headerlink" title="1. 光通量 (Luminous Flux, $\Phi_v$)"></a>1. 光通量 (Luminous Flux, $\Phi_v$)</h3><p><strong>定义</strong>：光源在单位时间内发出的<strong>光能量</strong>，根据人眼视见函数加权后的结果。</p><ul><li><strong>单位</strong>：流明 (Lumen, lm)</li><li><strong>物理公式</strong>：<br>  $$\Phi_v &#x3D; K_m \int_{380}^{780} P(\lambda) V(\lambda) d\lambda$$<ul><li>$P(\lambda)$：光谱辐射功率分布 (Spectral Power Distribution)，单位 $W&#x2F;nm$。</li><li>$V(\lambda)$：人眼视见函数（CIE 标准），在 555nm (绿光) 处达到峰值 1。</li><li>$K_m$：最大光视效能，约为 <strong>683 lm&#x2F;W</strong>。</li></ul></li><li><strong>工程意义</strong>：<br>  这意味着 <strong>1 Watt 的 555nm 绿光 $\approx$ 683 lm</strong>，而 <strong>1 Watt 的红外光 &#x3D; 0 lm</strong>（因为人眼看不见）。</li></ul><h3 id="2-发光强度-Luminous-Intensity-I-v"><a href="#2-发光强度-Luminous-Intensity-I-v" class="headerlink" title="2. 发光强度 (Luminous Intensity, $I_v$)"></a>2. 发光强度 (Luminous Intensity, $I_v$)</h3><p><strong>定义</strong>：点光源在<strong>特定方向</strong>上，单位<strong>立体角</strong>内发出的光通量。</p><ul><li><strong>单位</strong>：坎德拉 (Candela, cd)</li><li><strong>物理公式</strong>：<br>  $$I_v &#x3D; \frac{d\Phi_v}{d\Omega}$$<ul><li>$\Omega$：立体角 (Solid Angle)，单位是球面度 (sr)。</li><li>全空间的立体角是 $4\pi$ sr。</li></ul></li><li><strong>常见误区</strong>：<br>  如果你把 LED 的发光角度压缩（加透镜），总流明 $\Phi$ 不变，但立体角 $\Omega$ 变小，所以中心光强 $I$ 会暴涨。这就是激光笔刺眼的原因。</li></ul><h3 id="3-照度-Illuminance-E-v"><a href="#3-照度-Illuminance-E-v" class="headerlink" title="3. 照度 (Illuminance, $E_v$)"></a>3. 照度 (Illuminance, $E_v$)</h3><p><strong>定义</strong>：单位<strong>接收面积</strong>上接收到的光通量。它描述的是“被照面”的情况。</p><ul><li><strong>单位</strong>：勒克斯 (Lux, lx &#x3D; $lm&#x2F;m^2$)</li><li><strong>物理公式</strong>：<br>  $$E_v &#x3D; \frac{d\Phi_v}{dA}$$</li><li><strong>距离平方反比定律 (Inverse Square Law)</strong>：<br>  对于点光源，照度与距离的平方成反比：<br>  $$E &#x3D; \frac{I}{r^2} \cdot \cos\theta$$<ul><li>$r$：光源到接收面的距离。</li><li>$\theta$：光线入射角（光线与法线的夹角）。</li><li><strong>应用</strong>：在模拟探测器（Detector）上的能量分布时，如果你移动探测器使其距离加倍，照度理论上会变为原来的 1&#x2F;4。</li></ul></li></ul><p>[Image of Inverse Square Law for light diagram]</p><h3 id="4-亮度-Luminance-L-v"><a href="#4-亮度-Luminance-L-v" class="headerlink" title="4. 亮度 (Luminance, $L_v$)"></a>4. 亮度 (Luminance, $L_v$)</h3><p><strong>定义</strong>：发光面（或反射面）在<strong>单位投影面积</strong>、<strong>单位立体角</strong>内发出的光通量。</p><ul><li><strong>单位</strong>：尼特 (nit &#x3D; $cd&#x2F;m^2$)</li><li><strong>物理公式</strong>：<br>  $$L_v &#x3D; \frac{d^2\Phi_v}{d\Omega \cdot dA \cdot \cos\theta}$$<ul><li>$dA \cdot \cos\theta$：这是<strong>投影面积</strong>。当你侧着看屏幕时，投影面积变小了，所以需要除以 $\cos\theta$ 来修正。</li></ul></li><li><strong>亮度守恒定律 (Conservation of Luminance)</strong>：<br>  在理想光学系统（无损耗）中，光在传播过程中，<strong>亮度是不变的</strong>。<ul><li>这就是为什么你不能通过透镜系统让成像比光源更“亮”（温度不能比光源更高）。</li></ul></li></ul><hr><h2 id="03-辐射度学-vs-光度学："><a href="#03-辐射度学-vs-光度学：" class="headerlink" title="03. 辐射度学 vs 光度学："></a>03. 辐射度学 vs 光度学：</h2><p>做微纳光学仿真时，你通常输入的是 Laser Power (Watts)，但最后客户要看的是亮度 (Nits)。你需要这张对照表：</p><table><thead><tr><th align="left">物理维度</th><th align="left">辐射度学 (Radiometry) <br> <em>能量&#x2F;物理</em></th><th align="left">光度学 (Photometry) <br> <em>人眼&#x2F;视觉</em></th><th align="left">转换桥梁 (555nm)</th></tr></thead><tbody><tr><td align="left"><strong>能量&#x2F;功率</strong></td><td align="left"><strong>辐射通量</strong> Radiant Flux <br> 单位: <strong>Watt (W)</strong></td><td align="left"><strong>光通量</strong> Luminous Flux <br> 单位: <strong>Lumen (lm)</strong></td><td align="left">$1 W &#x3D; 683 lm$</td></tr><tr><td align="left"><strong>空间强度</strong></td><td align="left"><strong>辐射强度</strong> Radiant Intensity <br> 单位: <strong>W&#x2F;sr</strong></td><td align="left"><strong>发光强度</strong> Luminous Intensity <br> 单位: <strong>Candela (cd)</strong></td><td align="left">$1 W&#x2F;sr &#x3D; 683 cd$</td></tr><tr><td align="left"><strong>接收面密度</strong></td><td align="left"><strong>辐照度</strong> Irradiance <br> 单位: <strong>W&#x2F;m²</strong></td><td align="left"><strong>照度</strong> Illuminance <br> 单位: <strong>Lux (lx)</strong></td><td align="left">$1 W&#x2F;m^2 &#x3D; 683 lx$</td></tr><tr><td align="left"><strong>源表面亮度</strong></td><td align="left"><strong>辐射亮度</strong> Radiance <br> 单位: <strong>W&#x2F;(sr·m²)</strong></td><td align="left"><strong>亮度</strong> Luminance <br> 单位: <strong>Nit (cd&#x2F;m²)</strong></td><td align="left">$1 W&#x2F;(sr\cdot m^2) &#x3D; 683 nit$</td></tr></tbody></table><hr><h2 id="04-典型计算案例"><a href="#04-典型计算案例" class="headerlink" title="04. 典型计算案例"></a>04. 典型计算案例</h2><p><strong>场景</strong>：<br>你有一个各向同性（各个方向发光均匀）的 LED 灯泡，总光通量为 <strong>1000 lm</strong>。<br>你想知道：</p><ol><li>它的发光强度是多少？</li><li>在距离它 2 米远的桌面上，照度是多少？</li></ol><p><strong>计算过程</strong>：</p><ol><li><p><strong>求光强 ($I$)</strong>：</p><ul><li>因为是各向同性点光源，光向四面八方发射，立体角 $\Omega &#x3D; 4\pi \approx 12.57$ sr。</li><li>$I &#x3D; \frac{\Phi}{\Omega} &#x3D; \frac{1000}{4\pi} \approx \mathbf{79.6 \ cd}$。</li></ul></li><li><p><strong>求照度 ($E$)</strong>：</p><ul><li>利用距离平方反比定律（假设垂直照射，$\cos\theta&#x3D;1$）：</li><li>$E &#x3D; \frac{I}{r^2} &#x3D; \frac{79.6}{2^2} &#x3D; \frac{79.6}{4} \approx \mathbf{19.9 \ lx}$。</li></ul></li></ol><hr><h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><ul><li><strong>$\Phi$ (lm)</strong> 是源头的“总水量”。</li><li><strong>$I$ (cd)</strong> 是喷头的“水压”。</li><li><strong>$E$ (lx)</strong> 是地面的“湿润度”。</li><li><strong>$L$ (nit)</strong> 是别人看过来觉得“刺不刺眼”。</li></ul><p>做 <strong>Micro-nano optics</strong> 时，如果处理的是红外激光（如 1550nm），请直接忽略右边的光度学单位，死磕左边的 <strong>Radiometry (Watts)</strong> 即可，因为对于那样的波长，流明永远是 0。</p><hr>]]></content>
+    
+    
+    <categories>
+      
+      <category>光学理论</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>光学设计</tag>
+      
+      <tag>辐射度学</tag>
+      
+      <tag>光度学</tag>
+      
+      <tag>物理公式</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>📉 新手必读：为什么盯着“美债收益率”，才能炒好A股和黄金？</title>
     <link href="/2026/01/06/2026-01-06-economics-10/"/>
     <url>/2026/01/06/2026-01-06-economics-10/</url>
@@ -30,9 +94,9 @@
       
       <tag>黄金</tag>
       
-      <tag>A股</tag>
-      
       <tag>美债</tag>
+      
+      <tag>A股</tag>
       
     </tags>
     
@@ -96,11 +160,11 @@
       
       <tag>黄金</tag>
       
+      <tag>A股</tag>
+      
       <tag>资产配置</tag>
       
       <tag>美元</tag>
-      
-      <tag>A股</tag>
       
     </tags>
     
@@ -195,11 +259,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -263,11 +327,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -494,11 +558,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -556,11 +620,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -587,11 +651,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
