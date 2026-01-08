@@ -1,0 +1,859 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文详细解析矢量分析中的核心算子——梯度、散度、旋度及拉普拉斯算子的定义与计算法则。通过严谨的数学推导，展示如何利用矢量恒等式处理麦克斯韦方程组，最终导出电磁场的亥姆霍兹波动方程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数理物理方法笔记：微分算子与拉普拉斯算子介绍">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/08/2026-01-08-laplacian-and-maxwell/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文详细解析矢量分析中的核心算子——梯度、散度、旋度及拉普拉斯算子的定义与计算法则。通过严谨的数学推导，展示如何利用矢量恒等式处理麦克斯韦方程组，最终导出电磁场的亥姆霍兹波动方程。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-08T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-08T14:51:13.402Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="拉普拉斯算子">
+<meta property="article:tag" content="数学物理方法">
+<meta property="article:tag" content="波动方程">
+<meta property="article:tag" content="矢量分析">
+<meta property="article:tag" content="麦克斯韦方程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>数理物理方法笔记：微分算子与拉普拉斯算子介绍 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":"G-XZZH3NRLHT"},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-XZZH3NRLHT", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-XZZH3NRLHT');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">数理物理方法笔记：微分算子与拉普拉斯算子介绍</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-08 10:00" pubdate>
+          January 8, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">数理物理方法笔记：微分算子与拉普拉斯算子介绍</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在经典场论与电动力学中，倒三角符号 $\nabla$ (Nabla&#x2F;Del) 是构建物理定律的基石。物理学家利用它定义了三种一阶微分运算（梯度、散度、旋度）和一种二阶微分运算（拉普拉斯算子）。</p>
+<p>要真正理解麦克斯韦方程组的演化逻辑，必须掌握这些算子的<strong>具体计算法则</strong>而非仅仅停留在概念层面。本文将对这些微分算子进行深度数学拆解。</p>
+<hr>
+<h2 id="01-算子的核心：Nabla-nabla"><a href="#01-算子的核心：Nabla-nabla" class="headerlink" title="01. 算子的核心：Nabla ($\nabla$)"></a>01. 算子的核心：Nabla ($\nabla$)</h2><p>$\nabla$ 本身是一个<strong>矢量微分算子</strong>。在笛卡尔坐标系 $(x, y, z)$ 中，其定义为：</p>
+<p>$$<br>\nabla &#x3D; \mathbf{\hat{x}}\frac{\partial}{\partial x} + \mathbf{\hat{y}}\frac{\partial}{\partial y} + \mathbf{\hat{z}}\frac{\partial}{\partial z}<br>$$</p>
+<p>它具有<strong>矢量</strong>（有方向）和<strong>微分</strong>（求导）的双重性质。它与标量或矢量的不同结合方式，产生了以下三种基本运算。</p>
+<hr>
+<h2 id="02-一阶微分运算详解"><a href="#02-一阶微分运算详解" class="headerlink" title="02. 一阶微分运算详解"></a>02. 一阶微分运算详解</h2><h3 id="1-梯度-Gradient-——-标量变矢量"><a href="#1-梯度-Gradient-——-标量变矢量" class="headerlink" title="1. 梯度 (Gradient) —— 标量变矢量"></a>1. 梯度 (Gradient) —— 标量变矢量</h3><p>计算对象：标量场 $\phi(x,y,z)$（如电势、温度）。<br>运算方式：直接作用（数乘）。</p>
+<p><strong>计算公式</strong>：<br>$$<br>\nabla \phi &#x3D; \left( \mathbf{\hat{x}}\frac{\partial}{\partial x} + \mathbf{\hat{y}}\frac{\partial}{\partial y} + \mathbf{\hat{z}}\frac{\partial}{\partial z} \right) \phi &#x3D; \frac{\partial \phi}{\partial x}\mathbf{\hat{x}} + \frac{\partial \phi}{\partial y}\mathbf{\hat{y}} + \frac{\partial \phi}{\partial z}\mathbf{\hat{z}}<br>$$</p>
+<ul>
+<li><strong>物理意义</strong>：$\nabla \phi$ 是一个矢量，指向 $\phi$ 增长最快的方向，其模长代表最大变化率。</li>
+</ul>
+<h3 id="2-散度-Divergence-——-矢量变标量"><a href="#2-散度-Divergence-——-矢量变标量" class="headerlink" title="2. 散度 (Divergence) —— 矢量变标量"></a>2. 散度 (Divergence) —— 矢量变标量</h3><p>计算对象：矢量场 $\mathbf{A} &#x3D; A_x\mathbf{\hat{x}} + A_y\mathbf{\hat{y}} + A_z\mathbf{\hat{z}}$（如电场、流速）。<br>运算方式：<strong>点积 (Dot Product)</strong>。</p>
+<p><strong>计算公式</strong>：<br>$$<br>\nabla \cdot \mathbf{A} &#x3D; \left( \mathbf{\hat{x}}\frac{\partial}{\partial x} + \dots \right) \cdot (A_x\mathbf{\hat{x}} + \dots)<br>$$<br>利用正交性 $\mathbf{\hat{x}} \cdot \mathbf{\hat{x}} &#x3D; 1, \mathbf{\hat{x}} \cdot \mathbf{\hat{y}} &#x3D; 0$，得：<br>$$<br>\nabla \cdot \mathbf{A} &#x3D; \frac{\partial A_x}{\partial x} + \frac{\partial A_y}{\partial y} + \frac{\partial A_z}{\partial z}<br>$$</p>
+<ul>
+<li><strong>物理意义</strong>：度量空间中某点是否有通量“涌出”（源）或“汇聚”（汇）。</li>
+</ul>
+<h3 id="3-旋度-Curl-——-矢量变矢量"><a href="#3-旋度-Curl-——-矢量变矢量" class="headerlink" title="3. 旋度 (Curl) —— 矢量变矢量"></a>3. 旋度 (Curl) —— 矢量变矢量</h3><p>计算对象：矢量场 $\mathbf{A}$。<br>运算方式：<strong>叉积 (Cross Product)</strong>。</p>
+<p><strong>计算公式</strong>（利用行列式形式）：<br>$$<br>\nabla \times \mathbf{A} &#x3D; \begin{vmatrix} \mathbf{\hat{x}} &amp; \mathbf{\hat{y}} &amp; \mathbf{\hat{z}} \ \frac{\partial}{\partial x} &amp; \frac{\partial}{\partial y} &amp; \frac{\partial}{\partial z} \ A_x &amp; A_y &amp; A_z \end{vmatrix}<br>$$<br>展开后得到：<br>$$<br>\nabla \times \mathbf{A} &#x3D; \left( \frac{\partial A_z}{\partial y} - \frac{\partial A_y}{\partial z} \right)\mathbf{\hat{x}} + \left( \frac{\partial A_x}{\partial z} - \frac{\partial A_z}{\partial x} \right)\mathbf{\hat{y}} + \left( \frac{\partial A_y}{\partial x} - \frac{\partial A_x}{\partial y} \right)\mathbf{\hat{z}}<br>$$</p>
+<ul>
+<li><strong>物理意义</strong>：度量矢量场的旋转趋势或涡旋特性。</li>
+</ul>
+<hr>
+<h2 id="03-二阶微分：拉普拉斯算子-nabla-2"><a href="#03-二阶微分：拉普拉斯算子-nabla-2" class="headerlink" title="03. 二阶微分：拉普拉斯算子 ($\nabla^2$)"></a>03. 二阶微分：拉普拉斯算子 ($\nabla^2$)</h2><p>拉普拉斯算子（Laplacian）在数学上被定义为<strong>梯度的散度</strong>。这是一个二阶微分算子。</p>
+<h3 id="1-标量拉普拉斯算子"><a href="#1-标量拉普拉斯算子" class="headerlink" title="1. 标量拉普拉斯算子"></a>1. 标量拉普拉斯算子</h3><p>作用于标量场 $\phi$：<br>$$<br>\nabla^2 \phi \equiv \nabla \cdot (\nabla \phi)<br>$$</p>
+<p><strong>推导计算</strong>：<br>先求梯度 $\nabla \phi &#x3D; (\frac{\partial \phi}{\partial x}, \frac{\partial \phi}{\partial y}, \frac{\partial \phi}{\partial z})$，再对该结果求散度：<br>$$<br>\nabla \cdot (\nabla \phi) &#x3D; \frac{\partial}{\partial x}\left(\frac{\partial \phi}{\partial x}\right) + \frac{\partial}{\partial y}\left(\frac{\partial \phi}{\partial y}\right) + \frac{\partial}{\partial z}\left(\frac{\partial \phi}{\partial z}\right)<br>$$<br>即：<br>$$<br>\nabla^2 \phi &#x3D; \frac{\partial^2 \phi}{\partial x^2} + \frac{\partial^2 \phi}{\partial y^2} + \frac{\partial^2 \phi}{\partial z^2}<br>$$</p>
+<h3 id="2-矢量拉普拉斯算子"><a href="#2-矢量拉普拉斯算子" class="headerlink" title="2. 矢量拉普拉斯算子"></a>2. 矢量拉普拉斯算子</h3><p>作用于矢量场 $\mathbf{E}$。这是处理麦克斯韦方程的关键。<br>$$<br>\nabla^2 \mathbf{E} &#x3D; (\nabla^2 E_x)\mathbf{\hat{x}} + (\nabla^2 E_y)\mathbf{\hat{y}} + (\nabla^2 E_z)\mathbf{\hat{z}}<br>$$<br>但在矢量运算中，我们通常使用以下著名的<strong>矢量恒等式</strong>来定义它：<br>$$<br>\nabla^2 \mathbf{E} \equiv \nabla(\nabla \cdot \mathbf{E}) - \nabla \times (\nabla \times \mathbf{E})<br>$$<br><em>(注：这对应了公式 $\mathbf{A} \times (\mathbf{B} \times \mathbf{C}) &#x3D; \mathbf{B}(\mathbf{A} \cdot \mathbf{C}) - (\mathbf{A} \cdot \mathbf{B})\mathbf{C}$ 的微分形式)</em></p>
+<hr>
+<h2 id="04-算子实战：推导波动方程"><a href="#04-算子实战：推导波动方程" class="headerlink" title="04. 算子实战：推导波动方程"></a>04. 算子实战：推导波动方程</h2><p>我们利用上述算子规则，从麦克斯韦方程组推导电磁波的波动方程。</p>
+<p><strong>真空麦克斯韦方程组（无源）：</strong></p>
+<ol>
+<li>$\nabla \cdot \mathbf{E} &#x3D; 0$</li>
+<li>$\nabla \cdot \mathbf{B} &#x3D; 0$</li>
+<li>$\nabla \times \mathbf{E} &#x3D; -\frac{\partial \mathbf{B}}{\partial t}$</li>
+<li>$\nabla \times \mathbf{B} &#x3D; \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t}$</li>
+</ol>
+<p><strong>推导步骤：</strong></p>
+<p><strong>Step 1: 对方程 (3) 两边取旋度</strong><br>$$<br>\nabla \times (\nabla \times \mathbf{E}) &#x3D; \nabla \times \left( -\frac{\partial \mathbf{B}}{\partial t} \right)<br>$$</p>
+<p><strong>Step 2: 交换微分次序并代入方程 (4)</strong><br>右边交换空间与时间导数：<br>$$<br>\text{Right} &#x3D; -\frac{\partial}{\partial t} (\nabla \times \mathbf{B})<br>$$<br>将方程 (4) 代入 $\nabla \times \mathbf{B}$：<br>$$<br>\text{Right} &#x3D; -\frac{\partial}{\partial t} \left( \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t} \right) &#x3D; -\mu_0 \epsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2}<br>$$</p>
+<p><strong>Step 3: 左边展开（使用矢量拉普拉斯恒等式）</strong><br>$$<br>\text{Left} &#x3D; \nabla(\nabla \cdot \mathbf{E}) - \nabla^2 \mathbf{E}<br>$$<br>由于方程 (1) 告诉我们真空中散度 $\nabla \cdot \mathbf{E} &#x3D; 0$，故第一项为零：<br>$$<br>\text{Left} &#x3D; -\nabla^2 \mathbf{E}<br>$$</p>
+<p><strong>Step 4: 联立并整理</strong><br>$$<br>-\nabla^2 \mathbf{E} &#x3D; -\mu_0 \epsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2}<br>$$<br>消去负号，得到标准的二阶偏微分方程——<strong>矢量亥姆霍兹方程</strong>：<br>$$<br>\nabla^2 \mathbf{E} - \mu_0 \epsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2} &#x3D; 0<br>$$</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上述推导可以看到，物理学中的“波”本质上是<strong>拉普拉斯算子（空间二阶导）<strong>与</strong>时间二阶导</strong>之间的平衡。</p>
+<ul>
+<li><strong>梯度</strong> ($\nabla \phi$) 提供了场的斜率。</li>
+<li><strong>散度</strong> ($\nabla \cdot \mathbf{A}$) 描述了场的源汇。</li>
+<li><strong>旋度</strong> ($\nabla \times \mathbf{A}$) 描述了场的涡旋。</li>
+<li><strong>拉普拉斯算子</strong> ($\nabla^2$) 则描述了场的**曲率（Curvature）**或平滑程度。</li>
+</ul>
+<p>正是这些严谨的数学算子，构建了电磁学宏伟的大厦。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%89%A9%E7%90%86/" class="category-chain-item">物理</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E7%89%A9%E7%90%86%E6%96%B9%E6%B3%95/" class="print-no-link">#数学物理方法</a>
+      
+        <a href="/tags/%E7%9F%A2%E9%87%8F%E5%88%86%E6%9E%90/" class="print-no-link">#矢量分析</a>
+      
+        <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B/" class="print-no-link">#麦克斯韦方程</a>
+      
+        <a href="/tags/%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E7%AE%97%E5%AD%90/" class="print-no-link">#拉普拉斯算子</a>
+      
+        <a href="/tags/%E6%B3%A2%E5%8A%A8%E6%96%B9%E7%A8%8B/" class="print-no-link">#波动方程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>数理物理方法笔记：微分算子与拉普拉斯算子介绍</div>
+      <div>https://sunfove.xyz/2026/01/08/2026-01-08-laplacian-and-maxwell/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 8, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/08/2026-01-07-illuminance-vs-luminance-math/" title="📐 进阶推导：照度 (E) 与亮度 (L) 的数学本质与转化之谜（含 π 的由来）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">📐 进阶推导：照度 (E) 与亮度 (L) 的数学本质与转化之谜（含 π 的由来）</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/07/2026-01-07-daily-english/" title="🌍 Daily English: Beyond the Guidebook: How Deep Cultural Immersion Transforms the Modern Traveler | 2026-01-07">
+                        <span class="hidden-mobile">🌍 Daily English: Beyond the Guidebook: How Deep Cultural Immersion Transforms the Modern Traveler | 2026-01-07</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/08/2026-01-08-laplacian-and-maxwell/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
