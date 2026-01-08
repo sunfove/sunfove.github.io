@@ -1,5 +1,5 @@
 ---
-title: 🔭 光学笔记：景深 (DOF) 与焦深 (Depth of Focus) 的推导与本质区别
+title: 🔭 光学笔记：景深(Depth of Field)与焦深(Depth of Focus) 
 date: 2026-01-08 20:00:00
 tags: [光学设计, 摄影光学, 显微镜, 物理公式]
 categories: 光学理论
