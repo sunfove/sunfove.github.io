@@ -1,0 +1,908 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么测量误差总是服从正态分布？光子到达探测器的数量为何遵循泊松分布？本文剥离枯燥的测度论，用直觉和图解带你重温概率论的基石：随机变量、PDF&#x2F;CDF、大数定律与中心极限定理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="上帝的骰子：概率论核心概念、分布与极限定理的直觉图解">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/10/2026-01-09-probability-theory-basics/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="为什么测量误差总是服从正态分布？光子到达探测器的数量为何遵循泊松分布？本文剥离枯燥的测度论，用直觉和图解带你重温概率论的基石：随机变量、PDF&#x2F;CDF、大数定律与中心极限定理。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260109_110254.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260109_110108.png">
+<meta property="article:published_time" content="2026-01-10T23:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T15:14:16.810Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="中心极限定理">
+<meta property="article:tag" content="数学基础">
+<meta property="article:tag" content="概率论">
+<meta property="article:tag" content="正态分布">
+<meta property="article:tag" content="泊松分布">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260109_110254.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>上帝的骰子：概率论核心概念、分布与极限定理的直觉图解 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":"G-XZZH3NRLHT"},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-XZZH3NRLHT", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-XZZH3NRLHT');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">上帝的骰子：概率论核心概念、分布与极限定理的直觉图解</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-10 23:00" pubdate>
+          January 10, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">上帝的骰子：概率论核心概念、分布与极限定理的直觉图解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在牛顿的时代，科学家认为世界是<strong>确定</strong>的：只要知道初始状态和力学定律，就能预测未来的一切。<br>但在量子力学和混沌理论诞生后，我们意识到：<strong>随机性 (Randomness)</strong> 才是世界的本质。</p>
+<p>概率论，就是<strong>量化不确定性</strong>的语言。<br>无论你是做光学仿真（蒙特卡洛光线追踪）、信号处理（卡尔曼滤波），还是量化交易（风险控制），概率论都是你无法绕开的底层代码。</p>
+<p>今天，我们通过直觉和物理背景，重构概率论的知识体系。</p>
+<hr>
+<h2 id="01-舞台上的主角：随机变量-Random-Variable"><a href="#01-舞台上的主角：随机变量-Random-Variable" class="headerlink" title="01. 舞台上的主角：随机变量 (Random Variable)"></a>01. 舞台上的主角：随机变量 (Random Variable)</h2><p>概率论研究的不是具体的“数值”，而是“函数”。<br><strong>随机变量 ($X$)</strong> 本质上是一个函数，它把随机实验的结果映射到一个实数上。</p>
+<h3 id="1-离散型-Discrete"><a href="#1-离散型-Discrete" class="headerlink" title="1. 离散型 (Discrete)"></a>1. 离散型 (Discrete)</h3><ul>
+<li><strong>特点</strong>：取值是可数的（一个个点）。</li>
+<li><strong>例子</strong>：抛硬币（0或1）、探测器接收到的光子数（0, 1, 2…）。</li>
+<li><strong>描述工具</strong>：<strong>概率质量函数 (PMF)</strong>。<br>  $$P(X&#x3D;k)$$</li>
+</ul>
+<h3 id="2-连续型-Continuous"><a href="#2-连续型-Continuous" class="headerlink" title="2. 连续型 (Continuous)"></a>2. 连续型 (Continuous)</h3><ul>
+<li><strong>特点</strong>：取值是不可数的（一段区间）。</li>
+<li><strong>例子</strong>：电压噪声、加工误差、激光束的强度分布。</li>
+<li><strong>描述工具</strong>：<strong>概率密度函数 (PDF)</strong>。<br>  $$f(x)$$</li>
+</ul>
+<blockquote>
+<p><strong>⚠️ 关键误区</strong>：<br>对于连续变量，$f(x)$ <strong>不是</strong>概率！<br>$f(x)$ 可以大于 1。只有对它进行积分（面积），得到的才是概率。单点 $P(X&#x3D;x)$ 的概率永远是 0。</p>
+</blockquote>
+<hr>
+<h2 id="02-描述形状的工具：PDF-与-CDF"><a href="#02-描述形状的工具：PDF-与-CDF" class="headerlink" title="02. 描述形状的工具：PDF 与 CDF"></a>02. 描述形状的工具：PDF 与 CDF</h2><h3 id="概率密度函数-PDF-f-x"><a href="#概率密度函数-PDF-f-x" class="headerlink" title="概率密度函数 (PDF, $f(x)$)"></a>概率密度函数 (PDF, $f(x)$)</h3><p>它描述了随机变量在某一点附近的“密集程度”。</p>
+<ul>
+<li><strong>性质</strong>：全积分等于 1。<br>  $$\int_{-\infty}^{\infty} f(x) dx &#x3D; 1$$</li>
+</ul>
+<h3 id="累积分布函数-CDF-F-x"><a href="#累积分布函数-CDF-F-x" class="headerlink" title="累积分布函数 (CDF, $F(x)$)"></a>累积分布函数 (CDF, $F(x)$)</h3><p>它描述了“小于等于某个值”的概率。<br>    $$F(x) &#x3D; P(X \le x) &#x3D; \int_{-\infty}^{x} f(t) dt$$</p>
+<ul>
+<li><strong>物理意义</strong>：如果你在做良率分析，CDF 告诉你“有多少比例的产品是合格的”。</li>
+<li><strong>关系</strong>：PDF 是 CDF 的导数。</li>
+</ul>
+<hr>
+<h2 id="03-描述特征的数字：期望与方差"><a href="#03-描述特征的数字：期望与方差" class="headerlink" title="03. 描述特征的数字：期望与方差"></a>03. 描述特征的数字：期望与方差</h2><p>如果我们不想看整张图，只想用两个数来概括这个分布：</p>
+<h3 id="1-期望-Expectation-mu-——-重心"><a href="#1-期望-Expectation-mu-——-重心" class="headerlink" title="1. 期望 (Expectation, $\mu$) —— 重心"></a>1. 期望 (Expectation, $\mu$) —— 重心</h3><p>$$E[X] &#x3D; \int x f(x) dx$$</p>
+<ul>
+<li><strong>直觉</strong>：如果你重复无数次实验，平均值会收敛到这里。它是分布的“物理重心”。</li>
+</ul>
+<h3 id="2-方差-Variance-sigma-2-——-惯性矩"><a href="#2-方差-Variance-sigma-2-——-惯性矩" class="headerlink" title="2. 方差 (Variance, $\sigma^2$) —— 惯性矩"></a>2. 方差 (Variance, $\sigma^2$) —— 惯性矩</h3><p>$$Var(X) &#x3D; E[(X - \mu)^2]$$</p>
+<ul>
+<li><strong>直觉</strong>：数据偏离中心的程度。</li>
+<li><strong>物理意义</strong>：<ul>
+<li>在信号处理中，方差代表<strong>交流功率 (AC Power)</strong> 或 <strong>噪声强度</strong>。</li>
+<li>在金融中，方差代表<strong>风险 (Volatility)</strong>。</li>
+<li>在光学中，方差对应光斑的<strong>宽度平方</strong>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="04-工程师必须认识的“动物园”"><a href="#04-工程师必须认识的“动物园”" class="headerlink" title="04. 工程师必须认识的“动物园”"></a>04. 工程师必须认识的“动物园”</h2><p>在无数种分布中，这三种支配了物理世界：</p>
+<h3 id="1-伯努利-二项分布-Binomial"><a href="#1-伯努利-二项分布-Binomial" class="headerlink" title="1. 伯努利&#x2F;二项分布 (Binomial)"></a>1. 伯努利&#x2F;二项分布 (Binomial)</h3><ul>
+<li><strong>场景</strong>：抛硬币。做 $n$ 次实验，成功 $k$ 次。</li>
+<li><strong>公式</strong>：$P(k) &#x3D; C_n^k p^k (1-p)^{n-k}$</li>
+</ul>
+<h3 id="2-泊松分布-Poisson-——-光学人的老朋友"><a href="#2-泊松分布-Poisson-——-光学人的老朋友" class="headerlink" title="2. 泊松分布 (Poisson) —— 光学人的老朋友"></a>2. 泊松分布 (Poisson) —— 光学人的老朋友</h3><ul>
+<li><strong>场景</strong>：<strong>稀有事件</strong>在固定时间&#x2F;空间内发生的次数。</li>
+<li><strong>光学应用</strong>：<strong>散粒噪声 (Shot Noise)</strong>。<ul>
+<li>光子是一粒一粒到达探测器的。即使激光功率恒定，单位时间内到达的光子数 $N$ 也服从泊松分布。</li>
+<li><strong>特征</strong>：方差 &#x3D; 期望 ($\sigma^2 &#x3D; \mu$)。这意味着光越强，噪声的绝对值越大（$\sigma &#x3D; \sqrt{N}$）。</li>
+</ul>
+</li>
+<li><strong>公式</strong>：$P(k) &#x3D; \frac{\lambda^k e^{-\lambda}}{k!}$</li>
+</ul>
+<h3 id="3-正态分布-高斯分布-Normal-Gaussian"><a href="#3-正态分布-高斯分布-Normal-Gaussian" class="headerlink" title="3. 正态分布 &#x2F; 高斯分布 (Normal &#x2F; Gaussian)"></a>3. 正态分布 &#x2F; 高斯分布 (Normal &#x2F; Gaussian)</h3><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260109_110254.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>场景</strong>：<strong>误差</strong>、热噪声。</li>
+<li><strong>光学应用</strong>：高斯光束的横向电场分布、光谱线的Doppler展宽。</li>
+<li><strong>公式</strong>：<br>  $$f(x) &#x3D; \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$</li>
+<li><strong>68-95-99.7 法则</strong>：<ul>
+<li>$\pm 1\sigma$ 包含 68% 的数据。</li>
+<li>$\pm 2\sigma$ 包含 95% 的数据（常用的置信区间）。</li>
+<li>$\pm 3\sigma$ 包含 99.7% 的数据（良率标准）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="05-两大定海神针：极限定理"><a href="#05-两大定海神针：极限定理" class="headerlink" title="05. 两大定海神针：极限定理"></a>05. 两大定海神针：极限定理</h2><p>为什么正态分布如此重要？因为有下面这两个定理撑腰。</p>
+<h3 id="1-大数定律-Law-of-Large-Numbers-LLN"><a href="#1-大数定律-Law-of-Large-Numbers-LLN" class="headerlink" title="1. 大数定律 (Law of Large Numbers, LLN)"></a>1. 大数定律 (Law of Large Numbers, LLN)</h3><ul>
+<li><strong>含义</strong>：<strong>频率收敛于概率</strong>。</li>
+<li>只要实验次数 $n$ 足够多，样本均值 $\bar{X}$ 一定会无限接近真实期望 $\mu$。</li>
+<li><strong>应用</strong>：这是<strong>蒙特卡洛仿真 (Monte Carlo Simulation)</strong> 的理论基础。你在 TracePro&#x2F;LightTools 里追迹 100 万条光线来模拟照度，就是靠它保证结果准确的。</li>
+</ul>
+<h3 id="2-中心极限定理-Central-Limit-Theorem-CLT-——-概率论的王冠"><a href="#2-中心极限定理-Central-Limit-Theorem-CLT-——-概率论的王冠" class="headerlink" title="2. 中心极限定理 (Central Limit Theorem, CLT) —— 概率论的王冠"></a>2. 中心极限定理 (Central Limit Theorem, CLT) —— 概率论的王冠</h3><ul>
+<li><strong>含义</strong>：<strong>从任意分布中抽取样本，只要样本量足够大，样本均值的分布近似于正态分布。</strong></li>
+<li><strong>直觉</strong>：不管原本的变量是三角分布、均匀分布还是奇形怪状的分布，只要它们是<strong>独立同分布 (i.i.d)</strong> 的，把它们<strong>加起来</strong>（或取平均），结果就是高斯分布。</li>
+<li><strong>物理启示</strong>：<ul>
+<li>为什么测量误差通常是正态的？因为误差是由无数个微小的、独立的干扰因素（温度波动、震动、电子热运动）<strong>叠加</strong>而成的。根据 CLT，叠加的结果必然趋向正态。</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260109_110108.png" srcset="/img/loading.gif" lazyload><br><em>(图注：高尔顿板。小球经过层层钉子的随机碰撞（独立事件叠加），最终在底部堆积成完美的正态分布曲线。)</em></p>
+<hr>
+<h2 id="06-总结"><a href="#06-总结" class="headerlink" title="06. 总结"></a>06. 总结</h2><ul>
+<li><strong>随机变量</strong>是把世界数字化的函数。</li>
+<li><strong>PDF&#x2F;CDF</strong> 是描述不确定性形状的工具。</li>
+<li><strong>泊松分布</strong>支配着量子化的光子（散粒噪声）。</li>
+<li><strong>正态分布</strong>支配着宏观的误差（热噪声）。</li>
+<li><strong>中心极限定理</strong>告诉我们：在混沌的随机叠加中，最终会涌现出完美的秩序（高斯曲线）。</li>
+</ul>
+<p>理解了这些，你再看光学探测器的信噪比公式，或者卡尔曼滤波的协方差矩阵，就会发现它们不再是冷冰冰的数字，而是描述世界运行规律的诗篇。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/" class="print-no-link">#数学基础</a>
+      
+        <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" class="print-no-link">#概率论</a>
+      
+        <a href="/tags/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83/" class="print-no-link">#正态分布</a>
+      
+        <a href="/tags/%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86/" class="print-no-link">#中心极限定理</a>
+      
+        <a href="/tags/%E6%B3%8A%E6%9D%BE%E5%88%86%E5%B8%83/" class="print-no-link">#泊松分布</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>上帝的骰子：概率论核心概念、分布与极限定理的直觉图解</div>
+      <div>https://sunfove.xyz/2026/01/10/2026-01-09-probability-theory-basics/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 10, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/10/2026-01-09-matrix-basics-and-operations/" title="线性代数的“时空折叠”术：矩阵 (Matrix) 基础、几何直觉与光学 ABCD 矩阵">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">线性代数的“时空折叠”术：矩阵 (Matrix) 基础、几何直觉与光学 ABCD 矩阵</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/09/2026-01-09-bayesian-model-principles/" title="上帝掷骰子，而我修正骰子：贝叶斯模型 (Bayesian Model) 的直觉与硬核原理">
+                        <span class="hidden-mobile">上帝掷骰子，而我修正骰子：贝叶斯模型 (Bayesian Model) 的直觉与硬核原理</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/10/2026-01-09-probability-theory-basics/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

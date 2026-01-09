@@ -1,0 +1,891 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="频率学派认为参数是固定的，贝叶斯学派认为参数是随机的。本文从贝叶斯定理出发，解析“先验-似然-后验”的认知闭环，并探讨其在垃圾邮件过滤、卡尔曼滤波及超参数优化中的硬核应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="上帝掷骰子，而我修正骰子：贝叶斯模型 (Bayesian Model) 的直觉与硬核原理">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/09/2026-01-09-bayesian-model-principles/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="频率学派认为参数是固定的，贝叶斯学派认为参数是随机的。本文从贝叶斯定理出发，解析“先验-似然-后验”的认知闭环，并探讨其在垃圾邮件过滤、卡尔曼滤波及超参数优化中的硬核应用。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-09T23:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T15:14:16.809Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="MCMC">
+<meta property="article:tag" content="卡尔曼滤波">
+<meta property="article:tag" content="朴素贝叶斯">
+<meta property="article:tag" content="统计机器学习">
+<meta property="article:tag" content="贝叶斯推断">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>上帝掷骰子，而我修正骰子：贝叶斯模型 (Bayesian Model) 的直觉与硬核原理 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":"G-XZZH3NRLHT"},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-XZZH3NRLHT", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-XZZH3NRLHT');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">上帝掷骰子，而我修正骰子：贝叶斯模型 (Bayesian Model) 的直觉与硬核原理</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-09 23:00" pubdate>
+          January 9, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">上帝掷骰子，而我修正骰子：贝叶斯模型 (Bayesian Model) 的直觉与硬核原理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在数据科学和机器学习领域，存在着两个长达百年的对立门派：</p>
+<ol>
+<li><strong>频率学派 (Frequentist)</strong>：认为世界是确定的，概率是实验重复无数次后的频率。参数（如硬币正面的概率）是一个<strong>固定值</strong>，只是我们不知道。</li>
+<li><strong>贝叶斯学派 (Bayesian)</strong>：认为世界是不确定的，参数本身就是一个<strong>随机变量</strong>。概率代表我们对某件事的**“信念强度” (Belief)**。</li>
+</ol>
+<p>今天我们讨论的主角——<strong>贝叶斯模型</strong>，就是一套关于“如何根据新证据来修正旧信念”的数学框架。</p>
+<hr>
+<h2 id="01-核心灵魂：贝叶斯定理"><a href="#01-核心灵魂：贝叶斯定理" class="headerlink" title="01. 核心灵魂：贝叶斯定理"></a>01. 核心灵魂：贝叶斯定理</h2><p>贝叶斯模型的全部智慧，都浓缩在这个看似简单的公式里：</p>
+<p>$$<br>P(\theta|D) &#x3D; \frac{P(D|\theta) P(\theta)}{P(D)}<br>$$</p>
+<p>或者用更直观的自然语言描述：</p>
+<p>$$<br>\text{后验概率} &#x3D; \frac{\text{似然性} \times \text{先验概率}}{\text{证据因子}}<br>$$</p>
+<h3 id="拆解四大金刚："><a href="#拆解四大金刚：" class="headerlink" title="拆解四大金刚："></a>拆解四大金刚：</h3><ol>
+<li><strong>$P(\theta)$ - 先验概率 (Prior)</strong>：<ul>
+<li>在看数据之前，我们“认为”参数 $\theta$ 是什么？</li>
+<li><em>例子</em>：我认为明天大概率（80%）会出太阳。</li>
+</ul>
+</li>
+<li><strong>$P(D|\theta)$ - 似然性 (Likelihood)</strong>：<ul>
+<li>假设参数是 $\theta$，我们观察到当前数据 $D$ 的可能性有多大？</li>
+<li><em>例子</em>：如果明天出太阳（$\theta$），气压计显示“高压”（$D$）的概率很高。</li>
+</ul>
+</li>
+<li><strong>$P(\theta|D)$ - 后验概率 (Posterior)</strong>：<ul>
+<li>在看到了数据 $D$ 之后，我们修正后的对 $\theta$ 的信念。</li>
+<li><em>例子</em>：看到气压计显示高压后，我现在认为明天出太阳的概率升到了 95%。</li>
+</ul>
+</li>
+<li><strong>$P(D)$ - 证据因子 (Evidence)</strong>：<ul>
+<li>用于归一化的常数，确保所有可能性的概率之和为 1。通常在比较模型时可以忽略。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="02-贝叶斯推断的本质：认知升级的闭环"><a href="#02-贝叶斯推断的本质：认知升级的闭环" class="headerlink" title="02. 贝叶斯推断的本质：认知升级的闭环"></a>02. 贝叶斯推断的本质：认知升级的闭环</h2><p>贝叶斯方法最迷人的地方在于它的<strong>迭代性</strong>。<br><strong>今天的“后验”，就是明天的“先验”。</strong></p>
+<ol>
+<li><strong>初始状态</strong>：你有一个初始的猜测（先验分布）。</li>
+<li><strong>获取数据</strong>：你做了一次实验，得到了数据。</li>
+<li><strong>贝叶斯更新</strong>：利用数据计算似然，算出后验分布。</li>
+<li><strong>循环</strong>：把这个后验分布当成下一次的先验，等待新数据。</li>
+</ol>
+<p>这就是人类学习的过程。我们并不是生来就知道一切，而是在一次次“试错”中，不断收窄那个概率分布，直到它逼近真相。</p>
+<hr>
+<h2 id="03-为什么它很难算？（MCMC-的登场）"><a href="#03-为什么它很难算？（MCMC-的登场）" class="headerlink" title="03. 为什么它很难算？（MCMC 的登场）"></a>03. 为什么它很难算？（MCMC 的登场）</h2><p>虽然公式简单，但在实际工程（如深度贝叶斯网络）中，分母 $P(D)$ 极其难算。<br>$$<br>P(D) &#x3D; \int P(D|\theta)P(\theta) d\theta<br>$$<br>这是一个高维积分。对于复杂的参数空间，解析解根本不存在。</p>
+<p>为了解决这个问题，物理学家和数学家引入了 <strong>MCMC (Markov Chain Monte Carlo)</strong> 方法，如 Metropolis-Hastings 算法或 NUTS（No-U-Turn Sampler）。</p>
+<p><strong>核心思想</strong>：<br>既然算不出精确分布的公式，那我就用计算机在参数空间里“瞎逛”（随机游走）。在后验概率高的地方多停留一会儿，低的地方少去。最后，统计这些<strong>采样点</strong>的分布，就能模拟出后验分布。</p>
+<blockquote>
+<p><em>注：这就是为什么贝叶斯方法在几十年前很冷门，直到近年来算力爆发才重新统治高端领域。</em></p>
+</blockquote>
+<hr>
+<h2 id="04-经典应用场景"><a href="#04-经典应用场景" class="headerlink" title="04. 经典应用场景"></a>04. 经典应用场景</h2><h3 id="1-朴素贝叶斯-Naive-Bayes-——-垃圾邮件分类"><a href="#1-朴素贝叶斯-Naive-Bayes-——-垃圾邮件分类" class="headerlink" title="1. 朴素贝叶斯 (Naive Bayes) —— 垃圾邮件分类"></a>1. 朴素贝叶斯 (Naive Bayes) —— 垃圾邮件分类</h3><p>这是最简单的应用。</p>
+<ul>
+<li><strong>任务</strong>：判断一封邮件是 Spam (S) 还是 Ham (H)。</li>
+<li><strong>数据</strong>：邮件里出现了单词 “Invoice”, “Win”, “Money”。</li>
+<li><strong>原理</strong>：<br>  $$P(S|\text{words}) \propto P(\text{words}|S) \cdot P(S)$$<br>  即：(这堆词在垃圾邮件里出现的概率) $\times$ (垃圾邮件的总占比)。<br>  尽管假设单词之间相互独立（所以叫“朴素”），但它快且有效。</li>
+</ul>
+<h3 id="2-卡尔曼滤波-Kalman-Filter-——-动态贝叶斯"><a href="#2-卡尔曼滤波-Kalman-Filter-——-动态贝叶斯" class="headerlink" title="2. 卡尔曼滤波 (Kalman Filter) —— 动态贝叶斯"></a>2. 卡尔曼滤波 (Kalman Filter) —— 动态贝叶斯</h3><p>这在工程、光电跟踪、导弹制导中是神一样的存在。</p>
+<ul>
+<li><strong>本质</strong>：卡尔曼滤波就是<strong>线性高斯系统下的贝叶斯更新</strong>。</li>
+<li><strong>过程</strong>：<ol>
+<li><strong>预测 (Prior)</strong>：根据上一秒的位置和速度，瞎猜下一秒在哪里。</li>
+<li><strong>测量 (Likelihood)</strong>：雷达&#x2F;传感器返回一个带噪声的观测值。</li>
+<li><strong>更新 (Posterior)</strong>：加权融合“预测”和“测量”，得到最优估计。</li>
+</ol>
+<ul>
+<li>卡尔曼增益 $K$ 本质上就是在权衡“你是信物理模型，还是信传感器”。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-贝叶斯优化-Bayesian-Optimization-——-调参神器"><a href="#3-贝叶斯优化-Bayesian-Optimization-——-调参神器" class="headerlink" title="3. 贝叶斯优化 (Bayesian Optimization) —— 调参神器"></a>3. 贝叶斯优化 (Bayesian Optimization) —— 调参神器</h3><p>在深度学习中，调节超参数（Learning rate, Batch size）非常耗时。Grid Search 是穷举，Random Search 是碰运气。<br><strong>贝叶斯优化</strong>则更加聪明：</p>
+<ul>
+<li>它维护一个代理模型（通常是高斯过程 Gaussian Process），记录了目前对函数形状的“理解”和“不确定性”。</li>
+<li><strong>Exploration vs Exploitation</strong>：它会选择那些“可能效果极好”或者“完全没探索过（不确定性大）”的参数点进行下一次尝试。</li>
+<li>结果：用最少的尝试次数，找到最优解。</li>
+</ul>
+<hr>
+<h2 id="05-总结：一种世界观"><a href="#05-总结：一种世界观" class="headerlink" title="05. 总结：一种世界观"></a>05. 总结：一种世界观</h2><p>贝叶斯模型不仅仅是一堆公式，它教给了我们一种<strong>谦卑且理性</strong>的世界观：</p>
+<ol>
+<li><strong>承认无知</strong>：我们对世界的认识永远是概率性的分布，而不是绝对的真理（Prior 永远存在）。</li>
+<li><strong>拥抱数据</strong>：只有通过数据（Likelihood），我们才能修正偏见。</li>
+<li><strong>动态进化</strong>：结论不是永恒的，随着证据的积累，我们的认知（Posterior）必须随之改变。</li>
+</ol>
+<p>下次当你看到一个新的数据与你的观念冲突时，不要急着拒绝，试着用贝叶斯公式算一下：<strong>你的后验概率，是不是该更新了？</strong></p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BB%9F%E8%AE%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#统计机器学习</a>
+      
+        <a href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%8E%A8%E6%96%AD/" class="print-no-link">#贝叶斯推断</a>
+      
+        <a href="/tags/MCMC/" class="print-no-link">#MCMC</a>
+      
+        <a href="/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/" class="print-no-link">#卡尔曼滤波</a>
+      
+        <a href="/tags/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/" class="print-no-link">#朴素贝叶斯</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>上帝掷骰子，而我修正骰子：贝叶斯模型 (Bayesian Model) 的直觉与硬核原理</div>
+      <div>https://sunfove.xyz/2026/01/09/2026-01-09-bayesian-model-principles/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 9, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/10/2026-01-09-probability-theory-basics/" title="上帝的骰子：概率论核心概念、分布与极限定理的直觉图解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">上帝的骰子：概率论核心概念、分布与极限定理的直觉图解</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/09/2026-01-09-history-of-nobel-physics/" title="众神闪耀：一部诺贝尔物理学奖定义的“宇宙认知进化史”">
+                        <span class="hidden-mobile">众神闪耀：一部诺贝尔物理学奖定义的“宇宙认知进化史”</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/09/2026-01-09-bayesian-model-principles/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

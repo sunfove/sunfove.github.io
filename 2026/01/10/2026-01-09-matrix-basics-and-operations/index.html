@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="矩阵不仅仅是排成方阵的数字，它是空间的“变换器”。本文从矩阵乘法的几何意义出发，详解行列式、逆矩阵、特征值等核心概念，并结合几何光学中的 ABCD 传输矩阵，带你重温线性代数的暴力美学。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线性代数的“时空折叠”术：矩阵 (Matrix) 基础、几何直觉与光学 ABCD 矩阵">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/10/2026-01-09-matrix-basics-and-operations/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="矩阵不仅仅是排成方阵的数字，它是空间的“变换器”。本文从矩阵乘法的几何意义出发，详解行列式、逆矩阵、特征值等核心概念，并结合几何光学中的 ABCD 传输矩阵，带你重温线性代数的暴力美学。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-10T23:05:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T15:14:16.810Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="ABCD矩阵">
+<meta property="article:tag" content="几何变换">
+<meta property="article:tag" content="数学基础">
+<meta property="article:tag" content="特征值">
+<meta property="article:tag" content="线性代数">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>线性代数的“时空折叠”术：矩阵 (Matrix) 基础、几何直觉与光学 ABCD 矩阵 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":"G-XZZH3NRLHT"},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-XZZH3NRLHT", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-XZZH3NRLHT');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">线性代数的“时空折叠”术：矩阵 (Matrix) 基础、几何直觉与光学 ABCD 矩阵</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-10 23:05" pubdate>
+          January 10, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">线性代数的“时空折叠”术：矩阵 (Matrix) 基础、几何直觉与光学 ABCD 矩阵</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在《黑客帝国》中，Matrix 是一个虚拟的数字世界。在数学中，Matrix（矩阵）同样构建了一个庞大的规则体系。</p>
+<p>对于光学工程师来说，光线在透镜组中的传播就是一系列矩阵的连乘（ABCD 矩阵）；对于量化交易员来说，资产组合的风险就是协方差矩阵；对于 AI 工程师来说，神经网络的本质就是巨量的矩阵乘法。</p>
+<p>今天，我们剥离掉枯燥的计算细节，着重理解矩阵的<strong>几何直觉</strong>和<strong>运算规则</strong>。</p>
+<hr>
+<h2 id="01-什么是矩阵？"><a href="#01-什么是矩阵？" class="headerlink" title="01. 什么是矩阵？"></a>01. 什么是矩阵？</h2><p><strong>定义</strong>：一个 $m \times n$ 的矩阵，就是由 $m$ 行 (Rows) 和 $n$ 列 (Columns) 组成的数表。</p>
+<p>$$<br>A &#x3D; \begin{bmatrix}<br>a_{11} &amp; a_{12} &amp; a_{13} \<br>a_{21} &amp; a_{22} &amp; a_{23}<br>\end{bmatrix}<br>$$</p>
+<h3 id="几何直觉：矩阵-变换"><a href="#几何直觉：矩阵-变换" class="headerlink" title="几何直觉：矩阵 &#x3D; 变换"></a>几何直觉：矩阵 &#x3D; 变换</h3><p>不要把矩阵看作静态的数据存储，要把它看作<strong>动词</strong>。</p>
+<ul>
+<li>一个 $2 \times 2$ 的矩阵，代表了二维平面上的一种<strong>线性变换</strong>（拉伸、旋转、剪切）。</li>
+<li>当我们计算 $A\mathbf{x} &#x3D; \mathbf{b}$ 时，实际上是把矩阵 $A$ 作用在向量 $\mathbf{x}$ 上，把它“变”成了 $\mathbf{b}$。</li>
+</ul>
+<hr>
+<h2 id="02-基础运算：加减与数乘"><a href="#02-基础运算：加减与数乘" class="headerlink" title="02. 基础运算：加减与数乘"></a>02. 基础运算：加减与数乘</h2><p>这部分最简单，符合直觉：</p>
+<ul>
+<li><strong>加减</strong>：对应位置相加减（维度必须相同）。</li>
+<li><strong>数乘</strong>：一个数 $k$ 乘以矩阵，等于矩阵里每个元素都乘以 $k$。</li>
+<li><strong>转置 (Transpose, $A^T$)</strong>：沿对角线翻转，行变列，列变行。</li>
+</ul>
+<hr>
+<h2 id="03-核心运算：矩阵乘法-Matrix-Multiplication"><a href="#03-核心运算：矩阵乘法-Matrix-Multiplication" class="headerlink" title="03. 核心运算：矩阵乘法 (Matrix Multiplication)"></a>03. 核心运算：矩阵乘法 (Matrix Multiplication)</h2><p>这是线性代数最反直觉、但也最重要的地方。</p>
+<p><strong>规则</strong>：<br>只有当 <strong>A 的列数 &#x3D; B 的行数</strong> 时，两者才能相乘。<br>$(m \times \mathbf{n}) \cdot (\mathbf{n} \times p) &#x3D; (m \times p)$</p>
+<p><strong>计算方法：行 $\cdot$ 列</strong><br>$C &#x3D; AB$，则 $C$ 中的第 $i$ 行第 $j$ 列的元素 $c_{ij}$，等于 <strong>$A$ 的第 $i$ 行向量</strong> 与 <strong>$B$ 的第 $j$ 列向量</strong> 的点积。</p>
+<h1 id="begin-bmatrix-1-2-3-4-end-bmatrix-begin-bmatrix-5-6-end-bmatrix"><a href="#begin-bmatrix-1-2-3-4-end-bmatrix-begin-bmatrix-5-6-end-bmatrix" class="headerlink" title="$$\begin{bmatrix}1 &amp; 2 \3 &amp; 4\end{bmatrix}\begin{bmatrix}5 \6\end{bmatrix}"></a>$$<br>\begin{bmatrix}<br>1 &amp; 2 \<br>3 &amp; 4<br>\end{bmatrix}<br>\begin{bmatrix}<br>5 \<br>6<br>\end{bmatrix}</h1><h1 id="begin-bmatrix-1-times5-2-times6-3-times5-4-times6-end-bmatrix"><a href="#begin-bmatrix-1-times5-2-times6-3-times5-4-times6-end-bmatrix" class="headerlink" title="\begin{bmatrix}1\times5 + 2\times6 \3\times5 + 4\times6\end{bmatrix}"></a>\begin{bmatrix}<br>1\times5 + 2\times6 \<br>3\times5 + 4\times6<br>\end{bmatrix}</h1><p>\begin{bmatrix}<br>17 \<br>39<br>\end{bmatrix}<br>$$</p>
+<h3 id="⚠️-致命警告：不满足交换律"><a href="#⚠️-致命警告：不满足交换律" class="headerlink" title="⚠️ 致命警告：不满足交换律"></a>⚠️ 致命警告：不满足交换律</h3><p>一般情况下，$AB \neq BA$。<br><strong>几何理解</strong>：先“旋转”再“剪切”，和先“剪切”再“旋转”，结果通常是不一样的。</p>
+<hr>
+<h2 id="04-关键指标：行列式与逆矩阵"><a href="#04-关键指标：行列式与逆矩阵" class="headerlink" title="04. 关键指标：行列式与逆矩阵"></a>04. 关键指标：行列式与逆矩阵</h2><h3 id="1-行列式-Determinant-det-A"><a href="#1-行列式-Determinant-det-A" class="headerlink" title="1. 行列式 (Determinant, $\det(A)$)"></a>1. 行列式 (Determinant, $\det(A)$)</h3><p>这只针对方阵（行数&#x3D;列数）。</p>
+<ul>
+<li><strong>几何意义</strong>：矩阵变换对空间体积的<strong>缩放比例</strong>。<ul>
+<li>$\det(A) &#x3D; 2$：变换后，图形面积&#x2F;体积变成了原来的 2 倍。</li>
+<li>$\det(A) &#x3D; 1$：保体积变换（如旋转）。</li>
+<li>$\det(A) &#x3D; 0$：<strong>降维打击</strong>。空间被压扁了（比如从二维压成了一条线）。此时矩阵<strong>不可逆</strong>（Singular）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-单位矩阵-I-与-逆矩阵-A-1"><a href="#2-单位矩阵-I-与-逆矩阵-A-1" class="headerlink" title="2. 单位矩阵 ($I$) 与 逆矩阵 ($A^{-1}$)"></a>2. 单位矩阵 ($I$) 与 逆矩阵 ($A^{-1}$)</h3><ul>
+<li><strong>单位矩阵 $I$</strong>：主对角线全是 1，其余是 0。它相当于数字中的 “1”。$AI &#x3D; IA &#x3D; A$。</li>
+<li><strong>逆矩阵 $A^{-1}$</strong>：相当于倒数。$A A^{-1} &#x3D; I$。<ul>
+<li><strong>几何意义</strong>：如果 $A$ 是把空间向右旋转 90 度，那么 $A^{-1}$ 就是把空间向左旋转 90 度（还原）。如果 $\det(A)&#x3D;0$（空间被压扁了），就无法还原了，所以没有逆矩阵。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="05-灵魂概念：特征值与特征向量"><a href="#05-灵魂概念：特征值与特征向量" class="headerlink" title="05. 灵魂概念：特征值与特征向量"></a>05. 灵魂概念：特征值与特征向量</h2><p>$$A \mathbf{v} &#x3D; \lambda \mathbf{v}$$</p>
+<p>当你把矩阵 $A$ 作用在向量 $\mathbf{v}$ 上时，通常 $\mathbf{v}$ 的方向和长度都会变。<br>但是！存在一些特殊的向量，它们在变换后<strong>方向不变</strong>，只是长度伸缩了 $\lambda$ 倍。</p>
+<ul>
+<li><strong>$\mathbf{v}$ (特征向量)</strong>：变换中的“定海神针”，指示了变换的主要方向（主轴）。</li>
+<li><strong>$\lambda$ (特征值)</strong>：在这个方向上拉伸&#x2F;压缩了多少倍。</li>
+</ul>
+<p><strong>应用</strong>：</p>
+<ul>
+<li><strong>PCA 降维</strong>：找特征值最大的方向（数据方差最大的方向）。</li>
+<li><strong>量子力学</strong>：算符的特征值就是可观测的物理量（如能量能级）。</li>
+</ul>
+<hr>
+<h2 id="06-光学中的必杀技：ABCD-矩阵"><a href="#06-光学中的必杀技：ABCD-矩阵" class="headerlink" title="06. 光学中的必杀技：ABCD 矩阵"></a>06. 光学中的必杀技：ABCD 矩阵</h2><p>作为光学工程师，这是你最需要掌握的矩阵应用。<br><strong>光线传输矩阵 (Ray Transfer Matrix)</strong> 用于计算光线在近轴光学系统中的传播。</p>
+<p>定义光线向量 $\begin{bmatrix} y \ \theta \end{bmatrix}$，其中 $y$ 是高度，$\theta$ 是角度。</p>
+<h1 id="begin-bmatrix-y-2-theta-2-end-bmatrix"><a href="#begin-bmatrix-y-2-theta-2-end-bmatrix" class="headerlink" title="$$\begin{bmatrix}y_2 \\theta_2\end{bmatrix}"></a>$$<br>\begin{bmatrix}<br>y_2 \<br>\theta_2<br>\end{bmatrix}</h1><p>\begin{bmatrix}<br>A &amp; B \<br>C &amp; D<br>\end{bmatrix}<br>\begin{bmatrix}<br>y_1 \<br>\theta_1<br>\end{bmatrix}<br>$$</p>
+<h3 id="常见元件矩阵："><a href="#常见元件矩阵：" class="headerlink" title="常见元件矩阵："></a>常见元件矩阵：</h3><ol>
+<li><p><strong>自由空间传播 (距离 $d$)</strong>：<br>$$<br>M_{space} &#x3D; \begin{bmatrix}<br>1 &amp; d \<br>0 &amp; 1<br>\end{bmatrix}<br>$$<br><em>(高度随角度漂移 $y_2 &#x3D; y_1 + d\theta_1$，角度不变)</em></p>
+</li>
+<li><p><strong>薄透镜 (焦距 $f$)</strong>：<br>$$<br>M_{lens} &#x3D; \begin{bmatrix}<br>1 &amp; 0 \<br>-1&#x2F;f &amp; 1<br>\end{bmatrix}<br>$$<br><em>(高度不变，角度改变 $\theta_2 &#x3D; \theta_1 - y_1&#x2F;f$)</em></p>
+</li>
+</ol>
+<p><strong>威力</strong>：<br>如果你有一组复杂的透镜系统（透镜1 + 间隙 + 透镜2 + …），你只需要把它们的矩阵<strong>乘起来</strong>（注意顺序：$M_{total} &#x3D; M_n \dots M_2 M_1$），就能得到一个总的 $ABCD$ 矩阵，瞬间计算出任意入射光线的出射状态。</p>
+<hr>
+<h2 id="07-总结"><a href="#07-总结" class="headerlink" title="07. 总结"></a>07. 总结</h2><ul>
+<li><strong>矩阵</strong>是空间的变换器。</li>
+<li><strong>乘法</strong>通常不满足交换律（操作顺序很重要）。</li>
+<li><strong>行列式</strong>告诉我们变换是否压缩了空间。</li>
+<li><strong>特征值</strong>告诉我们变换的主轴在哪里。</li>
+<li><strong>ABCD 矩阵</strong>将复杂的光路追迹简化为了简单的 $2\times2$ 乘法。</li>
+</ul>
+<p>掌握了矩阵，你就掌握了描述物理世界最通用的线性语言。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/" class="print-no-link">#数学基础</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="print-no-link">#线性代数</a>
+      
+        <a href="/tags/ABCD%E7%9F%A9%E9%98%B5/" class="print-no-link">#ABCD矩阵</a>
+      
+        <a href="/tags/%E7%89%B9%E5%BE%81%E5%80%BC/" class="print-no-link">#特征值</a>
+      
+        <a href="/tags/%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2/" class="print-no-link">#几何变换</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>线性代数的“时空折叠”术：矩阵 (Matrix) 基础、几何直觉与光学 ABCD 矩阵</div>
+      <div>https://sunfove.xyz/2026/01/10/2026-01-09-matrix-basics-and-operations/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 10, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/10/2026-01-09-probability-theory-basics/" title="上帝的骰子：概率论核心概念、分布与极限定理的直觉图解">
+                        <span class="hidden-mobile">上帝的骰子：概率论核心概念、分布与极限定理的直觉图解</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/10/2026-01-09-matrix-basics-and-operations/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

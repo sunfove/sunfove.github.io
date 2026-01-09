@@ -1,0 +1,881 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么激光不是理想的平面波？本文从亥姆霍兹方程出发，引入“缓变包络近似 (SVEA)”，手推高斯光束的数学解，并深度解析束腰、瑞利长度、远场发散角等关键工程指标。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="激光物理笔记：从波动方程到高斯光束 (Gaussian Beam) 的完整推导与核心指标">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/09/2026-01-09-gaussian-beam-derivation/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="为什么激光不是理想的平面波？本文从亥姆霍兹方程出发，引入“缓变包络近似 (SVEA)”，手推高斯光束的数学解，并深度解析束腰、瑞利长度、远场发散角等关键工程指标。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260109_083902.png">
+<meta property="article:published_time" content="2026-01-09T14:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-09T15:14:16.809Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="傍轴近似">
+<meta property="article:tag" content="光学设计">
+<meta property="article:tag" content="波动方程">
+<meta property="article:tag" content="激光物理">
+<meta property="article:tag" content="高斯光束">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260109_083902.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>激光物理笔记：从波动方程到高斯光束 (Gaussian Beam) 的完整推导与核心指标 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":"G-XZZH3NRLHT"},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-XZZH3NRLHT", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-XZZH3NRLHT');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">激光物理笔记：从波动方程到高斯光束 (Gaussian Beam) 的完整推导与核心指标</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-09 14:00" pubdate>
+          January 9, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">激光物理笔记：从波动方程到高斯光束 (Gaussian Beam) 的完整推导与核心指标</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在几何光学中，我们习惯把光看作一条条直线（光线）。但在激光领域，光不再是直线，也不是理想的平面波，而是一种能量集中在轴心、沿横向呈高斯分布的<strong>高斯光束 (Gaussian Beam)</strong>。</p>
+<p>它是激光器谐振腔输出的最基本模式 (TEM00)。要理解激光的聚焦、准直和传播特性，必须从它的数学本源——<strong>傍轴波动方程</strong>说起。</p>
+<hr>
+<h2 id="01-物理起点：亥姆霍兹方程"><a href="#01-物理起点：亥姆霍兹方程" class="headerlink" title="01. 物理起点：亥姆霍兹方程"></a>01. 物理起点：亥姆霍兹方程</h2><p>回顾上一篇，单色光在真空中满足标量亥姆霍兹方程 (Helmholtz Equation)：<br>$$<br>\nabla^2 E + k^2 E &#x3D; 0<br>$$<br>其中 $k &#x3D; 2\pi&#x2F;\lambda$ 是波数。</p>
+<h3 id="设解-Ansatz"><a href="#设解-Ansatz" class="headerlink" title="设解 (Ansatz)"></a>设解 (Ansatz)</h3><p>我们假设光束沿 $z$ 轴传播。如果是理想平面波，解是 $e^{-ikz}$。<br>但激光束在横截面 $(x, y)$ 上有强度分布，且随着传播距离 $z$ 会发生衍射（变宽）。<br>因此，我们假设解的形式为：<br>$$<br>E(x, y, z) &#x3D; \psi(x, y, z) \cdot e^{-ikz}<br>$$</p>
+<ul>
+<li>$\psi(x, y, z)$ 是一个<strong>复振幅包络 (Complex Envelope)</strong>，它包含了光束的横向分布和纵向的缓慢变化。</li>
+<li>$e^{-ikz}$ 是快速震荡的载波项。</li>
+</ul>
+<hr>
+<h2 id="02-核心近似：缓变包络-SVEA"><a href="#02-核心近似：缓变包络-SVEA" class="headerlink" title="02. 核心近似：缓变包络 (SVEA)"></a>02. 核心近似：缓变包络 (SVEA)</h2><p>将上述设解代入亥姆霍兹方程。<br>首先算 $\nabla^2 E$。<br>对 $z$ 求导时，根据乘积法则：<br>$$<br>\frac{\partial E}{\partial z} &#x3D; \left( \frac{\partial \psi}{\partial z} - ik\psi \right) e^{-ikz}<br>$$<br>$$<br>\frac{\partial^2 E}{\partial z^2} &#x3D; \left( \frac{\partial^2 \psi}{\partial z^2} - 2ik\frac{\partial \psi}{\partial z} - k^2\psi \right) e^{-ikz}<br>$$</p>
+<p>将 $\nabla^2 &#x3D; \nabla_T^2 + \partial^2&#x2F;\partial z^2$ （其中 $\nabla_T^2 &#x3D; \partial^2&#x2F;\partial x^2 + \partial^2&#x2F;\partial y^2$）代回原方程，消去 $e^{-ikz}$ 和 $-k^2\psi$ 项，得到：<br>$$<br>\nabla_T^2 \psi - 2ik \frac{\partial \psi}{\partial z} + \frac{\partial^2 \psi}{\partial z^2} &#x3D; 0<br>$$</p>
+<h3 id="引入傍轴近似-Paraxial-Approximation"><a href="#引入傍轴近似-Paraxial-Approximation" class="headerlink" title="引入傍轴近似 (Paraxial Approximation)"></a>引入傍轴近似 (Paraxial Approximation)</h3><p>这是推导中最关键的一步。<br>激光束的特点是：<strong>它很直，发散很慢</strong>。这意味着包络 $\psi$ 随 $z$ 的变化（衍射效应）远慢于光波的震荡（波长尺度）。<br>数学上，这被称为<strong>缓变包络近似 (Slowly Varying Envelope Approximation, SVEA)</strong>：<br>$$<br>\left| \frac{\partial^2 \psi}{\partial z^2} \right| \ll \left| 2k \frac{\partial \psi}{\partial z} \right|<br>$$<br>于是，二阶导数项 $\frac{\partial^2 \psi}{\partial z^2}$ 被忽略。我们得到了<strong>傍轴波动方程</strong>：</p>
+<p>$$<br>\nabla_T^2 \psi - 2ik \frac{\partial \psi}{\partial z} &#x3D; 0<br>$$</p>
+<p>这个方程在数学上类似于薛定谔方程或热传导方程。</p>
+<hr>
+<h2 id="03-高斯解的诞生"><a href="#03-高斯解的诞生" class="headerlink" title="03. 高斯解的诞生"></a>03. 高斯解的诞生</h2><p>如果不去深究偏微分方程的分离变量解法，我们直接给出上述方程的一个基模解（TEM00）：</p>
+<p>$$<br>E(r, z) &#x3D; E_0 \frac{w_0}{w(z)} \exp\left( \frac{-r^2}{w^2(z)} \right) \exp\left( -ikz - ik\frac{r^2}{2R(z)} + i\zeta(z) \right)<br>$$</p>
+<p>这个看着很吓人的公式，其实可以拆解为三部分：</p>
+<ol>
+<li><strong>振幅项</strong> $\frac{w_0}{w(z)} \exp(\frac{-r^2}{w^2(z)})$：描述光斑随距离变大，中心强度变弱，横向呈高斯分布。</li>
+<li><strong>相位弯曲项</strong> $\exp(-ik\frac{r^2}{2R(z)})$：描述波前不是平面的，而是弯曲的球面波。</li>
+<li><strong>古伊相移项</strong> $\exp(i\zeta(z))$：描述高斯光束特有的相位超前。</li>
+</ol>
+<hr>
+<h2 id="04-工程师必须掌握的关键指标"><a href="#04-工程师必须掌握的关键指标" class="headerlink" title="04. 工程师必须掌握的关键指标"></a>04. 工程师必须掌握的关键指标</h2><p>做激光加工、光路耦合或 Zemax 模拟，你真正需要熟记的是下面这些参数：</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260109_083902.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="1-束腰半径-Beam-Waist-w-0"><a href="#1-束腰半径-Beam-Waist-w-0" class="headerlink" title="1. 束腰半径 (Beam Waist, $w_0$)"></a>1. 束腰半径 (Beam Waist, $w_0$)</h3><p>这是光束汇聚得最细的地方（$z&#x3D;0$ 处）。</p>
+<ul>
+<li><strong>物理意义</strong>：光束的“喉咙”。</li>
+<li><strong>能量定义</strong>：在 $r&#x3D;w_0$ 处，光强下降到中心峰值的 $1&#x2F;e^2$ (约 13.5%)。</li>
+</ul>
+<h3 id="2-瑞利长度-Rayleigh-Range-z-R"><a href="#2-瑞利长度-Rayleigh-Range-z-R" class="headerlink" title="2. 瑞利长度 (Rayleigh Range, $z_R$)"></a>2. 瑞利长度 (Rayleigh Range, $z_R$)</h3><p>$$<br>z_R &#x3D; \frac{\pi w_0^2}{\lambda}<br>$$</p>
+<ul>
+<li><strong>物理意义</strong>：光束保持“准直”的距离。</li>
+<li>在 $z &#x3D; z_R$ 处，光斑面积变为束腰处的 2 倍，光斑半径变为 $\sqrt{2}w_0$。</li>
+<li><strong>应用</strong>：在激光切割中，$2z_R$ 就是有效的景深（DOF）。$w_0$ 越小（聚得越细），$z_R$ 就越短（景深越浅），这是一个物理权衡。</li>
+</ul>
+<h3 id="3-光斑随距离的变化-w-z"><a href="#3-光斑随距离的变化-w-z" class="headerlink" title="3. 光斑随距离的变化 $w(z)$"></a>3. 光斑随距离的变化 $w(z)$</h3><p>$$<br>w(z) &#x3D; w_0 \sqrt{1 + \left( \frac{z}{z_R} \right)^2}<br>$$</p>
+<ul>
+<li>这是一个<strong>双曲线</strong>方程。</li>
+<li>近场 ($z \ll z_R$)：光束几乎是平行的。</li>
+<li>远场 ($z \gg z_R$)：光束呈线性发散。</li>
+</ul>
+<h3 id="4-远场发散角-Divergence-Angle-theta"><a href="#4-远场发散角-Divergence-Angle-theta" class="headerlink" title="4. 远场发散角 (Divergence Angle, $\theta$)"></a>4. 远场发散角 (Divergence Angle, $\theta$)</h3><p>当 $z \to \infty$ 时，双曲线的渐近线夹角：<br>$$<br>\theta \approx \frac{\lambda}{\pi w_0}<br>$$</p>
+<ul>
+<li><strong>核心结论</strong>：<strong>束腰越细，发散角越大！</strong></li>
+<li>你不可能同时拥有极细的焦点和极远的发散距离（这受制于海森堡测不准原理在光学中的体现）。要让激光传得远（$\theta$ 小），发射处的束腰 $w_0$ 必须做得很大（扩束器原理）。</li>
+</ul>
+<h3 id="5-波前曲率半径-R-z"><a href="#5-波前曲率半径-R-z" class="headerlink" title="5. 波前曲率半径 $R(z)$"></a>5. 波前曲率半径 $R(z)$</h3><p>$$<br>R(z) &#x3D; z \left[ 1 + \left( \frac{z_R}{z} \right)^2 \right]<br>$$</p>
+<ul>
+<li>在束腰处 ($z&#x3D;0$)，$R \to \infty$，是<strong>平面波</strong>。</li>
+<li>在远场 ($z \to \infty$)，$R \approx z$，是<strong>球面波</strong>。</li>
+<li>这解释了为什么激光在焦点附近可以看作平面波，而传远了就变成了点光源发出的球面波。</li>
+</ul>
+<hr>
+<h2 id="05-现实与理想：-M-2-因子"><a href="#05-现实与理想：-M-2-因子" class="headerlink" title="05. 现实与理想：$M^2$ 因子"></a>05. 现实与理想：$M^2$ 因子</h2><p>上述公式描述的是理想的高斯光束。但现实中的激光器输出总是不完美的。<br>我们引入 <strong>$M^2$ 因子 (Beam Quality Factor)</strong>：<br>$$<br>\theta_{real} &#x3D; M^2 \frac{\lambda}{\pi w_{0,real}}<br>$$</p>
+<ul>
+<li><strong>理想高斯光束</strong>：$M^2 &#x3D; 1$。</li>
+<li><strong>实际激光束</strong>：$M^2 &gt; 1$。</li>
+<li>$M^2$ 越大，光束质量越差，聚焦后的光斑越大，能量密度越低。</li>
+</ul>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>高斯光束是波动方程在傍轴近似下的完美数学解。作为光学工程师，当你拿起透镜聚焦激光时，脑海里应该浮现出那条优雅的双曲线：</p>
+<ol>
+<li><strong>$w_0$ 决定了你能刻多细的线。</strong></li>
+<li><strong>$z_R$ 决定了你能切多厚的板。</strong></li>
+<li><strong>$\theta$ 决定了你能照多远的距离。</strong></li>
+</ol>
+<p>它们通过波长 $\lambda$ 紧紧耦合在一起，无法打破，只能权衡。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%89%A9%E7%90%86%E7%A1%AC%E6%A0%B8/" class="category-chain-item">物理硬核</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6%E8%AE%BE%E8%AE%A1/" class="print-no-link">#光学设计</a>
+      
+        <a href="/tags/%E6%B3%A2%E5%8A%A8%E6%96%B9%E7%A8%8B/" class="print-no-link">#波动方程</a>
+      
+        <a href="/tags/%E6%BF%80%E5%85%89%E7%89%A9%E7%90%86/" class="print-no-link">#激光物理</a>
+      
+        <a href="/tags/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/" class="print-no-link">#高斯光束</a>
+      
+        <a href="/tags/%E5%82%8D%E8%BD%B4%E8%BF%91%E4%BC%BC/" class="print-no-link">#傍轴近似</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>激光物理笔记：从波动方程到高斯光束 (Gaussian Beam) 的完整推导与核心指标</div>
+      <div>https://sunfove.xyz/2026/01/09/2026-01-09-gaussian-beam-derivation/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 9, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/09/2026-01-09-laser-principles-and-applications/" title="20世纪最亮的光：激光 (LASER) 的量子原理、核心架构与现代应用全景解析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">20世纪最亮的光：激光 (LASER) 的量子原理、核心架构与现代应用全景解析</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/08/2026-01-08-laplacian-and-maxwell/" title="数理物理方法笔记：微分算子与拉普拉斯算子 (∇²) 的运算机制解析">
+                        <span class="hidden-mobile">数理物理方法笔记：微分算子与拉普拉斯算子 (∇²) 的运算机制解析</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/09/2026-01-09-gaussian-beam-derivation/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
