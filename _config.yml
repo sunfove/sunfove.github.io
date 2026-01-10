@@ -122,3 +122,11 @@ sitemap:
 # 百度专用 Sitemap
 baidusitemap:
   path: baidusitemap.xml
+
+
+# 腾讯云CDN自动刷新配置
+tencentcdn:
+  secretId: ''      # 这里必须留空，或者是环境变量引用
+  secretKey: ''     # 这里必须留空
+  type: 1
+  timer: 2000
