@@ -39,7 +39,7 @@
   
   
   <entry>
-    <title>麦克斯韦方程组 (Maxwell&#39;s Equations) 的完整物理推导</title>
+    <title>麦克斯韦方程组 (Maxwell&#39;s Equations) 的完整推导</title>
     <link href="/2026/01/11/2026-01-10-derivation-of-maxwell-equation/"/>
     <url>/2026/01/11/2026-01-10-derivation-of-maxwell-equation/</url>
     
@@ -61,9 +61,9 @@
       
       <tag>麦克斯韦方程</tag>
       
-      <tag>位移电流</tag>
-      
       <tag>物理史</tag>
+      
+      <tag>位移电流</tag>
       
     </tags>
     
@@ -154,9 +154,9 @@
     
     <tags>
       
-      <tag>傅里叶变换</tag>
-      
       <tag>数学基础</tag>
+      
+      <tag>傅里叶变换</tag>
       
       <tag>泛函分析</tag>
       
