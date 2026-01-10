@@ -1,0 +1,883 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么说我们的耳朵是天然的傅里叶变换器？为什么单缝衍射的光斑是 Sinc 函数？本文从欧拉公式出发，揭示傅里叶变换如何将时空信号拆解为频率的乐章，并探讨其在光学与量子力学中的深层对应。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="穿越时空的棱镜：一维傅里叶变换 (1D-FT) 的数学本质与物理哲学">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/10/2026-01-10-fourier-transform-1d-principle/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="为什么说我们的耳朵是天然的傅里叶变换器？为什么单缝衍射的光斑是 Sinc 函数？本文从欧拉公式出发，揭示傅里叶变换如何将时空信号拆解为频率的乐章，并探讨其在光学与量子力学中的深层对应。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-10T21:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-10T14:07:15.134Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="信号处理">
+<meta property="article:tag" content="傅里叶变换">
+<meta property="article:tag" content="数学物理方法">
+<meta property="article:tag" content="波动光学">
+<meta property="article:tag" content="频域分析">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>穿越时空的棱镜：一维傅里叶变换 (1D-FT) 的数学本质与物理哲学 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":"G-XZZH3NRLHT"},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-XZZH3NRLHT", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-XZZH3NRLHT');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">穿越时空的棱镜：一维傅里叶变换 (1D-FT) 的数学本质与物理哲学</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-10 21:00" pubdate>
+          January 10, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">穿越时空的棱镜：一维傅里叶变换 (1D-FT) 的数学本质与物理哲学</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>如果说牛顿把世界看作是<strong>颗粒</strong>的（F&#x3D;ma），那么傅里叶（Joseph Fourier）则把世界看作是<strong>波动</strong>的。</p>
+<p>在他的眼里，无论多么复杂的曲线、多么混乱的噪声、多么离奇的信号，本质上都是由无数个简单、纯净的正弦波叠加而成的。</p>
+<p><strong>傅里叶变换 (Fourier Transform, FT)</strong>，就是那个将混沌的时空信号，拆解为井然有序的频率谱线的“数学棱镜”。对于光学工程师而言，它更是连接“光瞳面”与“焦平面”的神奇通道。</p>
+<hr>
+<h2 id="01-直觉：从时域到频域的跃迁"><a href="#01-直觉：从时域到频域的跃迁" class="headerlink" title="01. 直觉：从时域到频域的跃迁"></a>01. 直觉：从时域到频域的跃迁</h2><p>想象你在听一段交响乐。</p>
+<ul>
+<li><strong>时域 (Time Domain)</strong>：你看到的是示波器上那根疯狂跳动的电压曲线。它是所有乐器声音的混合，你很难从中直接看出此时钢琴弹了哪个键。</li>
+<li><strong>频域 (Frequency Domain)</strong>：这是你耳朵做的事情。你听到了“一个低音 C，加上一个高音 E”。你的大脑自动把混合的声波拆解成了不同的<strong>音调（频率）</strong>。</li>
+</ul>
+<p><strong>傅里叶变换的核心任务</strong>：<br>将一个关于<strong>时间</strong>（或空间）的函数 $f(t)$，映射为一个关于<strong>频率</strong>的函数 $F(\omega)$。</p>
+<p>[Image of time domain vs frequency domain signal]</p>
+<hr>
+<h2 id="02-数学心脏：欧拉公式与正交性"><a href="#02-数学心脏：欧拉公式与正交性" class="headerlink" title="02. 数学心脏：欧拉公式与正交性"></a>02. 数学心脏：欧拉公式与正交性</h2><p>傅里叶变换的定义式虽然看着吓人，但其实只有两部分：</p>
+<p>$$<br>F(\omega) &#x3D; \int_{-\infty}^{\infty} f(t) e^{-i\omega t} dt<br>$$</p>
+<p>我们要拆解这个公式的灵魂：</p>
+<h3 id="1-缠绕机器：-e-i-omega-t"><a href="#1-缠绕机器：-e-i-omega-t" class="headerlink" title="1. 缠绕机器：$e^{-i\omega t}$"></a>1. 缠绕机器：$e^{-i\omega t}$</h3><p>根据欧拉公式 $e^{-ix} &#x3D; \cos x - i\sin x$，复指数代表了一个在复平面单位圆上<strong>匀速旋转的向量</strong>。<br>乘以 $e^{-i\omega t}$，相当于把你的信号 $f(t)$ 缠绕在这个旋转的圆柱上。</p>
+<h3 id="2-重心检测：积分-int"><a href="#2-重心检测：积分-int" class="headerlink" title="2. 重心检测：积分 $\int$"></a>2. 重心检测：积分 $\int$</h3><p>积分的本质是求和（求平均）。</p>
+<ul>
+<li>如果你选的旋转频率 $\omega$ 恰好等于信号里的某个频率，信号就会在圆的某一边“堆积”，导致重心偏离原点，积分值巨大。</li>
+<li>如果你选的频率 $\omega$ 与信号无关，信号就会均匀地乱绕在圆上，正负抵消，重心在原点，积分值为 0。</li>
+</ul>
+<h3 id="3-正交性-Orthogonality"><a href="#3-正交性-Orthogonality" class="headerlink" title="3. 正交性 (Orthogonality)"></a>3. 正交性 (Orthogonality)</h3><p>这才是最硬核的解释：<strong>傅里叶变换本质上是向量的点积。</strong><br>我们在问：<strong>“原始信号 $f(t)$ 和频率为 $\omega$ 的正弦波有多像？”</strong></p>
+<ul>
+<li>这就像在三维空间中，我们把向量 $\vec{v}$ 投影到 X 轴、Y 轴、Z 轴上一样。</li>
+<li>在这里，无数个不同频率的 $e^{i\omega t}$ 就是<strong>函数空间里的坐标轴（基底）</strong>。</li>
+</ul>
+<hr>
+<h2 id="03-物理应用：从光学到不确定性原理"><a href="#03-物理应用：从光学到不确定性原理" class="headerlink" title="03. 物理应用：从光学到不确定性原理"></a>03. 物理应用：从光学到不确定性原理</h2><p>理解了数学，我们来看它是如何统治物理世界的。</p>
+<h3 id="1-光学：夫琅禾费衍射-Fraunhofer-Diffraction"><a href="#1-光学：夫琅禾费衍射-Fraunhofer-Diffraction" class="headerlink" title="1. 光学：夫琅禾费衍射 (Fraunhofer Diffraction)"></a>1. 光学：夫琅禾费衍射 (Fraunhofer Diffraction)</h3><p>这是光学工程师最浪漫的公式。<br><strong>远场衍射图样，就是孔径函数的二维傅里叶变换。</strong></p>
+<ul>
+<li><p><strong>单缝衍射</strong>：</p>
+<ul>
+<li>孔径是一个<strong>矩形函数 (Rect Function)</strong>（宽为 $a$）。</li>
+<li>它的傅里叶变换是什么？是 <strong>Sinc 函数</strong> ($\frac{\sin x}{x}$)。</li>
+<li>所以，光穿过单缝后，屏幕上会出现明暗相间的条纹，中心最亮，两边衰减。</li>
+</ul>
+</li>
+<li><p><strong>圆形光阑</strong>：</p>
+<ul>
+<li>孔径是圆柱函数。</li>
+<li>傅里叶变换是 <strong>艾里斑 (Airy Disk)</strong>（贝塞尔形式）。</li>
+<li>这就是为什么望远镜和显微镜有分辨率极限——你永远无法把光聚焦成无限小的点，因为它总是带着傅里叶变换的“尾巴”。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-信号处理：滤波-Filtering"><a href="#2-信号处理：滤波-Filtering" class="headerlink" title="2. 信号处理：滤波 (Filtering)"></a>2. 信号处理：滤波 (Filtering)</h3><p>为什么你在电话里听到的声音和真人不同？因为通信系统切掉了高频。</p>
+<ul>
+<li><strong>低通滤波器</strong>：在频域把高频部分（$F(\omega)$ 在 $\omega$ 很大时）强制归零，再做<strong>逆傅里叶变换</strong>回到时域。</li>
+<li>结果：噪点（高频抖动）消失了，边缘也变模糊了。</li>
+</ul>
+<h3 id="3-量子力学：海森堡不确定性原理"><a href="#3-量子力学：海森堡不确定性原理" class="headerlink" title="3. 量子力学：海森堡不确定性原理"></a>3. 量子力学：海森堡不确定性原理</h3><p>这其实是一个纯数学结论。</p>
+<ul>
+<li><strong>短脉冲</strong>：时域上 $f(t)$ 很窄（位置确定）。</li>
+<li><strong>宽频谱</strong>：频域上 $F(\omega)$ 就会很宽（动量不确定）。</li>
+<li><strong>长波</strong>：时域上 $f(t)$ 延绵不绝（位置不确定）。</li>
+<li><strong>窄频谱</strong>：频域上 $F(\omega)$ 是一根针（动量非常确定）。</li>
+</ul>
+<p>你无法同时让一个函数在时域和频域都变得无限窄。这就是 $\Delta x \Delta p \ge \frac{\hbar}{2}$ 的数学根源。</p>
+<hr>
+<h2 id="04-改变世界的算法：FFT"><a href="#04-改变世界的算法：FFT" class="headerlink" title="04. 改变世界的算法：FFT"></a>04. 改变世界的算法：FFT</h2><p>如果按照定义式硬算，离散傅里叶变换 (DFT) 的计算复杂度是 $O(N^2)$。当数据量 $N$ 很大时，计算机也跑不动。</p>
+<p>1965 年，库利 (Cooley) 和图基 (Tukey) 重新发现了<strong>快速傅里叶变换 (FFT)</strong>。<br>它利用了 $e^{-i\omega t}$ 的周期性和对称性，采用“分治法”，将复杂度降到了 $O(N \log N)$。</p>
+<ul>
+<li>对于 100 万个数据点：<ul>
+<li>DFT 需要 $10^{12}$ 次运算。</li>
+<li>FFT 只需要 $10^7$ 次运算。</li>
+<li><strong>快了 10 万倍！</strong></li>
+</ul>
+</li>
+</ul>
+<p>没有 FFT，就没有现代的 4G&#x2F;5G 通信、MP3 压缩、JPEG 图片，也没有实时的雷达信号处理。</p>
+<hr>
+<h2 id="05-结语"><a href="#05-结语" class="headerlink" title="05. 结语"></a>05. 结语</h2><p>傅里叶变换告诉我们，<strong>世界是叠加的</strong>。</p>
+<p>看似杂乱无章的股市曲线，可能只是几个简单的经济周期的叠加；看似平淡无奇的一束白光，其实包含了彩虹的所有颜色。</p>
+<p>当我们学会用“频率”的眼睛看世界，我们就不再被表象的混乱所迷惑，而是看到了底层那个永恒振荡的和谐宇宙。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E7%89%A9%E7%90%86%E6%96%B9%E6%B3%95/" class="print-no-link">#数学物理方法</a>
+      
+        <a href="/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/" class="print-no-link">#傅里叶变换</a>
+      
+        <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="print-no-link">#信号处理</a>
+      
+        <a href="/tags/%E6%B3%A2%E5%8A%A8%E5%85%89%E5%AD%A6/" class="print-no-link">#波动光学</a>
+      
+        <a href="/tags/%E9%A2%91%E5%9F%9F%E5%88%86%E6%9E%90/" class="print-no-link">#频域分析</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>穿越时空的棱镜：一维傅里叶变换 (1D-FT) 的数学本质与物理哲学</div>
+      <div>https://sunfove.xyz/2026/01/10/2026-01-10-fourier-transform-1d-principle/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 10, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/10/2026-01-10-mathematical-fourier-transform/" title="上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/10/2026-01-10-wss-principles-and-lcos/" title="光网络的交通枢纽：波长选择开关 (WSS) 的 LCOS 与 MEMS 技术硬核解析">
+                        <span class="hidden-mobile">光网络的交通枢纽：波长选择开关 (WSS) 的 LCOS 与 MEMS 技术硬核解析</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/10/2026-01-10-fourier-transform-1d-principle/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

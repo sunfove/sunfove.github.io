@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在全光网络中，如何不经过“光-电-光”转换就直接改变光路？本文详解机械式、MEMS、热光及电光开关四大流派，揭秘光子是如何被毫秒级甚至纳秒级地“变轨”的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光网络的立交桥：光开关 (Optical Switch) 原理与主流技术解析">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/11/2026-01-10-optical-switch-principles/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="在全光网络中，如何不经过“光-电-光”转换就直接改变光路？本文详解机械式、MEMS、热光及电光开关四大流派，揭秘光子是如何被毫秒级甚至纳秒级地“变轨”的。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-11T14:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-10T14:07:15.135Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="MEMS">
+<meta property="article:tag" content="ROADM">
+<meta property="article:tag" content="光开关">
+<meta property="article:tag" content="光通信">
+<meta property="article:tag" content="硅光子">
+<meta property="article:tag" content="马赫-曾德干涉仪">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>光网络的立交桥：光开关 (Optical Switch) 原理与主流技术解析 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":"G-XZZH3NRLHT"},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-XZZH3NRLHT", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-XZZH3NRLHT');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光网络的立交桥：光开关 (Optical Switch) 原理与主流技术解析</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-11 14:00" pubdate>
+          January 11, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光网络的立交桥：光开关 (Optical Switch) 原理与主流技术解析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在传统的通信网络中，如果要改变信号的路径（交换），通常需要先把光信号变成电信号，用电子芯片进行路由处理，再变回光信号发出去。这就是所谓的 <strong>O-E-O (Optical-Electrical-Optical)</strong> 转换。</p>
+<p>但在高速率（如 400G&#x2F;800G&#x2F;1.6T）时代，这种转换成为了巨大的瓶颈：<strong>功耗太高，时延太大</strong>。</p>
+<p>于是，工程师们梦想一种<strong>全光交换 (All-Optical Switching)</strong>：直接在光域改变光子的飞行路径，就像火车变轨一样。实现这一功能的器件，就是<strong>光开关 (Optical Switch)</strong>。</p>
+<p>它是光分插复用器 (ROADM) 的核心心脏，也是未来超大规模 AI 算力集群网络 (OCS) 的关键技术。</p>
+<hr>
+<h2 id="01-核心指标：好开关的标准"><a href="#01-核心指标：好开关的标准" class="headerlink" title="01. 核心指标：好开关的标准"></a>01. 核心指标：好开关的标准</h2><p>在深入原理之前，我们先定义一下衡量光开关性能的“标尺”：</p>
+<ol>
+<li><strong>插入损耗 (Insertion Loss, IL)</strong>：<br>光经过开关后能量损失了多少。单位 dB。损耗越低越好（通常要求 &lt; 1dB）。</li>
+<li><strong>开关速度 (Switching Speed)</strong>：<br>从路径 A 切换到路径 B 需要多长时间。<ul>
+<li>保护倒换通常要求 $&lt; 50ms$。</li>
+<li>数据包交换要求 $&lt; ns$ 级。</li>
+</ul>
+</li>
+<li><strong>串扰 (Crosstalk)</strong>：<br>本来该去端口 1 的光，有多少漏到了端口 2。绝对值越大越好（如 -50dB）。</li>
+<li><strong>消光比 (Extinction Ratio)</strong>：<br>“开”和“关”状态下的光强对比。</li>
+</ol>
+<hr>
+<h2 id="02-技术流派一：机械光开关-Mechanical"><a href="#02-技术流派一：机械光开关-Mechanical" class="headerlink" title="02. 技术流派一：机械光开关 (Mechanical)"></a>02. 技术流派一：机械光开关 (Mechanical)</h2><p><strong>——“大力出奇迹”</strong></p>
+<p>这是最原始、但也最可靠的方案。<br><strong>原理</strong>：利用电机或电磁铁，物理地移动光纤头、棱镜或反射镜，让光对准不同的输出端口。</p>
+<ul>
+<li><strong>优点</strong>：<ul>
+<li>插入损耗极低（接近 0 dB，因为就是光纤对光纤）。</li>
+<li>串扰极好（物理隔离）。</li>
+<li>与偏振无关。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>体积大。</li>
+<li><strong>慢</strong>！切换时间在毫秒 (ms) 级，甚至更慢。</li>
+<li>有机械磨损，寿命有限。</li>
+</ul>
+</li>
+</ul>
+<p><strong>应用</strong>：光路保护（断纤自动切换）、实验室仪器测试。</p>
+<hr>
+<h2 id="03-技术流派二：MEMS-光开关"><a href="#03-技术流派二：MEMS-光开关" class="headerlink" title="03. 技术流派二：MEMS 光开关"></a>03. 技术流派二：MEMS 光开关</h2><p><strong>——“微观世界的镜子阵列”</strong></p>
+<p>这是目前大规模商用（如 ROADM）的主流技术。<br><strong>原理</strong>：在硅基芯片上，利用<strong>微机电系统 (MEMS)</strong> 工艺制造出无数个微小的反射镜。通过静电力驱动这些微镜发生偏转（Tilt），从而改变光束的反射方向。</p>
+<ul>
+<li><p><strong>2D MEMS</strong>：像以前的铁路道岔，镜子只有“弹起”和“躺平”两个状态。适合小端口数。</p>
+</li>
+<li><p><strong>3D MEMS</strong>：镜子可以向任意角度偏转。两组镜子阵列配合，可以实现大规模矩阵交换（如 64x64, 320x320）。</p>
+</li>
+<li><p><strong>优点</strong>：</p>
+<ul>
+<li>集成度高，体积小。</li>
+<li>损耗较低，扩展性好。</li>
+</ul>
+</li>
+<li><p><strong>缺点</strong>：</p>
+<ul>
+<li>虽然比机械快，但仍受限于物理运动，速度在微秒到毫秒级 ($\mu s \sim ms$)。</li>
+<li>对震动敏感，封装要求高。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="04-技术流派三：热光开关-Thermo-optic"><a href="#04-技术流派三：热光开关-Thermo-optic" class="headerlink" title="04. 技术流派三：热光开关 (Thermo-optic)"></a>04. 技术流派三：热光开关 (Thermo-optic)</h2><p><strong>——“利用光的干涉”</strong></p>
+<p>这里没有活动的机械部件，而是利用了<strong>马赫-曾德干涉仪 (MZI)</strong> 结构。<br><strong>材料</strong>：通常使用硅 (Silicon) 或聚合物 (Polymer)。</p>
+<p><strong>原理</strong>：</p>
+<ol>
+<li>输入光分成两束，经过两个臂。</li>
+<li>其中一个臂上装有微加热器。</li>
+<li><strong>热光效应</strong>：加热改变材料的<strong>折射率</strong> ($n$)。</li>
+<li>折射率变化导致<strong>相位</strong> ($\phi &#x3D; k \cdot n \cdot L$) 变化。</li>
+<li>两束光在出口处重新汇合。通过控制加热温度，改变相位差（0 或 $\pi$），利用<strong>干涉</strong>原理让光从不同的端口输出（相长干涉或相消干涉）。</li>
+</ol>
+<ul>
+<li><strong>优点</strong>：无机械部件，可靠性高，易于集成在硅光芯片上。</li>
+<li><strong>缺点</strong>：<ul>
+<li>功耗较高（需要一直加热维持状态）。</li>
+<li>速度中等 ($\mu s$ 级)，受限于热传导速度。</li>
+<li>对环境温度敏感，需要精密温控 (TEC)。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="05-技术流派四：电光开关-Electro-optic"><a href="#05-技术流派四：电光开关-Electro-optic" class="headerlink" title="05. 技术流派四：电光开关 (Electro-optic)"></a>05. 技术流派四：电光开关 (Electro-optic)</h2><p><strong>——“纳秒级的极速”</strong></p>
+<p>如果你需要极快的切换速度（例如光分组交换），以上方案都不行，必须动用<strong>电光效应</strong>。<br><strong>材料</strong>：铌酸锂 (LiNbO3)、III-V 族半导体 (SOA)、电光聚合物。</p>
+<p><strong>原理</strong>：<br>利用<strong>普克尔斯效应 (Pockels Effect)</strong> 或 <strong>克尔效应 (Kerr Effect)</strong>。<br>在材料上加电压，电场<strong>直接</strong>瞬间改变折射率（不需要加热，没有热惯性）。配合 MZI 或定向耦合器结构实现开关。</p>
+<p>或者使用 <strong>SOA (半导体光放大器)</strong>：通过控制注入电流的通断，来决定是“放大信号（开）”还是“吸收信号（关）”。</p>
+<ul>
+<li><strong>优点</strong>：<ul>
+<li><strong>极快</strong>：纳秒 (ns) 甚至皮秒 (ps) 级。</li>
+</ul>
+</li>
+<li><strong>缺点</strong>：<ul>
+<li>插入损耗大（尤其是铌酸锂）。</li>
+<li>成本高昂。</li>
+<li>往往对偏振敏感。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="06-总结与选型指南"><a href="#06-总结与选型指南" class="headerlink" title="06. 总结与选型指南"></a>06. 总结与选型指南</h2><p>工程师在选择光开关时，本质上是在做权衡：</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">核心优势</th>
+<th align="left">核心劣势</th>
+<th align="left">典型应用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>机械式</strong></td>
+<td align="left">损耗最低，便宜</td>
+<td align="left">慢，体积大</td>
+<td align="left">光纤保护，测试仪表</td>
+</tr>
+<tr>
+<td align="left"><strong>MEMS</strong></td>
+<td align="left">端口密度大，综合性能好</td>
+<td align="left">对震动敏感</td>
+<td align="left">ROADM，大规模光交叉</td>
+</tr>
+<tr>
+<td align="left"><strong>热光 (硅光)</strong></td>
+<td align="left">无机械，芯片级集成</td>
+<td align="left">功耗大，热串扰</td>
+<td align="left">PIC 集成光路</td>
+</tr>
+<tr>
+<td align="left"><strong>电光 &#x2F; SOA</strong></td>
+<td align="left">速度极快 (ns)</td>
+<td align="left">损耗大，贵</td>
+<td align="left">光分组交换，科研</td>
+</tr>
+</tbody></table>
+<p>随着 AI 算力对互联带宽需求的爆炸式增长，Google 和 Nvidia 正在推动基于 <strong>OCS (光电路交换)</strong> 的数据中心架构。<br>在那个未来里，光开关不再是配角，而是承载算力洪流的神经枢纽。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">光学工程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E9%80%9A%E4%BF%A1/" class="print-no-link">#光通信</a>
+      
+        <a href="/tags/%E5%85%89%E5%BC%80%E5%85%B3/" class="print-no-link">#光开关</a>
+      
+        <a href="/tags/MEMS/" class="print-no-link">#MEMS</a>
+      
+        <a href="/tags/%E9%A9%AC%E8%B5%AB-%E6%9B%BE%E5%BE%B7%E5%B9%B2%E6%B6%89%E4%BB%AA/" class="print-no-link">#马赫-曾德干涉仪</a>
+      
+        <a href="/tags/%E7%A1%85%E5%85%89%E5%AD%90/" class="print-no-link">#硅光子</a>
+      
+        <a href="/tags/ROADM/" class="print-no-link">#ROADM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光网络的立交桥：光开关 (Optical Switch) 原理与主流技术解析</div>
+      <div>https://sunfove.xyz/2026/01/11/2026-01-10-optical-switch-principles/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 11, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/11/2026-01-10-derivation-of-maxwell-equation/" title="麦克斯韦方程组 (Maxwell&#39;s Equations) 的完整物理推导">
+                        <span class="hidden-mobile">麦克斯韦方程组 (Maxwell&#39;s Equations) 的完整物理推导</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/11/2026-01-10-optical-switch-principles/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
