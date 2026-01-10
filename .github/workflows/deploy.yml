@@ -71,3 +71,10 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }} # 这是 GitHub 自动生成的，无需你自己配置 Secret
         publish_dir: ./public
         publish_branch: gh-pages  # 网页文件将存放在 gh-pages 分支，保持源码分支整洁
+
+    - name: 刷新腾讯云 CDN
+      uses: keithnull/tencent-cloud-cdn-purge-cache@v1.0
+      env:
+        SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+        SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+        PATHS: 'https://sunfove.xyz/'
