@@ -1,5 +1,5 @@
 ---
-title: 麦克斯韦方程组 (Maxwell's Equations) 的完整物理推导
+title: 麦克斯韦方程组 (Maxwell's Equations) 的完整推导
 date: 2026-01-11 12:00:00
 tags: [电动力学, 麦克斯韦方程, 位移电流, 矢量分析, 物理史]
 categories: 物理硬核
