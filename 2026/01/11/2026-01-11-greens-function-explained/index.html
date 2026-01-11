@@ -1,0 +1,805 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="如果你知道敲一下钟会发出什么声音，你就知道按一段交响乐谱去敲钟会发出什么声音。这就是格林函数的全部奥义。本文从冲激响应的角度出发，详解格林函数的定义、物理直觉以及在静电场和波动光学中的经典应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="万物皆可“脉冲”：格林函数 (Green&#39;s Function) 的物理图像与应用详解">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/11/2026-01-11-greens-function-explained/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="如果你知道敲一下钟会发出什么声音，你就知道按一段交响乐谱去敲钟会发出什么声音。这就是格林函数的全部奥义。本文从冲激响应的角度出发，详解格林函数的定义、物理直觉以及在静电场和波动光学中的经典应用。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-11T21:30:00.000Z">
+<meta property="article:modified_time" content="2026-01-11T15:13:19.877Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="信号处理">
+<meta property="article:tag" content="微分方程">
+<meta property="article:tag" content="数学物理方法">
+<meta property="article:tag" content="电动力学">
+<meta property="article:tag" content="线性系统">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>万物皆可“脉冲”：格林函数 (Green&#39;s Function) 的物理图像与应用详解 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">万物皆可“脉冲”：格林函数 (Green's Function) 的物理图像与应用详解</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-11 21:30" pubdate>
+          January 11, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">万物皆可“脉冲”：格林函数 (Green&#39;s Function) 的物理图像与应用详解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在求解复杂的非齐次微分方程时，很多初学者会感到头痛。但物理学家乔治·格林 (George Green) 提供了一种极其优美的思路：</p>
+<p><strong>不要试图直接去解那个复杂的源，而是先去解一个最简单的“点源”。</strong></p>
+<p>如果你知道了系统对一个“点”的响应，那么根据线性叠加原理，你就可以通过积分求出系统对任意复杂“源”的响应。这个“点源响应函数”，就是<strong>格林函数</strong>。</p>
+<hr>
+<h2 id="01-物理直觉：从“敲钟”说起"><a href="#01-物理直觉：从“敲钟”说起" class="headerlink" title="01. 物理直觉：从“敲钟”说起"></a>01. 物理直觉：从“敲钟”说起</h2><p>想象你面前有一口大钟。</p>
+<ul>
+<li><strong>输入 (源)</strong>：你用锤子敲击钟面。</li>
+<li><strong>输出 (场)</strong>：钟发出的声音。</li>
+<li><strong>系统 (算子)</strong>：钟本身的材质、形状、阻尼特性。</li>
+</ul>
+<h3 id="情景-A：简单的敲击"><a href="#情景-A：简单的敲击" class="headerlink" title="情景 A：简单的敲击"></a>情景 A：简单的敲击</h3><p>你在 $t&#x3D;0$ 时刻，用极短的时间、单位力度猛击了一下钟。这在数学上就是一个 <strong>狄拉克 $\delta$ 函数</strong> ($\delta(t)$)。<br>此时钟发出的声音（比如一个衰减的正弦波），我们称之为 <strong>“冲激响应” (Impulse Response)</strong>，记作 $G(t)$。</p>
+<h3 id="情景-B：复杂的敲击"><a href="#情景-B：复杂的敲击" class="headerlink" title="情景 B：复杂的敲击"></a>情景 B：复杂的敲击</h3><p>现在，你不再是敲一下，而是按照一段复杂的节奏 $f(t)$ 连续敲击。<br>钟在任意时刻 $t$ 发出的声音 $u(t)$ 是什么？</p>
+<p>根据直觉，现在的声音，是过去所有敲击产生的余音的叠加：<br>$$u(t) &#x3D; \int_{-\infty}^{t} G(t - \tau) f(\tau) d\tau$$</p>
+<p>看！这就是<strong>卷积</strong>。在这里，$G(t)$ 就是<strong>格林函数</strong>。<br><strong>格林函数本质上就是线性时不变 (LTI) 系统的冲激响应。</strong></p>
+<hr>
+<h2 id="02-数学定义：微分算子的“逆”"><a href="#02-数学定义：微分算子的“逆”" class="headerlink" title="02. 数学定义：微分算子的“逆”"></a>02. 数学定义：微分算子的“逆”</h2><p>我们将上面的直觉推广到空间问题。<br>假设有一个线性微分算子 $\hat{L}$（例如 $\nabla^2$），我们要解方程：<br>$$\hat{L} u(x) &#x3D; f(x)$$<br>其中 $f(x)$ 是已知的源（如电荷分布），$u(x)$ 是未知的场（如电势）。</p>
+<h3 id="第一步：定义格林函数"><a href="#第一步：定义格林函数" class="headerlink" title="第一步：定义格林函数"></a>第一步：定义格林函数</h3><p>我们寻找一个特殊的函数 $G(x, x’)$，它满足：<strong>当源是点源 $\delta(x-x’)$ 时，方程的解。</strong><br>$$\hat{L} G(x, x’) &#x3D; \delta(x - x’)$$</p>
+<h3 id="第二步：利用叠加原理"><a href="#第二步：利用叠加原理" class="headerlink" title="第二步：利用叠加原理"></a>第二步：利用叠加原理</h3><p>由于 $f(x)$ 可以看作无数个点源的集合：$f(x) &#x3D; \int f(x’) \delta(x-x’) dx’$。<br>利用算子的线性性，解 $u(x)$ 可以写成：<br>$$u(x) &#x3D; \int G(x, x’) f(x’) dx’$$</p>
+<p><strong>数学本质</strong>：<br>如果把微分算子 $\hat{L}$ 看作一个矩阵，那么格林函数 $G$ 就是这个矩阵的<strong>逆矩阵</strong> ($G \sim \hat{L}^{-1}$)。<br>微分方程 $\hat{L}u&#x3D;f$ 相当于 $Ax&#x3D;b$，解就是 $x&#x3D;A^{-1}b$。积分 $\int G f$ 就是连续版本的矩阵乘法。</p>
+<hr>
+<h2 id="03-案例一：静电场-泊松方程"><a href="#03-案例一：静电场-泊松方程" class="headerlink" title="03. 案例一：静电场 (泊松方程)"></a>03. 案例一：静电场 (泊松方程)</h2><p>这是物理系学生遇到的第一个格林函数。</p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>求解电荷密度为 $\rho(\vec{r})$ 产生的电势 $\phi(\vec{r})$。<br>方程为泊松方程：<br>$$\nabla^2 \phi &#x3D; -\frac{\rho}{\epsilon_0}$$</p>
+<h3 id="寻找格林函数"><a href="#寻找格林函数" class="headerlink" title="寻找格林函数"></a>寻找格林函数</h3><p>这里算子 $\hat{L} &#x3D; \nabla^2$。我们需要解：<br>$$\nabla^2 G(\vec{r}, \vec{r}’) &#x3D; -\delta(\vec{r} - \vec{r}’)$$<br><em>(注：为了方便，通常把系数归入源项)</em></p>
+<p>物理上，这意味着：<strong>一个位于 $\vec{r}’$ 的点电荷，在 $\vec{r}$ 处产生的电势是多少？</strong><br>答案我们高中就知道了——库仑定律：<br>$$G(\vec{r}, \vec{r}’) &#x3D; \frac{1}{4\pi |\vec{r} - \vec{r}’|}$$</p>
+<h3 id="最终解"><a href="#最终解" class="headerlink" title="最终解"></a>最终解</h3><p>直接套用格林函数公式：<br>$$\phi(\vec{r}) &#x3D; \frac{1}{\epsilon_0} \int \frac{\rho(\vec{r}’)}{4\pi |\vec{r} - \vec{r}’|} d^3r’$$<br>这正是我们熟悉的电势叠加积分公式！</p>
+<p><strong>启示</strong>：库仑定律其实就是三维拉普拉斯算子的自由空间格林函数。</p>
+<hr>
+<h2 id="04-案例二：有阻尼的谐振子-常微分方程"><a href="#04-案例二：有阻尼的谐振子-常微分方程" class="headerlink" title="04. 案例二：有阻尼的谐振子 (常微分方程)"></a>04. 案例二：有阻尼的谐振子 (常微分方程)</h2><p>让我们回到时间域，处理一个受迫振动问题。</p>
+<h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h3><p>$$\ddot{x}(t) + 2\gamma \dot{x}(t) + \omega_0^2 x(t) &#x3D; F(t)$$<br>这是一个二阶常系数非齐次微分方程。</p>
+<h3 id="寻找格林函数-1"><a href="#寻找格林函数-1" class="headerlink" title="寻找格林函数"></a>寻找格林函数</h3><p>令输入力 $F(t) &#x3D; \delta(t)$（给摆锤一个瞬间的初速度）。<br>物理图像告诉我们，系统会开始振荡并衰减。<br>解出齐次方程并匹配初条件，得到格林函数（对于欠阻尼 $\gamma &lt; \omega_0$）：<br>$$G(t) &#x3D; \begin{cases} \frac{1}{\Omega} e^{-\gamma t} \sin(\Omega t), &amp; t \ge 0 \ 0, &amp; t &lt; 0 \end{cases}$$<br>其中 $\Omega &#x3D; \sqrt{\omega_0^2 - \gamma^2}$。</p>
+<h3 id="物理意义"><a href="#物理意义" class="headerlink" title="物理意义"></a>物理意义</h3><p>那个 $t&lt;0$ 时 $G&#x3D;0$ 非常重要，它代表了<strong>因果律 (Causality)</strong>：在这一锤子敲下去之前，钟是不可能响的。这种格林函数被称为<strong>推迟格林函数 (Retarded Green’s Function)</strong>。</p>
+<hr>
+<h2 id="05-案例三：光学与惠更斯原理-亥姆霍兹方程"><a href="#05-案例三：光学与惠更斯原理-亥姆霍兹方程" class="headerlink" title="05. 案例三：光学与惠更斯原理 (亥姆霍兹方程)"></a>05. 案例三：光学与惠更斯原理 (亥姆霍兹方程)</h2><p>对于喜欢光学的你，这个例子最亲切。</p>
+<h3 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h3><p>单色光波满足亥姆霍兹方程：<br>$$(\nabla^2 + k^2) E(\vec{r}) &#x3D; -S(\vec{r})$$<br>其中 $S(\vec{r})$ 是光源分布。</p>
+<h3 id="寻找格林函数-2"><a href="#寻找格林函数-2" class="headerlink" title="寻找格林函数"></a>寻找格林函数</h3><p>我们要解：<br>$$(\nabla^2 + k^2) G(\vec{r}) &#x3D; -\delta(\vec{r})$$<br>这是一个点光源发出的波。<br>在三维自由空间中，解是<strong>球面波</strong>：<br>$$G(r) &#x3D; \frac{e^{ikr}}{4\pi r}$$</p>
+<h3 id="物理升华：惠更斯-菲涅耳原理"><a href="#物理升华：惠更斯-菲涅耳原理" class="headerlink" title="物理升华：惠更斯-菲涅耳原理"></a>物理升华：惠更斯-菲涅耳原理</h3><p>总光场是源的积分：<br>$$E(\vec{r}) &#x3D; \int S(\vec{r}’) \frac{e^{ik|\vec{r}-\vec{r}’|}}{4\pi |\vec{r}-\vec{r}’|} d^3r’$$</p>
+<p>这告诉我们：<strong>任意复杂的波源 $S(\vec{r}’)$，都可以看作是由无数个点源组成的。每个点源都发出球面波 $\frac{e^{ikr}}{r}$，这些球面波在空间中相干叠加，形成了我们看到的衍射图样。</strong></p>
+<p>这就是惠更斯原理的数学实证！格林函数就是那个基本的“子波”。</p>
+<hr>
+<h2 id="06-总结：解决问题的通用策略"><a href="#06-总结：解决问题的通用策略" class="headerlink" title="06. 总结：解决问题的通用策略"></a>06. 总结：解决问题的通用策略</h2><p>当你面对一个复杂的线性物理系统时，不要被复杂的源吓倒。</p>
+<ol>
+<li><strong>化整为零</strong>：把复杂的源分解成无数个 $\delta$ 函数（点源&#x2F;脉冲）。</li>
+<li><strong>各个击破</strong>：求出系统对单个 $\delta$ 函数的响应（解出格林函数 $G$）。</li>
+<li><strong>积零为整</strong>：利用卷积&#x2F;积分，把所有响应加起来。</li>
+</ol>
+<p>这就是格林函数——一把将“微观机制”与“宏观现象”完美连接的数学钥匙。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%94%B5%E5%8A%A8%E5%8A%9B%E5%AD%A6/" class="print-no-link">#电动力学</a>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E7%89%A9%E7%90%86%E6%96%B9%E6%B3%95/" class="print-no-link">#数学物理方法</a>
+      
+        <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="print-no-link">#信号处理</a>
+      
+        <a href="/tags/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/" class="print-no-link">#微分方程</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%80%A7%E7%B3%BB%E7%BB%9F/" class="print-no-link">#线性系统</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>万物皆可“脉冲”：格林函数 (Green&#39;s Function) 的物理图像与应用详解</div>
+      <div>https://sunfove.xyz/2026/01/11/2026-01-11-greens-function-explained/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 11, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/11/2026-01-11-gaussian-beam-modes/" title="激光模式介绍">
+                        <span class="hidden-mobile">激光模式介绍</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/11/2026-01-11-greens-function-explained/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
