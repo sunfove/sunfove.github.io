@@ -1,0 +1,820 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="激光光斑一定是圆的吗？当然不是。本文从波动方程出发，带你认识 TEM00 基模、像“麻将牌”一样的 HG 模式，以及拥有轨道角动量的“光涡旋” LG 模式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="激光的“性格”：深入图解高斯光束及其高阶模式 (TEMmn)">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/11/temp/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="激光光斑一定是圆的吗？当然不是。本文从波动方程出发，带你认识 TEM00 基模、像“麻将牌”一样的 HG 模式，以及拥有轨道角动量的“光涡旋” LG 模式。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-11T13:47:25.253Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="M2因子">
+<meta property="article:tag" content="厄米-高斯">
+<meta property="article:tag" content="拉盖尔-高斯">
+<meta property="article:tag" content="激光物理">
+<meta property="article:tag" content="谐振腔">
+<meta property="article:tag" content="高斯光束">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>激光的“性格”：深入图解高斯光束及其高阶模式 (TEMmn) - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">激光的“性格”：深入图解高斯光束及其高阶模式 (TEMmn)</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-11 16:00" pubdate>
+          January 11, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">激光的“性格”：深入图解高斯光束及其高阶模式 (TEMmn)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>当我们谈论激光时，脑海中浮现的通常是一束笔直、极细、中心极亮的光线。<br>这种最理想、最常见的激光形态，我们在数学上称之为<strong>基模高斯光束 (Fundamental Gaussian Beam, $TEM_{00}$)</strong>。</p>
+<p>但如果你调整一下激光器的谐振腔，或者激光经过某些晶体，你会惊讶地发现，光斑变了：<br>有的变成了“甜甜圈”，有的变成了“田字格”，有的甚至像复杂的万花筒。</p>
+<p>这些不同的空间分布形态，就是激光的<strong>横模 (Transverse Modes)</strong>。今天我们来拆解一下这些模式背后的物理与数学之美。</p>
+<hr>
+<h2 id="01-皇冠上的明珠：基模高斯光束-TEM-00"><a href="#01-皇冠上的明珠：基模高斯光束-TEM-00" class="headerlink" title="01. 皇冠上的明珠：基模高斯光束 ($TEM_{00}$)"></a>01. 皇冠上的明珠：基模高斯光束 ($TEM_{00}$)</h2><p>这是所有光学工程师最喜欢的模式。<br>它是傍轴波动方程（Paraxial Wave Equation）在圆柱坐标系下最简单的解。</p>
+<h3 id="形态特征"><a href="#形态特征" class="headerlink" title="形态特征"></a>形态特征</h3><ul>
+<li><strong>强度分布</strong>：呈现完美的<strong>钟形曲线 (Bell Curve)</strong>。中心最亮，向边缘呈指数衰减。<br>  $$I(r) &#x3D; I_0 e^{-2r^2&#x2F;w^2}$$<br>  其中 $w$ 是光束半径（强度下降到峰值 $1&#x2F;e^2$ 处的距离）。</li>
+<li><strong>相位</strong>：波前是球面的（在束腰处是平面的）。</li>
+</ul>
+<h3 id="为什么我们都爱-TEM-00-？"><a href="#为什么我们都爱-TEM-00-？" class="headerlink" title="为什么我们都爱 $TEM_{00}$？"></a>为什么我们都爱 $TEM_{00}$？</h3><ol>
+<li><strong>聚焦能力最强</strong>：在同样的透镜孔径下，基模光束可以被聚焦成<strong>最小的斑点</strong>。这对于激光切割、显微镜成像至关重要。</li>
+<li><strong>发散角最小</strong>：它是在真空中传输时，“最不爱扩散”的光束。</li>
+<li><strong>光束质量因子 $M^2 &#x3D; 1$</strong>：这是衡量激光好坏的金标准。</li>
+</ol>
+<hr>
+<h2 id="02-打破对称：厄米-高斯模式-Hermite-Gaussian-HG"><a href="#02-打破对称：厄米-高斯模式-Hermite-Gaussian-HG" class="headerlink" title="02. 打破对称：厄米-高斯模式 (Hermite-Gaussian, HG)"></a>02. 打破对称：厄米-高斯模式 (Hermite-Gaussian, HG)</h2><p>如果我们不再要求圆对称，而是在<strong>直角坐标系 (x, y)</strong> 下求解波动方程，就会得到一组像“麻将牌”一样的解。</p>
+<h3 id="数学表达"><a href="#数学表达" class="headerlink" title="数学表达"></a>数学表达</h3><p>它的电场分布中包含了一个特殊的数学项：<strong>厄米多项式 (Hermite Polynomials)</strong>。<br>我们通常用 $TEM_{mn}$ 来标记，其中 $m$ 和 $n$ 分别代表 x 和 y 方向上的<strong>节点（暗线）数量</strong>。</p>
+<h3 id="常见形态"><a href="#常见形态" class="headerlink" title="常见形态"></a>常见形态</h3><ul>
+<li><strong>$TEM_{00}$</strong>：只有一个主光斑（基模）。</li>
+<li><strong>$TEM_{01}$</strong>：像被切了一刀，垂直方向裂成两个光斑。</li>
+<li><strong>$TEM_{10}$</strong>：水平方向裂成两个光斑。</li>
+<li><strong>$TEM_{11}$</strong>：像一个“田”字，四个光斑。</li>
+</ul>
+<h3 id="物理意义"><a href="#物理意义" class="headerlink" title="物理意义"></a>物理意义</h3><p>这些模式通常出现在<strong>矩形对称</strong>的激光腔中（例如腔内有矩形光阑，或者激光晶体是长条形的）。<br>虽然在光纤耦合中我们极力避免它们（因为很难耦合进圆形光纤），但在某些<strong>粒子捕获</strong>和<strong>阵列照明</strong>应用中，这种结构光非常有用。</p>
+<hr>
+<h2 id="03-光的旋涡：拉盖尔-高斯模式-Laguerre-Gaussian-LG"><a href="#03-光的旋涡：拉盖尔-高斯模式-Laguerre-Gaussian-LG" class="headerlink" title="03. 光的旋涡：拉盖尔-高斯模式 (Laguerre-Gaussian, LG)"></a>03. 光的旋涡：拉盖尔-高斯模式 (Laguerre-Gaussian, LG)</h2><p>这是近年来光物理界最火的研究方向之一。<br>如果我们在<strong>圆柱坐标系 (r, $\phi$)</strong> 下求解，引入了<strong>拉盖尔多项式</strong>，就会得到这组解：$LG_{pl}$。</p>
+<h3 id="甜甜圈光束-Donut-Beam"><a href="#甜甜圈光束-Donut-Beam" class="headerlink" title="甜甜圈光束 (Donut Beam)"></a>甜甜圈光束 (Donut Beam)</h3><p>当径向指数 $p&#x3D;0$ 但角向指数 $l \neq 0$ 时（例如 $TEM_{01}^<em>$），光束中心会出现一个*<em>相位奇点</em></em>。</p>
+<ul>
+<li><strong>强度</strong>：中心强度为 0，能量分布在一个圆环上，像一个甜甜圈。</li>
+<li><strong>相位</strong>：波前不再是平面或球面，而是一个<strong>螺旋面 (Helical Wavefront)</strong>。</li>
+</ul>
+<h3 id="轨道角动量-OAM"><a href="#轨道角动量-OAM" class="headerlink" title="轨道角动量 (OAM)"></a>轨道角动量 (OAM)</h3><p>LG 模式最迷人的地方在于它携带<strong>轨道角动量</strong>。<br>如果用这种光去照射微小的粒子，粒子不仅会被推着走，还会<strong>绕着光轴旋转</strong>！</p>
+<ul>
+<li><strong>应用</strong>：光镊（操纵细胞）、光通信（利用 OAM 进行模分复用，增加带宽）。</li>
+</ul>
+<hr>
+<h2 id="04-为什么会有这么多模式？"><a href="#04-为什么会有这么多模式？" class="headerlink" title="04. 为什么会有这么多模式？"></a>04. 为什么会有这么多模式？</h2><p>你可以把激光谐振腔想象成两面镜子之间的一根<strong>琴弦</strong>。</p>
+<ul>
+<li>琴弦不仅可以整体振动（基频），还可以分段振动（泛音&#x2F;谐波）。</li>
+<li>同样，光在两面镜子之间来回反射，只有那些在横截面上满足**“自再现”**（跑一圈回来场分布不变）的波才能存活下来。</li>
+</ul>
+<p>这些“存活下来”的独立解，就是<strong>本征模 (Eigenmodes)</strong>。</p>
+<ul>
+<li>如果你把谐振腔调得非常完美，通常只有损耗最小的 $TEM_{00}$ 起振。</li>
+<li>如果腔内有灰尘、光阑不对齐，或者增益介质很宽，高阶模式就会趁机起振，导致光束质量变差（$M^2 &gt; 1$）。</li>
+</ul>
+<hr>
+<h2 id="05-总结：如何选择？"><a href="#05-总结：如何选择？" class="headerlink" title="05. 总结：如何选择？"></a>05. 总结：如何选择？</h2><ul>
+<li><strong>选 $TEM_{00}$</strong>：当你需要切断钢板、在视网膜上做手术、或者把光通过一根细细的光纤传到几公里外。</li>
+<li><strong>选 HG&#x2F;LG 模式</strong>：当你需要同时照亮四个点、用光镊旋转一个细菌、或者在量子通信中利用光的“形状”来编码信息。</li>
+</ul>
+<p>激光不仅有能量，更有形状。理解了模式，你就掌握了控制光的“画笔”。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">光学工程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%BF%80%E5%85%89%E7%89%A9%E7%90%86/" class="print-no-link">#激光物理</a>
+      
+        <a href="/tags/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/" class="print-no-link">#高斯光束</a>
+      
+        <a href="/tags/%E8%B0%90%E6%8C%AF%E8%85%94/" class="print-no-link">#谐振腔</a>
+      
+        <a href="/tags/M2%E5%9B%A0%E5%AD%90/" class="print-no-link">#M2因子</a>
+      
+        <a href="/tags/%E5%8E%84%E7%B1%B3-%E9%AB%98%E6%96%AF/" class="print-no-link">#厄米-高斯</a>
+      
+        <a href="/tags/%E6%8B%89%E7%9B%96%E5%B0%94-%E9%AB%98%E6%96%AF/" class="print-no-link">#拉盖尔-高斯</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>激光的“性格”：深入图解高斯光束及其高阶模式 (TEMmn)</div>
+      <div>https://sunfove.xyz/2026/01/11/temp/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 11, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/11/2026-01-11-gaussian-beam-modes/" title="激光模式介绍">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">激光模式介绍</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/11/2026-01-10-optical-switch-principles/" title="光网络的立交桥：光开关 (Optical Switch) 原理与主流技术解析">
+                        <span class="hidden-mobile">光网络的立交桥：光开关 (Optical Switch) 原理与主流技术解析</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/11/temp/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
