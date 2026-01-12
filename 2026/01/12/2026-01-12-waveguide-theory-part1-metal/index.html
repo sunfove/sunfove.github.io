@@ -1,0 +1,820 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从麦克斯韦方程组出发，严格推导矩形波导和圆波导中的场分布。为何矩形波导用正弦函数，而圆波导需要贝塞尔函数？TE与TM模的本质区别是什么？本文提供硬核的数学推导与物理阐释。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="波导理论(上)：金属波导的本征模、边界条件与贝塞尔函数详解">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/12/2026-01-12-waveguide-theory-part1-metal/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="从麦克斯韦方程组出发，严格推导矩形波导和圆波导中的场分布。为何矩形波导用正弦函数，而圆波导需要贝塞尔函数？TE与TM模的本质区别是什么？本文提供硬核的数学推导与物理阐释。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-12T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-12T15:24:43.427Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="圆波导">
+<meta property="article:tag" content="截止波长">
+<meta property="article:tag" content="电磁场理论">
+<meta property="article:tag" content="矩形波导">
+<meta property="article:tag" content="贝塞尔函数">
+<meta property="article:tag" content="麦克斯韦方程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>波导理论(上)：金属波导的本征模、边界条件与贝塞尔函数详解 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">波导理论(上)：金属波导的本征模、边界条件与贝塞尔函数详解</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-12 12:00" pubdate>
+          January 12, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">波导理论(上)：金属波导的本征模、边界条件与贝塞尔函数详解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在微波频段，传输线（如双绞线）的辐射损耗变得不可接受，我们必须使用封闭的金属管道——波导。<br>本质上，求解波导模式就是求解<strong>亥姆霍兹方程 (Helmholtz Equation)</strong> 在特定<strong>边界条件 (Boundary Conditions)</strong> 下的本征值问题。</p>
+<hr>
+<h2 id="1-通用波动方程的推导"><a href="#1-通用波动方程的推导" class="headerlink" title="1. 通用波动方程的推导"></a>1. 通用波动方程的推导</h2><p>假设电磁波沿 $z$ 轴传播，形式为 $e^{-\gamma z}$（对于无损耗波导，$\gamma &#x3D; j\beta$）。<br>麦克斯韦方程组在源自由区域 ($\rho&#x3D;0, J&#x3D;0$) 可以化简为横向场 ($E_x, E_y, H_x, H_y$) 与纵向场 ($E_z, H_z$) 的关系。</p>
+<p>所有的横向场都可以用纵向场表示：<br>$$<br>\begin{align}<br>H_x &amp;&#x3D; \frac{j}{k_c^2} (\omega \epsilon \frac{\partial E_z}{\partial y} - \beta \frac{\partial H_z}{\partial x}) \<br>H_y &amp;&#x3D; \frac{-j}{k_c^2} (\omega \epsilon \frac{\partial E_z}{\partial x} + \beta \frac{\partial H_z}{\partial y})<br>\end{align}<br>$$<br>其中 $k_c^2 &#x3D; k^2 - \beta^2$ 为<strong>截止波数 (Cutoff Wavenumber)</strong>。</p>
+<p>这奠定了波导理论的基石：<strong>我们只需要解出 $E_z$ 和 $H_z$，其他所有场分量就都解出来了。</strong></p>
+<ul>
+<li><strong>TEM 模</strong>：$E_z &#x3D; H_z &#x3D; 0$。只有在多导体系统（如同轴线）中存在。</li>
+<li><strong>TE 模</strong>：$E_z &#x3D; 0, H_z \neq 0$。</li>
+<li><strong>TM 模</strong>：$E_z \neq 0, H_z &#x3D; 0$。</li>
+</ul>
+<hr>
+<h2 id="2-矩形波导-Rectangular-Waveguide"><a href="#2-矩形波导-Rectangular-Waveguide" class="headerlink" title="2. 矩形波导 (Rectangular Waveguide)"></a>2. 矩形波导 (Rectangular Waveguide)</h2><p>设波导宽为 $a$，高为 $b$ ($a &gt; b$)。</p>
+<h3 id="2-1-TE-模求解-H-z"><a href="#2-1-TE-模求解-H-z" class="headerlink" title="2.1 TE 模求解 ($H_z$)"></a>2.1 TE 模求解 ($H_z$)</h3><p>我们需要解标量亥姆霍兹方程：<br>$$(\frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + k_c^2) h_z(x,y) &#x3D; 0$$</p>
+<p>使用<strong>分离变量法</strong> $h_z(x,y) &#x3D; X(x)Y(y)$，代入通解并应用金属壁的边界条件（法向磁场为0，切向电场为0）：<br>$$<br>\frac{\partial H_z}{\partial x} \bigg|<em>{x&#x3D;0, a} &#x3D; 0, \quad \frac{\partial H_z}{\partial y} \bigg|</em>{y&#x3D;0, b} &#x3D; 0<br>$$</p>
+<p>我们得到 $H_z$ 的解析解：<br>$$H_z(x,y,z) &#x3D; A_{mn} \cos(\frac{m\pi x}{a}) \cos(\frac{n\pi y}{b}) e^{-j\beta z}$$</p>
+<h3 id="2-2-截止频率的物理来源"><a href="#2-2-截止频率的物理来源" class="headerlink" title="2.2 截止频率的物理来源"></a>2.2 截止频率的物理来源</h3><p>分离变量法导致了波数 $k_c$ 的离散化：<br>$$k_c &#x3D; \sqrt{(\frac{m\pi}{a})^2 + (\frac{n\pi}{b})^2}$$</p>
+<p>传播常数 $\beta &#x3D; \sqrt{k^2 - k_c^2}$。</p>
+<ul>
+<li>当 $k &gt; k_c$ 时，$\beta$ 是实数，波可以传播。</li>
+<li>当 $k &lt; k_c$ 时，$\beta$ 是纯虚数，波呈指数衰减（截止）。</li>
+</ul>
+<p>这就是<strong>截止频率</strong>公式的来源：<br>$$f_{c, mn} &#x3D; \frac{1}{2\sqrt{\mu\epsilon}} \sqrt{(\frac{m}{a})^2 + (\frac{n}{b})^2}$$</p>
+<h3 id="2-3-主模-TE-10"><a href="#2-3-主模-TE-10" class="headerlink" title="2.3 主模 $TE_{10}$"></a>2.3 主模 $TE_{10}$</h3><p>对于 $a &gt; b$，最低的截止频率对应 $(m&#x3D;1, n&#x3D;0)$。<br>场分布特征：</p>
+<ul>
+<li>电场 $E_y \propto \sin(\pi x &#x2F; a)$：中间最强，两壁为零。</li>
+<li><strong>单模带宽</strong>：为了只传输 $TE_{10}$ 而抑制 $TE_{20}$ 或 $TE_{01}$，波导的使用频率通常在 $1.25 f_{c,10}$ 到 $1.9 f_{c,10}$ 之间。</li>
+</ul>
+<hr>
+<h2 id="3-圆波导-Circular-Waveguide"><a href="#3-圆波导-Circular-Waveguide" class="headerlink" title="3. 圆波导 (Circular Waveguide)"></a>3. 圆波导 (Circular Waveguide)</h2><p>当边界变成圆形（半径 $a$）时，我们必须使用<strong>圆柱坐标系</strong> $(\rho, \phi, z)$。</p>
+<h3 id="3-1-贝塞尔方程的引入"><a href="#3-1-贝塞尔方程的引入" class="headerlink" title="3.1 贝塞尔方程的引入"></a>3.1 贝塞尔方程的引入</h3><p>亥姆霍兹方程在圆柱坐标系下变为：<br>$$\frac{\partial^2 H_z}{\partial \rho^2} + \frac{1}{\rho} \frac{\partial H_z}{\partial \rho} + \frac{1}{\rho^2} \frac{\partial^2 H_z}{\partial \phi^2} + k_c^2 H_z &#x3D; 0$$</p>
+<p>其径向部分的解是<strong>贝塞尔函数 (Bessel Functions)</strong> $J_n(k_c \rho)$。<br>对于 TE 模，边界条件要求 $\frac{\partial H_z}{\partial \rho} \big|_{\rho&#x3D;a} &#x3D; 0$。这意味着 $J_n’(k_c a) &#x3D; 0$。</p>
+<h3 id="3-2-模式的根-p’-nm"><a href="#3-2-模式的根-p’-nm" class="headerlink" title="3.2 模式的根 ($p’_{nm}$)"></a>3.2 模式的根 ($p’_{nm}$)</h3><p>不同于矩形波导的整数倍关系，圆波导的截止波数取决于贝塞尔导函数的根 $p’<em>{nm}$：<br>$$f</em>{c, nm} &#x3D; \frac{p’_{nm}}{2\pi a \sqrt{\mu\epsilon}}$$</p>
+<ul>
+<li><strong>$TE_{11}$ 模</strong>：对应 $J_1’$ 的第一个根 $p’_{11} \approx 1.841$。它是圆波导的<strong>主模</strong>。</li>
+<li><strong>$TM_{01}$ 模</strong>：对应 $J_0$ 的第一个根 $p_{01} \approx 2.405$。</li>
+</ul>
+<h3 id="3-3-简并模式与极化"><a href="#3-3-简并模式与极化" class="headerlink" title="3.3 简并模式与极化"></a>3.3 简并模式与极化</h3><p>圆波导存在<strong>极化简并</strong>。例如 $TE_{11}$ 可以是水平极化，也可以是垂直极化，它们的截止频率完全一样。这在天线馈源中非常有用（可以做双极化天线），但也容易引起干扰。</p>
+<hr>
+<h2 id="4-波阻抗与功率传输"><a href="#4-波阻抗与功率传输" class="headerlink" title="4. 波阻抗与功率传输"></a>4. 波阻抗与功率传输</h2><p>波导不是只有电压和电流，更重要的是<strong>波阻抗 (Wave Impedance)</strong> $Z$。<br>$$Z_{TE} &#x3D; \frac{k \eta}{\beta}, \quad Z_{TM} &#x3D; \frac{\beta \eta}{k}$$<br>其中 $\eta &#x3D; \sqrt{\mu&#x2F;\epsilon}$ 是介质本质阻抗。</p>
+<ul>
+<li>当 $f \to f_c$ 时，$\beta \to 0$。<ul>
+<li>$Z_{TE} \to \infty$：呈现开路特性，能量传不过去。</li>
+<li>$Z_{TM} \to 0$：呈现短路特性。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>金属波导通过导体的“硬边界”强制电场归零，从而离散化了波数。</p>
+<ul>
+<li>矩形波导数学简单，极化稳定，通过长宽比控制带宽。</li>
+<li>圆波导涉及贝塞尔函数，具有旋转对称性，常用于雷达和卫星天线接口。</li>
+</ul>
+<p>在下篇中，我们将拆掉金属壁，换成折射率界面，探索光纤中的奥秘。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B0%84%E9%A2%91%E4%B8%8E%E5%BE%AE%E6%B3%A2/" class="category-chain-item">射频与微波</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B/" class="print-no-link">#麦克斯韦方程</a>
+      
+        <a href="/tags/%E7%94%B5%E7%A3%81%E5%9C%BA%E7%90%86%E8%AE%BA/" class="print-no-link">#电磁场理论</a>
+      
+        <a href="/tags/%E7%9F%A9%E5%BD%A2%E6%B3%A2%E5%AF%BC/" class="print-no-link">#矩形波导</a>
+      
+        <a href="/tags/%E5%9C%86%E6%B3%A2%E5%AF%BC/" class="print-no-link">#圆波导</a>
+      
+        <a href="/tags/%E8%B4%9D%E5%A1%9E%E5%B0%94%E5%87%BD%E6%95%B0/" class="print-no-link">#贝塞尔函数</a>
+      
+        <a href="/tags/%E6%88%AA%E6%AD%A2%E6%B3%A2%E9%95%BF/" class="print-no-link">#截止波长</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>波导理论(上)：金属波导的本征模、边界条件与贝塞尔函数详解</div>
+      <div>https://sunfove.xyz/2026/01/12/2026-01-12-waveguide-theory-part1-metal/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 12, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/12/2026-01-12-taylor-series-intuition/" title="用多项式模仿一切：泰勒级数的直观理解与数学之美">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">用多项式模仿一切：泰勒级数的直观理解与数学之美</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/11/2026-01-11-greens-function-explained/" title="万物皆可“脉冲”：格林函数 (Green&#39;s Function) 的物理图像与应用详解">
+                        <span class="hidden-mobile">万物皆可“脉冲”：格林函数 (Green&#39;s Function) 的物理图像与应用详解</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/12/2026-01-12-waveguide-theory-part1-metal/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从抗辐射的蓝宝石基硅 (SOS) 到高性能计算的绝缘体上硅 (SOI)，再到无源光网络的二氧化硅基硅 (Silica-on-Silicon)。本文从材料生长机理、制备工艺流、到器件物理特性，全方位解析这三种关键技术路径的异同与演进。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="后摩尔时代的基石：SOS、SOI 与 Silica-on-Silicon 技术深度综述">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/12/2026-01-12-sos-soi-silica-on-silicon-review/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="从抗辐射的蓝宝石基硅 (SOS) 到高性能计算的绝缘体上硅 (SOI)，再到无源光网络的二氧化硅基硅 (Silica-on-Silicon)。本文从材料生长机理、制备工艺流、到器件物理特性，全方位解析这三种关键技术路径的异同与演进。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-12T23:30:00.000Z">
+<meta property="article:modified_time" content="2026-01-12T15:24:43.427Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="SOI">
+<meta property="article:tag" content="SOS">
+<meta property="article:tag" content="Smart Cut">
+<meta property="article:tag" content="光波导">
+<meta property="article:tag" content="半导体工艺">
+<meta property="article:tag" content="异质集成">
+<meta property="article:tag" content="硅光子">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>后摩尔时代的基石：SOS、SOI 与 Silica-on-Silicon 技术深度综述 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">后摩尔时代的基石：SOS、SOI 与 Silica-on-Silicon 技术深度综述</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-12 23:30" pubdate>
+          January 12, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">后摩尔时代的基石：SOS、SOI 与 Silica-on-Silicon 技术深度综述</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在半导体与光电子领域，体硅 (Bulk Silicon) 曾经是绝对的统治者。然而，随着特征尺寸的微缩和应用场景的极端化（如高频射频、强辐射环境、光互连），单纯的体硅材料逐渐触及物理极限。</p>
+<p>为了突破这些瓶颈，<strong>工程化衬底 (Engineered Substrates)</strong> 应运而生。其中，SOS (Silicon-on-Sapphire)、SOI (Silicon-on-Insulator) 和 Silica-on-Silicon 代表了三种截然不同的异质集成思路。</p>
+<p>本文将从学术与工程的双重维度，对这三种技术进行深度剖析。</p>
+<hr>
+<h2 id="1-Silicon-on-Sapphire-SOS-异质外延的极限挑战"><a href="#1-Silicon-on-Sapphire-SOS-异质外延的极限挑战" class="headerlink" title="1. Silicon-on-Sapphire (SOS): 异质外延的极限挑战"></a>1. Silicon-on-Sapphire (SOS): 异质外延的极限挑战</h2><p>SOS 技术的核心在于将单晶硅薄膜外延生长在绝缘的蓝宝石 ($Al_2O_3$) 衬底上。这是一种典型的<strong>异质外延 (Hetero-epitaxy)</strong>。</p>
+<h3 id="1-1-材料特性与物理基础"><a href="#1-1-材料特性与物理基础" class="headerlink" title="1.1 材料特性与物理基础"></a>1.1 材料特性与物理基础</h3><p>蓝宝石是理想的绝缘体，具有极高的电阻率 ($&gt;10^{14} \Omega \cdot cm$)。</p>
+<ul>
+<li><strong>晶格失配</strong>：硅 (立方晶系) 与蓝宝石 (六方晶系) 存在显著的晶格失配 (~10%) 和热膨胀系数失配。这会导致外延层中存在高密度的位错和孪晶缺陷。</li>
+<li><strong>界面特性</strong>：$Si&#x2F;Al_2O_3$ 界面存在着复杂的过渡区，通常需要通过特殊的缓冲层设计来缓解应力。</li>
+</ul>
+<h3 id="1-2-工艺制备：CVD-与固相重结晶"><a href="#1-2-工艺制备：CVD-与固相重结晶" class="headerlink" title="1.2 工艺制备：CVD 与固相重结晶"></a>1.2 工艺制备：CVD 与固相重结晶</h3><p>目前主流的制备工艺包括：</p>
+<ol>
+<li><strong>MOCVD &#x2F; PECVD 外延</strong>：在高温下利用硅源气体（如 $SiH_4$）在 R 面 (R-plane) 蓝宝石上沉积硅。</li>
+<li><strong>固相外延再生长 (SPE)</strong>：为了改善晶体质量，通常先注入硅离子将界面附近的硅非晶化，然后进行高温退火，利用顶部高质量硅作为种子层进行重结晶，大幅降低缺陷密度。</li>
+</ol>
+<h3 id="1-3-核心优势与应用"><a href="#1-3-核心优势与应用" class="headerlink" title="1.3 核心优势与应用"></a>1.3 核心优势与应用</h3><ul>
+<li><strong>抗辐射 (Radiation Hardness)</strong>：由于下方没有体硅衬底，SOS 对单粒子翻转 (SEU) 和瞬态剂量率效应具有天然的免疫力，是<strong>航空航天、军工电子</strong>的首选。</li>
+<li><strong>高线性度 RF 开关</strong>：完全绝缘的衬底消除了体硅中的寄生电容和非线性谐波效应，使其成为 5G&#x2F;6G 射频前端 (RFFE) 开关的关键材料。</li>
+</ul>
+<hr>
+<h2 id="2-Silicon-on-Insulator-SOI-高性能计算的变革者"><a href="#2-Silicon-on-Insulator-SOI-高性能计算的变革者" class="headerlink" title="2. Silicon-on-Insulator (SOI): 高性能计算的变革者"></a>2. Silicon-on-Insulator (SOI): 高性能计算的变革者</h2><p>SOI 是目前微电子工业中应用最广泛的工程衬底。其结构为三明治状：顶层硅 (Top Si) &#x2F; 埋氧层 (Buried Oxide, BOX) &#x2F; 衬底硅 (Base Si)。</p>
+<h3 id="2-1-物理分类"><a href="#2-1-物理分类" class="headerlink" title="2.1 物理分类"></a>2.1 物理分类</h3><p>根据顶层硅的厚度，SOI 可分为：</p>
+<ul>
+<li><strong>PD-SOI (部分耗尽)</strong>：硅膜较厚，存在浮体效应 (Floating Body Effect)。</li>
+<li><strong>FD-SOI (全耗尽)</strong>：硅膜极薄，沟道完全耗尽，对短沟道效应 (SCE) 控制极佳。</li>
+</ul>
+<h3 id="2-2-工艺制备：Smart-Cut™-革命"><a href="#2-2-工艺制备：Smart-Cut™-革命" class="headerlink" title="2.2 工艺制备：Smart Cut™ 革命"></a>2.2 工艺制备：Smart Cut™ 革命</h3><p>早期的 SIMOX (注氧隔离) 技术因缺陷密度高已被淘汰。目前工业界的主流是 Soitec 公司开发的 <strong>Smart Cut™</strong> 技术：</p>
+<ol>
+<li><strong>氧化与注入</strong>：在施主晶圆 (Donor Wafer) 表面热氧化生成 BOX，并注入氢离子 ($H^+$) 形成缺陷层。</li>
+<li><strong>键合 (Bonding)</strong>：将施主晶圆与受主晶圆 (Handle Wafer) 在室温下亲水键合。</li>
+<li><strong>剥离 (Splitting)</strong>：加热使氢离子层发生微爆裂，施主晶圆沿注入面断裂，留下一层薄硅在受主晶圆上。</li>
+<li><strong>CMP 抛光</strong>：化学机械抛光表面，获得原子级平整度。</li>
+</ol>
+<h3 id="2-3-应用领域"><a href="#2-3-应用领域" class="headerlink" title="2.3 应用领域"></a>2.3 应用领域</h3><ul>
+<li><strong>VLSI 逻辑</strong>：AMD、IBM 等曾大量使用 SOI 制造高性能 CPU，利用其低结电容和抗闩锁效应 (Latch-up free)。</li>
+<li><strong>硅光子 (Silicon Photonics)</strong>：SOI 的高折射率差 ($\Delta n \approx 2$) 实现了亚微米级的强光限制，是制造光调制器、微环谐振腔的标准平台。</li>
+<li><strong>MEMS</strong>：BOX 层可作为天然的蚀刻停止层，用于制造高深宽比结构。</li>
+</ul>
+<hr>
+<h2 id="3-Silica-on-Silicon-平面光波路-PLC-的基石"><a href="#3-Silica-on-Silicon-平面光波路-PLC-的基石" class="headerlink" title="3. Silica-on-Silicon: 平面光波路 (PLC) 的基石"></a>3. Silica-on-Silicon: 平面光波路 (PLC) 的基石</h2><p>请注意区分 <strong>Silicon-on-Insulator (SOI)</strong> 与 <strong>Silica-on-Silicon</strong>。</p>
+<ul>
+<li><strong>SOI</strong> 指的是<strong>晶体硅</strong>波导，用于有源&#x2F;无源器件。</li>
+<li><strong>Silica-on-Silicon</strong> 指的是<strong>二氧化硅玻璃</strong>波导，主要用于无源器件。</li>
+</ul>
+<h3 id="3-1-结构与折射率工程"><a href="#3-1-结构与折射率工程" class="headerlink" title="3.1 结构与折射率工程"></a>3.1 结构与折射率工程</h3><p>其结构是在硅衬底上沉积一层很厚的二氧化硅作为下包层，然后沉积掺杂的二氧化硅作为芯层，最后覆盖上包层。</p>
+<ul>
+<li><strong>弱限制导光</strong>：芯层与包层的折射率差极小 ($\Delta \approx 0.3% \sim 2%$)，模场直径 (MFD) 与光纤匹配，耦合损耗极低。</li>
+</ul>
+<h3 id="3-2-工艺制备：FHD-与-PECVD"><a href="#3-2-工艺制备：FHD-与-PECVD" class="headerlink" title="3.2 工艺制备：FHD 与 PECVD"></a>3.2 工艺制备：FHD 与 PECVD</h3><ol>
+<li><strong>火焰水解沉积 (FHD)</strong>：与光纤预制棒制造类似，将 $SiCl_4, GeCl_4$ 等原料在氢氧焰中水解成玻璃微粉 (Soot) 沉积在硅片上，再高温烧结透明化。</li>
+<li><strong>PECVD</strong>：利用等离子体增强化学气相沉积，生长速度较慢但厚度控制更精确。</li>
+</ol>
+<h3 id="3-3-核心应用：AWG-与光分路器"><a href="#3-3-核心应用：AWG-与光分路器" class="headerlink" title="3.3 核心应用：AWG 与光分路器"></a>3.3 核心应用：AWG 与光分路器</h3><ul>
+<li><strong>阵列波导光栅 (AWG)</strong>：DWDM 系统中的核心分波&#x2F;合波器件。利用 Silica-on-Silicon 的低损耗特性。</li>
+<li><strong>PLC Splitter</strong>：光纤到户 (FTTH) 中使用的 1xN 分光器，成本低，可靠性高。</li>
+<li><strong>热光开关</strong>：利用硅衬底良好的导热性和二氧化硅的热光系数进行光路切换。</li>
+</ul>
+<hr>
+<h2 id="4-综合对比与性能矩阵"><a href="#4-综合对比与性能矩阵" class="headerlink" title="4. 综合对比与性能矩阵"></a>4. 综合对比与性能矩阵</h2><p>为了更直观地理解三者差异，我们从多个维度进行对比：</p>
+<table>
+<thead>
+<tr>
+<th align="left">维度</th>
+<th align="left"><strong>SOS (Silicon-on-Sapphire)</strong></th>
+<th align="left"><strong>SOI (Silicon-on-Insulator)</strong></th>
+<th align="left"><strong>Silica-on-Silicon</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>波导&#x2F;器件层材料</strong></td>
+<td align="left">单晶硅 (Single Crystal Si)</td>
+<td align="left">单晶硅 (Single Crystal Si)</td>
+<td align="left">掺杂二氧化硅玻璃 (Doped Silica)</td>
+</tr>
+<tr>
+<td align="left"><strong>衬底材料</strong></td>
+<td align="left">蓝宝石 ($Al_2O_3$)</td>
+<td align="left">硅 (Si)</td>
+<td align="left">硅 (Si)</td>
+</tr>
+<tr>
+<td align="left"><strong>绝缘&#x2F;隔离特性</strong></td>
+<td align="left"><strong>极佳</strong> (完全绝缘衬底)</td>
+<td align="left"><strong>优良</strong> (BOX隔离)</td>
+<td align="left">N&#x2F;A (作为光学包层)</td>
+</tr>
+<tr>
+<td align="left"><strong>晶格质量</strong></td>
+<td align="left">较差 (高位错密度)</td>
+<td align="left"><strong>极佳</strong> (接近体硅)</td>
+<td align="left">非晶态 (Amorphous)</td>
+</tr>
+<tr>
+<td align="left"><strong>光限制能力</strong></td>
+<td align="left">中等</td>
+<td align="left"><strong>极强</strong> ($\Delta n \approx 2$, 纳米波导)</td>
+<td align="left">弱 ($\Delta n \approx 0.7%$, 微米波导)</td>
+</tr>
+<tr>
+<td align="left"><strong>关键优势</strong></td>
+<td align="left">抗辐射、高线性度 RF</td>
+<td align="left">CMOS 兼容、高集成度、低功耗</td>
+<td align="left">低传输损耗、低耦合损耗</td>
+</tr>
+<tr>
+<td align="left"><strong>核心应用</strong></td>
+<td align="left">航天电子、射频开关</td>
+<td align="left">高性能逻辑芯片、<strong>硅光子芯片</strong></td>
+<td align="left"><strong>无源光网络 (PLC)</strong>、AWG</td>
+</tr>
+<tr>
+<td align="left"><strong>成本</strong></td>
+<td align="left">高 (蓝宝石加工难)</td>
+<td align="left">中&#x2F;高 (Smart Cut 成本)</td>
+<td align="left">低&#x2F;中</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="5-结语"><a href="#5-结语" class="headerlink" title="5. 结语"></a>5. 结语</h2><p>从材料科学的角度看，这三种技术代表了硅基材料改性的三个方向：</p>
+<ul>
+<li><strong>SOS</strong> 试图通过换个“地基”，让硅在恶劣环境下生存。</li>
+<li><strong>SOI</strong> 试图通过加个“隔断”，让硅的电子迁移率和光限制能力发挥到极致。</li>
+<li><strong>Silica-on-Silicon</strong> 则仅仅是把硅当做散热和支撑的“托盘”，主角其实是玻璃。</li>
+</ul>
+<p>随着后摩尔时代的到来，异质集成 (Heterogeneous Integration) 将成为常态。也许未来的芯片，会通过 Chiplet 技术，将 SOS 的射频前端、SOI 的光互连模块和 Silica-on-Silicon 的无源路由封装在一起，共同构成系统的核心。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%8D%8A%E5%AF%BC%E4%BD%93%E7%89%A9%E7%90%86%E4%B8%8E%E5%99%A8%E4%BB%B6/" class="category-chain-item">半导体物理与器件</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%8D%8A%E5%AF%BC%E4%BD%93%E7%89%A9%E7%90%86%E4%B8%8E%E5%99%A8%E4%BB%B6/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">光学工程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%A1%85%E5%85%89%E5%AD%90/" class="print-no-link">#硅光子</a>
+      
+        <a href="/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%B7%A5%E8%89%BA/" class="print-no-link">#半导体工艺</a>
+      
+        <a href="/tags/SOI/" class="print-no-link">#SOI</a>
+      
+        <a href="/tags/SOS/" class="print-no-link">#SOS</a>
+      
+        <a href="/tags/%E5%85%89%E6%B3%A2%E5%AF%BC/" class="print-no-link">#光波导</a>
+      
+        <a href="/tags/%E5%BC%82%E8%B4%A8%E9%9B%86%E6%88%90/" class="print-no-link">#异质集成</a>
+      
+        <a href="/tags/Smart-Cut/" class="print-no-link">#Smart Cut</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>后摩尔时代的基石：SOS、SOI 与 Silica-on-Silicon 技术深度综述</div>
+      <div>https://sunfove.xyz/2026/01/12/2026-01-12-sos-soi-silica-on-silicon-review/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 12, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/12/2026-01-12-coordinate-systems-transformation/" title="空间几何的基石：直角、柱、球坐标系的原理与转换详解">
+                        <span class="hidden-mobile">空间几何的基石：直角、柱、球坐标系的原理与转换详解</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/12/2026-01-12-sos-soi-silica-on-silicon-review/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

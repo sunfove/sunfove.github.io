@@ -1,0 +1,819 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="计算器是如何算出 sin(2) 的？物理学家为什么总说 sin(x) ≈ x？本文带你从直观的角度理解泰勒级数：它是如何通过一点的信息“窥探”全局，又是如何连接起指数函数与三角函数的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用多项式模仿一切：泰勒级数的直观理解与数学之美">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/12/2026-01-12-taylor-series-intuition/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="计算器是如何算出 sin(2) 的？物理学家为什么总说 sin(x) ≈ x？本文带你从直观的角度理解泰勒级数：它是如何通过一点的信息“窥探”全局，又是如何连接起指数函数与三角函数的。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-12T14:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-12T15:24:43.427Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="微积分">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="欧拉公式">
+<meta property="article:tag" content="泰勒级数">
+<meta property="article:tag" content="物理近似">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>用多项式模仿一切：泰勒级数的直观理解与数学之美 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">用多项式模仿一切：泰勒级数的直观理解与数学之美</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-12 14:00" pubdate>
+          January 12, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">用多项式模仿一切：泰勒级数的直观理解与数学之美</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在数学和物理的浩瀚海洋中，如果非要选出一个“最实用工具奖”，<strong>泰勒级数 (Taylor Series)</strong> 绝对是强有力的竞争者。</p>
+<p>你是否好奇过：</p>
+<ul>
+<li>当你在计算器上按下 <code>sin(2)</code> 时，计算器内部并没有存一张无穷大的三角函数表，它是怎么算出结果的？</li>
+<li>为什么在物理课上，老师总喜欢把 $\sin \theta$ 直接换成 $\theta$？</li>
+<li>那个被称为“上帝公式”的 $e^{i\pi} + 1 &#x3D; 0$，到底是怎么证明出来的？</li>
+</ul>
+<p>这一切的答案，都指向同一个核心思想：<strong>泰勒级数</strong>。</p>
+<hr>
+<h2 id="01-核心思想：以简驭繁的“模仿游戏”"><a href="#01-核心思想：以简驭繁的“模仿游戏”" class="headerlink" title="01. 核心思想：以简驭繁的“模仿游戏”"></a>01. 核心思想：以简驭繁的“模仿游戏”</h2><p>人类的大脑（以及计算机）非常擅长处理<strong>多项式</strong>。<br>多项式就是 $f(x) &#x3D; a + bx + cx^2 + dx^3 + \dots$ 这种形式，因为它们只需要进行<strong>加法</strong>和<strong>乘法</strong>运算。</p>
+<p>但是，像 $e^x, \sin x, \ln x$ 这种<strong>超越函数</strong>就很麻烦。<br>泰勒级数的核心思想就是：<strong>能不能用一个多项式，去无限逼近（模仿）任意一个复杂的函数？</strong></p>
+<h3 id="直观推导：如何模仿一条曲线？"><a href="#直观推导：如何模仿一条曲线？" class="headerlink" title="直观推导：如何模仿一条曲线？"></a>直观推导：如何模仿一条曲线？</h3><p>假设我们想在 $x&#x3D;0$ 处，模仿曲线 $f(x) &#x3D; e^x$。我们需要确定多项式 $P(x) &#x3D; c_0 + c_1x + c_2x^2 + \dots$ 的系数。</p>
+<ol>
+<li><p><strong>位置要一样</strong>：<br>首先，两者的起点得一样。$f(0) &#x3D; 1$，所以 $P(0)$ 也得是 1。<br>$\rightarrow c_0 &#x3D; 1$。<br><em>(此时我们得到了一条水平线 $y&#x3D;1$)</em></p>
+</li>
+<li><p><strong>斜率要一样</strong>：<br>光位置一样不够，走势也得一样。$f’(0) &#x3D; 1$，所以 $P’(0)$ 也得是 1。<br>$\rightarrow c_1 &#x3D; 1$。<br><em>(此时我们得到了一条切线 $y&#x3D;1+x$)</em></p>
+</li>
+<li><p><strong>弯曲程度要一样</strong>：<br>光斜率一样还不够，弯曲的快慢（凹凸性）也得一样。$f’’(0) &#x3D; 1$，所以 $P’’(0)$ 也得是 1。<br>对 $P(x)$ 求两次导得到 $2c_2$，令 $2c_2 &#x3D; 1$。<br>$\rightarrow c_2 &#x3D; 1&#x2F;2$。<br><em>(此时我们得到了一条抛物线 $y&#x3D;1+x+\frac{1}{2}x^2$)</em></p>
+</li>
+<li><p><strong>一直模仿下去…</strong><br>如果我们让这个多项式的<strong>一阶导数、二阶导数…直到 n 阶导数</strong>，在 $x&#x3D;0$ 处都和原函数 $f(x)$ 完美一致，那么这个多项式就会在 $x&#x3D;0$ 附近无限逼近原函数。</p>
+</li>
+</ol>
+<hr>
+<h2 id="02-数学定义：那串阶乘是怎么来的？"><a href="#02-数学定义：那串阶乘是怎么来的？" class="headerlink" title="02. 数学定义：那串阶乘是怎么来的？"></a>02. 数学定义：那串阶乘是怎么来的？</h2><p>根据上面的逻辑，我们不仅要求导数相等，还要处理求导过程中产生的系数（比如 $x^3$ 求导三次会变成 $3 \times 2 \times 1 &#x3D; 3!$）。为了抵消这些系数，分母上必须除以阶乘。</p>
+<p><strong>泰勒公式（在 $x&#x3D;a$ 处展开）：</strong><br>$$f(x) &#x3D; \sum_{n&#x3D;0}^{\infty} \frac{f^{(n)}(a)}{n!} (x-a)^n$$<br>$$&#x3D; f(a) + f’(a)(x-a) + \frac{f’’(a)}{2!}(x-a)^2 + \frac{f’’’(a)}{3!}(x-a)^3 + \dots$$</p>
+<ul>
+<li><strong>$f^{(n)}(a)$</strong>：这是函数的<strong>DNA</strong>，代表了函数在 $a$ 点的所有局部信息（位置、速度、加速度、加加速度…）。</li>
+<li><strong>$n!$</strong>：这是修正项，用来抵消多项式求导产生的系数。</li>
+<li><strong>$(x-a)^n$</strong>：这是积木，通过平移让近似中心对准 $a$ 点。</li>
+</ul>
+<p><strong>麦克劳林级数 (Maclaurin Series)</strong>：<br>当 $a&#x3D;0$ 时的泰勒级数。这是最常用的形式。</p>
+<hr>
+<h2 id="03-三大镇山之宝"><a href="#03-三大镇山之宝" class="headerlink" title="03. 三大镇山之宝"></a>03. 三大镇山之宝</h2><p>只要你记住了下面这三个麦克劳林级数，你几乎可以推导整个数学宇宙。</p>
+<h3 id="1-指数函数-增长之王"><a href="#1-指数函数-增长之王" class="headerlink" title="1. 指数函数 (增长之王)"></a>1. 指数函数 (增长之王)</h3><p>$$e^x &#x3D; 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \dots$$<br><em>注：$e^x$ 的任意阶导数都是它自己，在 $x&#x3D;0$ 处值都是 1，所以系数全是 1。</em></p>
+<h3 id="2-正弦函数-奇函数"><a href="#2-正弦函数-奇函数" class="headerlink" title="2. 正弦函数 (奇函数)"></a>2. 正弦函数 (奇函数)</h3><p>$$\sin x &#x3D; x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \dots$$<br><em>注：$\sin x$ 是奇函数，所以只有 $x$ 的奇数次幂。</em></p>
+<h3 id="3-余弦函数-偶函数"><a href="#3-余弦函数-偶函数" class="headerlink" title="3. 余弦函数 (偶函数)"></a>3. 余弦函数 (偶函数)</h3><p>$$\cos x &#x3D; 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \dots$$<br><em>注：$\cos x$ 是偶函数，所以只有 $x$ 的偶数次幂。</em></p>
+<p><em>(图中可以看到，随着项数增加，多项式曲线逐渐与 $\sin(x)$ 完美重合)</em></p>
+<hr>
+<h2 id="04-见证奇迹：欧拉公式的诞生"><a href="#04-见证奇迹：欧拉公式的诞生" class="headerlink" title="04. 见证奇迹：欧拉公式的诞生"></a>04. 见证奇迹：欧拉公式的诞生</h2><p>你有没有发现，$e^x$ 的公式里包含了所有项，而 $\sin x$ 和 $\cos x$ 分别占据了奇数项和偶数项？<br>如果我们大胆一点，把虚数 $ix$ 代入 $e^x$ 的展开式：</p>
+<p>$$<br>\begin{aligned}<br>e^{ix} &amp;&#x3D; 1 + (ix) + \frac{(ix)^2}{2!} + \frac{(ix)^3}{3!} + \frac{(ix)^4}{4!} + \dots \<br>&amp;&#x3D; 1 + ix - \frac{x^2}{2!} - i\frac{x^3}{3!} + \frac{x^4}{4!} + \dots \<br>&amp;&#x3D; \left( 1 - \frac{x^2}{2!} + \frac{x^4}{4!} \dots \right) + i \left( x - \frac{x^3}{3!} + \dots \right)<br>\end{aligned}<br>$$</p>
+<p>看！实部正好是 $\cos x$，虚部正好是 $\sin x$。<br>于是我们得到了数学上最美的公式：<br>$$e^{ix} &#x3D; \cos x + i\sin x$$</p>
+<p>这就是泰勒级数连接代数与几何的桥梁作用。</p>
+<hr>
+<h2 id="05-物理学家的“魔法”：一阶近似"><a href="#05-物理学家的“魔法”：一阶近似" class="headerlink" title="05. 物理学家的“魔法”：一阶近似"></a>05. 物理学家的“魔法”：一阶近似</h2><p>在物理学和工程学中，我们通常不需要无穷多项。大多数时候，前两项就够了。这被称为**“线性近似”<strong>或</strong>“小量近似”**。</p>
+<p>当 $x \ll 1$ (x 非常小) 时：</p>
+<ol>
+<li><p><strong>单摆问题</strong>：<br>$\sin \theta \approx \theta$。<br>把复杂的非线性微分方程变成了简谐振动方程。</p>
+</li>
+<li><p><strong>相对论效应</strong>：<br>洛伦兹因子 $\gamma &#x3D; (1 - v^2&#x2F;c^2)^{-1&#x2F;2}$。<br>利用 $(1+x)^n \approx 1+nx$，令 $x &#x3D; -v^2&#x2F;c^2, n&#x3D;-1&#x2F;2$。<br>得到 $\gamma \approx 1 + \frac{1}{2}\frac{v^2}{c^2}$。<br>这就解释了为什么在低速下，爱因斯坦的动能公式 ($E&#x3D;mc^2(\gamma-1)$) 会退化成牛顿的动能公式 ($E &#x3D; \frac{1}{2}mv^2$)。</p>
+</li>
+</ol>
+<hr>
+<h2 id="06-总结：局部包含整体"><a href="#06-总结：局部包含整体" class="headerlink" title="06. 总结：局部包含整体"></a>06. 总结：局部包含整体</h2><p>泰勒级数通过一个深刻的哲学告诉我们：<br><strong>对于光滑的良态函数，只要你知道了它在某一点的“所有现在”（各阶导数），你就掌握了它的“全部未来”（任意点的值）。</strong></p>
+<p>它把不可计算的复杂函数，降维成了计算机最喜欢的加减乘除。它是现代数值计算的基石，也是物理学家洞察世界的透镜。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/" class="print-no-link">#微积分</a>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6/" class="print-no-link">#数学</a>
+      
+        <a href="/tags/%E6%B3%B0%E5%8B%92%E7%BA%A7%E6%95%B0/" class="print-no-link">#泰勒级数</a>
+      
+        <a href="/tags/%E6%AC%A7%E6%8B%89%E5%85%AC%E5%BC%8F/" class="print-no-link">#欧拉公式</a>
+      
+        <a href="/tags/%E7%89%A9%E7%90%86%E8%BF%91%E4%BC%BC/" class="print-no-link">#物理近似</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>用多项式模仿一切：泰勒级数的直观理解与数学之美</div>
+      <div>https://sunfove.xyz/2026/01/12/2026-01-12-taylor-series-intuition/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 12, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/12/2026-01-12-coordinate-systems-transformation/" title="空间几何的基石：直角、柱、球坐标系的原理与转换详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">空间几何的基石：直角、柱、球坐标系的原理与转换详解</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/12/2026-01-12-waveguide-theory-part1-metal/" title="波导理论(上)：金属波导的本征模、边界条件与贝塞尔函数详解">
+                        <span class="hidden-mobile">波导理论(上)：金属波导的本征模、边界条件与贝塞尔函数详解</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/12/2026-01-12-taylor-series-intuition/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
