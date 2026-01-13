@@ -4,6 +4,76 @@
   
   
   <entry>
+    <title>从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF/ESF 转换</title>
+    <link href="/2026/01/13/2026-01-13-mtf-calculation-principle/"/>
+    <url>/2026/01/13/2026-01-13-mtf-calculation-principle/</url>
+    
+    <content type="html"><![CDATA[<p>在光学设计和镜头测评中，MTF (Modulation Transfer Function) 曲线是绝对的权威。<br>但对于很多工程师来说，MTF 的计算过程像是一个黑盒：输入一张图，输出一条曲线。</p><p>这个黑盒里到底发生了什么？其实，一切都要从一个“点”说起。</p><hr><h2 id="01-一切的源头：点扩散函数-PSF"><a href="#01-一切的源头：点扩散函数-PSF" class="headerlink" title="01. 一切的源头：点扩散函数 (PSF)"></a>01. 一切的源头：点扩散函数 (PSF)</h2><p>想象在一个漆黑的宇宙中，有一颗无限远、无限小的恒星（理想的点光源）。<br>当这颗恒星的光经过你的镜头，打在传感器上时，它还会是一个完美的几何点吗？</p><p>绝不可能。<br>由于衍射极限（物理规律）和像差（镜头缺陷），这个点会散开，变成一个模糊的光斑。<br>这个光斑在空间上的亮度分布，就叫 <strong>点扩散函数 (Point Spread Function, PSF)</strong>。</p><ul><li><strong>理想镜头</strong>：PSF 是一个完美的艾里斑 (Airy Disk)。</li><li><strong>真实镜头</strong>：PSF 是一个不规则的、弥散的能量团。</li></ul><p><strong>核心物理意义</strong>：<br>成像系统对图像的处理，本质上就是物体与系统 PSF 的<strong>卷积 (Convolution)</strong>。<br>$$Image(x, y) &#x3D; Object(x, y) * PSF(x, y)$$</p><hr><h2 id="02-从空间到频率：MTF-与傅里叶变换"><a href="#02-从空间到频率：MTF-与傅里叶变换" class="headerlink" title="02. 从空间到频率：MTF 与傅里叶变换"></a>02. 从空间到频率：MTF 与傅里叶变换</h2><p>PSF 是在<strong>空间域 (Spatial Domain)</strong> 描述模糊程度的（光斑直径多少微米）。<br>MTF 是在<strong>频率域 (Frequency Domain)</strong> 描述对比度衰减的（每毫米多少线对时对比度剩多少）。</p><p>连接这两个世界的桥梁，就是<strong>傅里叶变换</strong>。</p><p><strong>光学传递函数 (OTF)</strong> 被定义为 PSF 的傅里叶变换：<br>$$OTF(u, v) &#x3D; \mathcal{F}{PSF(x, y)}$$</p><p>而我们常说的 <strong>MTF</strong>，其实就是 OTF 的模（取绝对值）：<br>$$MTF(u, v) &#x3D; |OTF(u, v)|$$</p><p><strong>通俗理解</strong>：</p><ul><li>PSF 越尖锐（光斑越小） $\rightarrow$ 傅里叶变换后的频谱越宽 $\rightarrow$ MTF 曲线下降得越慢（高频高）。</li><li>PSF 越弥散（光斑越大） $\rightarrow$ 傅里叶变换后的频谱越窄 $\rightarrow$ MTF 曲线掉得越快（高频糊）。</li></ul><hr><h2 id="03-工业界实战：为什么要用“斜边法”？"><a href="#03-工业界实战：为什么要用“斜边法”？" class="headerlink" title="03. 工业界实战：为什么要用“斜边法”？"></a>03. 工业界实战：为什么要用“斜边法”？</h2><p>虽然理论上 $MTF &#x3D; |\mathcal{F}(PSF)|$，但在实际测量中，直接拍摄一个微小的“点”来计算 PSF 是非常困难的：</p><ol><li><strong>能量太弱</strong>：一个微米级的针孔过光量太少，信噪比 (SNR) 极差，会被噪声淹没。</li><li><strong>对齐困难</strong>：很难保证这个点正好落在像素中心。</li></ol><p>所以，工业界（包括 ISO 12233 标准）几乎都使用 <strong>“斜边法” (Slanted Edge Method)</strong>。</p><p>我们不测点，我们测一条<strong>刀锋边缘 (Edge)</strong>。</p><h3 id="计算链路推导：ESF-to-LSF-to-MTF"><a href="#计算链路推导：ESF-to-LSF-to-MTF" class="headerlink" title="计算链路推导：ESF $\to$ LSF $\to$ MTF"></a>计算链路推导：ESF $\to$ LSF $\to$ MTF</h3><p>这是一个经典的三步走过程：</p><h4 id="第一步：获取边缘扩散函数-ESF"><a href="#第一步：获取边缘扩散函数-ESF" class="headerlink" title="第一步：获取边缘扩散函数 (ESF)"></a>第一步：获取边缘扩散函数 (ESF)</h4><p>拍摄一张黑白分明的斜边图像。<br>理想情况下，边缘应该是 0 到 1 的阶跃跳变。但经过模糊的镜头后，边缘会有一个渐变的过渡区。<br>如果在垂直于边缘的方向上截取亮度数据，我们得到的一条 S 型曲线，这就是 <strong>边缘扩散函数 (Edge Spread Function, ESF)</strong>。<br><em>注：ESF 本质上是 PSF 的二维积分。</em></p><h4 id="第二步：获取线扩散函数-LSF"><a href="#第二步：获取线扩散函数-LSF" class="headerlink" title="第二步：获取线扩散函数 (LSF)"></a>第二步：获取线扩散函数 (LSF)</h4><p>数学告诉我们，对阶跃响应求导，就是脉冲响应。<br>同理，对 <strong>ESF 求导（微分）</strong>，就得到了 <strong>线扩散函数 (Line Spread Function, LSF)</strong>。<br>$$LSF(x) &#x3D; \frac{d}{dx} ESF(x)$$</p><p>LSF 代表的是一条无限细的亮线经过镜头后变宽的亮度分布。<br><em>注：LSF 本质上是 PSF 在某个方向上的一维积分（投影）。</em></p><h4 id="第三步：LSF-变-MTF"><a href="#第三步：LSF-变-MTF" class="headerlink" title="第三步：LSF 变 MTF"></a>第三步：LSF 变 MTF</h4><p>最后，对一维的 LSF 进行<strong>一维傅里叶变换 (FFT)</strong>，并进行归一化，就得到了 MTF。</p><p>$$MTF(\nu) &#x3D; \left| \int_{-\infty}^{\infty} LSF(x) e^{-i 2\pi \nu x} dx \right|$$</p><p>通常我们会把零频率 ($MTF(0)$) 归一化为 1。</p><hr><h2 id="04-仿真软件（Zemax）是怎么算的？"><a href="#04-仿真软件（Zemax）是怎么算的？" class="headerlink" title="04. 仿真软件（Zemax）是怎么算的？"></a>04. 仿真软件（Zemax）是怎么算的？</h2><p>如果你不是在测实物，而是在 Zemax&#x2F;CodeV 里做设计，软件并没有去“拍摄”边缘，它是怎么算出 MTF 的？</p><p>它有两种核心算法：</p><h3 id="1-基于-FFT-快速傅里叶变换"><a href="#1-基于-FFT-快速傅里叶变换" class="headerlink" title="1. 基于 FFT (快速傅里叶变换)"></a>1. 基于 FFT (快速傅里叶变换)</h3><p>这是最常用的方法。</p><ol><li>软件计算出光瞳面上的<strong>波前像差 (Wavefront Error)</strong>。</li><li>计算<strong>光瞳函数 (Pupil Function)</strong>（包含振幅和相位）。</li><li>对光瞳函数做<strong>自相关 (Autocorrelation)</strong>，直接得到 OTF。<br>$$OTF &#x3D; P(x, y) \star P(x, y)$$<br><em>或者先对光瞳函数做 FFT 得到 PSF，再对 PSF 做 FFT 得到 OTF。</em></li></ol><h3 id="2-基于-Huygens-惠更斯积分"><a href="#2-基于-Huygens-惠更斯积分" class="headerlink" title="2. 基于 Huygens (惠更斯积分)"></a>2. 基于 Huygens (惠更斯积分)</h3><p>当像差很大或者不连续时使用。<br>它直接模拟无数个子波源在像面上的相干叠加，硬算出 PSF，然后再 FFT 得到 MTF。这种方法更准但更慢。</p><hr><h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><p>MTF 的计算并不是玄学，它是一条严密的数学链条：</p><table><thead><tr><th align="left">物理对象</th><th align="left">数学函数</th><th align="left">关系</th></tr></thead><tbody><tr><td align="left"><strong>点 (Point)</strong></td><td align="left"><strong>PSF</strong></td><td align="left">系统的基本响应单元</td></tr><tr><td align="left"><strong>线 (Line)</strong></td><td align="left"><strong>LSF</strong></td><td align="left">PSF 的一维投影</td></tr><tr><td align="left"><strong>边 (Edge)</strong></td><td align="left"><strong>ESF</strong></td><td align="left">LSF 的积分 (实际最好测)</td></tr><tr><td align="left"><strong>清晰度</strong></td><td align="left"><strong>MTF</strong></td><td align="left">LSF 的傅里叶变换</td></tr></tbody></table><p><strong>实际操作口诀</strong>：<br><strong>“拍个斜边，提取 ESF，求导得 LSF，做 FFT 得 MTF。”</strong></p><p>这就是每一次你用 Imatest 或写 Python 代码分析镜头画质时，计算机在毫秒间完成的工作。</p><hr>]]></content>
+    
+    
+    <categories>
+      
+      <category>光学工程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>光学设计</tag>
+      
+      <tag>信号处理</tag>
+      
+      <tag>MTF</tag>
+      
+      <tag>图像处理</tag>
+      
+      <tag>PSF</tag>
+      
+      <tag>斜边法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>操控光的微观舞蹈：超表面物理原理与相位调控机制详解</title>
+    <link href="/2026/01/13/2026-01-13-physics-of-metasurfaces/"/>
+    <url>/2026/01/13/2026-01-13-physics-of-metasurfaces/</url>
+    
+    <content type="html"><![CDATA[<p>在传统光学中，我们习惯了“光程积累”的概念。光穿过一片玻璃，相位变化取决于玻璃的折射率和厚度 ($\Delta \phi &#x3D; k \cdot n \cdot d$)。要获得大的相位差，就需要足够厚的材料。</p><p><strong>超表面 (Metasurface)</strong> 的出现，彻底打破了“厚度”的限制。它引入了一个全新的物理概念：<strong>界面相位突变 (Interfacial Phase Discontinuity)</strong>。</p><p>本文将带你深入微观世界，解析超原子是如何通过三种不同的物理机制，让光在穿过亚波长薄膜的瞬间“不仅转弯，还能变身”。</p><hr><h2 id="01-数学基石：广义斯涅耳定律-Generalized-Snell’s-Law"><a href="#01-数学基石：广义斯涅耳定律-Generalized-Snell’s-Law" class="headerlink" title="01. 数学基石：广义斯涅耳定律 (Generalized Snell’s Law)"></a>01. 数学基石：广义斯涅耳定律 (Generalized Snell’s Law)</h2><p>早在 2011 年，Capasso 教授团队就提出了这一定律，奠定了超表面的理论基础。</p><h3 id="传统定律的局限"><a href="#传统定律的局限" class="headerlink" title="传统定律的局限"></a>传统定律的局限</h3><p>原本的折射定律 $n_1 \sin\theta_i &#x3D; n_2 \sin\theta_t$ 假设界面是连续且均匀的，光子在界面切向的动量是守恒的。</p><h3 id="广义定律的诞生"><a href="#广义定律的诞生" class="headerlink" title="广义定律的诞生"></a>广义定律的诞生</h3><p>如果我们人为地在界面上引入一个随位置变化的相位梯度 $d\Phi&#x2F;dx$，那么光子在穿过界面时，会获得一个额外的“虚拟动量”。</p><p>新的折射公式变为：<br>$$n_t \sin\theta_t - n_i \sin\theta_i &#x3D; \frac{\lambda_0}{2\pi} \frac{d\Phi}{dx}$$</p><ul><li><strong>$\frac{d\Phi}{dx}$</strong>：这就是超表面提供的<strong>相位梯度</strong>。</li><li><strong>物理意义</strong>：通过设计界面上的相位分布 $\Phi(x)$，我们可以让透射角 $\theta_t$ 变成任意值！甚至可以让光线向法线同侧折射（负折射），或者从传播波变成表面波。</li></ul><hr><h2 id="02-核心单元：超原子-Meta-atoms"><a href="#02-核心单元：超原子-Meta-atoms" class="headerlink" title="02. 核心单元：超原子 (Meta-atoms)"></a>02. 核心单元：超原子 (Meta-atoms)</h2><p>理论上我们需要 $\Phi(x)$ 在 $0$ 到 $2\pi$ 之间自由变化。实际上，我们在平面上离散化地排布无数个微小的纳米结构，每一个结构就是一个“像素点”，也就是<strong>超原子</strong>。</p><p>通过调整超原子的<strong>几何参数</strong>（长、宽、高、旋转角度），我们可以独立调控该点的<strong>振幅</strong>和<strong>相位</strong>。</p><p>那么，这些纳米柱子到底是怎么改变相位的？主要有以下三大机制。</p><hr><h2 id="03-机制一：共振相位-Resonant-Phase"><a href="#03-机制一：共振相位-Resonant-Phase" class="headerlink" title="03. 机制一：共振相位 (Resonant Phase)"></a>03. 机制一：共振相位 (Resonant Phase)</h2><p>这是早期超表面（尤其是金属&#x2F;等离激元超表面）常用的机制。</p><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>当光照射到金属纳米天线（如金、银的 V 形天线）或高折射率介质纳米柱（如硅、二氧化钛）时，会激发电磁共振。</p><ul><li><strong>金属</strong>：激发局域表面等离激元共振 (LSPR)。</li><li><strong>介质</strong>：激发<strong>米氏共振 (Mie Resonance)</strong>。光在纳米柱内部来回震荡，像在一个微小的谐振腔里一样。</li></ul><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul><li><strong>相位范围</strong>：通过改变纳米柱的尺寸或形状，改变共振频率。在共振峰附近，相位会发生 $\pi$ 到 $2\pi$ 的剧烈变化。</li><li><strong>局限</strong>：共振通常伴随着色散（对波长敏感），带宽较窄。</li></ul><hr><h2 id="04-机制二：几何相位-PB-相位-Pancharatnam-Berry-Phase"><a href="#04-机制二：几何相位-PB-相位-Pancharatnam-Berry-Phase" class="headerlink" title="04. 机制二：几何相位 &#x2F; PB 相位 (Pancharatnam-Berry Phase)"></a>04. 机制二：几何相位 &#x2F; PB 相位 (Pancharatnam-Berry Phase)</h2><p>这是一种非常优雅且“与波长无关”的相位调制方式，主要用于圆偏振光。</p><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>使用具有各向异性（长条形）的纳米柱。当我们把这个纳米柱在平面内旋转一个角度 $\theta$ 时，出射的交叉偏振光（Cross-polarized light）会获得一个额外的相位 $\varphi$：<br>$$\varphi &#x3D; 2\sigma \theta$$<br>其中 $\sigma &#x3D; \pm 1$ 对应左旋或右旋圆偏振光。</p><h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ul><li>如果你把纳米柱旋转 90度 ($\pi&#x2F;2$)，相位就改变 $\pi$。</li><li>如果你把纳米柱旋转 180度 ($\pi$)，相位就改变 $2\pi$。</li></ul><h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul><li><strong>无色散</strong>：相位只与旋转角度 $\theta$ 有关，与波长无关！这使得 PB 相位非常适合设计<strong>宽带</strong>光学器件。</li><li><strong>简单</strong>：只需要改变旋转角度，不需要改变柱子的长宽尺寸，加工容差大。</li></ul><hr><h2 id="05-机制三：传输相位-Propagation-Phase"><a href="#05-机制三：传输相位-Propagation-Phase" class="headerlink" title="05. 机制三：传输相位 (Propagation Phase)"></a>05. 机制三：传输相位 (Propagation Phase)</h2><p>这是目前全介质超透镜（如硅、氮化硅、二氧化钛）最主流的机制，类似于微缩版的光波导。</p><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p>把每个纳米柱看作一段垂直放置的<strong>截断波导 (Truncated Waveguide)</strong>。光在里面传播时，其<strong>有效折射率 (Effective Index, $n_{eff}$)</strong> 取决于波导的填充率（即柱子的直径）。</p><ul><li><strong>粗柱子</strong>：$n_{eff}$ 大，光跑得慢，相位延迟大。</li><li><strong>细柱子</strong>：$n_{eff}$ 小，光跑得快，相位延迟小。</li></ul><p>积累的相位为：<br>$$\phi &#x3D; \frac{2\pi}{\lambda} n_{eff}(D) \cdot H$$<br>其中 $H$ 是柱子的高度，$D$ 是柱子的直径。</p><h3 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h3><ul><li><strong>高效率</strong>：可以实现接近 100% 的透射效率。</li><li><strong>偏振无关</strong>：如果柱子是圆柱或方柱（高度对称），它对任意偏振态的光响应都一样。这解决了 PB 相位只能用于圆偏振光的问题。</li></ul><hr><h2 id="06-实例：如何设计一个超透镜-Metalens-？"><a href="#06-实例：如何设计一个超透镜-Metalens-？" class="headerlink" title="06. 实例：如何设计一个超透镜 (Metalens)？"></a>06. 实例：如何设计一个超透镜 (Metalens)？</h2><p>理解了机制，我们就可以像搭积木一样设计透镜了。</p><p><strong>目标</strong>：将平行光聚焦到焦距 $f$ 处。<br><strong>数学要求</strong>：平面上的相位分布 $\Phi(x, y)$ 必须满足双曲面轮廓：<br>$$\Phi(x, y) &#x3D; -\frac{2\pi}{\lambda} (\sqrt{x^2 + y^2 + f^2} - f)$$</p><p><strong>设计流程</strong>：</p><ol><li><strong>建立库 (Library)</strong>：在仿真软件 (如 Lumerical FDTD) 中，扫描不同直径 $D$ 的纳米柱，得到一张“直径-相位”对应表。</li><li><strong>映射 (Mapping)</strong>：<ul><li>在透镜中心 ($x&#x3D;0$)，需要相位 0 $\rightarrow$ 查表，放一个直径 $D_1$ 的柱子。</li><li>在透镜边缘 ($x&#x3D;R$)，需要相位 $\pi$ $\rightarrow$ 查表，放一个直径 $D_2$ 的柱子。</li></ul></li><li><strong>加工</strong>：用电子束曝光 (EBL) 将这些数以百万计的柱子刻在基板上。</li></ol><hr><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>从物理本质上看，超表面是一个<strong>空间相位调制器</strong>。<br>无论是利用共振的剧烈跳变，还是利用旋转的几何对称性，亦或是微波导的有效折射率，其核心目的只有一个：<strong>在亚波长的尺度下，对光场的振幅、相位和偏振进行完全自由的数学重构。</strong></p><p>这种能力让我们不仅能制造透镜，还能制造全息板、涡旋光发生器、偏振转换器，甚至是自然界不存在的“隐身衣”。</p><hr>]]></content>
+    
+    
+    <categories>
+      
+      <category>光学工程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>光学</tag>
+      
+      <tag>广义斯涅耳定律</tag>
+      
+      <tag>几何相位</tag>
+      
+      <tag>PB相位</tag>
+      
+      <tag>米氏共振</tag>
+      
+      <tag>惠更斯原理</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>后摩尔时代的基石：SOS、SOI 与 Silica-on-Silicon 技术深度综述</title>
     <link href="/2026/01/12/2026-01-12-sos-soi-silica-on-silicon-review/"/>
     <url>/2026/01/12/2026-01-12-sos-soi-silica-on-silicon-review/</url>
@@ -325,15 +395,15 @@
       
       <tag>光通信</tag>
       
-      <tag>光开关</tag>
-      
       <tag>MEMS</tag>
+      
+      <tag>ROADM</tag>
+      
+      <tag>光开关</tag>
       
       <tag>马赫-曾德干涉仪</tag>
       
       <tag>硅光子</tag>
-      
-      <tag>ROADM</tag>
       
     </tags>
     
@@ -364,9 +434,9 @@
       
       <tag>麦克斯韦方程</tag>
       
-      <tag>物理史</tag>
-      
       <tag>位移电流</tag>
+      
+      <tag>物理史</tag>
       
     </tags>
     
@@ -556,15 +626,15 @@
       
       <tag>光通信</tag>
       
-      <tag>MEMS</tag>
-      
-      <tag>ROADM</tag>
-      
       <tag>WSS</tag>
       
       <tag>LCOS</tag>
       
+      <tag>MEMS</tag>
+      
       <tag>衍射光栅</tag>
+      
+      <tag>ROADM</tag>
       
     </tags>
     
@@ -952,9 +1022,9 @@
       
       <tag>投资</tag>
       
-      <tag>投资逻辑</tag>
-      
       <tag>宏观经济</tag>
+      
+      <tag>投资逻辑</tag>
       
       <tag>黄金</tag>
       
@@ -1902,9 +1972,9 @@
     
     <tags>
       
-      <tag>技巧</tag>
-      
       <tag>windows</tag>
+      
+      <tag>技巧</tag>
       
     </tags>
     

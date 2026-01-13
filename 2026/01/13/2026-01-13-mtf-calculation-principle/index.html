@@ -1,0 +1,840 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="我们都知道 MTF 是评价镜头清晰度的金标准，但你是否好奇它是怎么算出来的？为什么说 MTF 是 PSF 的傅里叶变换？工业界为何不直接测点，而是测“斜边”？本文带你推导 ESF -&gt; LSF -&gt; MTF 的完整数学链路。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF&#x2F;ESF 转换">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/13/2026-01-13-mtf-calculation-principle/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="我们都知道 MTF 是评价镜头清晰度的金标准，但你是否好奇它是怎么算出来的？为什么说 MTF 是 PSF 的傅里叶变换？工业界为何不直接测点，而是测“斜边”？本文带你推导 ESF -&gt; LSF -&gt; MTF 的完整数学链路。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-13T18:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-13T14:44:11.094Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="MTF">
+<meta property="article:tag" content="PSF">
+<meta property="article:tag" content="信号处理">
+<meta property="article:tag" content="光学设计">
+<meta property="article:tag" content="图像处理">
+<meta property="article:tag" content="斜边法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF/ESF 转换 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF/ESF 转换</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-13 18:00" pubdate>
+          January 13, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF/ESF 转换</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在光学设计和镜头测评中，MTF (Modulation Transfer Function) 曲线是绝对的权威。<br>但对于很多工程师来说，MTF 的计算过程像是一个黑盒：输入一张图，输出一条曲线。</p>
+<p>这个黑盒里到底发生了什么？其实，一切都要从一个“点”说起。</p>
+<hr>
+<h2 id="01-一切的源头：点扩散函数-PSF"><a href="#01-一切的源头：点扩散函数-PSF" class="headerlink" title="01. 一切的源头：点扩散函数 (PSF)"></a>01. 一切的源头：点扩散函数 (PSF)</h2><p>想象在一个漆黑的宇宙中，有一颗无限远、无限小的恒星（理想的点光源）。<br>当这颗恒星的光经过你的镜头，打在传感器上时，它还会是一个完美的几何点吗？</p>
+<p>绝不可能。<br>由于衍射极限（物理规律）和像差（镜头缺陷），这个点会散开，变成一个模糊的光斑。<br>这个光斑在空间上的亮度分布，就叫 <strong>点扩散函数 (Point Spread Function, PSF)</strong>。</p>
+<ul>
+<li><strong>理想镜头</strong>：PSF 是一个完美的艾里斑 (Airy Disk)。</li>
+<li><strong>真实镜头</strong>：PSF 是一个不规则的、弥散的能量团。</li>
+</ul>
+<p><strong>核心物理意义</strong>：<br>成像系统对图像的处理，本质上就是物体与系统 PSF 的<strong>卷积 (Convolution)</strong>。<br>$$Image(x, y) &#x3D; Object(x, y) * PSF(x, y)$$</p>
+<hr>
+<h2 id="02-从空间到频率：MTF-与傅里叶变换"><a href="#02-从空间到频率：MTF-与傅里叶变换" class="headerlink" title="02. 从空间到频率：MTF 与傅里叶变换"></a>02. 从空间到频率：MTF 与傅里叶变换</h2><p>PSF 是在<strong>空间域 (Spatial Domain)</strong> 描述模糊程度的（光斑直径多少微米）。<br>MTF 是在<strong>频率域 (Frequency Domain)</strong> 描述对比度衰减的（每毫米多少线对时对比度剩多少）。</p>
+<p>连接这两个世界的桥梁，就是<strong>傅里叶变换</strong>。</p>
+<p><strong>光学传递函数 (OTF)</strong> 被定义为 PSF 的傅里叶变换：<br>$$OTF(u, v) &#x3D; \mathcal{F}{PSF(x, y)}$$</p>
+<p>而我们常说的 <strong>MTF</strong>，其实就是 OTF 的模（取绝对值）：<br>$$MTF(u, v) &#x3D; |OTF(u, v)|$$</p>
+<p><strong>通俗理解</strong>：</p>
+<ul>
+<li>PSF 越尖锐（光斑越小） $\rightarrow$ 傅里叶变换后的频谱越宽 $\rightarrow$ MTF 曲线下降得越慢（高频高）。</li>
+<li>PSF 越弥散（光斑越大） $\rightarrow$ 傅里叶变换后的频谱越窄 $\rightarrow$ MTF 曲线掉得越快（高频糊）。</li>
+</ul>
+<hr>
+<h2 id="03-工业界实战：为什么要用“斜边法”？"><a href="#03-工业界实战：为什么要用“斜边法”？" class="headerlink" title="03. 工业界实战：为什么要用“斜边法”？"></a>03. 工业界实战：为什么要用“斜边法”？</h2><p>虽然理论上 $MTF &#x3D; |\mathcal{F}(PSF)|$，但在实际测量中，直接拍摄一个微小的“点”来计算 PSF 是非常困难的：</p>
+<ol>
+<li><strong>能量太弱</strong>：一个微米级的针孔过光量太少，信噪比 (SNR) 极差，会被噪声淹没。</li>
+<li><strong>对齐困难</strong>：很难保证这个点正好落在像素中心。</li>
+</ol>
+<p>所以，工业界（包括 ISO 12233 标准）几乎都使用 <strong>“斜边法” (Slanted Edge Method)</strong>。</p>
+<p>我们不测点，我们测一条<strong>刀锋边缘 (Edge)</strong>。</p>
+<h3 id="计算链路推导：ESF-to-LSF-to-MTF"><a href="#计算链路推导：ESF-to-LSF-to-MTF" class="headerlink" title="计算链路推导：ESF $\to$ LSF $\to$ MTF"></a>计算链路推导：ESF $\to$ LSF $\to$ MTF</h3><p>这是一个经典的三步走过程：</p>
+<h4 id="第一步：获取边缘扩散函数-ESF"><a href="#第一步：获取边缘扩散函数-ESF" class="headerlink" title="第一步：获取边缘扩散函数 (ESF)"></a>第一步：获取边缘扩散函数 (ESF)</h4><p>拍摄一张黑白分明的斜边图像。<br>理想情况下，边缘应该是 0 到 1 的阶跃跳变。但经过模糊的镜头后，边缘会有一个渐变的过渡区。<br>如果在垂直于边缘的方向上截取亮度数据，我们得到的一条 S 型曲线，这就是 <strong>边缘扩散函数 (Edge Spread Function, ESF)</strong>。<br><em>注：ESF 本质上是 PSF 的二维积分。</em></p>
+<h4 id="第二步：获取线扩散函数-LSF"><a href="#第二步：获取线扩散函数-LSF" class="headerlink" title="第二步：获取线扩散函数 (LSF)"></a>第二步：获取线扩散函数 (LSF)</h4><p>数学告诉我们，对阶跃响应求导，就是脉冲响应。<br>同理，对 <strong>ESF 求导（微分）</strong>，就得到了 <strong>线扩散函数 (Line Spread Function, LSF)</strong>。<br>$$LSF(x) &#x3D; \frac{d}{dx} ESF(x)$$</p>
+<p>LSF 代表的是一条无限细的亮线经过镜头后变宽的亮度分布。<br><em>注：LSF 本质上是 PSF 在某个方向上的一维积分（投影）。</em></p>
+<h4 id="第三步：LSF-变-MTF"><a href="#第三步：LSF-变-MTF" class="headerlink" title="第三步：LSF 变 MTF"></a>第三步：LSF 变 MTF</h4><p>最后，对一维的 LSF 进行<strong>一维傅里叶变换 (FFT)</strong>，并进行归一化，就得到了 MTF。</p>
+<p>$$MTF(\nu) &#x3D; \left| \int_{-\infty}^{\infty} LSF(x) e^{-i 2\pi \nu x} dx \right|$$</p>
+<p>通常我们会把零频率 ($MTF(0)$) 归一化为 1。</p>
+<hr>
+<h2 id="04-仿真软件（Zemax）是怎么算的？"><a href="#04-仿真软件（Zemax）是怎么算的？" class="headerlink" title="04. 仿真软件（Zemax）是怎么算的？"></a>04. 仿真软件（Zemax）是怎么算的？</h2><p>如果你不是在测实物，而是在 Zemax&#x2F;CodeV 里做设计，软件并没有去“拍摄”边缘，它是怎么算出 MTF 的？</p>
+<p>它有两种核心算法：</p>
+<h3 id="1-基于-FFT-快速傅里叶变换"><a href="#1-基于-FFT-快速傅里叶变换" class="headerlink" title="1. 基于 FFT (快速傅里叶变换)"></a>1. 基于 FFT (快速傅里叶变换)</h3><p>这是最常用的方法。</p>
+<ol>
+<li>软件计算出光瞳面上的<strong>波前像差 (Wavefront Error)</strong>。</li>
+<li>计算<strong>光瞳函数 (Pupil Function)</strong>（包含振幅和相位）。</li>
+<li>对光瞳函数做<strong>自相关 (Autocorrelation)</strong>，直接得到 OTF。<br>$$OTF &#x3D; P(x, y) \star P(x, y)$$<br><em>或者先对光瞳函数做 FFT 得到 PSF，再对 PSF 做 FFT 得到 OTF。</em></li>
+</ol>
+<h3 id="2-基于-Huygens-惠更斯积分"><a href="#2-基于-Huygens-惠更斯积分" class="headerlink" title="2. 基于 Huygens (惠更斯积分)"></a>2. 基于 Huygens (惠更斯积分)</h3><p>当像差很大或者不连续时使用。<br>它直接模拟无数个子波源在像面上的相干叠加，硬算出 PSF，然后再 FFT 得到 MTF。这种方法更准但更慢。</p>
+<hr>
+<h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><p>MTF 的计算并不是玄学，它是一条严密的数学链条：</p>
+<table>
+<thead>
+<tr>
+<th align="left">物理对象</th>
+<th align="left">数学函数</th>
+<th align="left">关系</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>点 (Point)</strong></td>
+<td align="left"><strong>PSF</strong></td>
+<td align="left">系统的基本响应单元</td>
+</tr>
+<tr>
+<td align="left"><strong>线 (Line)</strong></td>
+<td align="left"><strong>LSF</strong></td>
+<td align="left">PSF 的一维投影</td>
+</tr>
+<tr>
+<td align="left"><strong>边 (Edge)</strong></td>
+<td align="left"><strong>ESF</strong></td>
+<td align="left">LSF 的积分 (实际最好测)</td>
+</tr>
+<tr>
+<td align="left"><strong>清晰度</strong></td>
+<td align="left"><strong>MTF</strong></td>
+<td align="left">LSF 的傅里叶变换</td>
+</tr>
+</tbody></table>
+<p><strong>实际操作口诀</strong>：<br><strong>“拍个斜边，提取 ESF，求导得 LSF，做 FFT 得 MTF。”</strong></p>
+<p>这就是每一次你用 Imatest 或写 Python 代码分析镜头画质时，计算机在毫秒间完成的工作。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">光学工程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6%E8%AE%BE%E8%AE%A1/" class="print-no-link">#光学设计</a>
+      
+        <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="print-no-link">#信号处理</a>
+      
+        <a href="/tags/MTF/" class="print-no-link">#MTF</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" class="print-no-link">#图像处理</a>
+      
+        <a href="/tags/PSF/" class="print-no-link">#PSF</a>
+      
+        <a href="/tags/%E6%96%9C%E8%BE%B9%E6%B3%95/" class="print-no-link">#斜边法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF/ESF 转换</div>
+      <div>https://sunfove.xyz/2026/01/13/2026-01-13-mtf-calculation-principle/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 13, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/13/2026-01-13-physics-of-metasurfaces/" title="操控光的微观舞蹈：超表面物理原理与相位调控机制详解">
+                        <span class="hidden-mobile">操控光的微观舞蹈：超表面物理原理与相位调控机制详解</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/13/2026-01-13-mtf-calculation-principle/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
