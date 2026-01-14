@@ -4,6 +4,84 @@
   
   
   <entry>
+    <title>降维打击：超表面 (Metasurface) 如何实现光学超分辨率成像？</title>
+    <link href="/2026/01/14/2026-01-14-metasurface-for-super-resolution/"/>
+    <url>/2026/01/14/2026-01-14-metasurface-for-super-resolution/</url>
+    
+    <content type="html"><![CDATA[<p>在之前的文章中，我们分别介绍了“超表面”的控制能力和“超分辨率”的成像原理。<br>现在，是时候将这两条技术路线汇合了。</p><p>传统的高端显微镜（如油浸物镜）体积庞大、价格昂贵，且受限于玻璃的折射率和曲率，数值孔径 (NA) 很难做得极高。<br>而超表面凭借其对光场振幅、相位和偏振的<strong>亚波长级自由调控能力</strong>，为超分辨率成像提供了一条全新的、轻量化的路径。</p><p>本文将从物理原理出发，深入剖析超表面在超分辨领域的“三大流派”。</p><hr><h2 id="01-流派一：超振荡透镜-Super-Oscillatory-Lens-SOL"><a href="#01-流派一：超振荡透镜-Super-Oscillatory-Lens-SOL" class="headerlink" title="01. 流派一：超振荡透镜 (Super-Oscillatory Lens, SOL)"></a>01. 流派一：超振荡透镜 (Super-Oscillatory Lens, SOL)</h2><p>这是超表面最直接的“硬碰硬”方案：直接在远场产生一个小于衍射极限的聚焦点。</p><h3 id="1-1-物理原理：超振荡-Super-Oscillation"><a href="#1-1-物理原理：超振荡-Super-Oscillation" class="headerlink" title="1.1 物理原理：超振荡 (Super-Oscillation)"></a>1.1 物理原理：超振荡 (Super-Oscillation)</h3><p>根据傅里叶光学，如果信号是带宽受限的（Band-limited），其振荡速度通常不会超过其最高频率分量。<br>但是，数学家发现，通过精巧地叠加一系列低频波，可以在<strong>局部区域</strong>产生比最高频率分量还要快的振荡。这就是<strong>超振荡</strong>。</p><h3 id="1-2-超表面的实现"><a href="#1-2-超表面的实现" class="headerlink" title="1.2 超表面的实现"></a>1.2 超表面的实现</h3><p>利用超表面，我们可以设计一个特殊的相位掩膜 $\Phi(r)$。<br>当光通过这个掩膜后，各个子波在焦平面发生干涉。通过精确的优化算法（如遗传算法），我们可以让这些波在中心点产生极强的相长干涉，形成一个极细的主瓣（小于 $0.38\lambda&#x2F;NA$）。</p><ul><li><strong>优势</strong>：不需要倏逝波，可以在<strong>远场</strong>工作，不需要样本紧贴镜头。</li><li><strong>代价</strong>：<strong>旁瓣效应 (Side-lobes)</strong>。为了挤压主瓣，能量被挤到了旁边，形成很强的光环。这会降低图像的对比度，通常需要配合共焦针孔来滤除旁瓣。</li></ul><hr><h2 id="02-流派二：双曲超透镜-Hyperlens-——-捕捉倏逝波"><a href="#02-流派二：双曲超透镜-Hyperlens-——-捕捉倏逝波" class="headerlink" title="02. 流派二：双曲超透镜 (Hyperlens) —— 捕捉倏逝波"></a>02. 流派二：双曲超透镜 (Hyperlens) —— 捕捉倏逝波</h2><p>阿贝极限之所以存在，是因为携带物体高频细节信息的<strong>倏逝波 (Evanescent Waves)</strong> 在空气中指数衰减，传不到远场。<br>双曲超透镜的任务，就是把这些“短命”的倏逝波，转化为能传到远场的“长寿”波。</p><h3 id="2-1-物理原理：双曲色散-Hyperbolic-Dispersion"><a href="#2-1-物理原理：双曲色散-Hyperbolic-Dispersion" class="headerlink" title="2.1 物理原理：双曲色散 (Hyperbolic Dispersion)"></a>2.1 物理原理：双曲色散 (Hyperbolic Dispersion)</h3><p>在各向异性介质中，等频面（Iso-frequency contour）可能不是圆，而是双曲线。<br>$$\frac{k_x^2}{\epsilon_z} - \frac{k_z^2}{|\epsilon_x|} &#x3D; \left(\frac{\omega}{c}\right)^2$$<br>在这个公式中，即使 $k_x$（横向波矢量，代表细节分辨率）非常大，$k_z$ 依然可以是实数。<br>这意味着：<strong>原本在真空中无法传播的高频信息，在双曲介质中可以传播了！</strong></p><h3 id="2-2-结构设计"><a href="#2-2-结构设计" class="headerlink" title="2.2 结构设计"></a>2.2 结构设计</h3><p>典型的 Hyperlens 由多层金属-介质（如银&#x2F;氧化铝）交替沉积形成的弯曲扇形结构组成。</p><ul><li><strong>放大作用</strong>：物体发出的带有高频信息的波，在通过这个扇形结构向外传播时，波长被逐渐“拉长”（绝热压缩 k 矢量）。</li><li><strong>结果</strong>：当波到达透镜外表面时，其细节已经从“亚波长”放大到了“衍射受限”的显微镜可以分辨的程度。</li></ul><hr><h2 id="03-流派三：系统赋能-——-做-STED-SIM-的“神助攻”"><a href="#03-流派三：系统赋能-——-做-STED-SIM-的“神助攻”" class="headerlink" title="03. 流派三：系统赋能 —— 做 STED&#x2F;SIM 的“神助攻”"></a>03. 流派三：系统赋能 —— 做 STED&#x2F;SIM 的“神助攻”</h2><p>这一流派不是用超表面直接成像，而是用超表面替代传统超分辨显微镜中笨重的光学元件，实现系统的小型化。</p><h3 id="3-1-赋能-STED：生成“甜甜圈”光束"><a href="#3-1-赋能-STED：生成“甜甜圈”光束" class="headerlink" title="3.1 赋能 STED：生成“甜甜圈”光束"></a>3.1 赋能 STED：生成“甜甜圈”光束</h3><p>STED 显微镜的核心是那束“甜甜圈”状的损耗光（Vortex Beam）。</p><ul><li><strong>传统方法</strong>：使用昂贵的空间光调制器 (SLM) 或厚重的螺旋相位板。</li><li><strong>超表面方法</strong>：利用 <strong>PB 相位 (几何相位)</strong> 原理。<br>  设计一个由旋转纳米柱组成的超表面，使相位在方位角上满足 $\phi(x,y) &#x3D; l \cdot \theta$。这可以产生完美的携带轨道角动量 (OAM) 的涡旋光。<ul><li><strong>优势</strong>：器件厚度仅几百纳米，且不仅能产生强度甜甜圈，还能完美定制偏振分布，提高损耗效率。</li></ul></li></ul><h3 id="3-2-赋能-SIM：生成结构光场"><a href="#3-2-赋能-SIM：生成结构光场" class="headerlink" title="3.2 赋能 SIM：生成结构光场"></a>3.2 赋能 SIM：生成结构光场</h3><p>SIM 需要在样品上投射正弦条纹或散斑。</p><ul><li><strong>超表面方法</strong>：利用超表面作为一个紧凑的衍射光栅或全息片。<br>  通过设计不同角度的透射光干涉，超表面可以直接在近场或远场生成所需的结构光照明图案，甚至生成非衍射的<strong>贝塞尔光束 (Bessel Beam)</strong> 来实现大景深的超分辨成像。</li></ul><hr><h2 id="04-为什么超表面是超分辨的未来？"><a href="#04-为什么超表面是超分辨的未来？" class="headerlink" title="04. 为什么超表面是超分辨的未来？"></a>04. 为什么超表面是超分辨的未来？</h2><table><thead><tr><th align="left">特性</th><th align="left">传统超分辨系统</th><th align="left">超表面赋能系统</th></tr></thead><tbody><tr><td align="left"><strong>体积</strong></td><td align="left">占据整个光学平台</td><td align="left">可集成到芯片或内窥镜探头</td></tr><tr><td align="left"><strong>数值孔径 (NA)</strong></td><td align="left">玻璃磨制，NA 提升困难</td><td align="left">可设计超高 NA (&gt;1.0)</td></tr><tr><td align="left"><strong>色差控制</strong></td><td align="left">需要胶合透镜组</td><td align="left">可通过色散工程设计消色差超原子</td></tr><tr><td align="left"><strong>成本</strong></td><td align="left">极高 (复杂的光路校准)</td><td align="left">极低 (半导体光刻工艺批量制造)</td></tr></tbody></table><h3 id="挑战"><a href="#挑战" class="headerlink" title="挑战"></a>挑战</h3><p>目前的挑战主要在于<strong>效率</strong>。超表面（尤其是金属基）会有吸收损耗，而 STED 等技术对光强要求极高。全介质（如 TiO2, GaN）超表面的发展正在迅速解决这个问题。</p><hr><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>超表面在超分辨成像中的应用，本质上是对光场信息的<strong>预处理</strong>。</p><ul><li><strong>SOL</strong> 是在空域上挤压光斑。</li><li><strong>Hyperlens</strong> 是在频域上搬运高频分量。</li><li><strong>STED&#x2F;SIM 器件</strong> 是对光束形态的精确剪裁。</li></ul><p>这层薄薄的纳米结构，正在将“看不见”的微观世界，以一种前所未有的轻盈姿态呈现在我们面前。</p><hr>]]></content>
+    
+    
+    <categories>
+      
+      <category>光学工程</category>
+      
+      <category>前沿交叉</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>超表面</tag>
+      
+      <tag>超分辨率</tag>
+      
+      <tag>超透镜</tag>
+      
+      <tag>倏逝波</tag>
+      
+      <tag>超振荡</tag>
+      
+      <tag>远场成像</tag>
+      
+      <tag>STED</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>打破物理与算法的边界：超分辨率成像原理深度解析</title>
+    <link href="/2026/01/14/2026-01-14-principles-of-super-resolution/"/>
+    <url>/2026/01/14/2026-01-14-principles-of-super-resolution/</url>
+    
+    <content type="html"><![CDATA[<p>“分辨率”的本质是什么？<br>在频域上，分辨率代表了图像能够容纳的<strong>最高空间频率</strong>。<br>超分辨率（Super-Resolution, SR）的核心任务，就是找回那些<strong>被光学系统截止 (Cut-off)</strong> 或 <strong>被离散采样丢失</strong> 的高频信息。</p><p>本文将分两部分，分别阐述物理光学和计算成像如何实现这一目标。</p><hr><h2 id="第一部分：光学超分辨原理-——-突破阿贝极限"><a href="#第一部分：光学超分辨原理-——-突破阿贝极限" class="headerlink" title="第一部分：光学超分辨原理 —— 突破阿贝极限"></a>第一部分：光学超分辨原理 —— 突破阿贝极限</h2><p>阿贝衍射极限公式 $d &#x3D; \frac{\lambda}{2NA}$ 告诉我们，光波的高频分量在传输过程中会衰减消失。要突破它，必须引入非线性的光学响应。</p><h3 id="1-STED：点扩散函数-PSF-工程学"><a href="#1-STED：点扩散函数-PSF-工程学" class="headerlink" title="1. STED：点扩散函数 (PSF) 工程学"></a>1. STED：点扩散函数 (PSF) 工程学</h3><p><strong>原理核心：受激辐射损耗 (Stimulated Emission Depletion)</strong></p><p>传统显微镜的激发光斑是一个衍射受限的艾里斑（Airy Disk，直径约 200nm）。STED 的思路是：<strong>既然光斑缩不小，那我就把边缘的光“擦除”掉。</strong></p><ul><li><strong>激发光 (Excitation Beam)</strong>：一束普通的激光，将荧光分子激发到高能态 ($S_1$)。</li><li><strong>损耗光 (STED Beam)</strong>：一束中心强度为零、边缘强度极高的<strong>甜甜圈状 (Donut-shaped)</strong> 激光。其波长经过调节，能引发受激辐射。</li><li><strong>物理过程</strong>：<br>  当两束光重叠时，位于“甜甜圈”光环上的分子，在还没来得及发出荧光之前，就被损耗光强行打回基态 ($S_0$)。<br>  只有位于甜甜圈中心（光强为零处）的分子，能保留在激发态并发出荧光。</li><li><strong>有效光斑</strong>：<br>  $$d_{eff} \approx \frac{\lambda}{2NA \sqrt{1 + I_{STED}&#x2F;I_{sat}}}$$<br>  由公式可见，只要损耗光强度 $I_{STED}$ 足够大，有效光斑直径 $d_{eff}$ 就可以无限趋近于零。</li></ul><h3 id="2-SMLM：单分子定位与高斯拟合"><a href="#2-SMLM：单分子定位与高斯拟合" class="headerlink" title="2. SMLM：单分子定位与高斯拟合"></a>2. SMLM：单分子定位与高斯拟合</h3><p><strong>原理核心：时间换空间 (Time-domain Separation)</strong></p><p>如果两个光斑重叠，我们分不清。但如果它们<strong>轮流亮起</strong>呢？<br>SMLM (包含 STORM, PALM) 利用了荧光分子的<strong>光开关特性 (Photoswitching)</strong>。</p><ol><li><strong>稀疏激活</strong>：通过化学试剂或激光控制，让视野中只有极少数（例如 &lt;1%）的分子发光。此时，每个光斑都是独立的，互不重叠。</li><li><strong>质心拟合</strong>：虽然光斑本身是 200nm 的模糊圆，但我们知道它是由<strong>一个点光源</strong>产生的。通过二维高斯函数拟合，我们可以以极高的精度（&lt;10nm）找到这个光斑的<strong>中心坐标 $(x_c, y_c)$</strong>。<br>$$Error \propto \frac{s}{\sqrt{N}}$$<br>(定位精度取决于光子数 $N$，光子越多，定位越准)。</li><li><strong>重构</strong>：拍摄成千上万帧图像，把所有定位到的点叠加起来，形成超分辨图像。</li></ol><h3 id="3-SIM：结构光照明显微镜"><a href="#3-SIM：结构光照明显微镜" class="headerlink" title="3. SIM：结构光照明显微镜"></a>3. SIM：结构光照明显微镜</h3><p><strong>原理核心：莫尔条纹 (Moiré Fringes) 与 频域混频</strong></p><p>如果你把两个细密的纱窗叠在一起，会看到粗大的条纹，这就是莫尔条纹。<br>莫尔效应的数学本质是<strong>乘法混频</strong>：<br>$$\cos(k_a x) \cdot \cos(k_b x) &#x3D; \frac{1}{2} [\cos((k_a - k_b)x) + \cos((k_a + k_b)x)]$$</p><ul><li><strong>物体的高频信息 ($k_{high}$)</strong>：原本因为太细密，显微镜看不见（超出截止频率）。</li><li><strong>结构光 ($k_{illum}$)</strong>：我们在物体上投射各种方向的正弦条纹光。</li><li><strong>混频结果</strong>：物体的高频信息与结构光频率相减 $(k_{high} - k_{illum})$，产生了一个<strong>低频差频信号</strong>。这个低频信号能被显微镜捕获。</li><li><strong>解算</strong>：通过算法逆运算，将这个“降频”后的信号还原回原来的高频位置，从而将分辨率提升 2 倍。</li></ul><hr><h2 id="第二部分：计算超分辨原理-——-求解病态逆问题"><a href="#第二部分：计算超分辨原理-——-求解病态逆问题" class="headerlink" title="第二部分：计算超分辨原理 —— 求解病态逆问题"></a>第二部分：计算超分辨原理 —— 求解病态逆问题</h2><p>在图像处理领域，超分辨率是一个典型的<strong>病态逆问题 (Ill-posed Inverse Problem)</strong>。</p><p>假设高分辨率图像为 $X$，低分辨率图像为 $Y$，退化过程为：<br>$$Y &#x3D; D(H(X)) + n$$</p><ul><li>$H$：模糊算子 (Blur, 如 PSF)。</li><li>$D$：下采样算子 (Downsampling)。</li><li>$n$：噪声 (Noise)。</li></ul><p>我们要做的，是从 $Y$ 反推 $X$。但问题是：<strong>对于同一个低清图 $Y$，可能有无数个高清图 $X$ 都能缩放得到它。</strong> 怎么选出最真实的那一个？</p><h3 id="1-基于插值-Interpolation"><a href="#1-基于插值-Interpolation" class="headerlink" title="1. 基于插值 (Interpolation)"></a>1. 基于插值 (Interpolation)</h3><p>这是最简单的解法。</p><ul><li><strong>最近邻&#x2F;双线性</strong>：利用周围像素的加权平均。</li><li><strong>原理缺陷</strong>：本质上是一个低通滤波器。它假设图像是平滑变化的，因此无法恢复边缘和纹理等高频信息。</li></ul><h3 id="2-基于学习-Learning-based"><a href="#2-基于学习-Learning-based" class="headerlink" title="2. 基于学习 (Learning-based)"></a>2. 基于学习 (Learning-based)</h3><p>深度学习的核心是学习一个映射函数 $F$，使得 $F(Y) \approx X$。</p><h4 id="CNN-卷积神经网络"><a href="#CNN-卷积神经网络" class="headerlink" title="CNN (卷积神经网络)"></a>CNN (卷积神经网络)</h4><ul><li><strong>SRCNN</strong>：通过三层卷积网络，分别完成“特征提取”、“非线性映射”和“重建”。</li><li><strong>ResNet (残差网络)</strong>：利用跳跃连接 (Skip Connection)，让网络只学习“高频残差”（即高清图和插值图之间的差值），大大提高了训练效率和深度。</li></ul><h4 id="GAN-生成对抗网络-——-纹理的救星"><a href="#GAN-生成对抗网络-——-纹理的救星" class="headerlink" title="GAN (生成对抗网络) —— 纹理的救星"></a>GAN (生成对抗网络) —— 纹理的救星</h4><p>传统的 CNN 通常使用 <strong>MSE (均方误差)</strong> 作为损失函数：<br>$$Loss &#x3D; ||X_{real} - X_{pred}||^2$$<br>MSE 会倾向于输出所有可能解的<strong>平均值</strong>。这就导致生成的图像虽然信噪比高，但看起来非常平滑、模糊，缺乏真实感。</p><p>GAN 引入了<strong>感知损失 (Perceptual Loss)</strong> 和 <strong>对抗损失 (Adversarial Loss)</strong>：</p><ul><li><strong>判别器 (Discriminator)</strong> 作为一个严格的老师，它不仅看像素对不对，还看“这像不像真的草地&#x2F;毛发”。</li><li>这迫使生成器 (Generator) 去“幻觉”出（Hallucinate）合理的高频纹理细节。虽然这些细节在原始低清图中并不存在（可能是错的），但它们符合自然图像的统计规律，因此人眼看起来非常清晰。</li></ul><h3 id="3-多帧超分辨-Multi-Frame-SR"><a href="#3-多帧超分辨-Multi-Frame-SR" class="headerlink" title="3. 多帧超分辨 (Multi-Frame SR)"></a>3. 多帧超分辨 (Multi-Frame SR)</h3><p>利用时间换空间。</p><ul><li><strong>亚像素位移</strong>：如果手抖导致拍摄的几张照片之间有微小的位移（比如 0.5 像素），那么这几张照片其实包含了不同的采样信息。</li><li><strong>原理</strong>：通过精确的运动估计 (Motion Estimation)，将这些非均匀采样的像素点映射到高分辨率网格上，从而填补丢失的细节。这是卫星成像和现代手机“增强变焦”的核心原理。</li></ul><hr><h2 id="总结：物理与算法的殊途同归"><a href="#总结：物理与算法的殊途同归" class="headerlink" title="总结：物理与算法的殊途同归"></a>总结：物理与算法的殊途同归</h2><table><thead><tr><th align="left">维度</th><th align="left">光学超分辨 (Hardware)</th><th align="left">计算超分辨 (Software)</th></tr></thead><tbody><tr><td align="left"><strong>核心瓶颈</strong></td><td align="left">阿贝衍射极限 (Abbe Limit)</td><td align="left">奈奎斯特采样定理 (Nyquist Limit)</td></tr><tr><td align="left"><strong>解决思路</strong></td><td align="left">引入非线性光学效应、利用时间&#x2F;空间调制</td><td align="left">利用先验知识 (Prior) 进行概率推断</td></tr><tr><td align="left"><strong>真实性</strong></td><td align="left"><strong>高</strong> (看到的是物理实体)</td><td align="left"><strong>中</strong> (存在 AI“脑补”的成分)</td></tr><tr><td align="left"><strong>应用领域</strong></td><td align="left">基础科学研究、分子生物学</td><td align="left">消费电子、老片修复、安防监控</td></tr></tbody></table><p>未来的超分辨是两者的融合：设计特定的光学掩膜 (Coded Aperture)，让采集到的模糊图像包含特定的编码信息，再配合专用的神经网络进行解码。这就是<strong>端到端的光学-算法联合设计 (End-to-end Optic-Algorithmic Design)</strong>。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>光学工程</category>
+      
+      <category>计算机视觉</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>STED</tag>
+      
+      <tag>光学原理</tag>
+      
+      <tag>衍射极限</tag>
+      
+      <tag>SMLM</tag>
+      
+      <tag>莫尔条纹</tag>
+      
+      <tag>深度学习</tag>
+      
+      <tag>逆问题</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF/ESF 转换</title>
     <link href="/2026/01/13/2026-01-13-mtf-calculation-principle/"/>
     <url>/2026/01/13/2026-01-13-mtf-calculation-principle/</url>
@@ -57,11 +135,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -360,11 +438,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -626,11 +704,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -795,11 +873,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -894,11 +972,11 @@
       
       <tag>光学设计</tag>
       
-      <tag>物理公式</tag>
-      
       <tag>摄影光学</tag>
       
       <tag>显微镜</tag>
+      
+      <tag>物理公式</tag>
       
     </tags>
     
@@ -1020,11 +1098,11 @@
       
       <tag>光学设计</tag>
       
+      <tag>物理公式</tag>
+      
       <tag>辐射度学</tag>
       
       <tag>光度学</tag>
-      
-      <tag>物理公式</tag>
       
     </tags>
     
@@ -1224,11 +1302,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -1292,11 +1370,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -1523,11 +1601,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -1585,11 +1663,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -1616,11 +1694,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
