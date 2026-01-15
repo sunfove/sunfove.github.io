@@ -1,0 +1,860 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么计算出的相位总是断裂的？如何将包裹在 (-π, π] 区间的相位还原为连续的真实物理量？本文详解 Itoh 条件、枝切法 (Branch Cut) 与最小二乘法 (Least Squares) 的原理，并附带 Python 实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从“锯齿”到“光滑”：相位解包裹 (Phase Unwrapping) 算法深度解析">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/15/2026-01-15-phase-unwrapping-algorithm/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="为什么计算出的相位总是断裂的？如何将包裹在 (-π, π] 区间的相位还原为连续的真实物理量？本文详解 Itoh 条件、枝切法 (Branch Cut) 与最小二乘法 (Least Squares) 的原理，并附带 Python 实现。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-15T22:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-15T15:27:54.266Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="信号处理">
+<meta property="article:tag" content="光学仿真">
+<meta property="article:tag" content="干涉测量">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="结构光">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>从“锯齿”到“光滑”：相位解包裹 (Phase Unwrapping) 算法深度解析 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">从“锯齿”到“光滑”：相位解包裹 (Phase Unwrapping) 算法深度解析</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-15 22:00" pubdate>
+          January 15, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从“锯齿”到“光滑”：相位解包裹 (Phase Unwrapping) 算法深度解析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在光学仿真（如超表面设计）或光学测量（如干涉仪、结构光 3D 扫描）中，我们经常遇到一个恼人的现象：</p>
+<p>当我们计算波前的相位时，得到的不是一个连续光滑的曲面，而是一张布满锯齿状跳变的“条纹图”。</p>
+<p>这是因为数学上的反三角函数（如 <code>atan2</code>）只能输出 $(-\pi, \pi]$ 之间的主值。这种被强行截断的相位，被称为<strong>包裹相位 (Wrapped Phase)</strong>。而将它恢复为真实的、连续的<strong>绝对相位 (Unwrapped Phase)</strong> 的过程，就是<strong>相位解包裹</strong>。</p>
+<p>这不仅是图像处理问题，更是恢复物理真实的关键步骤。</p>
+<hr>
+<h2 id="01-数学定义：迷失的-2-pi"><a href="#01-数学定义：迷失的-2-pi" class="headerlink" title="01. 数学定义：迷失的 $2\pi$"></a>01. 数学定义：迷失的 $2\pi$</h2><p>假设真实的物理相位是 $\phi(x, y)$，它是一个连续变化的函数。<br>我们的探测器或算法计算出的包裹相位 $\psi(x, y)$ 与真实相位的关系为：</p>
+<p>$$\psi(x, y) &#x3D; \mathcal{W}[\phi(x, y)] &#x3D; \phi(x, y) + 2\pi k(x, y)$$</p>
+<p>其中：</p>
+<ul>
+<li>$\mathcal{W}[\cdot]$ 是包裹算子（取模运算）。</li>
+<li>$k(x, y)$ 是一个未知的<strong>整数</strong>（阶次）。</li>
+</ul>
+<p><strong>相位解包裹的核心任务</strong>：就是对每一个像素点 $(x, y)$，找到正确的整数 $k(x, y)$，使得恢复后的 $\phi(x, y)$ 满足空间连续性。</p>
+<hr>
+<h2 id="02-一维解包裹：Itoh-条件"><a href="#02-一维解包裹：Itoh-条件" class="headerlink" title="02. 一维解包裹：Itoh 条件"></a>02. 一维解包裹：Itoh 条件</h2><p>在 1D 情况下，解包裹非常简单，主要依赖 <strong>Itoh 条件</strong>。</p>
+<p><strong>核心假设</strong>：如果采样率足够高，相邻两个采样点的真实相位差绝对值小于 $\pi$。<br>$$|\Delta \phi| &lt; \pi$$</p>
+<p><strong>算法步骤</strong>：</p>
+<ol>
+<li>计算相邻像素的差分：$\Delta \psi_i &#x3D; \psi_i - \psi_{i-1}$</li>
+<li>如果 $\Delta \psi_i &gt; \pi$，说明发生了下跳变，真实相位应该减去 $2\pi$。</li>
+<li>如果 $\Delta \psi_i &lt; -\pi$，说明发生了上跳变，真实相位应该加上 $2\pi$。</li>
+<li>对修正后的差分进行累加（积分），即可恢复 $\phi$。</li>
+</ol>
+<p><strong>代码实现</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">unwrap_1d</span>(<span class="hljs-params">wrapped_phase</span>):<br>    diff = np.diff(wrapped_phase)<br>    <span class="hljs-comment"># 修正跳变：将差分值限制在 (-pi, pi] 之间</span><br>    diff_corrected = np.arctan2(np.sin(diff), np.cos(diff))<br>    <span class="hljs-comment"># 累加恢复</span><br>    unwrapped = np.concatenate(([wrapped_phase[<span class="hljs-number">0</span>]], wrapped_phase[<span class="hljs-number">0</span>] + np.cumsum(diff_corrected)))<br>    <span class="hljs-keyword">return</span> unwrapped<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="03-二维解包裹：噩梦的开始"><a href="#03-二维解包裹：噩梦的开始" class="headerlink" title="03. 二维解包裹：噩梦的开始"></a>03. 二维解包裹：噩梦的开始</h2><p>到了 2D 图像，问题变得复杂得多。我们不能简单地逐行进行 1D 解包裹，因为<strong>噪声和断点会导致误差传播</strong>，形成贯穿整张图的“拉丝”错误。</p>
+<p>这就引入了 2D 解包裹的核心概念：<strong>残点 (Residues)</strong>。</p>
+<h3 id="什么是残点？"><a href="#什么是残点？" class="headerlink" title="什么是残点？"></a>什么是残点？</h3><p>在一个 $2 \times 2$ 的像素小闭环中，计算包裹相位的梯度积分。理论上，在一个闭合路径上积分一圈，结果应该是 0。<br>但如果该区域存在噪声或相位断裂，积分结果可能是 $\pm 2\pi$。</p>
+<ul>
+<li>$+2\pi$：正残点（源）。</li>
+<li>$-2\pi$：负残点（汇）。</li>
+</ul>
+<p><strong>残点的存在意味着该点的解包裹结果与积分路径有关 (Path Dependent)。</strong> 如果你的积分路径穿过了一对残点之间，你的解包裹结果就会出错。</p>
+<hr>
+<h2 id="04-主流算法流派"><a href="#04-主流算法流派" class="headerlink" title="04. 主流算法流派"></a>04. 主流算法流派</h2><p>为了处理残点，业界发展出了两大流派：</p>
+<h3 id="1-路径跟踪类-Path-Following-——-代表：枝切法-Goldstein-Branch-Cut"><a href="#1-路径跟踪类-Path-Following-——-代表：枝切法-Goldstein-Branch-Cut" class="headerlink" title="1. 路径跟踪类 (Path Following) —— 代表：枝切法 (Goldstein Branch Cut)"></a>1. 路径跟踪类 (Path Following) —— 代表：枝切法 (Goldstein Branch Cut)</h3><p><strong>思路</strong>：既然穿过残点连线会出错，那我就把这些残点连起来，设为“禁区”（枝切线，Branch Cut），积分路径绕着走，绝对不穿过它。</p>
+<ul>
+<li><strong>优点</strong>：如果不穿过切线，解是精确的。</li>
+<li><strong>缺点</strong>：如果残点太多（噪声大），切线会连成网，把图像分割成孤岛，导致无法解包裹。</li>
+</ul>
+<h3 id="2-最小范数类-Minimum-Norm-——-代表：最小二乘法-DCT-FFT-based-Least-Squares"><a href="#2-最小范数类-Minimum-Norm-——-代表：最小二乘法-DCT-FFT-based-Least-Squares" class="headerlink" title="2. 最小范数类 (Minimum Norm) —— 代表：最小二乘法 (DCT&#x2F;FFT based Least Squares)"></a>2. 最小范数类 (Minimum Norm) —— 代表：最小二乘法 (DCT&#x2F;FFT based Least Squares)</h3><p><strong>思路</strong>：不纠结于局部路径，而是寻找一个全局最优解 $\phi$，使得其梯度 $\nabla \phi$ 与包裹相位梯度 $\nabla \psi$ 的差的平方和最小。<br>这就转化为求解<strong>泊松方程 (Poisson Equation)</strong>：<br>$$\nabla^2 \phi &#x3D; \rho$$<br>其中 $\rho$ 是由包裹相位计算出的拉普拉斯算子。利用离散余弦变换 (DCT) 或 FFT 可以快速求解。</p>
+<ul>
+<li><strong>优点</strong>：速度极快，对高斯噪声鲁棒，得到的表面非常光滑。</li>
+<li><strong>缺点</strong>：会抹平真实的相位陡峭变化，低估斜率。</li>
+</ul>
+<hr>
+<h2 id="05-Python-实战：质量导向路径跟踪算法"><a href="#05-Python-实战：质量导向路径跟踪算法" class="headerlink" title="05. Python 实战：质量导向路径跟踪算法"></a>05. Python 实战：质量导向路径跟踪算法</h2><p>在实际工程（如 <code>scikit-image</code>）中，最常用的是一种折中方案：<strong>质量导向 (Quality Guided)</strong>。<br>它优先处理“质量好”（梯度平缓、信噪比高）的像素，最后处理“质量差”的像素，从而阻断误差传播。</p>
+<p>我们可以直接使用 <code>scikit-image</code> 库：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> skimage.restoration <span class="hljs-keyword">import</span> unwrap_phase<br><br><span class="hljs-comment"># 1. 构造一个模拟的 2D 真实相位 (高斯山峰)</span><br>N = <span class="hljs-number">256</span><br>x = np.linspace(-<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, N)<br>y = np.linspace(-<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, N)<br>X, Y = np.meshgrid(x, y)<br>true_phase = <span class="hljs-number">5</span> * np.exp(-(X**<span class="hljs-number">2</span> + Y**<span class="hljs-number">2</span>)) * <span class="hljs-number">5</span>  <span class="hljs-comment"># 高度为 25 的山峰</span><br><br><span class="hljs-comment"># 2. 生成包裹相位 (Wrapped Phase)</span><br><span class="hljs-comment"># 加上一点噪声</span><br>noise = np.random.normal(<span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>, (N, N))<br>wrapped_phase = np.angle(np.exp(<span class="hljs-number">1j</span> * (true_phase + noise)))<br><br><span class="hljs-comment"># 3. 执行解包裹</span><br>unwrapped_phase = unwrap_phase(wrapped_phase)<br><br><span class="hljs-comment"># 4. 可视化</span><br>fig, axes = plt.subplots(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, figsize=(<span class="hljs-number">15</span>, <span class="hljs-number">5</span>))<br><br>axes[<span class="hljs-number">0</span>].imshow(true_phase, cmap=<span class="hljs-string">&#x27;jet&#x27;</span>)<br>axes[<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&#x27;True Phase (Ground Truth)&#x27;</span>)<br><br>axes[<span class="hljs-number">1</span>].imshow(wrapped_phase, cmap=<span class="hljs-string">&#x27;hsv&#x27;</span>) <span class="hljs-comment"># 使用循环色图展示条纹</span><br>axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x27;Wrapped Phase (-pi to pi)&#x27;</span>)<br><br>axes[<span class="hljs-number">2</span>].imshow(unwrapped_phase, cmap=<span class="hljs-string">&#x27;jet&#x27;</span>)<br>axes[<span class="hljs-number">2</span>].set_title(<span class="hljs-string">&#x27;Unwrapped Result&#x27;</span>)<br><br>plt.tight_layout()<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<h3 id="代码解读"><a href="#代码解读" class="headerlink" title="代码解读"></a>代码解读</h3><ul>
+<li><code>np.angle(exp(1j * phi))</code> 是生成包裹相位的标准数学方法。</li>
+<li><code>unwrap_phase</code> 函数内部通常使用了基于网络流 (Network Flow) 或质量图导向的算法，比单纯的 Itoh 积分要健壮得多。</li>
+</ul>
+<hr>
+<h2 id="06-总结"><a href="#06-总结" class="headerlink" title="06. 总结"></a>06. 总结</h2><table>
+<thead>
+<tr>
+<th align="left">算法类型</th>
+<th align="left">核心思想</th>
+<th align="left">适用场景</th>
+<th align="left">Python 库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Itoh (1D)</strong></td>
+<td align="left">简单积分</td>
+<td align="left">简单的无噪声一维信号</td>
+<td align="left"><code>numpy.unwrap</code></td>
+</tr>
+<tr>
+<td align="left"><strong>枝切法 (Branch Cut)</strong></td>
+<td align="left">避开残点连线</td>
+<td align="left">噪声较少、对精度要求极高的干涉图</td>
+<td align="left">自写或科研专用库</td>
+</tr>
+<tr>
+<td align="left"><strong>最小二乘 (Least Squares)</strong></td>
+<td align="left">求解泊松方程</td>
+<td align="left">噪声较大、追求全局平滑、速度要求高</td>
+<td align="left">需基于 DCT&#x2F;FFT 实现</td>
+</tr>
+<tr>
+<td align="left"><strong>质量导向 (Quality Guided)</strong></td>
+<td align="left">好的区域先走</td>
+<td align="left">通用性最强，图像处理首选</td>
+<td align="left"><code>skimage.restoration</code></td>
+</tr>
+</tbody></table>
+<p>掌握相位解包裹，是你从“光学仿真新手”迈向“计算成像专家”的重要一步。下次看到黑白条纹图，别忘了它背后藏着一个连续的光滑世界。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%88%90%E5%83%8F/" class="category-chain-item">计算成像</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="print-no-link">#信号处理</a>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6%E4%BB%BF%E7%9C%9F/" class="print-no-link">#光学仿真</a>
+      
+        <a href="/tags/%E5%B9%B2%E6%B6%89%E6%B5%8B%E9%87%8F/" class="print-no-link">#干涉测量</a>
+      
+        <a href="/tags/%E7%BB%93%E6%9E%84%E5%85%89/" class="print-no-link">#结构光</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从“锯齿”到“光滑”：相位解包裹 (Phase Unwrapping) 算法深度解析</div>
+      <div>https://sunfove.xyz/2026/01/15/2026-01-15-phase-unwrapping-algorithm/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 15, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/15/2026-01-16-coordinate-transformation-rotation/" title="2026-01-16-coordinate-transformation-rotation">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2026-01-16-coordinate-transformation-rotation</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/15/2026-01-15-lidar-principles-and-applications/" title="激光雷达 (LiDAR) 的物理本质、技术路线演进与算法落地">
+                        <span class="hidden-mobile">激光雷达 (LiDAR) 的物理本质、技术路线演进与算法落地</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/15/2026-01-15-phase-unwrapping-algorithm/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

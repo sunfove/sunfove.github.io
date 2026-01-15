@@ -1,0 +1,856 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么一块透明的玻璃能聚焦光？为什么相位梯度决定了光的传播方向？本文剥开光的电磁波外衣，用数学公式推导波前、相位与振幅的内在一元性，并解析如何通过相位调制实现光束偏转、聚焦与涡旋光生成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="波前、相位与振幅的数学本质及调制原理">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/15/2026-01-15-wavefront-phase-amplitude-physics/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="为什么一块透明的玻璃能聚焦光？为什么相位梯度决定了光的传播方向？本文剥开光的电磁波外衣，用数学公式推导波前、相位与振幅的内在一元性，并解析如何通过相位调制实现光束偏转、聚焦与涡旋光生成。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-15T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-15T15:27:54.266Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="SLM">
+<meta property="article:tag" content="傅里叶光学">
+<meta property="article:tag" content="全息">
+<meta property="article:tag" content="波动方程">
+<meta property="article:tag" content="物理光学">
+<meta property="article:tag" content="相位调制">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>波前、相位与振幅的数学本质及调制原理 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">波前、相位与振幅的数学本质及调制原理</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-15 12:00" pubdate>
+          January 15, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">波前、相位与振幅的数学本质及调制原理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在几何光学中，我们习惯画“光线”。但在微纳光学、全息技术和超表面领域，光线的概念已经失效，我们必须戴上<strong>波动光学</strong>的眼镜。</p>
+<p>在这副眼镜下，光不再是直线，而是一个在空间中起伏的复数场。理解<strong>波前 (Wavefront)</strong>、<strong>相位 (Phase)</strong> 和 <strong>振幅 (Amplitude)</strong> 之间的数学关系，是掌握现代光学技术的关键。</p>
+<hr>
+<h2 id="01-描述光的数学语言：复振幅"><a href="#01-描述光的数学语言：复振幅" class="headerlink" title="01. 描述光的数学语言：复振幅"></a>01. 描述光的数学语言：复振幅</h2><p>根据麦克斯韦方程组，单色光波的标量电场 $E(\vec{r}, t)$ 可以表示为：</p>
+<p>$$E(\vec{r}, t) &#x3D; A(\vec{r}) \cos[\omega t - \phi(\vec{r})]$$</p>
+<ul>
+<li>$A(\vec{r})$：<strong>振幅</strong>，决定光的强弱。</li>
+<li>$\phi(\vec{r})$：<strong>相位</strong>，决定光的波形和传播方向。</li>
+<li>$\omega$：角频率，决定光的颜色。</li>
+</ul>
+<p>为了方便数学运算（尤其是傅里叶变换），我们通常使用<strong>复数表示法 (Complex Notation)</strong>，去掉时间项 $e^{-i\omega t}$（因为探测器响应太慢，测不到时间高频振荡），只保留空间部分，称为<strong>复振幅 (Complex Amplitude)</strong> $U(\vec{r})$：</p>
+<p>$$U(\vec{r}) &#x3D; A(\vec{r}) \cdot e^{i\phi(\vec{r})}$$</p>
+<p>这就是光场的三位一体：</p>
+<ol>
+<li><strong>振幅 $A$</strong> 是复数的<strong>模 (Modulus)</strong>。</li>
+<li><strong>相位 $\phi$</strong> 是复数的<strong>辐角 (Argument)</strong>。</li>
+<li><strong>波前</strong> 则是相位的<strong>等值面</strong>。</li>
+</ol>
+<hr>
+<h2 id="02-深度解析：三者的物理图景"><a href="#02-深度解析：三者的物理图景" class="headerlink" title="02. 深度解析：三者的物理图景"></a>02. 深度解析：三者的物理图景</h2><h3 id="1-振幅-Amplitude-与强度"><a href="#1-振幅-Amplitude-与强度" class="headerlink" title="1. 振幅 (Amplitude)与强度"></a>1. 振幅 (Amplitude)与强度</h3><p>振幅 $A(\vec{r})$ 是最直观的物理量。<br>我们人眼或相机看到的“亮度”，在物理上是<strong>光强 (Intensity)</strong>，它正比于振幅的模平方：<br>$$I(\vec{r}) &#x3D; |U(\vec{r})|^2 &#x3D; A^2(\vec{r})$$</p>
+<ul>
+<li><strong>调制方式</strong>：衰减片、光圈、偏振片。本质是<strong>乘法运算</strong>（乘以一个 $0$ 到 $1$ 的系数）。</li>
+</ul>
+<h3 id="2-相位-Phase-与延迟"><a href="#2-相位-Phase-与延迟" class="headerlink" title="2. 相位 (Phase)与延迟"></a>2. 相位 (Phase)与延迟</h3><p>相位 $\phi(\vec{r})$ 描述了波在某一点的“振动状态”。<br>如果把光波比作一列行进的队伍，相位就是告诉你是该抬左脚还是抬右脚。</p>
+<ul>
+<li><strong>相对性</strong>：相位的绝对值没有意义，有意义的是<strong>相位差 (Phase Difference)</strong>。</li>
+<li><strong>物理本质</strong>：光在介质中传播时积累的<strong>光程 (Optical Path Length, OPL)</strong> 转化为了相位。<br>  $$\Delta \phi &#x3D; k_0 \cdot \Delta OPL &#x3D; \frac{2\pi}{\lambda} \cdot n \cdot d$$<br>  ($n$: 折射率, $d$: 传播距离)。</li>
+</ul>
+<h3 id="3-波前-Wavefront-与形状"><a href="#3-波前-Wavefront-与形状" class="headerlink" title="3. 波前 (Wavefront)与形状"></a>3. 波前 (Wavefront)与形状</h3><p><strong>定义</strong>：空间中所有相位相同的点构成的曲面。<br>$$\phi(x, y, z) &#x3D; C \quad (C \text{ is constant})$$</p>
+<p><strong>最核心的结论</strong>：<br><strong>光线的传播方向（波矢量 $\vec{k}$），永远垂直于波前，指向相位减小的方向。</strong></p>
+<p>数学上，波矢量是相位的<strong>梯度 (Gradient)</strong>：<br>$$\vec{k}(\vec{r}) &#x3D; \nabla \phi(\vec{r}) &#x3D; \left( \frac{\partial \phi}{\partial x}, \frac{\partial \phi}{\partial y}, \frac{\partial \phi}{\partial z} \right)$$</p>
+<p><strong>这意味着：如果你控制了相位 $\phi(x,y)$ 的分布，你就控制了光往哪里跑！</strong></p>
+<hr>
+<h2 id="03-相位调制的数学原理与应用"><a href="#03-相位调制的数学原理与应用" class="headerlink" title="03. 相位调制的数学原理与应用"></a>03. 相位调制的数学原理与应用</h2><p>这是现代光学（SLM、超表面）最精彩的部分。我们通过改变通过平面的相位分布 $\phi(x,y)$，来重塑波前。</p>
+<h3 id="场景一：光束偏转-Beam-Steering-——-线性相位"><a href="#场景一：光束偏转-Beam-Steering-——-线性相位" class="headerlink" title="场景一：光束偏转 (Beam Steering) —— 线性相位"></a>场景一：光束偏转 (Beam Steering) —— 线性相位</h3><p>如果我们希望光束偏转一个角度 $\theta$。<br><strong>波前形状</strong>：必须是一个倾斜的平面。<br><strong>数学公式</strong>：<br>$$\phi(x, y) &#x3D; k_x \cdot x &#x3D; (k_0 \sin\theta) \cdot x$$</p>
+<p><strong>物理操作</strong>：<br>我们需要在光通过器件时，引入一个<strong>随位置 $x$ 线性增加</strong>的相位延迟。这就是<strong>棱镜</strong>的作用，也是相控阵雷达的原理。</p>
+<h3 id="场景二：光束聚焦-Focusing-——-二次相位"><a href="#场景二：光束聚焦-Focusing-——-二次相位" class="headerlink" title="场景二：光束聚焦 (Focusing) —— 二次相位"></a>场景二：光束聚焦 (Focusing) —— 二次相位</h3><p>如果我们希望光束汇聚到一个焦点 $f$。<br><strong>波前形状</strong>：必须是一个收缩的球面。<br><strong>数学公式</strong>（近轴近似）：<br>球面波前的相位分布是二次函数（抛物面）：<br>$$\phi(r) &#x3D; -\frac{k_0 r^2}{2f} &#x3D; -\frac{\pi r^2}{\lambda f}$$<br>($r &#x3D; \sqrt{x^2+y^2}$)</p>
+<p><strong>物理操作</strong>：<br>我们需要在中心引入最小的相位延迟，在边缘引入最大的相位延迟（让边缘的光“慢下来”等中心的光）。<br>这就是<strong>凸透镜</strong>的作用。如果你在 SLM 上加载这个 $r^2$ 的相位图，它就变成了一个数字透镜。</p>
+<h3 id="场景三：涡旋光束-Vortex-Beam-——-螺旋相位"><a href="#场景三：涡旋光束-Vortex-Beam-——-螺旋相位" class="headerlink" title="场景三：涡旋光束 (Vortex Beam) —— 螺旋相位"></a>场景三：涡旋光束 (Vortex Beam) —— 螺旋相位</h3><p>如果我们希望光束携带轨道角动量 (OAM)，形成“甜甜圈”光斑。<br><strong>波前形状</strong>：像螺旋楼梯一样。<br><strong>数学公式</strong>：<br>$$\phi(\theta) &#x3D; l \cdot \theta$$<br>($l$: 拓扑荷数, $\theta$: 方位角 $\arctan(y&#x2F;x)$)</p>
+<p><strong>物理操作</strong>：<br>相位随着角度从 $0$ 变到 $2\pi l$。这就是<strong>螺旋相位板 (Spiral Phase Plate)</strong> 的原理。</p>
+<hr>
+<h2 id="04-调制与重构：全息术-Holography"><a href="#04-调制与重构：全息术-Holography" class="headerlink" title="04. 调制与重构：全息术 (Holography)"></a>04. 调制与重构：全息术 (Holography)</h2><p>全息术的本质，就是<strong>同时记录和重构</strong>振幅与相位。</p>
+<h3 id="为什么照相只有二维？"><a href="#为什么照相只有二维？" class="headerlink" title="为什么照相只有二维？"></a>为什么照相只有二维？</h3><p>因为胶片&#x2F;CCD 只能记录强度 $I &#x3D; |A|^2$，相位信息 $\phi$ 丢失了（丢失了深度和方向信息）。</p>
+<h3 id="计算机全息-CGH-的逆向设计"><a href="#计算机全息-CGH-的逆向设计" class="headerlink" title="计算机全息 (CGH) 的逆向设计"></a>计算机全息 (CGH) 的逆向设计</h3><p>如果我们想要在远场得到一张图（目标振幅 $A_{target}$），我们该在全息板（源平面）上加载什么相位 $\phi_{source}$？</p>
+<p>这是一个典型的<strong>迭代傅里叶变换算法 (GS Algorithm)</strong> 问题：</p>
+<ol>
+<li><strong>源平面</strong>：假设振幅均匀 $A_0$，随机猜测一个相位 $\phi_0$。</li>
+<li><strong>正向传播</strong>：做 FFT，传到目标平面。</li>
+<li><strong>约束替换</strong>：保留计算出的相位，强行把振幅替换为目标图像 $A_{target}$。</li>
+<li><strong>逆向传播</strong>：做 IFFT，传回源平面。</li>
+<li><strong>约束替换</strong>：保留计算出的相位，强行把振幅替换为 $A_0$（因为激光束振幅通常是均匀的）。</li>
+<li><strong>循环</strong>：重复上述步骤，直到相位收敛。</li>
+</ol>
+<p>最终得到的相位图，就是一张<strong>全息图</strong>。</p>
+<hr>
+<h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><table>
+<thead>
+<tr>
+<th align="left">物理量</th>
+<th align="left">数学符号</th>
+<th align="left">物理意义</th>
+<th align="left">调制器件举例</th>
+<th align="left">核心公式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>振幅</strong></td>
+<td align="left">$A$</td>
+<td align="left">能量、亮度</td>
+<td align="left">衰减片、光圈</td>
+<td align="left">$I \propto A^2$</td>
+</tr>
+<tr>
+<td align="left"><strong>相位</strong></td>
+<td align="left">$\phi$</td>
+<td align="left">波形、方向</td>
+<td align="left">透镜、棱镜、SLM</td>
+<td align="left">$\vec{k} &#x3D; \nabla \phi$</td>
+</tr>
+<tr>
+<td align="left"><strong>波前</strong></td>
+<td align="left">$\phi&#x3D;C$</td>
+<td align="left">等相位面</td>
+<td align="left">(由相位决定)</td>
+<td align="left">$\Delta \phi &#x3D; k \Delta z$</td>
+</tr>
+</tbody></table>
+<p><strong>一句话总结</strong>：<br>振幅决定了我们“看见”了什么，而相位决定了光“如何到达”那里。现代光学的魔术（隐身衣、超透镜、全息投影），本质上全都是在玩弄<strong>相位</strong>的数学游戏。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%A6%E7%90%86%E8%AE%BA/" class="category-chain-item">光学理论</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%89%A9%E7%90%86%E5%85%89%E5%AD%A6/" class="print-no-link">#物理光学</a>
+      
+        <a href="/tags/%E6%B3%A2%E5%8A%A8%E6%96%B9%E7%A8%8B/" class="print-no-link">#波动方程</a>
+      
+        <a href="/tags/%E7%9B%B8%E4%BD%8D%E8%B0%83%E5%88%B6/" class="print-no-link">#相位调制</a>
+      
+        <a href="/tags/SLM/" class="print-no-link">#SLM</a>
+      
+        <a href="/tags/%E5%85%A8%E6%81%AF/" class="print-no-link">#全息</a>
+      
+        <a href="/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%85%89%E5%AD%A6/" class="print-no-link">#傅里叶光学</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>波前、相位与振幅的数学本质及调制原理</div>
+      <div>https://sunfove.xyz/2026/01/15/2026-01-15-wavefront-phase-amplitude-physics/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 15, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/15/2026-01-15-design-your-own-app/" title="将 Python 仿真工具部署并嵌入个人博客">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">将 Python 仿真工具部署并嵌入个人博客</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/14/2026-01-14-daily-english/" title="🌍 Daily English: Beyond Tourism: The Transformative Power of Cultural Immersion in Global Travel | 2026-01-14">
+                        <span class="hidden-mobile">🌍 Daily English: Beyond Tourism: The Transformative Power of Cultural Immersion in Global Travel | 2026-01-14</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/15/2026-01-15-wavefront-phase-amplitude-physics/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
