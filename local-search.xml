@@ -4,19 +4,6 @@
   
   
   <entry>
-    <title>2026-01-16-coordinate-transformation-rotation</title>
-    <link href="/2026/01/15/2026-01-16-coordinate-transformation-rotation/"/>
-    <url>/2026/01/15/2026-01-16-coordinate-transformation-rotation/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>从“锯齿”到“光滑”：相位解包裹 (Phase Unwrapping) 算法深度解析</title>
     <link href="/2026/01/15/2026-01-15-phase-unwrapping-algorithm/"/>
     <url>/2026/01/15/2026-01-15-phase-unwrapping-algorithm/</url>
@@ -660,41 +647,6 @@
   
   
   <entry>
-    <title>激光的“性格”：深入图解高斯光束及其高阶模式 (TEMmn)</title>
-    <link href="/2026/01/11/temp/"/>
-    <url>/2026/01/11/temp/</url>
-    
-    <content type="html"><![CDATA[<p>当我们谈论激光时，脑海中浮现的通常是一束笔直、极细、中心极亮的光线。<br>这种最理想、最常见的激光形态，我们在数学上称之为<strong>基模高斯光束 (Fundamental Gaussian Beam, $TEM_{00}$)</strong>。</p><p>但如果你调整一下激光器的谐振腔，或者激光经过某些晶体，你会惊讶地发现，光斑变了：<br>有的变成了“甜甜圈”，有的变成了“田字格”，有的甚至像复杂的万花筒。</p><p>这些不同的空间分布形态，就是激光的<strong>横模 (Transverse Modes)</strong>。今天我们来拆解一下这些模式背后的物理与数学之美。</p><hr><h2 id="01-皇冠上的明珠：基模高斯光束-TEM-00"><a href="#01-皇冠上的明珠：基模高斯光束-TEM-00" class="headerlink" title="01. 皇冠上的明珠：基模高斯光束 ($TEM_{00}$)"></a>01. 皇冠上的明珠：基模高斯光束 ($TEM_{00}$)</h2><p>这是所有光学工程师最喜欢的模式。<br>它是傍轴波动方程（Paraxial Wave Equation）在圆柱坐标系下最简单的解。</p><h3 id="形态特征"><a href="#形态特征" class="headerlink" title="形态特征"></a>形态特征</h3><ul><li><strong>强度分布</strong>：呈现完美的<strong>钟形曲线 (Bell Curve)</strong>。中心最亮，向边缘呈指数衰减。<br>  $$I(r) &#x3D; I_0 e^{-2r^2&#x2F;w^2}$$<br>  其中 $w$ 是光束半径（强度下降到峰值 $1&#x2F;e^2$ 处的距离）。</li><li><strong>相位</strong>：波前是球面的（在束腰处是平面的）。</li></ul><h3 id="为什么我们都爱-TEM-00-？"><a href="#为什么我们都爱-TEM-00-？" class="headerlink" title="为什么我们都爱 $TEM_{00}$？"></a>为什么我们都爱 $TEM_{00}$？</h3><ol><li><strong>聚焦能力最强</strong>：在同样的透镜孔径下，基模光束可以被聚焦成<strong>最小的斑点</strong>。这对于激光切割、显微镜成像至关重要。</li><li><strong>发散角最小</strong>：它是在真空中传输时，“最不爱扩散”的光束。</li><li><strong>光束质量因子 $M^2 &#x3D; 1$</strong>：这是衡量激光好坏的金标准。</li></ol><hr><h2 id="02-打破对称：厄米-高斯模式-Hermite-Gaussian-HG"><a href="#02-打破对称：厄米-高斯模式-Hermite-Gaussian-HG" class="headerlink" title="02. 打破对称：厄米-高斯模式 (Hermite-Gaussian, HG)"></a>02. 打破对称：厄米-高斯模式 (Hermite-Gaussian, HG)</h2><p>如果我们不再要求圆对称，而是在<strong>直角坐标系 (x, y)</strong> 下求解波动方程，就会得到一组像“麻将牌”一样的解。</p><h3 id="数学表达"><a href="#数学表达" class="headerlink" title="数学表达"></a>数学表达</h3><p>它的电场分布中包含了一个特殊的数学项：<strong>厄米多项式 (Hermite Polynomials)</strong>。<br>我们通常用 $TEM_{mn}$ 来标记，其中 $m$ 和 $n$ 分别代表 x 和 y 方向上的<strong>节点（暗线）数量</strong>。</p><h3 id="常见形态"><a href="#常见形态" class="headerlink" title="常见形态"></a>常见形态</h3><ul><li><strong>$TEM_{00}$</strong>：只有一个主光斑（基模）。</li><li><strong>$TEM_{01}$</strong>：像被切了一刀，垂直方向裂成两个光斑。</li><li><strong>$TEM_{10}$</strong>：水平方向裂成两个光斑。</li><li><strong>$TEM_{11}$</strong>：像一个“田”字，四个光斑。</li></ul><h3 id="物理意义"><a href="#物理意义" class="headerlink" title="物理意义"></a>物理意义</h3><p>这些模式通常出现在<strong>矩形对称</strong>的激光腔中（例如腔内有矩形光阑，或者激光晶体是长条形的）。<br>虽然在光纤耦合中我们极力避免它们（因为很难耦合进圆形光纤），但在某些<strong>粒子捕获</strong>和<strong>阵列照明</strong>应用中，这种结构光非常有用。</p><hr><h2 id="03-光的旋涡：拉盖尔-高斯模式-Laguerre-Gaussian-LG"><a href="#03-光的旋涡：拉盖尔-高斯模式-Laguerre-Gaussian-LG" class="headerlink" title="03. 光的旋涡：拉盖尔-高斯模式 (Laguerre-Gaussian, LG)"></a>03. 光的旋涡：拉盖尔-高斯模式 (Laguerre-Gaussian, LG)</h2><p>这是近年来光物理界最火的研究方向之一。<br>如果我们在<strong>圆柱坐标系 (r, $\phi$)</strong> 下求解，引入了<strong>拉盖尔多项式</strong>，就会得到这组解：$LG_{pl}$。</p><h3 id="甜甜圈光束-Donut-Beam"><a href="#甜甜圈光束-Donut-Beam" class="headerlink" title="甜甜圈光束 (Donut Beam)"></a>甜甜圈光束 (Donut Beam)</h3><p>当径向指数 $p&#x3D;0$ 但角向指数 $l \neq 0$ 时（例如 $TEM_{01}^<em>$），光束中心会出现一个*<em>相位奇点</em></em>。</p><ul><li><strong>强度</strong>：中心强度为 0，能量分布在一个圆环上，像一个甜甜圈。</li><li><strong>相位</strong>：波前不再是平面或球面，而是一个<strong>螺旋面 (Helical Wavefront)</strong>。</li></ul><h3 id="轨道角动量-OAM"><a href="#轨道角动量-OAM" class="headerlink" title="轨道角动量 (OAM)"></a>轨道角动量 (OAM)</h3><p>LG 模式最迷人的地方在于它携带<strong>轨道角动量</strong>。<br>如果用这种光去照射微小的粒子，粒子不仅会被推着走，还会<strong>绕着光轴旋转</strong>！</p><ul><li><strong>应用</strong>：光镊（操纵细胞）、光通信（利用 OAM 进行模分复用，增加带宽）。</li></ul><hr><h2 id="04-为什么会有这么多模式？"><a href="#04-为什么会有这么多模式？" class="headerlink" title="04. 为什么会有这么多模式？"></a>04. 为什么会有这么多模式？</h2><p>你可以把激光谐振腔想象成两面镜子之间的一根<strong>琴弦</strong>。</p><ul><li>琴弦不仅可以整体振动（基频），还可以分段振动（泛音&#x2F;谐波）。</li><li>同样，光在两面镜子之间来回反射，只有那些在横截面上满足**“自再现”**（跑一圈回来场分布不变）的波才能存活下来。</li></ul><p>这些“存活下来”的独立解，就是<strong>本征模 (Eigenmodes)</strong>。</p><ul><li>如果你把谐振腔调得非常完美，通常只有损耗最小的 $TEM_{00}$ 起振。</li><li>如果腔内有灰尘、光阑不对齐，或者增益介质很宽，高阶模式就会趁机起振，导致光束质量变差（$M^2 &gt; 1$）。</li></ul><hr><h2 id="05-总结：如何选择？"><a href="#05-总结：如何选择？" class="headerlink" title="05. 总结：如何选择？"></a>05. 总结：如何选择？</h2><ul><li><strong>选 $TEM_{00}$</strong>：当你需要切断钢板、在视网膜上做手术、或者把光通过一根细细的光纤传到几公里外。</li><li><strong>选 HG&#x2F;LG 模式</strong>：当你需要同时照亮四个点、用光镊旋转一个细菌、或者在量子通信中利用光的“形状”来编码信息。</li></ul><p>激光不仅有能量，更有形状。理解了模式，你就掌握了控制光的“画笔”。</p><hr>]]></content>
-    
-    
-    <categories>
-      
-      <category>光学工程</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>激光物理</tag>
-      
-      <tag>高斯光束</tag>
-      
-      <tag>谐振腔</tag>
-      
-      <tag>M2因子</tag>
-      
-      <tag>厄米-高斯</tag>
-      
-      <tag>拉盖尔-高斯</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>光网络的立交桥：光开关 (Optical Switch) 原理与主流技术解析</title>
     <link href="/2026/01/11/2026-01-10-optical-switch-principles/"/>
     <url>/2026/01/11/2026-01-10-optical-switch-principles/</url>
@@ -845,9 +797,9 @@
     
     <tags>
       
-      <tag>傅里叶变换</tag>
-      
       <tag>数学基础</tag>
+      
+      <tag>傅里叶变换</tag>
       
       <tag>泛函分析</tag>
       
@@ -1181,11 +1133,11 @@
       
       <tag>光学设计</tag>
       
+      <tag>物理公式</tag>
+      
       <tag>摄影光学</tag>
       
       <tag>显微镜</tag>
-      
-      <tag>物理公式</tag>
       
     </tags>
     
@@ -1307,11 +1259,11 @@
       
       <tag>光学设计</tag>
       
-      <tag>物理公式</tag>
-      
       <tag>辐射度学</tag>
       
       <tag>光度学</tag>
+      
+      <tag>物理公式</tag>
       
     </tags>
     
@@ -1346,9 +1298,9 @@
       
       <tag>黄金</tag>
       
-      <tag>美债</tag>
-      
       <tag>A股</tag>
+      
+      <tag>美债</tag>
       
     </tags>
     
@@ -1412,11 +1364,11 @@
       
       <tag>黄金</tag>
       
-      <tag>A股</tag>
-      
       <tag>资产配置</tag>
       
       <tag>美元</tag>
+      
+      <tag>A股</tag>
       
     </tags>
     
@@ -2290,9 +2242,9 @@
     
     <tags>
       
-      <tag>windows</tag>
-      
       <tag>技巧</tag>
+      
+      <tag>windows</tag>
       
     </tags>
     
