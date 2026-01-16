@@ -4,6 +4,39 @@
   
   
   <entry>
+    <title>用 Python 打造你的专属“电子墨宝”：自动生成竖排书法与定制印章</title>
+    <link href="/2026/01/16/2026-01-16-python-zen-calligraphy/"/>
+    <url>/2026/01/16/2026-01-16-python-zen-calligraphy/</url>
+    
+    <content type="html"><![CDATA[<p>在上一篇文章中，我们尝试了动态书写。但在实际应用中，我们往往更需要一张高分辨率、排版考究的<strong>静态书法作品</strong>，用于做壁纸、配图或者打印。</p><p>今天，我们将代码升级。这一次，我们不再追求“动”，而是追求“静”与“雅”。我们将实现以下核心升级：</p><ol><li><strong>竖排布局</strong>：抛弃现代的横排，回归传统的<strong>从右向左、从上向下</strong>的书写方式，这是书法“味儿”正不正的关键。</li><li><strong>宣纸质感</strong>：通过噪声算法生成带有颗粒感的米黄色背景，模拟真实宣纸。</li><li><strong>印章生成</strong>：生成一枚标准的红底白字（阴文）或红字白底（阳文）印章，盖在落款处。</li></ol><hr><h2 id="01-准备工作"><a href="#01-准备工作" class="headerlink" title="01. 准备工作"></a>01. 准备工作</h2><p>只需要安装最基础的图像处理库 <code>Pillow</code>：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install pillow<br></code></pre></td></tr></table></figure><p>此外，<strong>字体是灵魂</strong>。请务必准备一个高质量的书法字体文件（<code>.ttf</code> 或 <code>.otf</code>）。</p><ul><li>推荐字体：禹卫书法行书、颜体、柳体、方正黄草。</li><li>如果没有，Windows 自带的 <code>simkai.ttf</code> (楷体) 也可以勉强使用。</li></ul><hr><h2 id="02-代码实现原理"><a href="#02-代码实现原理" class="headerlink" title="02. 代码实现原理"></a>02. 代码实现原理</h2><h3 id="核心难点：竖排排版逻辑"><a href="#核心难点：竖排排版逻辑" class="headerlink" title="核心难点：竖排排版逻辑"></a>核心难点：竖排排版逻辑</h3><p><code>Pillow</code> 的原生 <code>text</code> 方法只支持横排。要实现竖排，我们需要自己计算坐标：</p><ol><li><strong>分行</strong>：根据画布高度和字号，计算一列能写多少字。</li><li><strong>坐标变换</strong>：<ul><li>$X$ 轴：从右向左递减。第一行在最右边。</li><li>$Y$ 轴：从上向下递增。</li></ul></li><li><strong>标点修正</strong>：中文标点在竖排时位置需要调整（例如句号不能在左下角，而应该居中或偏右），本脚本做了简单居中处理。</li></ol><h3 id="核心亮点：宣纸纹理生成"><a href="#核心亮点：宣纸纹理生成" class="headerlink" title="核心亮点：宣纸纹理生成"></a>核心亮点：宣纸纹理生成</h3><p>为了避免背景死白，我们创建一个噪点函数。在米黄色底色上添加随机的灰度扰动，模拟纸张纤维的粗糙感。</p><hr><h2 id="03-完整-Python-脚本"><a href="#03-完整-Python-脚本" class="headerlink" title="03. 完整 Python 脚本"></a>03. 完整 Python 脚本</h2><p>将以下代码保存为 <code>zen_calligraphy.py</code>，并将字体文件放在同级目录下。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image, ImageDraw, ImageFont, ImageFilter<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ZenCalligrapher</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, font_path, bg_color=(<span class="hljs-params"><span class="hljs-number">240</span>, <span class="hljs-number">235</span>, <span class="hljs-number">225</span></span>)</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        :param font_path: 字体文件路径</span><br><span class="hljs-string">        :param bg_color: 背景色 (默认米黄色宣纸)</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.font_path = font_path<br>        <span class="hljs-variable language_">self</span>.bg_color = bg_color<br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">add_paper_texture</span>(<span class="hljs-params">self, img</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;给图片添加宣纸噪点纹理&quot;&quot;&quot;</span><br>        draw = ImageDraw.Draw(img)<br>        width, height = img.size<br>        <br>        <span class="hljs-comment"># 随机画一些半透明的噪点</span><br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">int</span>(width * height * <span class="hljs-number">0.05</span>)): <br>            x = random.randint(<span class="hljs-number">0</span>, width)<br>            y = random.randint(<span class="hljs-number">0</span>, height)<br>            <span class="hljs-comment"># 噪点颜色比背景稍深或稍浅</span><br>            noise_color = (<br>                random.randint(<span class="hljs-number">200</span>, <span class="hljs-number">250</span>),<br>                random.randint(<span class="hljs-number">190</span>, <span class="hljs-number">240</span>),<br>                random.randint(<span class="hljs-number">180</span>, <span class="hljs-number">230</span>)<br>            )<br>            draw.point((x, y), fill=noise_color)<br>            <br>        <span class="hljs-comment"># 轻微模糊一下，让噪点融入背景</span><br>        <span class="hljs-keyword">return</span> img.<span class="hljs-built_in">filter</span>(ImageFilter.SMOOTH_MORE)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">create_seal</span>(<span class="hljs-params">self, name, size=<span class="hljs-number">80</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;生成红色印章 (阴文：红底白字)&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 印章大小</span><br>        img = Image.new(<span class="hljs-string">&#x27;RGBA&#x27;</span>, (size, size), (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>        draw = ImageDraw.Draw(img)<br>        <br>        <span class="hljs-comment"># 画不规则红底 (模拟印泥渗出的边缘)</span><br>        seal_color = (<span class="hljs-number">180</span>, <span class="hljs-number">20</span>, <span class="hljs-number">20</span>)<br>        <span class="hljs-comment"># 稍微收缩一点，留出边缘不规则空间</span><br>        rect = [<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, size-<span class="hljs-number">2</span>, size-<span class="hljs-number">2</span>]<br>        draw.rectangle(rect, fill=seal_color)<br>        <br>        <span class="hljs-comment"># 加载印章字体 (使用同一种字体，或者专门的篆书字体)</span><br>        <span class="hljs-comment"># 这里为了演示方便，根据名字长度自动调整字号</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(name) &lt;= <span class="hljs-number">2</span>:<br>            font_size = <span class="hljs-built_in">int</span>(size * <span class="hljs-number">0.5</span>)<br>        <span class="hljs-keyword">else</span>:<br>            font_size = <span class="hljs-built_in">int</span>(size * <span class="hljs-number">0.35</span>)<br>            <br>        seal_font = ImageFont.truetype(<span class="hljs-variable language_">self</span>.font_path, font_size)<br>        <br>        <span class="hljs-comment"># 居中绘制名字 (白色)</span><br>        <span class="hljs-comment"># 注意：Pillow 10.0+ 使用 textbbox 获取尺寸</span><br>        left, top, right, bottom = draw.textbbox((<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), name, font=seal_font)<br>        text_w = right - left<br>        text_h = bottom - top<br>        <br>        x = (size - text_w) // <span class="hljs-number">2</span><br>        y = (size - text_h) // <span class="hljs-number">2</span> - size * <span class="hljs-number">0.05</span> <span class="hljs-comment"># 微调垂直位置</span><br>        <br>        draw.text((x, y), name, font=seal_font, fill=(<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">220</span>))<br>        <br>        <span class="hljs-keyword">return</span> img<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_artwork</span>(<span class="hljs-params">self, text, author, font_size=<span class="hljs-number">60</span>, output_file=<span class="hljs-string">&quot;artwork.jpg&quot;</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        生成竖排书法作品</span><br><span class="hljs-string">        :param text: 正文内容</span><br><span class="hljs-string">        :param author: 落款名字</span><br><span class="hljs-string">        :param font_size: 字号</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 1. 布局计算</span><br>        <span class="hljs-comment"># 假设标点符号也占一个字的高度</span><br>        <span class="hljs-comment"># 页面边距</span><br>        margin = font_size * <span class="hljs-number">2</span><br>        <br>        <span class="hljs-comment"># 计算每列能写多少字 (高度减去上下边距)</span><br>        <span class="hljs-comment"># 预设画布高度，比如 1200 像素</span><br>        canvas_height = <span class="hljs-number">1000</span><br>        chars_per_col = (canvas_height - margin * <span class="hljs-number">2</span>) // font_size<br>        <br>        <span class="hljs-comment"># 计算需要多少列</span><br>        <span class="hljs-keyword">import</span> math<br>        total_cols = math.ceil(<span class="hljs-built_in">len</span>(text) / chars_per_col)<br>        <span class="hljs-comment"># 加上落款的一列</span><br>        total_cols += <span class="hljs-number">1</span> <br>        <br>        <span class="hljs-comment"># 计算画布宽度</span><br>        canvas_width = margin * <span class="hljs-number">2</span> + total_cols * font_size * <span class="hljs-number">1.2</span> <span class="hljs-comment"># 列间距 1.2倍</span><br>        canvas_width = <span class="hljs-built_in">int</span>(canvas_width)<br>        <br>        <span class="hljs-comment"># 2. 创建画布</span><br>        img = Image.new(<span class="hljs-string">&#x27;RGB&#x27;</span>, (canvas_width, canvas_height), <span class="hljs-variable language_">self</span>.bg_color)<br>        <br>        <span class="hljs-comment"># 添加宣纸质感</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在生成宣纸纹理...&quot;</span>)<br>        img = <span class="hljs-variable language_">self</span>.add_paper_texture(img)<br>        draw = ImageDraw.Draw(img)<br>        <br>        <span class="hljs-comment"># 加载字体</span><br>        main_font = ImageFont.truetype(<span class="hljs-variable language_">self</span>.font_path, font_size)<br>        <br>        <span class="hljs-comment"># 3. 竖排书写正文</span><br>        <span class="hljs-comment"># 坐标系统：X 从右向左 (canvas_width - margin)</span><br>        <span class="hljs-comment"># Y 从上向下 (margin)</span><br>        <br>        current_x = canvas_width - margin - font_size<br>        current_y = margin<br>        <br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在挥毫泼墨...&quot;</span>)<br>        <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> text:<br>            <span class="hljs-comment"># 绘制文字 (深灰色模拟墨色，不是纯黑)</span><br>            ink_color = (<span class="hljs-number">20</span>, <span class="hljs-number">20</span>, <span class="hljs-number">20</span>)<br>            <br>            <span class="hljs-comment"># 特殊标点处理 (简单版)</span><br>            <span class="hljs-keyword">if</span> char <span class="hljs-keyword">in</span> [<span class="hljs-string">&#x27;，&#x27;</span>, <span class="hljs-string">&#x27;。&#x27;</span>, <span class="hljs-string">&#x27;！&#x27;</span>, <span class="hljs-string">&#x27;？&#x27;</span>]:<br>                <span class="hljs-comment"># 标点往右下角微调</span><br>                draw.text((current_x + font_size*<span class="hljs-number">0.3</span>, current_y - font_size*<span class="hljs-number">0.3</span>), char, font=main_font, fill=ink_color)<br>            <span class="hljs-keyword">else</span>:<br>                draw.text((current_x, current_y), char, font=main_font, fill=ink_color)<br>            <br>            current_y += font_size<br>            <br>            <span class="hljs-comment"># 换列检测</span><br>            <span class="hljs-keyword">if</span> current_y &gt; canvas_height - margin - font_size:<br>                current_y = margin<br>                current_x -= <span class="hljs-built_in">int</span>(font_size * <span class="hljs-number">1.2</span>) <span class="hljs-comment"># 移到左边一列</span><br>        <br>        <span class="hljs-comment"># 4. 落款与盖章</span><br>        <span class="hljs-comment"># 落款写在最后一列的偏下位置</span><br>        <span class="hljs-comment"># 如果正文刚好写满这一列，落款就需要新起一列</span><br>        <span class="hljs-keyword">if</span> current_y &gt; margin: <br>            current_x -= <span class="hljs-built_in">int</span>(font_size * <span class="hljs-number">1.5</span>) <span class="hljs-comment"># 新起一列，且离正文稍远</span><br>            <br>        sign_font_size = <span class="hljs-built_in">int</span>(font_size * <span class="hljs-number">0.6</span>)<br>        sign_font = ImageFont.truetype(<span class="hljs-variable language_">self</span>.font_path, sign_font_size)<br>        <br>        <span class="hljs-comment"># 落款位置 (靠下)</span><br>        sign_x = current_x + (font_size - sign_font_size)//<span class="hljs-number">2</span><br>        sign_y = canvas_height - margin - <span class="hljs-built_in">len</span>(author)*sign_font_size - font_size * <span class="hljs-number">2</span><br>        <br>        <span class="hljs-comment"># 写落款</span><br>        <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> author:<br>            draw.text((sign_x, sign_y), char, font=sign_font, fill=(<span class="hljs-number">60</span>, <span class="hljs-number">60</span>, <span class="hljs-number">60</span>))<br>            sign_y += sign_font_size<br>            <br>        <span class="hljs-comment"># 盖章 (在落款下方)</span><br>        seal_img = <span class="hljs-variable language_">self</span>.create_seal(author, size=<span class="hljs-built_in">int</span>(font_size*<span class="hljs-number">1.2</span>))<br>        img.paste(seal_img, (sign_x - <span class="hljs-built_in">int</span>(font_size*<span class="hljs-number">0.3</span>), sign_y + <span class="hljs-number">10</span>), seal_img)<br>        <br>        <span class="hljs-comment"># 5. 保存</span><br>        img.save(output_file, quality=<span class="hljs-number">95</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;作品已完成：<span class="hljs-subst">&#123;output_file&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># --- 使用示例 ---</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment"># 配置你的字体路径 (必须修改为存在的路径)</span><br>    <span class="hljs-comment"># 建议去下载一个 &quot;禹卫书法行书&quot; 或 &quot;方正黄草&quot;</span><br>    font_path = <span class="hljs-string">&quot;C:/Windows/Fonts/simkai.ttf&quot;</span> <span class="hljs-comment"># Windows 楷体</span><br>    <br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(font_path):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;错误：找不到字体 <span class="hljs-subst">&#123;font_path&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        master = ZenCalligrapher(font_path)<br>        <br>        text_content = <span class="hljs-string">&quot;莫听穿林打叶声何妨吟啸且徐行竹杖芒鞋轻胜马谁怕一蓑烟雨任平生&quot;</span><br>        author_name = <span class="hljs-string">&quot;苏轼&quot;</span><br>        <br>        master.generate_artwork(text_content, author_name, font_size=<span class="hljs-number">80</span>, output_file=<span class="hljs-string">&quot;shufa_art.jpg&quot;</span>)<br></code></pre></td></tr></table></figure><hr><h2 id="04-效果解析与优化建议"><a href="#04-效果解析与优化建议" class="headerlink" title="04. 效果解析与优化建议"></a>04. 效果解析与优化建议</h2><h3 id="1-竖排算法-Vertical-Layout"><a href="#1-竖排算法-Vertical-Layout" class="headerlink" title="1. 竖排算法 (Vertical Layout)"></a>1. 竖排算法 (Vertical Layout)</h3><p>在 <code>generate_artwork</code> 函数中，我们摒弃了常规的 <code>draw.text</code> 直接写入长字符串，而是使用了一个 <code>for</code> 循环逐字绘制。</p><ul><li><code>current_x</code> 初始值设在画布的最右侧。</li><li>每写一个字，<code>current_y</code> 增加一个字高。</li><li>当 <code>current_y</code> 触底时，重置 <code>current_y</code> 到顶部，并将 <code>current_x</code> 向左移动一列的宽度。<br>这种逻辑完美复刻了古人的书写习惯。</li></ul><h3 id="2-宣纸纹理-Paper-Texture"><a href="#2-宣纸纹理-Paper-Texture" class="headerlink" title="2. 宣纸纹理 (Paper Texture)"></a>2. 宣纸纹理 (Paper Texture)</h3><p><code>add_paper_texture</code> 函数非常简单粗暴但有效。它在纯色背景上随机撒下了一些灰度不同的噪点，然后使用 <code>ImageFilter.SMOOTH_MORE</code> 进行模糊。这样生成的背景不会像纯色那样生硬，有一种纸张由于受潮或纤维分布不均产生的自然斑驳感。</p><h3 id="3-印章设计"><a href="#3-印章设计" class="headerlink" title="3. 印章设计"></a>3. 印章设计</h3><p>印章部分使用了圆角矩形配合半透明的文字。为了增加真实感，印章的颜色采用了 <code>(180, 20, 20)</code> 这种深红色的朱砂色，而不是鲜艳的大红。</p><h3 id="4-如何更具“艺术感”？"><a href="#4-如何更具“艺术感”？" class="headerlink" title="4. 如何更具“艺术感”？"></a>4. 如何更具“艺术感”？</h3><ul><li><strong>字体是关键</strong>：代码中的 <code>simkai.ttf</code> 只是保底方案。去下载一个<strong>毛笔质感强</strong>的字体（如“段宁行书”、“李旭科毛笔行书”），效果会瞬间提升 10 倍。</li><li><strong>留白</strong>：代码中预设了较大的 <code>margin</code>。在书法中，留白（Negative Space）与墨迹同样重要。</li><li><strong>字色</strong>：注意看代码中的 <code>ink_color = (20, 20, 20)</code>，我们没有用纯黑 <code>(0,0,0)</code>。真实的墨汁干燥后是深灰偏黑的，纯黑色在屏幕上会显得太“硬”。</li></ul><p>快去下载一个好看的字体，生成一张属于你的苏东坡《定风波》吧！</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Python 趣味实战</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Python</tag>
+      
+      <tag>图像处理</tag>
+      
+      <tag>Pillow</tag>
+      
+      <tag>书法</tag>
+      
+      <tag>生成艺术</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>从“锯齿”到“光滑”：相位解包裹 (Phase Unwrapping) 算法深度解析</title>
     <link href="/2026/01/15/2026-01-15-phase-unwrapping-algorithm/"/>
     <url>/2026/01/15/2026-01-15-phase-unwrapping-algorithm/</url>
@@ -249,8 +282,6 @@
     
     <tags>
       
-      <tag>STED</tag>
-      
       <tag>超表面</tag>
       
       <tag>超分辨率</tag>
@@ -262,6 +293,8 @@
       <tag>超振荡</tag>
       
       <tag>远场成像</tag>
+      
+      <tag>STED</tag>
       
     </tags>
     
@@ -288,11 +321,11 @@
     
     <tags>
       
+      <tag>STED</tag>
+      
       <tag>光学原理</tag>
       
       <tag>衍射极限</tag>
-      
-      <tag>STED</tag>
       
       <tag>SMLM</tag>
       
@@ -1164,11 +1197,11 @@
       
       <tag>光学设计</tag>
       
+      <tag>物理公式</tag>
+      
       <tag>摄影光学</tag>
       
       <tag>显微镜</tag>
-      
-      <tag>物理公式</tag>
       
     </tags>
     
@@ -1290,11 +1323,11 @@
       
       <tag>光学设计</tag>
       
-      <tag>物理公式</tag>
-      
       <tag>辐射度学</tag>
       
       <tag>光度学</tag>
+      
+      <tag>物理公式</tag>
       
     </tags>
     
@@ -1329,9 +1362,9 @@
       
       <tag>黄金</tag>
       
-      <tag>A股</tag>
-      
       <tag>美债</tag>
+      
+      <tag>A股</tag>
       
     </tags>
     
@@ -1395,11 +1428,11 @@
       
       <tag>黄金</tag>
       
+      <tag>A股</tag>
+      
       <tag>资产配置</tag>
       
       <tag>美元</tag>
-      
-      <tag>A股</tag>
       
     </tags>
     
