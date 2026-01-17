@@ -1,0 +1,827 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="四百年来，斯涅尔定律统治着光学的世界，告诉我们光只能按照折射率的差异偏折。但在 2011 年，超表面技术的诞生打破了这一枷锁。本文将作为本系列的第一篇硬核理论文章，从光学的最高准则“费马原理”出发，一步步完整推导广义斯涅尔定律，揭示光“任意弯曲”背后的数学秘密。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="广义斯涅尔定律的完整物理推导">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/20/2026-01-20-generalized-snells-law/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="四百年来，斯涅尔定律统治着光学的世界，告诉我们光只能按照折射率的差异偏折。但在 2011 年，超表面技术的诞生打破了这一枷锁。本文将作为本系列的第一篇硬核理论文章，从光学的最高准则“费马原理”出发，一步步完整推导广义斯涅尔定律，揭示光“任意弯曲”背后的数学秘密。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_091145.png">
+<meta property="article:published_time" content="2026-01-20T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-17T15:58:00.354Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Derivation">
+<meta property="article:tag" content="Metasurface">
+<meta property="article:tag" content="Optics">
+<meta property="article:tag" content="Physics">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_091145.png">
+  
+  
+  
+  <title>广义斯涅尔定律的完整物理推导 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">广义斯涅尔定律的完整物理推导</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-20 10:00" pubdate>
+          January 20, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">广义斯涅尔定律的完整物理推导</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>公元 1621 年，威勒布拉德·斯涅尔 (Willebrord Snellius) 发现了著名的折射定律：$n_1 \sin\theta_1 &#x3D; n_2 \sin\theta_2$。这条定律像一道枷锁，规定了光在穿过两种介质界面时，其折射方向只能由两边的材料属性（折射率）决定。</p>
+<p>几个世纪以来，为了控制光，人类不得不打磨各种曲面透镜，通过改变厚度来积累相位。这就是为什么你的相机镜头如此厚重。</p>
+<p>直到 2011 年，哈佛大学 Capasso 教授团队提出了<strong>广义斯涅尔定律 (Generalized Snell’s Law)</strong>，指出如果在界面上引入一个<strong>相位突变 (Phase Discontinuity)</strong>，光就可以打破枷锁，实现任意方向的折射。这一发现直接开启了<strong>超表面 (Metasurface)</strong> 的黄金时代。</p>
+<p>但这背后的物理原理究竟是什么？为什么引入相位梯度就能改变光路？</p>
+<p>本文将不依赖任何现成结论，从光学的本源——<strong>费马原理</strong>出发，对这一核心定律进行一次完整的数学推导。</p>
+<hr>
+<h2 id="01-物理原本：费马原理与相位平稳"><a href="#01-物理原本：费马原理与相位平稳" class="headerlink" title="01. 物理原本：费马原理与相位平稳"></a>01. 物理原本：费马原理与相位平稳</h2><p>要推导光怎么走，必须问光遵循什么规则。</p>
+<p><strong>费马原理 (Fermat’s Principle)</strong> 告诉我们：光在两点之间传播，总是选择<strong>光程 (Optical Path Length, OPL)</strong> 取极值的路径。</p>
+<p>在波动光学中，光程对应着<strong>相位 (Phase)</strong>。费马原理等价于<strong>相位平稳原理 (Principle of Stationary Phase)</strong>：</p>
+<blockquote>
+<p>对于真实的光路，其总相位积累 $\Psi$ 对路径参数的微分为零。<br>$$\frac{d\Psi}{dx} &#x3D; 0$$</p>
+</blockquote>
+<p>这意味着，如果我们考察两条无限接近的真实光路，它们到达同一点时的<strong>相位差必须为零</strong>（即发生相长干涉）。我们将利用这个微元思想来构建方程。</p>
+<hr>
+<h2 id="02-推导模型构建"><a href="#02-推导模型构建" class="headerlink" title="02. 推导模型构建"></a>02. 推导模型构建</h2><p>让我们建立一个标准的二维物理模型：</p>
+<ol>
+<li><strong>界面</strong>：$y&#x3D;0$ 平面将空间分为两部分。<ul>
+<li>上方：介质 1，折射率 $n_i$。</li>
+<li>下方：介质 2，折射率 $n_t$。</li>
+</ul>
+</li>
+<li><strong>超表面</strong>：在界面上布置了一层亚波长结构，它们在位置 $x$ 处引入了一个额外的相位突变 $\Phi(x)$。</li>
+<li><strong>入射光</strong>：平面波从介质 1 入射，入射角 $\theta_i$。</li>
+<li><strong>折射光</strong>：进入介质 2，折射角 $\theta_t$。</li>
+</ol>
+<hr>
+<h2 id="03-核心推导过程"><a href="#03-核心推导过程" class="headerlink" title="03. 核心推导过程"></a>03. 核心推导过程</h2><p>我们考察两条极度接近的光线路径，它们打在界面上的位置分别为 $A$ 点 ($x$) 和 $B$ 点 ($x+dx$)。</p>
+<p>为了满足波前连续性（或者说费马原理），这两条光线在通过界面后，其<strong>总相位变化量必须相等</strong>。</p>
+<p>总相位由三部分组成：<br>$$\Psi_{total} &#x3D; \Psi_{in} + \Phi_{interface} + \Psi_{out}$$</p>
+<p>我们需要计算这三部分在 $dx$ 距离内的<strong>增量</strong>。</p>
+<h3 id="第一步：入射侧的相位差-d-Psi-in"><a href="#第一步：入射侧的相位差-d-Psi-in" class="headerlink" title="第一步：入射侧的相位差 ($d\Psi_{in}$)"></a>第一步：入射侧的相位差 ($d\Psi_{in}$)</h3><p>观察入射光波前（垂直于波矢量的面）：<br>当光线落点从 $x$ 移到 $x+dx$ 时，光线实际上需要多走一段路程才能到达界面。</p>
+<p>根据几何关系，这段额外的路程是：<br>$$dL_{in} &#x3D; dx \cdot \sin\theta_i$$</p>
+<p>对应的相位增量为（$k_0 &#x3D; \frac{2\pi}{\lambda_0}$ 为真空波数）：<br>$$d\Psi_{in} &#x3D; k_0 n_i \cdot (dx \sin\theta_i)$$</p>
+<h3 id="第二步：界面上的相位突变差-d-Phi"><a href="#第二步：界面上的相位突变差-d-Phi" class="headerlink" title="第二步：界面上的相位突变差 ($d\Phi$)"></a>第二步：界面上的相位突变差 ($d\Phi$)</h3><p>这是经典光学中不存在的项。<br>由于超表面结构随位置变化，点 $x$ 和点 $x+dx$ 处的微纳结构不同，导致光获得的额外相位也不同。<br>这个差异就是<strong>相位梯度</strong>：<br>$$d\Phi &#x3D; \frac{d\Phi(x)}{dx} dx$$</p>
+<h3 id="第三步：折射侧的相位差-d-Psi-out"><a href="#第三步：折射侧的相位差-d-Psi-out" class="headerlink" title="第三步：折射侧的相位差 ($d\Psi_{out}$)"></a>第三步：折射侧的相位差 ($d\Psi_{out}$)</h3><p>观察折射光波前：<br>当光线从 $x+dx$ 射出时，相比于从 $x$ 射出的光线，它在介质 2 中的行程“缩短”了（或者说，为了保持波前垂直于光线，$x$ 点发出的光已经多走了一段）。</p>
+<p>折射侧的几何路程投影为：<br>$$dL_{out} &#x3D; dx \cdot \sin\theta_t$$</p>
+<p>对应的相位补偿为：<br>$$d\Psi_{out} &#x3D; k_0 n_t \cdot (dx \sin\theta_t)$$</p>
+<h3 id="第四步：建立平衡方程"><a href="#第四步：建立平衡方程" class="headerlink" title="第四步：建立平衡方程"></a>第四步：建立平衡方程</h3><p>根据相位平稳原理，两条路径的总相位必须匹配。<br>也就是说：<strong>入射相位增量 + 界面相位增量 &#x3D; 折射相位增量</strong></p>
+<p>$$k_0 n_i \sin\theta_i \cdot dx + \frac{d\Phi}{dx} dx &#x3D; k_0 n_t \sin\theta_t \cdot dx$$</p>
+<hr>
+<h2 id="04-广义斯涅尔定律的诞生"><a href="#04-广义斯涅尔定律的诞生" class="headerlink" title="04. 广义斯涅尔定律的诞生"></a>04. 广义斯涅尔定律的诞生</h2><p>消去公因式 $dx$，我们得到：</p>
+<p>$$k_0 n_i \sin\theta_i + \frac{d\Phi}{dx} &#x3D; k_0 n_t \sin\theta_t$$</p>
+<p>为了让公式更美观，我们将 $k_0 &#x3D; \frac{2\pi}{\lambda_0}$ 代入并移项：</p>
+<p>$$n_t \sin\theta_t - n_i \sin\theta_i &#x3D; \frac{\lambda_0}{2\pi} \frac{d\Phi}{dx}$$</p>
+<p>这就是震动光学界的<strong>广义斯涅尔定律</strong>。<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_091145.png" srcset="/img/loading.gif" lazyload></p>
+<p>它包含两部分：</p>
+<ol>
+<li><strong>经典项</strong> ($n_t \sin\theta_t - n_i \sin\theta_i &#x3D; 0$)：如果界面没有相位梯度 ($\frac{d\Phi}{dx}&#x3D;0$)，它就退化为经典的斯涅尔定律。</li>
+<li><strong>梯度项</strong> ($\frac{d\Phi}{dx}$)：这是超表面赋予我们的新自由度。只要设计合适的相位梯度，我们就能任意控制折射角 $\theta_t$。</li>
+</ol>
+<p>同理，我们可以推导出<strong>广义反射定律</strong>：<br>$$\sin\theta_r - \sin\theta_i &#x3D; \frac{\lambda_0}{2\pi n_i} \frac{d\Phi}{dx}$$</p>
+<hr>
+<h2 id="05-物理本质：光子动量守恒"><a href="#05-物理本质：光子动量守恒" class="headerlink" title="05. 物理本质：光子动量守恒"></a>05. 物理本质：光子动量守恒</h2><p>这个公式虽然是几何推导出来的，但它背后藏着更深刻的量子力学原理：<strong>动量守恒 (Momentum Conservation)</strong>。</p>
+<p>光子的动量为 $\vec{p} &#x3D; \hbar \vec{k}$。<br>在界面切向方向 ($x$ 轴)，动量必须守恒。</p>
+<p>$$k_{x, out} &#x3D; k_{x, in} + k_{surface}$$</p>
+<ul>
+<li>$k_{x, in} &#x3D; k_0 n_i \sin\theta_i$ 是入射光子的切向动量。</li>
+<li>$k_{x, out} &#x3D; k_0 n_t \sin\theta_t$ 是出射光子的切向动量。</li>
+<li><strong>$\nabla\Phi &#x3D; \frac{d\Phi}{dx}$ 正是超表面提供给光子的“虚拟动量”</strong>。</li>
+</ul>
+<p><strong>结论：</strong> 超表面本质上是一个动量转换器。它通过精细的结构设计，给路过的光子“踢”了一脚，改变了它的动量大小，从而改变了它的方向。</p>
+<hr>
+<h2 id="06-临界情况：光会消失吗？"><a href="#06-临界情况：光会消失吗？" class="headerlink" title="06. 临界情况：光会消失吗？"></a>06. 临界情况：光会消失吗？</h2><p>观察公式，如果不小心把 $\frac{d\Phi}{dx}$ 设计得太大，使得右边的计算结果大于 $n_t$ 怎么办？</p>
+<p>$$\sin\theta_t &#x3D; \frac{n_i}{n_t}\sin\theta_i + \frac{\lambda_0}{2\pi n_t}\frac{d\Phi}{dx} &gt; 1$$</p>
+<p>此时 $\sin\theta_t$ 无实数解。这意味着光<strong>无法折射</strong>进入介质 2。<br>光会变成<strong>倏逝波 (Evanescent Wave)</strong>，紧贴着界面传播，能量在垂直方向指数衰减。</p>
+<p>这在物理上对应着<strong>衍射极限</strong>。在设计超透镜 (Metalens) 时，这是一个必须校验的边界条件。</p>
+<hr>
+<h2 id="07-结语"><a href="#07-结语" class="headerlink" title="07. 结语"></a>07. 结语</h2><p>通过这次推导，我们不仅得到了一个公式，更理解了超表面的核心哲学：<strong>用空间换相位，用相位换动量。</strong></p>
+<p>既然我们知道了 $\frac{d\Phi}{dx}$ 决定了光的方向，那么接下来的问题就是：<strong>工程上，我们如何制造出这个 $\Phi(x)$？</strong></p>
+<p>这需要我们设计一种微纳结构（人工原子），通过改变它的形状（如圆柱的直径、长方体的角度），来精确控制光穿过它时的相位延迟。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Metasurface/" class="category-chain-item">Metasurface</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Metasurface/" class="print-no-link">#Metasurface</a>
+      
+        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
+      
+        <a href="/tags/Physics/" class="print-no-link">#Physics</a>
+      
+        <a href="/tags/Derivation/" class="print-no-link">#Derivation</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>广义斯涅尔定律的完整物理推导</div>
+      <div>https://sunfove.xyz/2026/01/20/2026-01-20-generalized-snells-law/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 20, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/17/2026-01-22-python-oop-complete/" title="2026-01-22-python-oop-complete">
+                        <span class="hidden-mobile">2026-01-22-python-oop-complete</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/20/2026-01-20-generalized-snells-law/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
