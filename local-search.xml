@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>光电共封装（CPO）：突破算力互连瓶颈的关键架构</title>
+    <link href="/2026/01/23/2026-01-22-cpo/"/>
+    <url>/2026/01/23/2026-01-22-cpo/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、背景：算力时代的“互连危机”"><a href="#一、背景：算力时代的“互连危机”" class="headerlink" title="一、背景：算力时代的“互连危机”"></a>一、背景：算力时代的“互连危机”</h2><p>过去十年，算力的增长主要来自两个方面：</p><ul><li>芯片制程不断微缩</li><li>单芯片内部并行度持续提升</li></ul><p>但当我们把视角从“芯片内部”移向“芯片之间”，问题开始暴露。</p><p>在数据中心和高性能计算系统中，真正的瓶颈已经不再是计算本身，而是<strong>数据如何在不同芯片之间高速、低功耗地流动</strong>。</p><p>典型症状包括：</p><ul><li>SerDes 功耗随速率指数级上升</li><li>铜互连距离受限，信号完整性恶化</li><li>封装边缘 I&#x2F;O 成为系统瓶颈</li></ul><p>在 112G、224G SerDes 时代，<strong>传统电互连已经接近物理极限</strong>。</p><hr><h2 id="二、从“可插拔光模块”说起"><a href="#二、从“可插拔光模块”说起" class="headerlink" title="二、从“可插拔光模块”说起"></a>二、从“可插拔光模块”说起</h2><p>当前数据中心主流架构是：</p><ul><li>计算芯片（CPU &#x2F; GPU &#x2F; ASIC）</li><li>高速电 SerDes</li><li>可插拔光模块（QSFP &#x2F; OSFP）</li><li>光纤互连</li></ul><p>这种架构的优点是成熟、标准化程度高，但它存在一个根本问题：</p><blockquote><p><strong>光电转换位置太远了。</strong></p></blockquote><p>信号路径是：</p><pre><code class="hljs">芯片 → PCB 走线 → 连接器 → 光模块 → 光芯片</code></pre><p>这意味着：</p><ul><li>高速电信号必须跨越较长距离</li><li>需要复杂的均衡、预加重</li><li>功耗和延迟持续增加</li></ul><p>系统的能效，正在被“最后这几厘米”拖垮。</p><hr><h2 id="三、什么是光电共封装（CPO）"><a href="#三、什么是光电共封装（CPO）" class="headerlink" title="三、什么是光电共封装（CPO）"></a>三、什么是光电共封装（CPO）</h2><p>CPO（Co-Packaged Optics，光电共封装）的核心思想非常直接：</p><blockquote><p><strong>把光引擎“拉进”封装里。</strong></p></blockquote><p>也就是说：</p><ul><li>计算芯片（Switch &#x2F; GPU &#x2F; AI ASIC）</li><li>光引擎（硅光芯片 + 激光）</li><li>位于<strong>同一封装基板或中介层上</strong></li></ul><p>信号路径被缩短为：</p><pre><code class="hljs">芯片 → 超短电互连 → 光引擎 → 光纤</code></pre><p>这是一次<strong>系统级架构的迁移</strong>，而不是简单的器件升级。</p><hr><h2 id="四、CPO-的典型封装形态"><a href="#四、CPO-的典型封装形态" class="headerlink" title="四、CPO 的典型封装形态"></a>四、CPO 的典型封装形态</h2><p>一个典型的 CPO 系统包含以下组件：</p><ul><li>高速计算 ASIC</li><li>硅光子芯片（调制器、探测器）</li><li>激光源（片上或外置）</li><li>中介层（Interposer）或先进封装基板</li><li>光纤阵列接口</li></ul><p>在物理层面，CPO 本质上是：</p><blockquote><p><strong>先进封装 + 硅光技术的深度融合</strong></p></blockquote><p>这也是为什么 CPO 的难度，远高于传统光模块。</p><hr><h2 id="五、CPO-能解决什么问题"><a href="#五、CPO-能解决什么问题" class="headerlink" title="五、CPO 能解决什么问题"></a>五、CPO 能解决什么问题</h2><h3 id="1-功耗显著下降"><a href="#1-功耗显著下降" class="headerlink" title="1. 功耗显著下降"></a>1. 功耗显著下降</h3><ul><li>电互连距离大幅缩短</li><li>SerDes 驱动摆幅降低</li><li>均衡电路复杂度下降</li></ul><p>在系统层面，I&#x2F;O 功耗可以降低 30% 甚至更多。</p><h3 id="2-带宽密度提升"><a href="#2-带宽密度提升" class="headerlink" title="2. 带宽密度提升"></a>2. 带宽密度提升</h3><ul><li>不再受限于封装边缘 I&#x2F;O 数量</li><li>光纤可直接从封装侧面或顶部引出</li><li>更适合 Tbps 级交换芯片</li></ul><h3 id="3-系统可扩展性增强"><a href="#3-系统可扩展性增强" class="headerlink" title="3. 系统可扩展性增强"></a>3. 系统可扩展性增强</h3><p>CPO 更符合未来 AI 集群中：</p><ul><li>节点数巨大</li><li>拓扑复杂</li><li>带宽需求持续增长</li></ul><p>的长期趋势。</p><hr><h2 id="六、CPO-面临的关键挑战"><a href="#六、CPO-面临的关键挑战" class="headerlink" title="六、CPO 面临的关键挑战"></a>六、CPO 面临的关键挑战</h2><p>尽管前景明确，CPO 并非“银弹”。</p><h3 id="1-热管理问题"><a href="#1-热管理问题" class="headerlink" title="1. 热管理问题"></a>1. 热管理问题</h3><ul><li>计算芯片是强热源</li><li>光器件（尤其激光）对温度高度敏感</li><li>共封装意味着热耦合不可避免</li></ul><p>如何在封装层面实现热隔离，是核心难题之一。</p><hr><h3 id="2-可维护性与可靠性"><a href="#2-可维护性与可靠性" class="headerlink" title="2. 可维护性与可靠性"></a>2. 可维护性与可靠性</h3><p>传统光模块可以：</p><ul><li>即插即拔</li><li>故障快速更换</li></ul><p>而 CPO：</p><ul><li>光引擎成为封装的一部分</li><li>任一组件失效，可能需要更换整颗封装</li></ul><p>这对数据中心运维模式提出了新的要求。</p><hr><h3 id="3-测试与良率"><a href="#3-测试与良率" class="headerlink" title="3. 测试与良率"></a>3. 测试与良率</h3><ul><li>光器件测试流程复杂</li><li>光电混合封装增加工艺步骤</li><li>任何一环出问题都会影响整体良率</li></ul><p>这也是 CPO 商业化推进相对谨慎的重要原因。</p><hr><h2 id="七、CPO-并不是“取代一切”"><a href="#七、CPO-并不是“取代一切”" class="headerlink" title="七、CPO 并不是“取代一切”"></a>七、CPO 并不是“取代一切”</h2><p>需要明确的是：</p><blockquote><p><strong>CPO 并不会在短期内完全取代可插拔光模块。</strong></p></blockquote><p>更现实的演进路径是：</p><ul><li>中短距、高带宽：CPO</li><li>中远距、灵活互连：可插拔光模块</li></ul><p>未来相当长一段时间内，两种架构将并存。</p><hr><h2 id="八、结语：这是一次系统级跃迁"><a href="#八、结语：这是一次系统级跃迁" class="headerlink" title="八、结语：这是一次系统级跃迁"></a>八、结语：这是一次系统级跃迁</h2><p>光电共封装的意义，并不在于“把光放得更近”，<br>而在于它标志着：</p><blockquote><p><strong>系统架构开始为光而设计，而不是让光去适配电。</strong></p></blockquote><p>当互连成为算力系统的核心约束时，<br>CPO 是一次几乎不可避免的方向性选择。</p><p>它的成熟速度，<br>将直接影响下一代 AI 与数据中心架构的形态。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Optoelectronics</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>CPO</tag>
+      
+      <tag>Silicon Photonics</tag>
+      
+      <tag>Optical Interconnect</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>广义斯涅尔定律的完整物理推导</title>
     <link href="/2026/01/20/2026-01-20-generalized-snells-law/"/>
     <url>/2026/01/20/2026-01-20-generalized-snells-law/</url>
@@ -949,9 +978,9 @@
     
     <tags>
       
-      <tag>数学基础</tag>
-      
       <tag>傅里叶变换</tag>
+      
+      <tag>数学基础</tag>
       
       <tag>泛函分析</tag>
       
@@ -1444,9 +1473,9 @@
       
       <tag>投资</tag>
       
-      <tag>宏观经济</tag>
-      
       <tag>投资逻辑</tag>
+      
+      <tag>宏观经济</tag>
       
       <tag>黄金</tag>
       
@@ -2394,9 +2423,9 @@
     
     <tags>
       
-      <tag>技巧</tag>
-      
       <tag>windows</tag>
+      
+      <tag>技巧</tag>
       
     </tags>
     

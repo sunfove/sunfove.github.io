@@ -1,0 +1,881 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、背景：算力时代的“互连危机”过去十年，算力的增长主要来自两个方面：  芯片制程不断微缩 单芯片内部并行度持续提升  但当我们把视角从“芯片内部”移向“芯片之间”，问题开始暴露。 在数据中心和高性能计算系统中，真正的瓶颈已经不再是计算本身，而是数据如何在不同芯片之间高速、低功耗地流动。 典型症状包括：  SerDes 功耗随速率指数级上升 铜互连距离受限，信号完整性恶化 封装边缘 I&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光电共封装（CPO）：突破算力互连瓶颈的关键架构">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/23/2026-01-22-cpo/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="一、背景：算力时代的“互连危机”过去十年，算力的增长主要来自两个方面：  芯片制程不断微缩 单芯片内部并行度持续提升  但当我们把视角从“芯片内部”移向“芯片之间”，问题开始暴露。 在数据中心和高性能计算系统中，真正的瓶颈已经不再是计算本身，而是数据如何在不同芯片之间高速、低功耗地流动。 典型症状包括：  SerDes 功耗随速率指数级上升 铜互连距离受限，信号完整性恶化 封装边缘 I&#x2F;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-23T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-17T16:09:09.708Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="CPO">
+<meta property="article:tag" content="Optical Interconnect">
+<meta property="article:tag" content="Silicon Photonics">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>光电共封装（CPO）：突破算力互连瓶颈的关键架构 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光电共封装（CPO）：突破算力互连瓶颈的关键架构</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-23 00:00" pubdate>
+          January 23, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光电共封装（CPO）：突破算力互连瓶颈的关键架构</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、背景：算力时代的“互连危机”"><a href="#一、背景：算力时代的“互连危机”" class="headerlink" title="一、背景：算力时代的“互连危机”"></a>一、背景：算力时代的“互连危机”</h2><p>过去十年，算力的增长主要来自两个方面：</p>
+<ul>
+<li>芯片制程不断微缩</li>
+<li>单芯片内部并行度持续提升</li>
+</ul>
+<p>但当我们把视角从“芯片内部”移向“芯片之间”，问题开始暴露。</p>
+<p>在数据中心和高性能计算系统中，真正的瓶颈已经不再是计算本身，而是<strong>数据如何在不同芯片之间高速、低功耗地流动</strong>。</p>
+<p>典型症状包括：</p>
+<ul>
+<li>SerDes 功耗随速率指数级上升</li>
+<li>铜互连距离受限，信号完整性恶化</li>
+<li>封装边缘 I&#x2F;O 成为系统瓶颈</li>
+</ul>
+<p>在 112G、224G SerDes 时代，<strong>传统电互连已经接近物理极限</strong>。</p>
+<hr>
+<h2 id="二、从“可插拔光模块”说起"><a href="#二、从“可插拔光模块”说起" class="headerlink" title="二、从“可插拔光模块”说起"></a>二、从“可插拔光模块”说起</h2><p>当前数据中心主流架构是：</p>
+<ul>
+<li>计算芯片（CPU &#x2F; GPU &#x2F; ASIC）</li>
+<li>高速电 SerDes</li>
+<li>可插拔光模块（QSFP &#x2F; OSFP）</li>
+<li>光纤互连</li>
+</ul>
+<p>这种架构的优点是成熟、标准化程度高，但它存在一个根本问题：</p>
+<blockquote>
+<p><strong>光电转换位置太远了。</strong></p>
+</blockquote>
+<p>信号路径是：</p>
+<pre><code class="hljs">芯片 → PCB 走线 → 连接器 → 光模块 → 光芯片
+</code></pre>
+<p>这意味着：</p>
+<ul>
+<li>高速电信号必须跨越较长距离</li>
+<li>需要复杂的均衡、预加重</li>
+<li>功耗和延迟持续增加</li>
+</ul>
+<p>系统的能效，正在被“最后这几厘米”拖垮。</p>
+<hr>
+<h2 id="三、什么是光电共封装（CPO）"><a href="#三、什么是光电共封装（CPO）" class="headerlink" title="三、什么是光电共封装（CPO）"></a>三、什么是光电共封装（CPO）</h2><p>CPO（Co-Packaged Optics，光电共封装）的核心思想非常直接：</p>
+<blockquote>
+<p><strong>把光引擎“拉进”封装里。</strong></p>
+</blockquote>
+<p>也就是说：</p>
+<ul>
+<li>计算芯片（Switch &#x2F; GPU &#x2F; AI ASIC）</li>
+<li>光引擎（硅光芯片 + 激光）</li>
+<li>位于<strong>同一封装基板或中介层上</strong></li>
+</ul>
+<p>信号路径被缩短为：</p>
+<pre><code class="hljs">芯片 → 超短电互连 → 光引擎 → 光纤
+</code></pre>
+<p>这是一次<strong>系统级架构的迁移</strong>，而不是简单的器件升级。</p>
+<hr>
+<h2 id="四、CPO-的典型封装形态"><a href="#四、CPO-的典型封装形态" class="headerlink" title="四、CPO 的典型封装形态"></a>四、CPO 的典型封装形态</h2><p>一个典型的 CPO 系统包含以下组件：</p>
+<ul>
+<li>高速计算 ASIC</li>
+<li>硅光子芯片（调制器、探测器）</li>
+<li>激光源（片上或外置）</li>
+<li>中介层（Interposer）或先进封装基板</li>
+<li>光纤阵列接口</li>
+</ul>
+<p>在物理层面，CPO 本质上是：</p>
+<blockquote>
+<p><strong>先进封装 + 硅光技术的深度融合</strong></p>
+</blockquote>
+<p>这也是为什么 CPO 的难度，远高于传统光模块。</p>
+<hr>
+<h2 id="五、CPO-能解决什么问题"><a href="#五、CPO-能解决什么问题" class="headerlink" title="五、CPO 能解决什么问题"></a>五、CPO 能解决什么问题</h2><h3 id="1-功耗显著下降"><a href="#1-功耗显著下降" class="headerlink" title="1. 功耗显著下降"></a>1. 功耗显著下降</h3><ul>
+<li>电互连距离大幅缩短</li>
+<li>SerDes 驱动摆幅降低</li>
+<li>均衡电路复杂度下降</li>
+</ul>
+<p>在系统层面，I&#x2F;O 功耗可以降低 30% 甚至更多。</p>
+<h3 id="2-带宽密度提升"><a href="#2-带宽密度提升" class="headerlink" title="2. 带宽密度提升"></a>2. 带宽密度提升</h3><ul>
+<li>不再受限于封装边缘 I&#x2F;O 数量</li>
+<li>光纤可直接从封装侧面或顶部引出</li>
+<li>更适合 Tbps 级交换芯片</li>
+</ul>
+<h3 id="3-系统可扩展性增强"><a href="#3-系统可扩展性增强" class="headerlink" title="3. 系统可扩展性增强"></a>3. 系统可扩展性增强</h3><p>CPO 更符合未来 AI 集群中：</p>
+<ul>
+<li>节点数巨大</li>
+<li>拓扑复杂</li>
+<li>带宽需求持续增长</li>
+</ul>
+<p>的长期趋势。</p>
+<hr>
+<h2 id="六、CPO-面临的关键挑战"><a href="#六、CPO-面临的关键挑战" class="headerlink" title="六、CPO 面临的关键挑战"></a>六、CPO 面临的关键挑战</h2><p>尽管前景明确，CPO 并非“银弹”。</p>
+<h3 id="1-热管理问题"><a href="#1-热管理问题" class="headerlink" title="1. 热管理问题"></a>1. 热管理问题</h3><ul>
+<li>计算芯片是强热源</li>
+<li>光器件（尤其激光）对温度高度敏感</li>
+<li>共封装意味着热耦合不可避免</li>
+</ul>
+<p>如何在封装层面实现热隔离，是核心难题之一。</p>
+<hr>
+<h3 id="2-可维护性与可靠性"><a href="#2-可维护性与可靠性" class="headerlink" title="2. 可维护性与可靠性"></a>2. 可维护性与可靠性</h3><p>传统光模块可以：</p>
+<ul>
+<li>即插即拔</li>
+<li>故障快速更换</li>
+</ul>
+<p>而 CPO：</p>
+<ul>
+<li>光引擎成为封装的一部分</li>
+<li>任一组件失效，可能需要更换整颗封装</li>
+</ul>
+<p>这对数据中心运维模式提出了新的要求。</p>
+<hr>
+<h3 id="3-测试与良率"><a href="#3-测试与良率" class="headerlink" title="3. 测试与良率"></a>3. 测试与良率</h3><ul>
+<li>光器件测试流程复杂</li>
+<li>光电混合封装增加工艺步骤</li>
+<li>任何一环出问题都会影响整体良率</li>
+</ul>
+<p>这也是 CPO 商业化推进相对谨慎的重要原因。</p>
+<hr>
+<h2 id="七、CPO-并不是“取代一切”"><a href="#七、CPO-并不是“取代一切”" class="headerlink" title="七、CPO 并不是“取代一切”"></a>七、CPO 并不是“取代一切”</h2><p>需要明确的是：</p>
+<blockquote>
+<p><strong>CPO 并不会在短期内完全取代可插拔光模块。</strong></p>
+</blockquote>
+<p>更现实的演进路径是：</p>
+<ul>
+<li>中短距、高带宽：CPO</li>
+<li>中远距、灵活互连：可插拔光模块</li>
+</ul>
+<p>未来相当长一段时间内，两种架构将并存。</p>
+<hr>
+<h2 id="八、结语：这是一次系统级跃迁"><a href="#八、结语：这是一次系统级跃迁" class="headerlink" title="八、结语：这是一次系统级跃迁"></a>八、结语：这是一次系统级跃迁</h2><p>光电共封装的意义，并不在于“把光放得更近”，<br>而在于它标志着：</p>
+<blockquote>
+<p><strong>系统架构开始为光而设计，而不是让光去适配电。</strong></p>
+</blockquote>
+<p>当互连成为算力系统的核心约束时，<br>CPO 是一次几乎不可避免的方向性选择。</p>
+<p>它的成熟速度，<br>将直接影响下一代 AI 与数据中心架构的形态。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Optoelectronics/" class="category-chain-item">Optoelectronics</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CPO/" class="print-no-link">#CPO</a>
+      
+        <a href="/tags/Silicon-Photonics/" class="print-no-link">#Silicon Photonics</a>
+      
+        <a href="/tags/Optical-Interconnect/" class="print-no-link">#Optical Interconnect</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光电共封装（CPO）：突破算力互连瓶颈的关键架构</div>
+      <div>https://sunfove.xyz/2026/01/23/2026-01-22-cpo/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 23, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/20/2026-01-20-generalized-snells-law/" title="广义斯涅尔定律的完整物理推导">
+                        <span class="hidden-mobile">广义斯涅尔定律的完整物理推导</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/23/2026-01-22-cpo/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
