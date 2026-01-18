@@ -1,0 +1,860 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、一个常见但危险的误解在讨论光电共封装（CPO）时，最常听到的一种说法是：  CPO 的难点在于光器件：激光、调制器、耦合、可靠性。  这句话不算错，但非常不完整。 如果你站在系统架构和物理约束的角度去看，会发现一个更本质的事实：  CPO 之所以被提出，并不是因为“光不够好”，而是因为“电已经走不下去了”。  换句话说，光只是被“拉进封装”的工具，真正被逼到极限的，是电互连。 理解这一点，是区">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么说 CPO 的本质问题不是“光”，而是“电”">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/25/2026-01-18-%20CPO%E6%9C%AC%E8%B4%A8%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="一、一个常见但危险的误解在讨论光电共封装（CPO）时，最常听到的一种说法是：  CPO 的难点在于光器件：激光、调制器、耦合、可靠性。  这句话不算错，但非常不完整。 如果你站在系统架构和物理约束的角度去看，会发现一个更本质的事实：  CPO 之所以被提出，并不是因为“光不够好”，而是因为“电已经走不下去了”。  换句话说，光只是被“拉进封装”的工具，真正被逼到极限的，是电互连。 理解这一点，是区">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-18T15:30:56.451Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="CPO">
+<meta property="article:tag" content="Electrical Interconnect">
+<meta property="article:tag" content="SerDes">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>为什么说 CPO 的本质问题不是“光”，而是“电” - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">为什么说 CPO 的本质问题不是“光”，而是“电”</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-25 00:00" pubdate>
+          January 25, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">为什么说 CPO 的本质问题不是“光”，而是“电”</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、一个常见但危险的误解"><a href="#一、一个常见但危险的误解" class="headerlink" title="一、一个常见但危险的误解"></a>一、一个常见但危险的误解</h2><p>在讨论光电共封装（CPO）时，最常听到的一种说法是：</p>
+<blockquote>
+<p>CPO 的难点在于光器件：<br>激光、调制器、耦合、可靠性。</p>
+</blockquote>
+<p>这句话<strong>不算错，但非常不完整</strong>。</p>
+<p>如果你站在系统架构和物理约束的角度去看，会发现一个更本质的事实：</p>
+<blockquote>
+<p><strong>CPO 之所以被提出，并不是因为“光不够好”，<br>而是因为“电已经走不下去了”。</strong></p>
+</blockquote>
+<p>换句话说，<br><strong>光只是被“拉进封装”的工具，<br>真正被逼到极限的，是电互连。</strong></p>
+<p>理解这一点，是区分“看过 CPO”与“真正理解 CPO”的分水岭。</p>
+<hr>
+<h2 id="二、电互连正在系统中扮演“反向加速器”"><a href="#二、电互连正在系统中扮演“反向加速器”" class="headerlink" title="二、电互连正在系统中扮演“反向加速器”"></a>二、电互连正在系统中扮演“反向加速器”</h2><p>在现代计算系统中，电互连承担着一个非常尴尬的角色：</p>
+<ul>
+<li>算力越强</li>
+<li>带宽越高</li>
+<li>电互连反而消耗越多的功耗和设计资源</li>
+</ul>
+<p>这在高速 SerDes 时代表现得尤为明显。</p>
+<p>在 112G、224G 速率下，系统设计者面对的是：</p>
+<ul>
+<li>极高的插损</li>
+<li>严重的反射与串扰</li>
+<li>复杂到难以验证的均衡链路</li>
+</ul>
+<p>为了让信号“活着到达对端”，系统不得不引入：</p>
+<ul>
+<li>更高摆幅的驱动</li>
+<li>多级 CTLE &#x2F; FFE &#x2F; DFE</li>
+<li>重定时（Retimer）</li>
+</ul>
+<p>结果是一个非常反直觉的局面：</p>
+<blockquote>
+<p><strong>计算能力在提升，<br>但系统能效被电互连持续吞噬。</strong></p>
+</blockquote>
+<p>在很多高端交换芯片中，<br>I&#x2F;O 相关功耗已经接近甚至超过核心逻辑功耗。</p>
+<p>这不是工艺问题，而是<strong>物理尺度问题</strong>。</p>
+<hr>
+<h2 id="三、CPO-的真正价值：把“不可控的电”压缩到封装内"><a href="#三、CPO-的真正价值：把“不可控的电”压缩到封装内" class="headerlink" title="三、CPO 的真正价值：把“不可控的电”压缩到封装内"></a>三、CPO 的真正价值：把“不可控的电”压缩到封装内</h2><p>理解 CPO 的关键，不在于“光有多先进”，<br>而在于它对<strong>电互连空间尺度的重构</strong>。</p>
+<p>在可插拔光模块架构中，电信号必须跨越：</p>
+<ul>
+<li>芯片 I&#x2F;O</li>
+<li>封装</li>
+<li>PCB 走线</li>
+<li>连接器</li>
+</ul>
+<p>这是一个<strong>厘米级、强损耗、强不确定性</strong>的电环境。</p>
+<p>而在 CPO 中：</p>
+<ul>
+<li>电互连被限制在毫米级</li>
+<li>通道材料、几何、阻抗高度可控</li>
+<li>信道建模从“板级统计问题”变成“封装内确定性问题”</li>
+</ul>
+<p>这带来的变化是<strong>质变</strong>而不是优化：</p>
+<ul>
+<li>SerDes 不再需要“对抗物理极限”</li>
+<li>电路设计从“补偿损耗”转为“利用物理一致性”</li>
+<li>系统能效的上限被重新抬高</li>
+</ul>
+<p>因此可以说：</p>
+<blockquote>
+<p><strong>CPO 的第一性原理收益，<br>来自于电互连尺度的坍缩，而不是光的引入。</strong></p>
+</blockquote>
+<p>光只是恰好是那个<strong>在短距离后性能几乎不退化的介质</strong>。</p>
+<hr>
+<h2 id="四、为什么“光的问题”反而是次级问题"><a href="#四、为什么“光的问题”反而是次级问题" class="headerlink" title="四、为什么“光的问题”反而是次级问题"></a>四、为什么“光的问题”反而是次级问题</h2><p>这并不是说光学问题不重要，而是要明确优先级。</p>
+<p>在 CPO 体系中，光子部分面对的挑战主要是：</p>
+<ul>
+<li>耦合效率</li>
+<li>温度稳定性</li>
+<li>长期可靠性</li>
+</ul>
+<p>这些问题确实困难，但有一个共同特点：</p>
+<blockquote>
+<p><strong>它们是工程问题，而不是趋势性失效问题。</strong></p>
+</blockquote>
+<p>相比之下，电互连的问题是：</p>
+<ul>
+<li>随速率提升必然恶化</li>
+<li>随距离增长指数级放大</li>
+<li>无法通过“更好工艺”根本解决</li>
+</ul>
+<p>这也是为什么行业会接受一个看似“更难制造”的方案：</p>
+<ul>
+<li>接受复杂封装</li>
+<li>接受光电混合测试</li>
+<li>接受运维模式变化</li>
+</ul>
+<p>因为<strong>继续拉长电互连，已经不再是可选项</strong>。</p>
+<hr>
+<h2 id="五、从系统角度重新理解-CPO"><a href="#五、从系统角度重新理解-CPO" class="headerlink" title="五、从系统角度重新理解 CPO"></a>五、从系统角度重新理解 CPO</h2><p>如果只从器件角度看，CPO 显得“激进、昂贵、不成熟”。</p>
+<p>但从系统演进的角度看，它其实是一个<strong>保守但理性的选择</strong>：</p>
+<ul>
+<li>保留电在短距离内的优势</li>
+<li>用光承担电不擅长的距离</li>
+<li>在封装层面完成介质分工</li>
+</ul>
+<p>从这个意义上说，CPO 并不是“光取代电”，<br>而是：</p>
+<blockquote>
+<p><strong>电退回它最擅长的尺度，<br>光接管电无法承受的尺度。</strong></p>
+</blockquote>
+<hr>
+<h2 id="结语：CPO-是一次“尺度管理”的胜利"><a href="#结语：CPO-是一次“尺度管理”的胜利" class="headerlink" title="结语：CPO 是一次“尺度管理”的胜利"></a>结语：CPO 是一次“尺度管理”的胜利</h2><p>如果用一句话总结 CPO 的本质，那就是：</p>
+<blockquote>
+<p><strong>CPO 不是一次光学革命，<br>而是一次对电互连尺度失控的系统级纠偏。</strong></p>
+</blockquote>
+<p>真正推动 CPO 的，不是光器件的突破，<br>而是电互连在高带宽时代<strong>不可逆的物理约束</strong>。</p>
+<p>当你从这个角度再回头看 CPO，<br>你会发现很多争论，其实一开始就问错了问题。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Optoelectronics/" class="category-chain-item">Optoelectronics</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CPO/" class="print-no-link">#CPO</a>
+      
+        <a href="/tags/SerDes/" class="print-no-link">#SerDes</a>
+      
+        <a href="/tags/Electrical-Interconnect/" class="print-no-link">#Electrical Interconnect</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>为什么说 CPO 的本质问题不是“光”，而是“电”</div>
+      <div>https://sunfove.xyz/2026/01/25/2026-01-18- CPO本质问题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 25, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/24/2026-01-18-%20CPO%20vs%20%E5%8F%AF%E6%8F%92%E6%8B%94%E5%85%89%E6%A8%A1%E5%9D%97/" title="CPO vs 可插拔光模块：系统级互连架构的深度对比">
+                        <span class="hidden-mobile">CPO vs 可插拔光模块：系统级互连架构的深度对比</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/25/2026-01-18-%20CPO%E6%9C%AC%E8%B4%A8%E9%97%AE%E9%A2%98/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
