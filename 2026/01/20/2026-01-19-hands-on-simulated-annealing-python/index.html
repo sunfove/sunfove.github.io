@@ -1,0 +1,843 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="继上一篇关于模拟退火物理原理的探讨后，本文将进入代码实战环节。我们将使用 Python 和 NumPy 从零构建一个高效的模拟退火求解器，解决经典的旅行商问题（TSP）。文章详细解析了邻域构造策略（2-opt）、温度控制代码实现以及如何利用 Matplotlib 可视化“从无序到有序”的熵减过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实战篇：用 Python 徒手实现模拟退火算法解决 TSP 问题">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/20/2026-01-19-hands-on-simulated-annealing-python/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="继上一篇关于模拟退火物理原理的探讨后，本文将进入代码实战环节。我们将使用 Python 和 NumPy 从零构建一个高效的模拟退火求解器，解决经典的旅行商问题（TSP）。文章详细解析了邻域构造策略（2-opt）、温度控制代码实现以及如何利用 Matplotlib 可视化“从无序到有序”的熵减过程。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-20T09:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-19T14:53:57.340Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithms">
+<meta property="article:tag" content="Data Visualization">
+<meta property="article:tag" content="Optimization">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="TSP">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>实战篇：用 Python 徒手实现模拟退火算法解决 TSP 问题 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">实战篇：用 Python 徒手实现模拟退火算法解决 TSP 问题</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-20 09:00" pubdate>
+          January 20, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">实战篇：用 Python 徒手实现模拟退火算法解决 TSP 问题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在上一篇文章《熵减的艺术》中，我们探讨了模拟退火算法（Simulated Annealing, SA）背后的统计物理学原理。我们理解了温度如何控制随机性，以及 Metropolis 准则如何帮助我们在复杂的能量景观中跳出局部最优。</p>
+<p>今天，我们将把这些优雅的方程转化为可执行的 Python 代码。</p>
+<p>我们将挑战组合优化领域的“果蝇”——<strong>旅行商问题 (Traveling Salesman Problem, TSP)</strong>。TSP 的目标非常直观：给定一组城市和城市间的距离，寻找一条访问每个城市恰好一次并回到起点的最短路径。</p>
+<p>尽管其表述简单，但 TSP 是典型的 <strong>NP-Hard</strong> 问题。当城市数量增加时，可能的路径数量呈阶乘级爆炸（$N!$）。对于 30 个城市，可能的路径数量大约是 $2.65 \times 10^{32}$，比宇宙观测范围内的原子数量还要多。穷举法在这里是失效的，而模拟退火正是解决此类问题的利器。</p>
+<h2 id="1-工程设计与环境准备"><a href="#1-工程设计与环境准备" class="headerlink" title="1. 工程设计与环境准备"></a>1. 工程设计与环境准备</h2><p>在开始写代码之前，我们需要思考几个核心的工程实现细节，这些细节对应着物理模型中的关键要素：</p>
+<ol>
+<li><strong>系统状态 ($x$)</strong>：在 TSP 中，状态是一个城市的排列序列（Permutation）。</li>
+<li><strong>能量函数 ($E(x)$)</strong>：对应路径的总长度。我们的目标是最小化它。</li>
+<li><strong>邻域操作 (Move)</strong>：如何从当前状态产生新状态？简单的“交换两个城市”往往效率低下，我们将采用更高级的 <strong>2-opt (翻转)</strong> 策略，这相当于消除路径中的“交叉结”。</li>
+<li><strong>退火计划 (Schedule)</strong>：采用经典的指数降温。</li>
+</ol>
+<h3 id="环境依赖"><a href="#环境依赖" class="headerlink" title="环境依赖"></a>环境依赖</h3><p>我们将使用 <code>numpy</code> 进行数值计算，使用 <code>matplotlib</code> 进行结果可视化。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install numpy matplotlib<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-核心类定义：SimulatedAnnealing"><a href="#2-核心类定义：SimulatedAnnealing" class="headerlink" title="2. 核心类定义：SimulatedAnnealing"></a>2. 核心类定义：SimulatedAnnealing</h2><p>为了保证代码的模块化和复用性，我们定义一个 <code>TSP_SA</code> 类。</p>
+<h3 id="2-1-初始化与距离矩阵"><a href="#2-1-初始化与距离矩阵" class="headerlink" title="2.1 初始化与距离矩阵"></a>2.1 初始化与距离矩阵</h3><p>计算几何距离是一个耗时操作。为了避免在循环中重复计算 $\sqrt{(x_1-x_2)^2 + (y_1-y_2)^2}$，我们最好预先计算好所有城市之间的<strong>距离矩阵 (Distance Matrix)</strong>。这是一个典型的“空间换时间”策略。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">import</span> random<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TSP_SA</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, coords, t_start=<span class="hljs-number">1000</span>, t_end=<span class="hljs-number">1e-3</span>, alpha=<span class="hljs-number">0.995</span>, max_iter_per_temp=<span class="hljs-number">100</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        初始化模拟退火求解器</span><br><span class="hljs-string">        :param coords: 城市坐标数组 (N, 2)</span><br><span class="hljs-string">        :param t_start: 初始温度 (对应物理中的高温熔融态)</span><br><span class="hljs-string">        :param t_end: 终止温度 (对应物理中的低温结晶态)</span><br><span class="hljs-string">        :param alpha: 冷却系数 (决定降温速率)</span><br><span class="hljs-string">        :param max_iter_per_temp: 每个温度下的内循环迭代次数 (等温过程)</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.coords = coords<br>        <span class="hljs-variable language_">self</span>.num_cities = <span class="hljs-built_in">len</span>(coords)<br>        <span class="hljs-variable language_">self</span>.t_start = t_start<br>        <span class="hljs-variable language_">self</span>.t_end = t_end<br>        <span class="hljs-variable language_">self</span>.alpha = alpha<br>        <span class="hljs-variable language_">self</span>.max_iter_per_temp = max_iter_per_temp<br>        <br>        <span class="hljs-comment"># 预计算距离矩阵，避免重复计算</span><br>        <span class="hljs-variable language_">self</span>.dist_matrix = <span class="hljs-variable language_">self</span>._calculate_distance_matrix()<br>        <br>        <span class="hljs-comment"># 初始化状态</span><br>        <span class="hljs-variable language_">self</span>.current_solution = np.arange(<span class="hljs-variable language_">self</span>.num_cities)<br>        np.random.shuffle(<span class="hljs-variable language_">self</span>.current_solution) <span class="hljs-comment"># 随机打乱作为初始解</span><br>        <br>        <span class="hljs-comment"># 计算初始能量</span><br>        <span class="hljs-variable language_">self</span>.current_cost = <span class="hljs-variable language_">self</span>._calculate_total_distance(<span class="hljs-variable language_">self</span>.current_solution)<br>        <br>        <span class="hljs-comment"># 记录全局最优解</span><br>        <span class="hljs-variable language_">self</span>.best_solution = <span class="hljs-variable language_">self</span>.current_solution.copy()<br>        <span class="hljs-variable language_">self</span>.best_cost = <span class="hljs-variable language_">self</span>.current_cost<br>        <br>        <span class="hljs-comment"># 用于记录历史数据以便绘图</span><br>        <span class="hljs-variable language_">self</span>.cost_history = []<br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_calculate_distance_matrix</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;利用广播机制高效计算欧几里得距离矩阵&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 利用 (N, 1, 2) - (1, N, 2) 产生 (N, N, 2) 的差值张量</span><br>        diff = <span class="hljs-variable language_">self</span>.coords[:, np.newaxis, :] - <span class="hljs-variable language_">self</span>.coords[np.newaxis, :, :]<br>        <span class="hljs-comment"># 求范数</span><br>        dist_matrix = np.linalg.norm(diff, axis=-<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">return</span> dist_matrix<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-能量计算与状态扰动-The-Physics"><a href="#2-2-能量计算与状态扰动-The-Physics" class="headerlink" title="2.2 能量计算与状态扰动 (The Physics)"></a>2.2 能量计算与状态扰动 (The Physics)</h3><p>这是算法的灵魂所在。</p>
+<p><strong>关于邻域操作 (Mutation)：</strong><br>在 TSP 中，简单的交换 (Swap) 两个城市通常只能产生微小的局部变化。更有效的操作是 <strong>2-opt Reversal</strong>。即随机选择一段路径，将其顺序<strong>逆转</strong>。</p>
+<ul>
+<li><strong>物理直觉：</strong> 如果你在解开一团乱麻，最好的方式不是把两个线头换位置，而是把打结的一段“翻转”过来，使其理顺。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_calculate_total_distance</span>(<span class="hljs-params">self, solution</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;计算当前路径的总长度 (Energy)&quot;&quot;&quot;</span><br>    total_dist = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.num_cities):<br>        start_node = solution[i]<br>        end_node = solution[(i + <span class="hljs-number">1</span>) % <span class="hljs-variable language_">self</span>.num_cities] <span class="hljs-comment"># 回到起点</span><br>        total_dist += <span class="hljs-variable language_">self</span>.dist_matrix[start_node, end_node]<br>    <span class="hljs-keyword">return</span> total_dist<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">_generate_neighbor</span>(<span class="hljs-params">self, solution</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    产生新解：使用 2-opt (区间翻转) 策略</span><br><span class="hljs-string">    比简单的 swap 更容易解开路径交叉</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    new_solution = solution.copy()<br>    l = random.randint(<span class="hljs-number">2</span>, <span class="hljs-variable language_">self</span>.num_cities - <span class="hljs-number">1</span>)<br>    i = random.randint(<span class="hljs-number">0</span>, <span class="hljs-variable language_">self</span>.num_cities - l)<br>    <br>    <span class="hljs-comment"># 将区间 [i, i+l] 进行逆序</span><br>    new_solution[i : i + l] = new_solution[i : i + l][::-<span class="hljs-number">1</span>]<br>    <br>    <span class="hljs-keyword">return</span> new_solution<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-3-Metropolis-准则-The-Law"><a href="#2-3-Metropolis-准则-The-Law" class="headerlink" title="2.3 Metropolis 准则 (The Law)"></a>2.3 Metropolis 准则 (The Law)</h3><p>这部分代码直接翻译了玻尔兹曼分布推导出的接受概率公式。请注意浮点数溢出的保护。</p>
+<p>$$<br>P_{accept} &#x3D; e^{-\frac{\Delta E}{T}}<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_accept</span>(<span class="hljs-params">self, new_cost, current_cost, temperature</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Metropolis 准则</span><br><span class="hljs-string">    :return: Boolean, 是否接受新解</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    delta_E = new_cost - current_cost<br>    <br>    <span class="hljs-comment"># 情况1: 新解更优 (能量更低)，贪婪接受</span><br>    <span class="hljs-keyword">if</span> delta_E &lt; <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>    <br>    <span class="hljs-comment"># 情况2: 新解更差，按概率接受</span><br>    <span class="hljs-comment"># P = exp(-delta_E / T)</span><br>    <span class="hljs-keyword">else</span>:<br>        probability = math.exp(-delta_E / temperature)<br>        <span class="hljs-keyword">return</span> random.random() &lt; probability<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-4-主循环-The-Annealing-Process"><a href="#2-4-主循环-The-Annealing-Process" class="headerlink" title="2.4 主循环 (The Annealing Process)"></a>2.4 主循环 (The Annealing Process)</h3><p>主循环模拟了随着时间推移，热浴温度逐渐降低的过程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">anneal</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;执行模拟退火主循环&quot;&quot;&quot;</span><br>    temperature = <span class="hljs-variable language_">self</span>.t_start<br>    <br>    <span class="hljs-keyword">while</span> temperature &gt; <span class="hljs-variable language_">self</span>.t_end:<br>        <span class="hljs-comment"># 内循环：等温过程 (Isothermal Process)</span><br>        <span class="hljs-comment"># 在当前温度下进行多次尝试，使系统趋于平衡</span><br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.max_iter_per_temp):<br>            <span class="hljs-comment"># 1. 产生新解</span><br>            new_solution = <span class="hljs-variable language_">self</span>._generate_neighbor(<span class="hljs-variable language_">self</span>.current_solution)<br>            new_cost = <span class="hljs-variable language_">self</span>._calculate_total_distance(new_solution)<br>            <br>            <span class="hljs-comment"># 2. 接受判别 (Metropolis)</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>._accept(new_cost, <span class="hljs-variable language_">self</span>.current_cost, temperature):<br>                <span class="hljs-variable language_">self</span>.current_solution = new_solution<br>                <span class="hljs-variable language_">self</span>.current_cost = new_cost<br>                <br>                <span class="hljs-comment"># 更新全局最优</span><br>                <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.current_cost &lt; <span class="hljs-variable language_">self</span>.best_cost:<br>                    <span class="hljs-variable language_">self</span>.best_solution = <span class="hljs-variable language_">self</span>.current_solution.copy()<br>                    <span class="hljs-variable language_">self</span>.best_cost = <span class="hljs-variable language_">self</span>.current_cost<br>        <br>        <span class="hljs-comment"># 记录本轮温度下的能量值</span><br>        <span class="hljs-variable language_">self</span>.cost_history.append(<span class="hljs-variable language_">self</span>.best_cost)<br>        <br>        <span class="hljs-comment"># 3. 降温 (Cooling)</span><br>        temperature *= <span class="hljs-variable language_">self</span>.alpha<br>        <br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.best_solution, <span class="hljs-variable language_">self</span>.best_cost<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-运行与可视化"><a href="#3-运行与可视化" class="headerlink" title="3. 运行与可视化"></a>3. 运行与可视化</h2><p>让我们生成 50 个随机城市坐标，并运行我们的模拟退火算法。为了直观感受算法的效果，我们将绘制出初始的随机路径和最终优化后的路径。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment"># 设置随机种子以复现结果</span><br>    np.random.seed(<span class="hljs-number">42</span>)<br>    random.seed(<span class="hljs-number">42</span>)<br><br>    <span class="hljs-comment"># 1. 生成数据：50个随机城市</span><br>    num_cities = <span class="hljs-number">50</span><br>    coords = np.random.rand(num_cities, <span class="hljs-number">2</span>) * <span class="hljs-number">100</span>  <span class="hljs-comment"># 范围 [0, 100]</span><br><br>    <span class="hljs-comment"># 2. 实例化并运行算法</span><br>    <span class="hljs-comment"># 注意：T_start 需要根据数据规模调整，通常设为平均距离的量级</span><br>    sa = TSP_SA(coords, t_start=<span class="hljs-number">1000</span>, t_end=<span class="hljs-number">0.01</span>, alpha=<span class="hljs-number">0.99</span>, max_iter_per_temp=<span class="hljs-number">200</span>)<br>    best_path, best_dist = sa.anneal()<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Optimization Finished!&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Final Minimum Distance: <span class="hljs-subst">&#123;best_dist:<span class="hljs-number">.2</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 3. 可视化对比</span><br>    plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">6</span>))<br><br>    <span class="hljs-comment"># 子图1：收敛曲线</span><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br>    plt.plot(sa.cost_history, <span class="hljs-string">&#x27;b-&#x27;</span>)<br>    plt.title(<span class="hljs-string">&quot;Energy Optimization Curve&quot;</span>)<br>    plt.xlabel(<span class="hljs-string">&quot;Temperature Steps&quot;</span>)<br>    plt.ylabel(<span class="hljs-string">&quot;Total Distance (Energy)&quot;</span>)<br>    plt.grid(<span class="hljs-literal">True</span>)<br><br>    <span class="hljs-comment"># 子图2：最佳路径</span><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br>    <span class="hljs-comment"># 绘制城市点</span><br>    plt.scatter(coords[:, <span class="hljs-number">0</span>], coords[:, <span class="hljs-number">1</span>], c=<span class="hljs-string">&#x27;red&#x27;</span>, s=<span class="hljs-number">40</span>, zorder=<span class="hljs-number">2</span>)<br>    <span class="hljs-comment"># 绘制路径线</span><br>    <span class="hljs-comment"># 需要把路径闭合，加上起点</span><br>    plot_path = np.append(best_path, best_path[<span class="hljs-number">0</span>]) <br>    plt.plot(coords[plot_path, <span class="hljs-number">0</span>], coords[plot_path, <span class="hljs-number">1</span>], <span class="hljs-string">&#x27;g-&#x27;</span>, linewidth=<span class="hljs-number">1.5</span>, zorder=<span class="hljs-number">1</span>)<br>    <br>    plt.title(<span class="hljs-string">f&quot;Optimal TSP Path (N=<span class="hljs-subst">&#123;num_cities&#125;</span>)\nDist=<span class="hljs-subst">&#123;best_dist:<span class="hljs-number">.2</span>f&#125;</span>&quot;</span>)<br>    plt.axis(<span class="hljs-string">&#x27;equal&#x27;</span>)<br>    <br>    plt.tight_layout()<br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-结果深度解析"><a href="#4-结果深度解析" class="headerlink" title="4. 结果深度解析"></a>4. 结果深度解析</h2><p>当你运行上述代码时，你会观察到两个有趣的现象：</p>
+<h3 id="4-1-能量收敛曲线-The-Energy-Landscape"><a href="#4-1-能量收敛曲线-The-Energy-Landscape" class="headerlink" title="4.1 能量收敛曲线 (The Energy Landscape)"></a>4.1 能量收敛曲线 (The Energy Landscape)</h3><p><code>Energy Optimization Curve</code> 图表通常会显示出三个阶段：</p>
+<ol>
+<li><strong>高温混沌期：</strong> 曲线波动剧烈，能量值很高。此时 $T$ 很大，系统频繁接受差解，几乎在随机游走。这对应物理上的液体状态。</li>
+<li><strong>相变期 (Phase Transition)：</strong> 能量开始快速下降。随着 $T$ 降低，拒绝差解的概率增加，系统开始迅速向低能谷底滑落。这是算法最有效率的阶段。</li>
+<li><strong>低温冻结期：</strong> 曲线趋于平缓。此时 $T$ 极低，系统几乎不再接受任何差解，最终被“冻结”在某个局部最优或全局最优解上。</li>
+</ol>
+<h3 id="4-2-路径拓扑演化"><a href="#4-2-路径拓扑演化" class="headerlink" title="4.2 路径拓扑演化"></a>4.2 路径拓扑演化</h3><p>在 <code>Optimal TSP Path</code> 图中，你会发现：</p>
+<ul>
+<li>优化后的路径几乎<strong>没有任何交叉</strong>。在二维欧几里得空间中，任何两条相交的边都可以通过交换端点（即 2-opt 操作）来缩短总长度（三角不等式原理）。</li>
+<li>路径形成了一个凸包状的轮廓，内部点被有序地连接起来。</li>
+</ul>
+<h2 id="5-关键参数调优指南-The-Art-of-Tuning"><a href="#5-关键参数调优指南-The-Art-of-Tuning" class="headerlink" title="5. 关键参数调优指南 (The Art of Tuning)"></a>5. 关键参数调优指南 (The Art of Tuning)</h2><p>模拟退火虽然强大，但它不是“开箱即用”的魔法。它的效果高度依赖于参数设置，这就是所谓的“调参玄学”。</p>
+<ol>
+<li><p><strong>初始温度 $T_{start}$</strong>：</p>
+<ul>
+<li>如果设得太低，一开始就无法接受差解，算法会退化为贪婪算法，瞬间陷入局部最优。</li>
+<li><strong>经验法则</strong>：运行一次随机游走，计算相邻状态能量差的方差 $\sigma^2$。通常设定 $T_{start} \approx 3\sigma$ 以确保初始接受率在 80%-90% 左右。</li>
+</ul>
+</li>
+<li><p><strong>降温系数 $\alpha$</strong>：</p>
+<ul>
+<li>通常在 $[0.8, 0.995]$ 之间。</li>
+<li>$\alpha &#x3D; 0.8$：淬火（快速冷却），速度快但解质量差。</li>
+<li>$\alpha &#x3D; 0.99$：退火（缓慢冷却），解质量高但耗时极长。</li>
+</ul>
+</li>
+<li><p><strong>邻域结构</strong>：</p>
+<ul>
+<li>对于 TSP，<code>Reversal</code> (2-opt) 优于 <code>Swap</code>。</li>
+<li>对于更复杂的问题，可能需要混合多种操作算子。</li>
+</ul>
+</li>
+</ol>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>通过这两篇文章，我们完成了一次奇妙的跨界之旅：从金属冶炼的熔炉，到统计力学的玻尔兹曼分布，最后在 Python 代码中解决了一个复杂的组合优化问题。</p>
+<p>这正是算法之美——<strong>它不仅是逻辑的堆砌，更是自然法则在数字世界的回响。</strong></p>
+<p>现在，你手中有了一把锤子（模拟退火代码），可以去寻找你的钉子了。尝试修改代码中的 <code>Energy Function</code>，你完全可以用同样的框架去解决<strong>排课问题</strong>、<strong>芯片布局</strong>甚至<strong>神经网络的超参数搜索</strong>。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Computer-Science/" class="category-chain-item">Computer Science</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Computer-Science/Applied-Engineering/" class="category-chain-item">Applied Engineering</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/Optimization/" class="print-no-link">#Optimization</a>
+      
+        <a href="/tags/Algorithms/" class="print-no-link">#Algorithms</a>
+      
+        <a href="/tags/TSP/" class="print-no-link">#TSP</a>
+      
+        <a href="/tags/Data-Visualization/" class="print-no-link">#Data Visualization</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>实战篇：用 Python 徒手实现模拟退火算法解决 TSP 问题</div>
+      <div>https://sunfove.xyz/2026/01/20/2026-01-19-hands-on-simulated-annealing-python/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 20, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/20/2026-01-18-generalized-snells-law/" title="广义斯涅尔定律的完整物理推导">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">广义斯涅尔定律的完整物理推导</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/19/2026-01-19-smooth-animation-in-2048/" title="2026-01-24-smooth-animation-in-2048">
+                        <span class="hidden-mobile">2026-01-24-smooth-animation-in-2048</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/20/2026-01-19-hands-on-simulated-annealing-python/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
