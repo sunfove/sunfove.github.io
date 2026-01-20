@@ -1,0 +1,865 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文从第一性原理出发，深入剖析决策树的核心机制。我们将重回香农信息论，推导ID3、C4.5与CART算法的数学本质，探讨贪心策略下的递归划分与剪枝权衡，旨在为读者构建关于非参数模型的完整认知框架。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从信息熵到决策边界：决策树算法的第一性原理与深度解析">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/20/2026-01-20-decision-tree-principles-and-applications/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文从第一性原理出发，深入剖析决策树的核心机制。我们将重回香农信息论，推导ID3、C4.5与CART算法的数学本质，探讨贪心策略下的递归划分与剪枝权衡，旨在为读者构建关于非参数模型的完整认知框架。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://placeholder.image/decision_tree_boundaries">
+<meta property="article:published_time" content="2026-01-20T07:16:05.000Z">
+<meta property="article:modified_time" content="2026-01-20T15:35:44.352Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Data Science">
+<meta property="article:tag" content="Information Theory">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Mathematics">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://placeholder.image/decision_tree_boundaries">
+  
+  
+  
+  <title>从信息熵到决策边界：决策树算法的第一性原理与深度解析 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">从信息熵到决策边界：决策树算法的第一性原理与深度解析</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-20 07:16" pubdate>
+          January 20, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从信息熵到决策边界：决策树算法的第一性原理与深度解析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在机器学习的浩瀚星空中，决策树（Decision Tree）或许不是最耀眼的那个（相比于深度神经网络），但它绝对是最接近人类认知逻辑的模型。</p>
+<p>当我们试图向一个非技术人员解释模型是如何做出判断时，神经网络的黑盒特性往往让人无言以对，而决策树却能通过清晰的“若-则”（If-Then）规则展示其逻辑链条。然而，这种直观性往往掩盖了其背后深刻的数学原理和算法设计哲学。</p>
+<p>本文将剥离表层的应用技巧，从<strong>第一性原理</strong>出发，探讨决策树是如何利用信息论来量化不确定性，并通过递归的方式构建出一套能够拟合复杂数据分布的逻辑结构。</p>
+<h2 id="1-认知的本质：从“二十个问题”游戏说起"><a href="#1-认知的本质：从“二十个问题”游戏说起" class="headerlink" title="1. 认知的本质：从“二十个问题”游戏说起"></a>1. 认知的本质：从“二十个问题”游戏说起</h2><p>在进入数学公式之前，我们先回顾一个经典的智力游戏——“二十个问题”。</p>
+<p>在这个游戏中，出题者心里想一个物体，猜题者可以通过提问来缩小范围，但出题者只能回答“是”或“否”。</p>
+<ul>
+<li><strong>低效的提问</strong>：“它是苹果吗？”（如果是，游戏结束；如果不是，排除的范围极小）</li>
+<li><strong>高效的提问</strong>：“它是有生命的吗？”（无论回答是或否，都能将搜索空间大约缩小一半）</li>
+</ul>
+<p>决策树的学习过程，本质上就是机器在玩这个游戏。<strong>算法的核心目标，就是寻找那些能够最大程度减少“不确定性”的问题（特征划分）。</strong></p>
+<p>在计算机科学中，这种通过一系列判断来分割数据空间的方法，被称为<strong>分治策略（Divide and Conquer）</strong>。而决策树正是这种策略在统计学习领域的完美体现。</p>
+<h2 id="2-第一性原理：如何量化“不确定性”？"><a href="#2-第一性原理：如何量化“不确定性”？" class="headerlink" title="2. 第一性原理：如何量化“不确定性”？"></a>2. 第一性原理：如何量化“不确定性”？</h2><p>要让机器自动选择“最好的问题”，我们必须量化“不确定性”。这里我们需要引入物理学和信息论的基石概念：<strong>熵（Entropy）</strong>。</p>
+<h3 id="2-1-热力学与信息论的交汇"><a href="#2-1-热力学与信息论的交汇" class="headerlink" title="2.1 热力学与信息论的交汇"></a>2.1 热力学与信息论的交汇</h3><p>19世纪，路德维希·玻尔兹曼（Ludwig Boltzmann）将熵定义为系统的无序程度。1948年，克劳德·香农（Claude Shannon）将这一概念引入信息论，用来衡量随机变量的不确定性。</p>
+<p>对于一个取有限个值的离散随机变量 $X$，其概率分布为 $P(X&#x3D;x_i) &#x3D; p_i$，则 $X$ 的信息熵 $H(X)$ 定义为：</p>
+<p>$$<br>H(X) &#x3D; - \sum_{i&#x3D;1}^{n} p_i \log_2 p_i<br>$$</p>
+<p><strong>第一性原理思考：</strong></p>
+<ul>
+<li>为什么是负号？因为 $\log p_i$ 在 $p_i \in (0, 1]$ 时为负，加负号使熵为正值。</li>
+<li>为什么是对数？因为信息是可加的（两个独立事件的信息量应为两者之和），而概率是相乘的，对数函数将乘法转换为加法。</li>
+<li><strong>直观理解</strong>：如果一个集合里的样本全部属于同一类别（$p&#x3D;1$），则 $\log 1 &#x3D; 0$，熵为 0（完全确定）。如果样本均匀分布在各类中（$p&#x3D;1&#x2F;n$），熵最大（最混乱，最不确定）。</li>
+</ul>
+<h3 id="2-2-基尼不纯度（Gini-Impurity）"><a href="#2-2-基尼不纯度（Gini-Impurity）" class="headerlink" title="2.2 基尼不纯度（Gini Impurity）"></a>2.2 基尼不纯度（Gini Impurity）</h3><p>除了熵，另一个衡量集合纯度的指标是基尼不纯度。它源于经济学中衡量收入不平等的基尼系数。在分类问题中，它是指从数据集中随机选取两个样本，其类别不一致的概率。</p>
+<p>$$<br>\text{Gini}(p) &#x3D; \sum_{k&#x3D;1}^{K} p_k (1 - p_k) &#x3D; 1 - \sum_{k&#x3D;1}^{K} p_k^2<br>$$</p>
+<p>虽然熵和基尼系数在数学形式上不同，但在二分类问题的图像上，它们的形状非常相似（都是在 $p&#x3D;0.5$ 处取最大值的抛物线形状）。在实际应用中，CART 算法倾向于使用基尼系数，因为它不涉及对数运算，计算效率略高。</p>
+<h2 id="3-算法演进：从-ID3-到-CART"><a href="#3-算法演进：从-ID3-到-CART" class="headerlink" title="3. 算法演进：从 ID3 到 CART"></a>3. 算法演进：从 ID3 到 CART</h2><p>理解了量化指标，我们来看看历史上三个里程碑式的算法是如何利用这些指标来构建树的。</p>
+<h3 id="3-1-ID3：信息增益（Information-Gain）"><a href="#3-1-ID3：信息增益（Information-Gain）" class="headerlink" title="3.1 ID3：信息增益（Information Gain）"></a>3.1 ID3：信息增益（Information Gain）</h3><p>ID3（Iterative Dichotomiser 3）由 Ross Quinlan 在 1986 年提出。它的核心思想是：<strong>选择那个能让数据子集熵下降最快的特征进行分裂。</strong></p>
+<p>我们将分裂前的数据集为 $D$，分裂后的特征为 $A$。特征 $A$ 对数据集 $D$ 的<strong>信息增益</strong> $g(D, A)$ 定义为：</p>
+<p>$$<br>g(D, A) &#x3D; H(D) - H(D|A)<br>$$</p>
+<p>其中 $H(D|A)$ 是条件熵，表示在已知特征 $A$ 的情况下，数据集 $D$ 的不确定性。</p>
+<p>$$<br>H(D|A) &#x3D; \sum_{v&#x3D;1}^{V} \frac{|D^v|}{|D|} H(D^v)<br>$$</p>
+<p>这里 $V$ 是特征 $A$ 的可能取值个数。</p>
+<p><strong>ID3 的缺陷：</strong><br>ID3 倾向于选择取值较多的特征。试想，如果把“身份证号”作为一个特征，每个样本的身份证号都不同，分裂后的纯度极高（熵为0），信息增益最大。但这种分裂毫无泛化能力，纯属过拟合。</p>
+<h3 id="3-2-C4-5：信息增益比（Gain-Ratio）"><a href="#3-2-C4-5：信息增益比（Gain-Ratio）" class="headerlink" title="3.2 C4.5：信息增益比（Gain Ratio）"></a>3.2 C4.5：信息增益比（Gain Ratio）</h3><p>为了修正 ID3 的偏好，Quinlan 提出了 C4.5。它引入了**分裂信息（Split Information）**项作为分母，以此来惩罚取值过多的特征。</p>
+<p>$$<br>\text{GainRatio}(D, A) &#x3D; \frac{g(D, A)}{H_A(D)}<br>$$</p>
+<p>其中 $H_A(D) &#x3D; - \sum_{v&#x3D;1}^{V} \frac{|D^v|}{|D|} \log_2 \frac{|D^v|}{|D|}$ 是特征 $A$ 本身的熵。如果特征取值很多， $H_A(D)$ 会很大，从而抑制了信息增益比。</p>
+<h3 id="3-3-CART：分类与回归树"><a href="#3-3-CART：分类与回归树" class="headerlink" title="3.3 CART：分类与回归树"></a>3.3 CART：分类与回归树</h3><p>CART（Classification and Regression Tree）是目前应用最广泛的决策树算法。与 ID3&#x2F;C4.5 不同，CART 假设决策树是<strong>二叉树</strong>，其核心差异在于：</p>
+<ol>
+<li><strong>分类树</strong>：使用基尼系数最小化原则。</li>
+<li><strong>回归树</strong>：由于目标变量是连续值，无法计算熵。CART 使用<strong>平方误差最小化</strong>准则。</li>
+</ol>
+<p>对于回归树，我们寻找切分点 $s$ 和特征 $j$，使得划分后的两个区域 $R_1, R_2$ 的平方误差之和最小：</p>
+<p>$$<br>\min_{j, s} \left[ \min_{c_1} \sum_{x_i \in R_1(j, s)} (y_i - c_1)^2 + \min_{c_2} \sum_{x_i \in R_2(j, s)} (y_i - c_2)^2 \right]<br>$$</p>
+<p>其中 $c_1, c_2$ 分别是两个区域内输出值的均值。这本质上是在寻找一个分段常数函数来拟合曲线。</p>
+<p><img src="https://placeholder.image/decision_tree_boundaries" srcset="/img/loading.gif" lazyload alt="image_decision_tree_boundaries_visualization"><br><em>图注：决策树在二维平面上形成的矩形决策边界示意图。</em></p>
+<h2 id="4-树的生长与剪枝：偏差与方差的博弈"><a href="#4-树的生长与剪枝：偏差与方差的博弈" class="headerlink" title="4. 树的生长与剪枝：偏差与方差的博弈"></a>4. 树的生长与剪枝：偏差与方差的博弈</h2><p>决策树是一种<strong>非参数模型</strong>，如果不加限制，它会试图去拟合训练数据中的每一个噪声点，导致树生长得非常深。</p>
+<ul>
+<li><strong>深树</strong>：低偏差（Bias），高方差（Variance），极易过拟合。</li>
+<li><strong>浅树</strong>：高偏差，低方差，容易欠拟合。</li>
+</ul>
+<p>为了找到平衡点，我们必须进行<strong>剪枝（Pruning）</strong>。</p>
+<h3 id="4-1-预剪枝（Pre-Pruning）"><a href="#4-1-预剪枝（Pre-Pruning）" class="headerlink" title="4.1 预剪枝（Pre-Pruning）"></a>4.1 预剪枝（Pre-Pruning）</h3><p>在树构建过程中提前停止。常用的超参数包括：</p>
+<ul>
+<li><code>max_depth</code>: 树的最大深度。</li>
+<li><code>min_samples_split</code>: 节点分裂所需的最小样本数。</li>
+<li><code>min_impurity_decrease</code>: 如果分裂带来的纯度提升不足该阈值，则停止。</li>
+</ul>
+<p>预剪枝简单高效，但面临“视界效应”：当前看起来微不足道的分裂，也许是后续某个强力分裂的前置条件。预剪枝可能导致欠拟合。</p>
+<h3 id="4-2-后剪枝（Post-Pruning）"><a href="#4-2-后剪枝（Post-Pruning）" class="headerlink" title="4.2 后剪枝（Post-Pruning）"></a>4.2 后剪枝（Post-Pruning）</h3><p>先让树充分生长，直到过拟合，然后自底向上地修剪掉对泛化性能没有贡献的子树。</p>
+<p>最著名的策略是<strong>代价复杂度剪枝（Cost-Complexity Pruning, CCP）</strong>。我们需要最小化以下损失函数：</p>
+<p>$$<br>C_\alpha(T) &#x3D; C(T) + \alpha |T|<br>$$</p>
+<ul>
+<li>$C(T)$：树 $T$ 在训练集上的预测误差（如基尼系数或平方误差）。</li>
+<li>$|T|$：树的叶节点个数（代表模型复杂度）。</li>
+<li>$\alpha \ge 0$：正则化参数，权衡拟合程度与复杂度。</li>
+</ul>
+<p>当 $\alpha$ 增大时，我们被迫选择更简单的树。这与线性回归中的 Lasso&#x2F;Ridge 正则化有着异曲同工之妙。</p>
+<h2 id="5-深入代码层面：Python-实现"><a href="#5-深入代码层面：Python-实现" class="headerlink" title="5. 深入代码层面：Python 实现"></a>5. 深入代码层面：Python 实现</h2><p>理论必须落地。虽然 Scikit-Learn 提供了完善的实现，但理解其接口背后的逻辑至关重要。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> load_iris<br><span class="hljs-keyword">from</span> sklearn.tree <span class="hljs-keyword">import</span> DecisionTreeClassifier, export_text<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><br><span class="hljs-comment"># 1. 加载数据：经典的鸢尾花数据集</span><br>iris = load_iris()<br>X, y = iris.data, iris.target<br><br><span class="hljs-comment"># 2. 划分训练集与测试集</span><br><span class="hljs-comment"># 保持数据的独立分布是评估模型的关键</span><br>X_train, X_test, y_train, y_test = train_test_split(<br>    X, y, test_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">42</span><br>)<br><br><span class="hljs-comment"># 3. 初始化模型（使用 CART 算法）</span><br><span class="hljs-comment"># ccp_alpha 参数用于后剪枝，这里演示预剪枝参数 max_depth</span><br>clf = DecisionTreeClassifier(<br>    criterion=<span class="hljs-string">&#x27;gini&#x27;</span>,    <span class="hljs-comment"># 使用基尼不纯度</span><br>    max_depth=<span class="hljs-number">3</span>,         <span class="hljs-comment"># 预剪枝：最大深度限制</span><br>    min_samples_leaf=<span class="hljs-number">5</span>,  <span class="hljs-comment"># 预剪枝：叶节点最小样本数</span><br>    random_state=<span class="hljs-number">42</span><br>)<br><br><span class="hljs-comment"># 4. 训练模型：递归划分特征空间</span><br>clf.fit(X_train, y_train)<br><br><span class="hljs-comment"># 5. 可视化规则</span><br>tree_rules = export_text(clf, feature_names=iris.feature_names)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;决策树规则结构：&quot;</span>)<br><span class="hljs-built_in">print</span>(tree_rules)<br><br><span class="hljs-comment"># 6. 评估</span><br>accuracy = clf.score(X_test, y_test)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;测试集准确率: <span class="hljs-subst">&#123;accuracy:<span class="hljs-number">.4</span>f&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>在生产环境中，这段代码背后发生的是：矩阵运算计算每个特征的分割点 -&gt; 贪心搜索最优分割 -&gt; 递归构建对象 -&gt; 存储规则。</p>
+<h2 id="6-决策树的局限性与集成学习的诞生"><a href="#6-决策树的局限性与集成学习的诞生" class="headerlink" title="6. 决策树的局限性与集成学习的诞生"></a>6. 决策树的局限性与集成学习的诞生</h2><p>尽管决策树解释性极强，但它有几个致命弱点：</p>
+<ol>
+<li><strong>不稳定性（Instability）</strong>：数据中微小的变化可能导致完全不同的树结构（蝴蝶效应）。这是因为贪心算法在根节点的微小偏差会逐层放大。</li>
+<li><strong>正交决策边界</strong>：决策树的分类边界由垂直于坐标轴的直线组成。处理倾斜的线性关系（如 $y &#x3D; x$）时，需要极其复杂的阶梯状结构来逼近，效率极低。</li>
+</ol>
+<p>为了解决这些问题，历史的车轮滚滚向前，催生了<strong>集成学习（Ensemble Learning）</strong>：</p>
+<ul>
+<li><strong>Bagging (Random Forest)</strong>：通过自助采样（Bootstrap）训练多棵树，并行计算，取平均或投票。这主要降低了模型的<strong>方差</strong>，解决了不稳定性问题。</li>
+<li><strong>Boosting (Gradient Boosting, XGBoost)</strong>：串行训练，每一棵树都在修正前一棵树的错误（拟合残差）。这主要降低了模型的<strong>偏差</strong>。</li>
+</ul>
+<h2 id="7-结语"><a href="#7-结语" class="headerlink" title="7. 结语"></a>7. 结语</h2><p>决策树是连接人类逻辑与机器计算的桥梁。从信息熵的物理意义，到基尼系数的经济学渊源，再到递归划分的计算机算法设计，它融合了多学科的智慧。</p>
+<p>理解决策树，不仅仅是掌握一个分类器，更是理解机器学习中<strong>特征选择、过拟合、正则化</strong>以及<strong>偏差-方差权衡</strong>的最佳切入点。即使在深度学习大行其道的今天，基于树的梯度提升模型（如 XGBoost, LightGBM）在结构化表格数据（Tabular Data）处理上依然占据着统治地位。</p>
+<p>掌握了树，你就掌握了通往高级集成模型的钥匙。</p>
+<hr>
+<blockquote>
+<p><strong>参考文献</strong></p>
+<ol>
+<li>Shannon, C. E. (1948). A Mathematical Theory of Communication.</li>
+<li>Breiman, L., Friedman, J. H., Olshen, R. A., &amp; Stone, C. J. (1984). Classification and regression trees.</li>
+<li>Quinlan, J. R. (1986). Induction of decision trees. Machine learning.</li>
+</ol>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Artificial-Intelligence/" class="category-chain-item">Artificial Intelligence</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Artificial-Intelligence/Theoretical-Computer-Science/" class="category-chain-item">Theoretical Computer Science</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Algorithm/" class="print-no-link">#Algorithm</a>
+      
+        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
+      
+        <a href="/tags/Machine-Learning/" class="print-no-link">#Machine Learning</a>
+      
+        <a href="/tags/Data-Science/" class="print-no-link">#Data Science</a>
+      
+        <a href="/tags/Information-Theory/" class="print-no-link">#Information Theory</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从信息熵到决策边界：决策树算法的第一性原理与深度解析</div>
+      <div>https://sunfove.xyz/2026/01/20/2026-01-20-decision-tree-principles-and-applications/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 20, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/20/2026-01-20-comprehensive-guide-to-ml-algorithms/" title="从数据到智能：机器学习核心方法的数学原理与全景解构">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从数据到智能：机器学习核心方法的数学原理与全景解构</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/20/2026-01-20-genetic-algorithm-matlab-deep-dive/" title="深入解析遗传算法(GA)：从生物进化论原则到MATLAB高阶实现">
+                        <span class="hidden-mobile">深入解析遗传算法(GA)：从生物进化论原则到MATLAB高阶实现</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/20/2026-01-20-decision-tree-principles-and-applications/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
