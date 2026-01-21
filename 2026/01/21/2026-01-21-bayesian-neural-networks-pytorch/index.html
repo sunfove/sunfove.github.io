@@ -1,0 +1,841 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从理论推导到代码落地。本文将深入探讨变分推理（Variational Inference）与重参数化技巧（Reparameterization Trick），并手把手教你用 PyTorch 实现一个能够量化自身“无知”的贝叶斯神经网络。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拥抱不确定性：使用 PyTorch 构建贝叶斯神经网络 (BNN)">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/21/2026-01-21-bayesian-neural-networks-pytorch/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="从理论推导到代码落地。本文将深入探讨变分推理（Variational Inference）与重参数化技巧（Reparameterization Trick），并手把手教你用 PyTorch 实现一个能够量化自身“无知”的贝叶斯神经网络。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-21T08:30:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T16:02:47.039Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="AI Research">
+<meta property="article:tag" content="Bayesian Deep Learning">
+<meta property="article:tag" content="PyTorch">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Variational Inference">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>拥抱不确定性：使用 PyTorch 构建贝叶斯神经网络 (BNN) - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">拥抱不确定性：使用 PyTorch 构建贝叶斯神经网络 (BNN)</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-21 08:30" pubdate>
+          January 21, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">拥抱不确定性：使用 PyTorch 构建贝叶斯神经网络 (BNN)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="引言：当-AI-学会说“我不确定”"><a href="#引言：当-AI-学会说“我不确定”" class="headerlink" title="引言：当 AI 学会说“我不确定”"></a>引言：当 AI 学会说“我不确定”</h1><p>传统的深度神经网络（DNN）往往不仅是错误的，而且是<strong>自信地错误（Confidently Wrong）</strong>。</p>
+<p>想象一个训练用于识别猫狗的分类器。如果你给它一张飞机的照片，它可能会输出“狗：99.9%”，而不是“我不知道”。这是因为传统神经网络学习的是权重的<strong>点估计（Point Estimate）</strong>——它寻找一组最优的参数 $\theta$，使得损失函数最小化。</p>
+<p>贝叶斯神经网络（Bayesian Neural Network, BNN）则完全不同。它不寻找具体的权重值，而是学习权重的<strong>分布（Distribution）</strong>。这使得模型不仅能给出预测结果，还能给出<strong>置信区间（Confidence Interval）</strong>。</p>
+<p>在医疗诊断、自动驾驶等高风险领域，知道模型何时“不确定”，比知道模型何时“正确”更重要。本文将从数学原理出发，利用 <strong>变分推理（Variational Inference）</strong> 和 <strong>PyTorch</strong>，构建一个从零开始的 BNN。</p>
+<hr>
+<h1 id="第一部分：从点到面的数学跨越"><a href="#第一部分：从点到面的数学跨越" class="headerlink" title="第一部分：从点到面的数学跨越"></a>第一部分：从点到面的数学跨越</h1><h2 id="1-1-核心差异"><a href="#1-1-核心差异" class="headerlink" title="1.1 核心差异"></a>1.1 核心差异</h2><p>在传统神经网络中，我们通过最大似然估计（MLE）或最大后验估计（MAP）寻找最优权重 $w^*$：</p>
+<p>$$w^* &#x3D; \underset{w}{\arg\max} \ P(D|w)$$</p>
+<p>而在贝叶斯深度学习中，我们的目标是计算权重的<strong>后验分布</strong> $P(w|D)$。根据上一篇文章提到的贝叶斯公式：</p>
+<p>$$P(w|D) &#x3D; \frac{P(D|w)P(w)}{P(D)}$$</p>
+<ul>
+<li>$P(D|w)$：似然性（数据拟合程度）。</li>
+<li>$P(w)$：先验（例如，假设权重服从标准正态分布）。</li>
+<li>$P(D)$：边缘似然（Evidence）。</li>
+</ul>
+<h2 id="1-2-难点：不可计算的积分"><a href="#1-2-难点：不可计算的积分" class="headerlink" title="1.2 难点：不可计算的积分"></a>1.2 难点：不可计算的积分</h2><p>问题的症结在于分母 $P(D)$。它需要对所有可能的参数配置进行积分：<br>$$P(D) &#x3D; \int P(D|w)P(w) dw$$</p>
+<p>在深度神经网络中，$w$ 的维度可能有数百万之巨。在高维空间进行这种积分在计算上是不可行的（Intractable）。因此，我们无法直接解析求出后验分布。</p>
+<h2 id="1-3-解决方案：变分推理-Variational-Inference"><a href="#1-3-解决方案：变分推理-Variational-Inference" class="headerlink" title="1.3 解决方案：变分推理 (Variational Inference)"></a>1.3 解决方案：变分推理 (Variational Inference)</h2><p>既然算不出真后验 $P(w|D)$，我们就找一个简单的分布 $q_\theta(w)$（比如高斯分布）来近似它。</p>
+<p>我们的目标是找到一组参数 $\theta$（比如高斯的均值 $\mu$ 和方差 $\sigma^2$），使得 $q_\theta(w)$ 和真实的 $P(w|D)$ 越像越好。衡量两个分布差异的标准工具是 <strong>KL 散度（Kullback-Leibler Divergence）</strong>。</p>
+<p>我们需要最小化：<br>$$KL(q_\theta(w) || P(w|D))$$</p>
+<p>经过数学推导，最小化 KL 散度等价于最大化 <strong>证据下界（ELBO, Evidence Lower Bound）</strong>。将其转化为损失函数（Loss Function）的形式，我们要最小化：</p>
+<p>$$\mathcal{L}(\theta, D) &#x3D; \underbrace{KL(q_\theta(w) || P(w))}<em>{\text{复杂性代价 (Complexity Cost)}} - \underbrace{\mathbb{E}</em>{q_\theta(w)}[\log P(D|w)]}_{\text{似然性代价 (Likelihood Cost)}}$$</p>
+<ol>
+<li><strong>复杂性代价</strong>：迫使我们的近似分布 $q_\theta(w)$ 接近先验分布 $P(w)$（通常是标准正态分布）。这起到了<strong>正则化</strong>的作用。</li>
+<li><strong>似然性代价</strong>：确保我们的模型能够拟合数据。</li>
+</ol>
+<hr>
+<h1 id="第二部分：核心技术——重参数化技巧-Bayes-by-Backprop"><a href="#第二部分：核心技术——重参数化技巧-Bayes-by-Backprop" class="headerlink" title="第二部分：核心技术——重参数化技巧 (Bayes by Backprop)"></a>第二部分：核心技术——重参数化技巧 (Bayes by Backprop)</h1><p>要在神经网络中实现上述理论，我们面临一个工程难题：<strong>如何在采样过程中进行反向传播？</strong></p>
+<p>如果是直接从 $N(\mu, \sigma^2)$ 中采样得到 $w$，这个采样操作是不可导的，梯度无法传回 $\mu$ 和 $\sigma$。</p>
+<p><strong>重参数化技巧（Reparameterization Trick）</strong> 巧妙地解决了这个问题。我们不再直接采样 $w$，而是采样一个无参数的噪声 $\epsilon$：</p>
+<ol>
+<li>采样 $\epsilon \sim N(0, 1)$。</li>
+<li>令 $w &#x3D; \mu + \sigma \cdot \epsilon$。</li>
+</ol>
+<p>现在，$w$ 对于 $\mu$ 和 $\sigma$ 都是可导的，我们可以像训练普通神经网络一样利用 SGD 或 Adam 来更新这两个参数。</p>
+<hr>
+<h1 id="第三部分：PyTorch-实战"><a href="#第三部分：PyTorch-实战" class="headerlink" title="第三部分：PyTorch 实战"></a>第三部分：PyTorch 实战</h1><p>我们将实现一个简单的贝叶斯线性层（Bayesian Linear Layer）。为了数值稳定性，我们通常不直接学习 $\sigma$，而是学习 $\rho$，并令 $\sigma &#x3D; \log(1 + e^\rho)$。</p>
+<h2 id="3-1-定义贝叶斯层"><a href="#3-1-定义贝叶斯层" class="headerlink" title="3.1 定义贝叶斯层"></a>3.1 定义贝叶斯层</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BayesianLinear</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, in_features, out_features</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        <span class="hljs-variable language_">self</span>.in_features = in_features<br>        <span class="hljs-variable language_">self</span>.out_features = out_features<br>        <br>        <span class="hljs-comment"># 初始化权重分布的参数: Mean (mu) 和 Rho (用于计算 Sigma)</span><br>        <span class="hljs-variable language_">self</span>.weight_mu = nn.Parameter(torch.Tensor(out_features, in_features).uniform_(-<span class="hljs-number">0.2</span>, <span class="hljs-number">0.2</span>))<br>        <span class="hljs-variable language_">self</span>.weight_rho = nn.Parameter(torch.Tensor(out_features, in_features).uniform_(-<span class="hljs-number">5</span>, -<span class="hljs-number">4</span>))<br>        <br>        <span class="hljs-variable language_">self</span>.bias_mu = nn.Parameter(torch.Tensor(out_features).uniform_(-<span class="hljs-number">0.2</span>, <span class="hljs-number">0.2</span>))<br>        <span class="hljs-variable language_">self</span>.bias_rho = nn.Parameter(torch.Tensor(out_features).uniform_(-<span class="hljs-number">5</span>, -<span class="hljs-number">4</span>))<br>        <br>        <span class="hljs-comment"># 存储 KL 散度</span><br>        <span class="hljs-variable language_">self</span>.kl_divergence = <span class="hljs-number">0</span><br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        <span class="hljs-comment"># 1. 计算 Sigma = log(1 + exp(rho))</span><br>        weight_sigma = torch.log1p(torch.exp(<span class="hljs-variable language_">self</span>.weight_rho))<br>        bias_sigma = torch.log1p(torch.exp(<span class="hljs-variable language_">self</span>.bias_rho))<br>        <br>        <span class="hljs-comment"># 2. 重参数化采样 (Reparameterization Trick)</span><br>        <span class="hljs-comment"># 采样 epsilon ~ N(0, 1)</span><br>        w_epsilon = torch.randn_like(weight_sigma)<br>        b_epsilon = torch.randn_like(bias_sigma)<br>        <br>        <span class="hljs-comment"># w = mu + sigma * epsilon</span><br>        weight = <span class="hljs-variable language_">self</span>.weight_mu + weight_sigma * w_epsilon<br>        bias = <span class="hljs-variable language_">self</span>.bias_mu + bias_sigma * b_epsilon<br>        <br>        <span class="hljs-comment"># 3. 计算 KL 散度 (解析解: Gaussian vs Gaussian)</span><br>        <span class="hljs-comment"># 这里简化计算，假设先验 P(w) 是标准正态分布 N(0, 1)</span><br>        <span class="hljs-comment"># KL(N(mu, sigma) || N(0, 1))</span><br>        <span class="hljs-variable language_">self</span>.kl_divergence = <span class="hljs-variable language_">self</span>._calculate_kl(<span class="hljs-variable language_">self</span>.weight_mu, weight_sigma) + \<br>                             <span class="hljs-variable language_">self</span>._calculate_kl(<span class="hljs-variable language_">self</span>.bias_mu, bias_sigma)<br>        <br>        <span class="hljs-keyword">return</span> F.linear(x, weight, bias)<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_calculate_kl</span>(<span class="hljs-params">self, mu, sigma</span>):<br>        <span class="hljs-comment"># KL 散度公式 for two Gaussians where prior is N(0, 1)</span><br>        <span class="hljs-comment"># 0.5 * sum(sigma^2 + mu^2 - 1 - log(sigma^2))</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0.5</span> * torch.<span class="hljs-built_in">sum</span>(sigma**<span class="hljs-number">2</span> + mu**<span class="hljs-number">2</span> - <span class="hljs-number">1</span> - <span class="hljs-number">2</span> * torch.log(sigma))<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-2-构建贝叶斯神经网络"><a href="#3-2-构建贝叶斯神经网络" class="headerlink" title="3.2 构建贝叶斯神经网络"></a>3.2 构建贝叶斯神经网络</h2><p>我们将构建一个简单的回归网络。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BayesianNetwork</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, input_dim, hidden_dim, output_dim</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        <span class="hljs-variable language_">self</span>.blinear1 = BayesianLinear(input_dim, hidden_dim)<br>        <span class="hljs-variable language_">self</span>.blinear2 = BayesianLinear(hidden_dim, hidden_dim)<br>        <span class="hljs-variable language_">self</span>.blinear3 = BayesianLinear(hidden_dim, output_dim)<br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        x = F.relu(<span class="hljs-variable language_">self</span>.blinear1(x))<br>        x = F.relu(<span class="hljs-variable language_">self</span>.blinear2(x))<br>        x = <span class="hljs-variable language_">self</span>.blinear3(x)<br>        <span class="hljs-keyword">return</span> x<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_total_kl</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.blinear1.kl_divergence + \<br>               <span class="hljs-variable language_">self</span>.blinear2.kl_divergence + \<br>               <span class="hljs-variable language_">self</span>.blinear3.kl_divergence<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-3-定义损失函数与训练循环"><a href="#3-3-定义损失函数与训练循环" class="headerlink" title="3.3 定义损失函数与训练循环"></a>3.3 定义损失函数与训练循环</h2><p>损失函数 &#x3D; 负对数似然 (NLL) + $\beta \times$ KL 散度。<br>对于回归问题，NLL 等价于均方误差 (MSE)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">train_bnn</span>(<span class="hljs-params">model, X_train, y_train, epochs=<span class="hljs-number">1000</span></span>):<br>    optimizer = torch.optim.Adam(model.parameters(), lr=<span class="hljs-number">0.01</span>)<br>    criterion = nn.MSELoss()<br>    <br>    <span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epochs):<br>        optimizer.zero_grad()<br>        <br>        <span class="hljs-comment"># 前向传播</span><br>        predictions = model(X_train)<br>        <br>        <span class="hljs-comment"># 计算 Loss</span><br>        <span class="hljs-comment"># 1. Likelihood Cost (MSE)</span><br>        mse_loss = criterion(predictions, y_train)<br>        <br>        <span class="hljs-comment"># 2. Complexity Cost (KL)</span><br>        <span class="hljs-comment"># KL 权重通常随着 batch size 调整，这里简化处理</span><br>        kl_loss = model.get_total_kl() / X_train.shape[<span class="hljs-number">0</span>] <br>        <br>        total_loss = mse_loss + <span class="hljs-number">0.01</span> * kl_loss <span class="hljs-comment"># beta = 0.01</span><br>        <br>        total_loss.backward()<br>        optimizer.step()<br>        <br>        <span class="hljs-keyword">if</span> epoch % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Epoch <span class="hljs-subst">&#123;epoch&#125;</span>: MSE=<span class="hljs-subst">&#123;mse_loss.item():<span class="hljs-number">.4</span>f&#125;</span>, KL=<span class="hljs-subst">&#123;kl_loss.item():<span class="hljs-number">.4</span>f&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 假设数据生成</span><br>X = torch.linspace(-<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">100</span>).view(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>y = torch.sin(X) + torch.randn_like(X) * <span class="hljs-number">0.1</span><br><span class="hljs-comment"># train_bnn(model, X, y)</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3-4-预测：蒙特卡洛采样"><a href="#3-4-预测：蒙特卡洛采样" class="headerlink" title="3.4 预测：蒙特卡洛采样"></a>3.4 预测：蒙特卡洛采样</h2><p>BNN 的强大之处在于推理阶段。我们不仅进行一次预测，而是进行多次前向传播（每次的权重都不一样，因为是从分布中采样的）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">predict_uncertainty</span>(<span class="hljs-params">model, X_test, num_samples=<span class="hljs-number">100</span></span>):<br>    preds = []<br>    <span class="hljs-comment"># 多次采样模拟</span><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_samples):<br>        <span class="hljs-keyword">with</span> torch.no_grad():<br>            preds.append(model(X_test).numpy())<br>            <br>    preds = np.array(preds)<br>    <br>    <span class="hljs-comment"># 计算均值作为预测结果</span><br>    mean_pred = preds.mean(axis=<span class="hljs-number">0</span>)<br>    <br>    <span class="hljs-comment"># 计算标准差作为不确定性 (Uncertainty)</span><br>    std_pred = preds.std(axis=<span class="hljs-number">0</span>)<br>    <br>    <span class="hljs-keyword">return</span> mean_pred, std_pred<br></code></pre></td></tr></table></figure>
+
+
+
+<p>通过绘制 <code>mean_pred</code> $\pm$ <code>2 * std_pred</code>，我们可以看到一个非常直观的现象：<strong>在数据密集的区域，置信区间很窄（模型很自信）；在没有数据的区域，置信区间迅速发散（模型承认自己不知道）。</strong></p>
+<hr>
+<h1 id="第四部分：两种不确定性"><a href="#第四部分：两种不确定性" class="headerlink" title="第四部分：两种不确定性"></a>第四部分：两种不确定性</h1><p>在深入理解 BNN 后，我们需要区分两种不同性质的不确定性，这对于实际应用至关重要：</p>
+<ol>
+<li><p><strong>偶然不确定性 (Aleatoric Uncertainty)</strong>：</p>
+<ul>
+<li><strong>来源</strong>：数据本身的噪声（如传感器误差、图像模糊）。</li>
+<li><strong>特性</strong>：即使增加更多数据也无法消除。</li>
+<li><strong>建模</strong>：通常通过让模型输出分布的参数（如预测高斯的 $\sigma$）来捕获。</li>
+</ul>
+</li>
+<li><p><strong>认知不确定性 (Epistemic Uncertainty)</strong>：</p>
+<ul>
+<li><strong>来源</strong>：模型对知识的缺乏（模型没见过这类数据）。</li>
+<li><strong>特性</strong>：<strong>可以通过增加更多训练数据来减少</strong>。</li>
+<li><strong>建模</strong>：这就是我们今天构建的 BNN（权重的分布）所捕获的不确定性。</li>
+</ul>
+</li>
+</ol>
+<p>一个完美的 AI 系统应该同时具备捕捉这两种不确定性的能力。</p>
+<hr>
+<h1 id="结语：通往鲁棒-AI-的必经之路"><a href="#结语：通往鲁棒-AI-的必经之路" class="headerlink" title="结语：通往鲁棒 AI 的必经之路"></a>结语：通往鲁棒 AI 的必经之路</h1><p>贝叶斯神经网络并非没有代价。它的参数量翻倍（存储均值和方差），收敛速度较慢，且对超参数（先验的选择、KL 的权重）较为敏感。</p>
+<p>然而，在需要<strong>安全、可解释和鲁棒性</strong>的场景下，BNN 提供了传统深度学习无法比拟的优势。它提醒我们，真正的智能不仅仅是给出答案，更是对自我认知的审视。</p>
+<blockquote>
+<p>“It is better to be roughly right than precisely wrong.”<br>—— John Maynard Keynes</p>
+</blockquote>
+<hr>
+<p><em>Would you like to explore how to extend this model to capture Aleatoric Uncertainty by modifying the output layer loss function, or discuss the difference between Variational Inference and MCMC methods?</em></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Engineering-Implementation/" class="category-chain-item">Engineering &amp; Implementation</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/PyTorch/" class="print-no-link">#PyTorch</a>
+      
+        <a href="/tags/Bayesian-Deep-Learning/" class="print-no-link">#Bayesian Deep Learning</a>
+      
+        <a href="/tags/Variational-Inference/" class="print-no-link">#Variational Inference</a>
+      
+        <a href="/tags/AI-Research/" class="print-no-link">#AI Research</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>拥抱不确定性：使用 PyTorch 构建贝叶斯神经网络 (BNN)</div>
+      <div>https://sunfove.xyz/2026/01/21/2026-01-21-bayesian-neural-networks-pytorch/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 21, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/21/2026-01-19-PSO/" title="从椋鸟群到最优化：粒子群算法(PSO)的数学原理、实现与可视化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从椋鸟群到最优化：粒子群算法(PSO)的数学原理、实现与可视化</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/21/2026-01-21-bayesian-principles-application/" title="上帝掷骰子吗？——贝叶斯原理的底层逻辑与跨学科应用">
+                        <span class="hidden-mobile">上帝掷骰子吗？——贝叶斯原理的底层逻辑与跨学科应用</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/21/2026-01-21-bayesian-neural-networks-pytorch/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
