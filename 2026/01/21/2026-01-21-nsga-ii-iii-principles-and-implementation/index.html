@@ -1,0 +1,950 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从第一性原理出发，深度剖析非支配排序遗传算法（NSGA-II &amp; NSGA-III）。本文将探讨帕累托最优的数学本质，揭示高维目标优化中的维数灾难，并提供基于 Python 和 MATLAB 的核心实现逻辑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSGA-II的原理解析及CODE实现&quot;">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/21/2026-01-21-nsga-ii-iii-principles-and-implementation/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="从第一性原理出发，深度剖析非支配排序遗传算法（NSGA-II &amp; NSGA-III）。本文将探讨帕累托最优的数学本质，揭示高维目标优化中的维数灾难，并提供基于 Python 和 MATLAB 的核心实现逻辑。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_112524.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_112807.png">
+<meta property="article:published_time" content="2026-01-21T06:35:15.000Z">
+<meta property="article:modified_time" content="2026-01-21T15:58:38.626Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Evolutionary Algorithms">
+<meta property="article:tag" content="MATLAB">
+<meta property="article:tag" content="Multi-Objective Optimization">
+<meta property="article:tag" content="NSGA-II">
+<meta property="article:tag" content="NSGA-III">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_112524.png">
+  
+  
+  
+  <title>NSGA-II的原理解析及CODE实现&#34; - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">NSGA-II的原理解析及CODE实现"</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-21 06:35" pubdate>
+          January 21, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">NSGA-II的原理解析及CODE实现&#34;</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="引言：权衡的哲学"><a href="#引言：权衡的哲学" class="headerlink" title="引言：权衡的哲学"></a>引言：权衡的哲学</h2><p>在工程学、经济学乃至自然界的演化中，“最优”往往不是一个单一的极值，而是一组妥协。我们希望结构更轻但更强，投资回报更高但风险更低，神经网络精度更高但参数更少。</p>
+<p>这些目标本质上是相互冲突的（Conflicting）。试图改善一个目标，往往意味着必须牺牲另一个目标。这种根本性的摩擦催生了 <strong>多目标优化（Multi-Objective Optimization, MOP）</strong> 的核心概念——<strong>帕累托最优（Pareto Optimality）</strong>。</p>
+<p>与单目标优化寻找全局最小值不同，MOP 的目标是寻找一个解集——<strong>帕累托前沿（Pareto Front）</strong>，代表了所有无法在不损害其他目标前提下改善某一目标的“完美权衡”状态。</p>
+<p>本文将从第一性原理出发，解构该领域重要的里程碑：<strong>NSGA-II</strong> 。我们将探讨它们的设计哲学，数学基础，以及如何用代码实现它们。</p>
+<p><strong>NSGA-II</strong>的全称是 <strong>Non-dominated Sorting Genetic Algorithm II</strong>。中文通常翻译为：非支配排序遗传算法 II（或者第二代非支配排序遗传算法），它是由 K. Deb 等人在 2002 年提出的，是目前最流行、被引用次数最多的多目标进化算法之一。</p>
+<hr>
+<h2 id="第一部分：用直觉理解多目标优化"><a href="#第一部分：用直觉理解多目标优化" class="headerlink" title="第一部分：用直觉理解多目标优化"></a>第一部分：用直觉理解多目标优化</h2><p>很多教程一上来就堆砌 $\mathbf{x} \in \Omega$ 和 $\nabla f(\mathbf{x})$，让人头大。我们不妨换个角度，把多目标优化想象成操作一个复杂的机器。</p>
+<h3 id="1-1-两个房间的故事：决策空间-vs-目标空间"><a href="#1-1-两个房间的故事：决策空间-vs-目标空间" class="headerlink" title="1.1 两个房间的故事：决策空间 vs. 目标空间"></a>1.1 两个房间的故事：决策空间 vs. 目标空间</h3><p>想象你在两个房间里工作，这两个房间通过一束看不见的电缆连接。</p>
+<ul>
+<li><p><strong>房间 A（决策空间 Decision Space）：</strong><br>  这里有一个巨大的控制台，上面有许多旋钮和推杆。</p>
+<ul>
+<li>旋钮可能是：“机翼长度”、“材料厚度”、“发动机喷油量”。</li>
+<li><strong>你的每一个操作（一组旋钮的刻度），就是一个“解”，记为 $\mathbf{x}$。</strong></li>
+</ul>
+</li>
+<li><p><strong>房间 B（目标空间 Objective Space）：</strong><br>  这里没有旋钮，只有墙上的几个显示屏。</p>
+<ul>
+<li>屏幕显示着：“飞行速度”、“耗油量”、“制造成本”。</li>
+<li><strong>屏幕上的数值，就是优化的“结果”，记为 $\mathbf{y}$。</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>关键难点：非线性映射</strong><br>问题在于，这两个房间的关系是非常扭曲的。<br>你把“材料厚度”旋钮往右拧一点（决策空间微小变化），房间 B 里的“制造成本”可能猛增，而“安全性”却只增加了一点点。甚至，可能存在某种共振，稍微动一下旋钮，结果就天翻地覆。<br>NSGA 算法的工作，就是在这个黑盒子里，通过不断尝试拧旋钮，试图画出房间 B 里那些屏幕能达到的<strong>极限数值边界</strong>。</p>
+<h3 id="1-2-为什么会有冲突？（气球理论）"><a href="#1-2-为什么会有冲突？（气球理论）" class="headerlink" title="1.2 为什么会有冲突？（气球理论）"></a>1.2 为什么会有冲突？（气球理论）</h3><p>如果所有屏幕的数值能同时变好（速度越快、油耗越低、成本越低），那就不需要多目标优化了，只需要拼命拧旋钮就行。</p>
+<p>但在现实中，这就像捏一个充满了水的<strong>气球</strong>。</p>
+<ul>
+<li>你按下“成本”这一侧（试图降低成本），气球的另一侧“性能”就会鼓起来（性能变差）。</li>
+<li>你按下“油耗”这一侧，另一侧“动力”就会鼓起来。</li>
+</ul>
+<p><strong>帕累托最优（Pareto Optimality）</strong> 的状态，就是你把这个气球<strong>压缩到了极限</strong>。再想按下去任何一点，其他地方就一定会鼓出来。这种“按不下去”的状态，就是我们要找的解。</p>
+<h3 id="1-3-帕累托支配：一种“无需纠结”的比较"><a href="#1-3-帕累托支配：一种“无需纠结”的比较" class="headerlink" title="1.3 帕累托支配：一种“无需纠结”的比较"></a>1.3 帕累托支配：一种“无需纠结”的比较</h3><p>在单目标世界里，5 比 3 大，这很简单。但在多目标世界里，怎么比大小？<br>我们用**“买车”<strong>来理解</strong>支配（Dominance）**。</p>
+<p>假设我们要买车，只看两个指标：<strong>价格（越低越好）</strong> 和 <strong>速度（越快越好）</strong>。</p>
+<h4 id="情况一：完全碾压（支配-Dominance）"><a href="#情况一：完全碾压（支配-Dominance）" class="headerlink" title="情况一：完全碾压（支配 Dominance）"></a>情况一：完全碾压（支配 Dominance）</h4><ul>
+<li><strong>车 A：</strong> 10万，最高时速 200 km&#x2F;h。</li>
+<li><strong>车 B：</strong> 15万，最高时速 150 km&#x2F;h。</li>
+</ul>
+<p>这里，车 A 此时就是 <strong>“支配”</strong> 了车 B。</p>
+<ul>
+<li>价格：A 比 B 便宜（A 赢）。</li>
+<li>速度：A 比 B 快（A 赢）。<br><strong>结论：</strong> 理性人绝对不会买车 B。车 B 是劣质解，直接淘汰。</li>
+</ul>
+<h4 id="情况二：两难选择（互不支配-Non-dominated）"><a href="#情况二：两难选择（互不支配-Non-dominated）" class="headerlink" title="情况二：两难选择（互不支配 Non-dominated）"></a>情况二：两难选择（互不支配 Non-dominated）</h4><ul>
+<li><strong>车 A：</strong> 10万，最高时速 200 km&#x2F;h。</li>
+<li><strong>车 C：</strong> 8万，最高时速 180 km&#x2F;h。</li>
+</ul>
+<p>这就纠结了。</p>
+<ul>
+<li>比价格？C 赢。</li>
+<li>比速度？A 赢。<br><strong>结论：</strong> A 和 C 互有胜负，谁也没法完全碾压谁。这时候，A 和 C 就是 <strong>“互不支配”</strong> 的。</li>
+</ul>
+<p><strong>NSGA 的目标：</strong><br>找到一大堆像 A 和 C 这样“互不支配”的解，把那些像 B 一样被碾压的解全部扔掉。这一堆留下的解，连成一条线，就是<strong>帕累托前沿（Pareto Front）</strong>。</p>
+<h3 id="1-4-高维度的诅咒：当每个人都是冠军"><a href="#1-4-高维度的诅咒：当每个人都是冠军" class="headerlink" title="1.4 高维度的诅咒：当每个人都是冠军"></a>1.4 高维度的诅咒：当每个人都是冠军</h3><p>NSGA-II 在处理 2 个或 3 个目标时很强，但为什么到了 4 个甚至 10 个目标（高维）时就失效了？</p>
+<p>想象一个 100 人的班级。</p>
+<ul>
+<li><strong>如果只比“数学成绩”：</strong> 第一名只有一个，很容易排序。</li>
+<li><strong>如果比 10 个科目（数学、语文、体育、音乐、绘画…）：</strong></li>
+</ul>
+<p>在多目标的高维空间里，<strong>每个人都能找到自己“赢”的那个点</strong>。</p>
+<ul>
+<li>小明：虽然我数学差，但我体育好啊！（没被支配）</li>
+<li>小红：虽然我体育差，但我唱歌好啊！（没被支配）</li>
+<li>小强：虽然我啥都不行，但我打游戏第一啊！（没被支配）</li>
+</ul>
+<p><strong>结果就是：</strong> 在高维空间里，几乎所有解都是“互不支配”的。大家都在第一梯队（Rank 1）。<br>这时候，NSGA-II 的排序机制就失效了——因为它分不出谁更好。这就是为什么我们需要 <strong>NSGA-III</strong>，它不再单纯依赖“谁支配谁”，而是引入了“参考点”（Reference Points），像插旗子一样，强行在各个方向上保留最好的代表。这篇文章就不做展开介绍。</p>
+<h3 id="1-5-进化图谱：从-GA-到-NSGA-的血缘与革新"><a href="#1-5-进化图谱：从-GA-到-NSGA-的血缘与革新" class="headerlink" title="1.5 进化图谱：从 GA 到 NSGA 的血缘与革新"></a>1.5 进化图谱：从 GA 到 NSGA 的血缘与革新</h3><p>在深入 NSGA-II 的算法细节之前，我们必须先厘清它与标准遗传算法（Genetic Algorithm, GA）之间千丝万缕的联系。很多初学者误以为 NSGA 是一种全新的算法，但从第一性原理来看，<strong>NSGA 本质上是 GA 在多维空间的一种“特化变体”</strong>。</p>
+<p>我们可以通过 <strong>“继承（Inheritance）”</strong> 和 <strong>“重构（Refactoring）”</strong> 这两个维度来解构它们的关系。</p>
+<h4 id="1-5-1-继承：不变的驱动引擎"><a href="#1-5-1-继承：不变的驱动引擎" class="headerlink" title="1.5.1 继承：不变的驱动引擎"></a>1.5.1 继承：不变的驱动引擎</h4><p>如果把算法比作一辆赛车，那么 GA 和 NSGA 使用的是<strong>完全相同的底盘和引擎</strong>。这意味着，驱动种群在决策空间中进行“探索（Exploration）”和“开发（Exploitation）”的生物学算子并未发生改变。</p>
+<ul>
+<li><strong>编码方式 (Encoding):</strong> 无论是单目标的 GA 还是多目标的 NSGA，解的表示方法是一样的。对于连续优化问题，它们都使用实数编码；对于离散问题，都使用二进制或排列编码。</li>
+<li><strong>搜索算子 (Search Operators):</strong> 这是进化的动力源。<ul>
+<li><strong>交叉 (Crossover):</strong> 如模拟二进制交叉 (SBX)。它的作用是混合父代基因，产生新的可能性。</li>
+<li><strong>变异 (Mutation):</strong> 如多项式变异 (Polynomial Mutation)。它的作用是随机扰动，防止算法陷入局部最优。</li>
+</ul>
+</li>
+</ul>
+<p><strong>结论：</strong> 你在标准 GA 中学到的关于“如何产生新解”的知识，在 NSGA 中完全通用。</p>
+<h4 id="1-5-2-重构：评价机制的范式转移"><a href="#1-5-2-重构：评价机制的范式转移" class="headerlink" title="1.5.2 重构：评价机制的范式转移"></a>1.5.2 重构：评价机制的范式转移</h4><p>GA 和 NSGA 的分道扬镳，发生在**“自然选择”**这一步。</p>
+<ul>
+<li><p><strong>标准 GA 的逻辑（标量霸权）：</strong><br>  在单目标世界里，上帝是简单的。对于任意两个个体 $A$ 和 $B$，要么 $f(A) &lt; f(B)$，要么 $f(A) &gt; f(B)$。GA 只需要根据这个标量适应度（Fitness），使用轮盘赌或锦标赛选择，就能轻松决定谁该活下来。</p>
+</li>
+<li><p><strong>NSGA 的困境（向量迷局）：</strong><br>  在多目标世界里，个体 $A$ 的得分为 $[10, 80]$，个体 $B$ 的得分为 $[20, 60]$。谁更好？GA 的标量比较逻辑失效了。如果你强行把它们加权求和（例如 $0.5f_1 + 0.5f_2$），你就把多目标退化回了单目标，这违背了寻找“多样化权衡解”的初衷。</p>
+</li>
+<li><p><strong>NSGA 的解决方案（虚拟适应度）：</strong><br>  NSGA 没有改变 GA 的框架，而是<strong>重写了 <code>evaluate()</code> 和 <code>select()</code> 函数</strong>。它引入了一套**“虚拟适应度”**体系：</p>
+<ol>
+<li><strong>等级 (Rank):</strong> 既然无法直接比大小，那就比“谁支配谁”。非支配排序将种群分层，Rank 1 的个体被视为“最强”。</li>
+<li><strong>拥挤度 (Distance):</strong> 在同等级别下，谁周围更空旷，谁的基因就更有保留价值（为了维持多样性）。</li>
+</ol>
+</li>
+</ul>
+<h4 id="1-5-3-核心差异对比表"><a href="#1-5-3-核心差异对比表" class="headerlink" title="1.5.3 核心差异对比表"></a>1.5.3 核心差异对比表</h4><table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">标准 GA (Standard GA)</th>
+<th align="left">NSGA-II</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>优化目标</strong></td>
+<td align="left">单一目标函数 $\min f(x)$</td>
+<td align="left">目标向量 $\min \mathbf{F}(x)$</td>
+</tr>
+<tr>
+<td align="left"><strong>比较逻辑</strong></td>
+<td align="left">标量比较 (Scalar Comparison)</td>
+<td align="left">帕累托支配 (Pareto Dominance)</td>
+</tr>
+<tr>
+<td align="left"><strong>适应度定义</strong></td>
+<td align="left">直接等于目标函数值 (或其变换)</td>
+<td align="left"><strong>Rank (收敛性)</strong> + <strong>Crowding Distance (分布性)</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>选择压力</strong></td>
+<td align="left">优胜劣汰，只保留 $f(x)$ 最好的</td>
+<td align="left">分层淘汰，保留前沿面并维持稀疏分布</td>
+</tr>
+<tr>
+<td align="left"><strong>最终产出</strong></td>
+<td align="left">全局最优解 (Global Optimum)</td>
+<td align="left">帕累托最优解集 (Pareto Optimal Set)</td>
+</tr>
+</tbody></table>
+<h2 id="总结：NSGA-II-并没有发明新的进化方式，它只是给传统的-GA-换了一个更聪明的“导航员”。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。"><a href="#总结：NSGA-II-并没有发明新的进化方式，它只是给传统的-GA-换了一个更聪明的“导航员”。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。" class="headerlink" title="总结：NSGA-II 并没有发明新的进化方式，它只是给传统的 GA 换了一个更聪明的“导航员”。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。"></a><strong>总结：</strong><br>NSGA-II 并没有发明新的进化方式，它只是<strong>给传统的 GA 换了一个更聪明的“导航员”</strong>。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。</h2><hr>
+<h2 id="第二部分：NSGA-II原理介绍"><a href="#第二部分：NSGA-II原理介绍" class="headerlink" title="第二部分：NSGA-II原理介绍"></a>第二部分：NSGA-II原理介绍</h2><p>Deb 等人在 2002 年提出的 NSGA-II 是进化计算领域的经典。它主要解决了初代 NSGA 的计算复杂度高、缺乏精英策略（Elitism）以及需要手动指定共享参数的问题。NSGA-II 建立在三大支柱之上：</p>
+<ol>
+<li><strong>快速非支配排序 (Fast Non-dominated Sorting):</strong> 建立收敛压力。</li>
+<li><strong>拥挤距离 (Crowding Distance):</strong> 维持种群多样性，无需参数。</li>
+<li><strong>精英保留策略 (Elitism):</strong> 防止优秀解在进化中丢失。</li>
+</ol>
+<h3 id="2-1-核心机制一：快速非支配排序-The-“Onion-Peeling”-Strategy"><a href="#2-1-核心机制一：快速非支配排序-The-“Onion-Peeling”-Strategy" class="headerlink" title="2.1 核心机制一：快速非支配排序 (The “Onion Peeling” Strategy)"></a>2.1 核心机制一：快速非支配排序 (The “Onion Peeling” Strategy)</h3><p>想象一堆散落在桌子上的豆子（种群个体）。有些豆子在所有方面都比别的豆子大（支配），有些则互有胜负。<br>NSGA-II 的排序过程，就像是 <strong>“剥洋葱”</strong>。</p>
+<h4 id="步骤演示："><a href="#步骤演示：" class="headerlink" title="步骤演示："></a>步骤演示：</h4><ol>
+<li><p><strong>寻找第一层（Pareto Front 1）：</strong><br>找出所有“没有任何人能支配我”的豆子。把它们挑出来，放在一边，标记为 <strong>Rank 1</strong>（第一梯队）。这是目前最好的解集。</p>
+</li>
+<li><p><strong>寻找第二层（Pareto Front 2）：</strong><br>假设刚才拿走的 Rank 1 豆子都不存在了。在剩下的豆子里，再次寻找“没有任何人能支配我”的豆子。标记为 <strong>Rank 2</strong>。<br><em>注意：Rank 2 的豆子实际上是被 Rank 1 支配的，但在剩余的豆子里它们是最强的。</em></p>
+</li>
+<li><p><strong>重复剥离：</strong><br>不断重复这个过程，直到所有豆子都被分了等级（Rank 1, Rank 2, Rank 3…）。</p>
+</li>
+</ol>
+<h4 id="算法实现的技巧（-O-N-2-）"><a href="#算法实现的技巧（-O-N-2-）" class="headerlink" title="算法实现的技巧（$O(N^2)$）"></a>算法实现的技巧（$O(N^2)$）</h4><p>为了不让计算机算死（初代 NSGA 复杂度高达 $O(N^3)$），NSGA-II 采用了一个聪明的记账本策略：</p>
+<ul>
+<li><strong>支配计数 ($n_p$)：</strong> 每个人记一个小本本，写上“有多少人比我强”。如果 $n_p&#x3D;0$，说明没人比我强，我就是 Rank 1。</li>
+<li><strong>被支配集合 ($S_p$)：</strong> 每个人再记一个名单，写上“我比哪些人强”。</li>
+</ul>
+<p><strong>剥皮逻辑：</strong></p>
+<ol>
+<li>先把所有 $n_p&#x3D;0$ 的人请出列，归入当前 Front。</li>
+<li>这些人离开时，通知他们名单 $S_p$ 里的所有人：“霸主走了，你们的 $n_p$ 减 1”。</li>
+<li>如果某人的 $n_p$ 减到了 0，说明压在他头上的大山都没了，他晋升为下一层的霸主，加入 Next Front。</li>
+</ol>
+<h3 id="2-2-核心机制二：拥挤距离-The-“Social-Distancing”-Strategy"><a href="#2-2-核心机制二：拥挤距离-The-“Social-Distancing”-Strategy" class="headerlink" title="2.2 核心机制二：拥挤距离 (The “Social Distancing” Strategy)"></a>2.2 核心机制二：拥挤距离 (The “Social Distancing” Strategy)</h3><p>如果只按 Rank 排序，大家都会争抢帕累托前沿中间那段最容易达到的位置，导致解集分布不均匀。<br>NSGA-II 引入了 <strong>拥挤距离（Crowding Distance）</strong>，鼓励大家**“保持社交距离”**。</p>
+<h4 id="计算逻辑："><a href="#计算逻辑：" class="headerlink" title="计算逻辑："></a>计算逻辑：</h4><p>对于同一层级（同 Rank）的个体：</p>
+<ol>
+<li><strong>端点奖励：</strong> 处于极值点（比如最便宜的车、最快的车）的个体，距离设为无穷大 $\infty$。我们永远想保留探索边界的人。</li>
+<li><strong>中间计算：</strong> 对于中间的个体，它的拥挤距离等于<strong>它在所有目标维度上的“前后邻居”构成的长方体的周长</strong>。</li>
+</ol>
+<p>$$<br>d_i &#x3D; \sum_{m&#x3D;1}^{M} \frac{f_m(i+1) - f_m(i-1)}{f_m^{max} - f_m^{min}}<br>$$</p>
+<ul>
+<li><strong>直观理解：</strong> 你的拥挤距离越大，说明你周围越空旷，你的存在越独特（稀缺资源）。</li>
+<li><strong>选择策略：</strong> 当两辆车 Rank 相同时，选那个周围没人的车（拥挤距离大的）。</li>
+</ul>
+<h3 id="2-3-精英保留的主循环-Elitism-Loop"><a href="#2-3-精英保留的主循环-Elitism-Loop" class="headerlink" title="2.3 精英保留的主循环 (Elitism Loop)"></a>2.3 精英保留的主循环 (Elitism Loop)</h3><p>NSGA-II 的进化过程是一场残酷的 <strong>“父子混合大乱斗”</strong>。</p>
+<p>常规遗传算法通常是用子代直接覆盖父代。但 NSGA-II 认为：<strong>如果老父亲比儿子强，就应该保留父亲。</strong></p>
+<p><strong>流程图解：</strong></p>
+<ol>
+<li><strong>父代 ($P_t$) + 子代 ($Q_t$) &#x3D; 混合种群 ($R_t$)</strong>。<br>如果种群大小是 $N$，现在我们就有了 $2N$ 个个体。</li>
+<li><strong>全体排序：</strong> 对这 $2N$ 个个体进行“洋葱剥皮”分层。</li>
+<li><strong>填装新一代：</strong><ul>
+<li>先把 Rank 1 的全部放入新种群。</li>
+<li>如果没满，再把 Rank 2 的全部放入。</li>
+<li>…</li>
+<li><strong>临界层截断（关键）：</strong> 假设放到 Rank 3 时，位置不够了。这时候，只在 Rank 3 内部，按照<strong>拥挤距离</strong>从大到小排序，把前几名塞进去，填满 $N$ 个位置为止。剩下的全部淘汰。</li>
+</ul>
+</li>
+</ol>
+<h2 id="第三部分-Code实现"><a href="#第三部分-Code实现" class="headerlink" title="第三部分 Code实现"></a>第三部分 Code实现</h2><h3 id="3-1-Matlab-code实现"><a href="#3-1-Matlab-code实现" class="headerlink" title="3.1 Matlab code实现"></a>3.1 Matlab code实现</h3><p>运行结果如图</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_112524.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br></pre></td><td class="code"><pre><code class="hljs matlab">clc; clear; close all;<br><br><span class="hljs-comment">% --- 1. 参数设置 ---</span><br>pop_size = <span class="hljs-number">100</span>;<br>max_gen = <span class="hljs-number">60</span>;<br>n_vars = <span class="hljs-number">30</span>;<br>bounds = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>];<br><br>fprintf(<span class="hljs-string">&#x27;启动轨迹模式 (Pop: %d, Gen: %d)...\n&#x27;</span>, pop_size, max_gen);<br><br><span class="hljs-comment">% --- 2. 初始化 ---</span><br>empty_individual.pos = [];<br>empty_individual.cost = [];<br>empty_individual.rank = [];<br>empty_individual.dist = [];<br>pop = <span class="hljs-built_in">repmat</span>(empty_individual, pop_size, <span class="hljs-number">1</span>);<br><br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:pop_size<br>    pop(<span class="hljs-built_in">i</span>).pos = unifrnd(bounds(<span class="hljs-number">1</span>), bounds(<span class="hljs-number">2</span>), [<span class="hljs-number">1</span>, n_vars]);<br>    pop(<span class="hljs-built_in">i</span>).cost = zdt1(pop(<span class="hljs-built_in">i</span>).pos);<br><span class="hljs-keyword">end</span><br><br><span class="hljs-comment">% --- 3. 绘图设置 ---</span><br><span class="hljs-built_in">figure</span>(<span class="hljs-string">&#x27;Name&#x27;</span>, <span class="hljs-string">&#x27;NSGA-II Search Trajectory&#x27;</span>, <span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>);<br>ax = gca;<br><span class="hljs-built_in">hold</span>(ax, <span class="hljs-string">&#x27;on&#x27;</span>);<br>grid(ax, <span class="hljs-string">&#x27;on&#x27;</span>);<br>box(ax, <span class="hljs-string">&#x27;on&#x27;</span>);<br><br>xlim([<span class="hljs-number">0</span>, <span class="hljs-number">1.1</span>]);<br>ylim([<span class="hljs-number">0</span>, <span class="hljs-number">8.0</span>]);<br>xlabel(<span class="hljs-string">&#x27;Objective f_1&#x27;</span>);<br>ylabel(<span class="hljs-string">&#x27;Objective f_2&#x27;</span>);<br>title_handle = title(<span class="hljs-string">&#x27;Initializing...&#x27;</span>);<br><br><span class="hljs-comment">% 创建用于图例的红色前沿句柄</span><br>h_best_front = <span class="hljs-built_in">plot</span>(ax, NaN, NaN, <span class="hljs-string">&#x27;o&#x27;</span>, ...<br>    <span class="hljs-string">&#x27;MarkerEdgeColor&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, ...<br>    <span class="hljs-string">&#x27;MarkerFaceColor&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, ...<br>    <span class="hljs-string">&#x27;MarkerSize&#x27;</span>, <span class="hljs-number">5</span>, <span class="hljs-string">&#x27;DisplayName&#x27;</span>, <span class="hljs-string">&#x27;Current Pareto Front&#x27;</span>);<br><br><span class="hljs-comment">% --- 关键修改：明确指定图例只显示这一个句柄 ---</span><br><span class="hljs-built_in">legend</span>(ax, h_best_front, <span class="hljs-string">&#x27;Location&#x27;</span>, <span class="hljs-string">&#x27;northeast&#x27;</span>);<br><br><span class="hljs-comment">% --- 4. 主循环 ---</span><br><span class="hljs-keyword">for</span> gen = <span class="hljs-number">1</span>:max_gen<br><br>    costs = vertcat(pop.cost);<br>    [pop, fronts] = NonDominatedSorting(pop);<br>    pop = CalcCrowdingDistance(pop, fronts);<br><br>    <span class="hljs-comment">% === 绘图核心逻辑 (已修复) ===</span><br><br>    <span class="hljs-comment">% 1. 画下当前种群的&quot;足迹&quot;</span><br>    <span class="hljs-comment">% ---【修复】添加 &#x27;HandleVisibility&#x27;, &#x27;off&#x27; ---</span><br>    <span class="hljs-comment">% 这会让图例彻底忽略这些点</span><br>    <span class="hljs-built_in">plot</span>(ax, costs(:,<span class="hljs-number">1</span>), costs(:,<span class="hljs-number">2</span>), <span class="hljs-string">&#x27;.&#x27;</span>, ...<br>        <span class="hljs-string">&#x27;Color&#x27;</span>, [<span class="hljs-number">0.6</span> <span class="hljs-number">0.7</span> <span class="hljs-number">0.9</span>], ...<br>        <span class="hljs-string">&#x27;MarkerSize&#x27;</span>, <span class="hljs-number">4</span>, ...<br>        <span class="hljs-string">&#x27;HandleVisibility&#x27;</span>, <span class="hljs-string">&#x27;off&#x27;</span>);<br><br>    <span class="hljs-comment">% 2. 更新红色的前沿</span><br>    front_costs = costs(fronts&#123;<span class="hljs-number">1</span>&#125;, :);<br>    set(h_best_front, <span class="hljs-string">&#x27;XData&#x27;</span>, front_costs(:,<span class="hljs-number">1</span>), <span class="hljs-string">&#x27;YData&#x27;</span>, front_costs(:,<span class="hljs-number">2</span>));<br><br>    <span class="hljs-comment">% 确保红色前沿始终在最上层</span><br>    uistack(h_best_front, <span class="hljs-string">&#x27;top&#x27;</span>);<br><br>    set(title_handle, <span class="hljs-string">&#x27;String&#x27;</span>, sprintf(<span class="hljs-string">&#x27;Generation: %d / %d (Accumulated)&#x27;</span>, gen, max_gen));<br><br>    drawnow;<br><br>    <span class="hljs-comment">% === 进化操作 ===</span><br>    offspring = GenerateOffspring(pop, bounds);<br>    merged_pop = [pop; offspring];<br>    [merged_pop, fronts] = NonDominatedSorting(merged_pop);<br>    merged_pop = CalcCrowdingDistance(merged_pop, fronts);<br><br>    new_pop = [];<br>    front_idx = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> <span class="hljs-built_in">length</span>(new_pop) + <span class="hljs-built_in">length</span>(fronts&#123;front_idx&#125;) &lt;= pop_size<br>        new_pop = [new_pop; merged_pop(fronts&#123;front_idx&#125;)];<br>        front_idx = front_idx + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">end</span><br>    remaining = pop_size - <span class="hljs-built_in">length</span>(new_pop);<br>    <span class="hljs-keyword">if</span> remaining &gt; <span class="hljs-number">0</span><br>        last_front = merged_pop(fronts&#123;front_idx&#125;);<br>        [~, sorted_idx] = <span class="hljs-built_in">sort</span>([last_front.dist], <span class="hljs-string">&#x27;descend&#x27;</span>);<br>        new_pop = [new_pop; last_front(sorted_idx(<span class="hljs-number">1</span>:remaining))];<br>    <span class="hljs-keyword">end</span><br>    pop = new_pop;<br><span class="hljs-keyword">end</span><br><br>fprintf(<span class="hljs-string">&#x27;完成。\n&#x27;</span>);<br><br><br><span class="hljs-comment">% --- 辅助函数保持不变，为节省篇幅省略，请使用上一段代码中的辅助函数 ---</span><br><span class="hljs-comment">% zdt1, NonDominatedSorting, CalcCrowdingDistance, GenerateOffspring...</span><br><span class="hljs-comment">% (请确保运行前这里包含了那些函数，或者它们在同一个文件里)</span><br><span class="hljs-comment">% -----------------------------------------------------------</span><br><br><span class="hljs-comment">% (为方便您直接复制运行，这里补全必要的辅助函数)</span><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">z</span> = <span class="hljs-title">zdt1</span><span class="hljs-params">(x)</span></span><br>f1 = x(<span class="hljs-number">1</span>);<br>g = <span class="hljs-number">1</span> + <span class="hljs-number">9</span> * <span class="hljs-built_in">mean</span>(x(<span class="hljs-number">2</span>:<span class="hljs-keyword">end</span>));<br>h = <span class="hljs-number">1</span> - <span class="hljs-built_in">sqrt</span>(f1/g);<br>f2 = g * h;<br>z = [f1, f2];<br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[pop, fronts]</span> = <span class="hljs-title">NonDominatedSorting</span><span class="hljs-params">(pop)</span></span><br>N = <span class="hljs-built_in">length</span>(pop);<br>costs = vertcat(pop.cost);<br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span>=<span class="hljs-number">1</span>:N<br>    pop(<span class="hljs-built_in">i</span>).n = <span class="hljs-number">0</span>; pop(<span class="hljs-built_in">i</span>).S = [];<br><span class="hljs-keyword">end</span><br>fronts = &#123;[]&#125;;<br><span class="hljs-keyword">for</span> p=<span class="hljs-number">1</span>:N<br>    <span class="hljs-keyword">for</span> q=<span class="hljs-number">1</span>:N<br>        <span class="hljs-keyword">if</span> all(costs(p,:)&lt;=costs(q,:)) &amp;&amp; any(costs(p,:)&lt;costs(q,:))<br>            pop(p).S = [pop(p).S q];<br>        <span class="hljs-keyword">elseif</span> all(costs(q,:)&lt;=costs(p,:)) &amp;&amp; any(costs(q,:)&lt;costs(p,:))<br>            pop(p).n = pop(p).n + <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">end</span><br>    <span class="hljs-keyword">end</span><br>    <span class="hljs-keyword">if</span> pop(p).n == <span class="hljs-number">0</span>; pop(p).rank = <span class="hljs-number">1</span>; fronts&#123;<span class="hljs-number">1</span>&#125; = [fronts&#123;<span class="hljs-number">1</span>&#125; p]; <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br><span class="hljs-built_in">i</span>=<span class="hljs-number">1</span>;<br><span class="hljs-keyword">while</span> ~<span class="hljs-built_in">isempty</span>(fronts&#123;<span class="hljs-built_in">i</span>&#125;)<br>    Q = [];<br>    <span class="hljs-keyword">for</span> p = fronts&#123;<span class="hljs-built_in">i</span>&#125;<br>        <span class="hljs-keyword">for</span> q = pop(p).S<br>            pop(q).n = pop(q).n - <span class="hljs-number">1</span>;<br>            <span class="hljs-keyword">if</span> pop(q).n == <span class="hljs-number">0</span>; pop(q).rank = <span class="hljs-built_in">i</span>+<span class="hljs-number">1</span>; Q = [Q q]; <span class="hljs-keyword">end</span><br>        <span class="hljs-keyword">end</span><br>    <span class="hljs-keyword">end</span><br>    <span class="hljs-built_in">i</span>=<span class="hljs-built_in">i</span>+<span class="hljs-number">1</span>; fronts&#123;<span class="hljs-built_in">i</span>&#125; = Q;<br><span class="hljs-keyword">end</span><br>fronts(<span class="hljs-keyword">end</span>) = [];<br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pop</span> = <span class="hljs-title">CalcCrowdingDistance</span><span class="hljs-params">(pop, fronts)</span></span><br>n_obj = <span class="hljs-built_in">length</span>(pop(<span class="hljs-number">1</span>).cost);<br>costs = vertcat(pop.cost);<br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span>=<span class="hljs-number">1</span>:<span class="hljs-built_in">length</span>(pop); pop(<span class="hljs-built_in">i</span>).dist = <span class="hljs-number">0</span>; <span class="hljs-keyword">end</span><br><span class="hljs-keyword">for</span> f = <span class="hljs-number">1</span>:<span class="hljs-built_in">length</span>(fronts)<br>    idx = fronts&#123;f&#125;;<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">length</span>(idx)&lt;<span class="hljs-number">2</span>; [pop(idx).dist] = deal(<span class="hljs-built_in">inf</span>); <span class="hljs-keyword">continue</span>; <span class="hljs-keyword">end</span><br>    <span class="hljs-keyword">for</span> m = <span class="hljs-number">1</span>:n_obj<br>        [sorted, map] = <span class="hljs-built_in">sort</span>(costs(idx, m));<br>        sorted_idx = idx(map);<br>        pop(sorted_idx(<span class="hljs-number">1</span>)).dist = <span class="hljs-built_in">inf</span>; pop(sorted_idx(<span class="hljs-keyword">end</span>)).dist = <span class="hljs-built_in">inf</span>;<br>        d_range = sorted(<span class="hljs-keyword">end</span>)-sorted(<span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">if</span> d_range == <span class="hljs-number">0</span>; <span class="hljs-keyword">continue</span>; <span class="hljs-keyword">end</span><br>        <span class="hljs-keyword">for</span> k=<span class="hljs-number">2</span>:<span class="hljs-built_in">length</span>(idx)<span class="hljs-number">-1</span><br>            pop(sorted_idx(k)).dist = pop(sorted_idx(k)).dist + (sorted(k+<span class="hljs-number">1</span>)-sorted(k<span class="hljs-number">-1</span>))/d_range;<br>        <span class="hljs-keyword">end</span><br>    <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">offspring</span> = <span class="hljs-title">GenerateOffspring</span><span class="hljs-params">(pop, bounds)</span></span><br>pop_size = <span class="hljs-built_in">length</span>(pop);<br>n_vars = <span class="hljs-built_in">length</span>(pop(<span class="hljs-number">1</span>).pos);<br>offspring = <span class="hljs-built_in">repmat</span>(pop(<span class="hljs-number">1</span>), pop_size, <span class="hljs-number">1</span>);<br>eta_c = <span class="hljs-number">20</span>; pc = <span class="hljs-number">0.9</span>; eta_m = <span class="hljs-number">20</span>; pm = <span class="hljs-number">1</span>/n_vars;<br><span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-number">2</span>:pop_size<br>    p1 = Tournament(pop); p2 = Tournament(pop);<br>    c1 = p1.pos; c2 = p2.pos;<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">rand</span> &lt;= pc<br>        [c1, c2] = SBX(p1.pos, p2.pos, bounds, eta_c);<br>    <span class="hljs-keyword">end</span><br>    offspring(k).pos = Mut(c1, bounds, pm, eta_m);<br>    offspring(k).cost = zdt1(offspring(k).pos);<br>    offspring(k+<span class="hljs-number">1</span>).pos = Mut(c2, bounds, pm, eta_m);<br>    offspring(k+<span class="hljs-number">1</span>).cost = zdt1(offspring(k+<span class="hljs-number">1</span>).pos);<br><span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">best</span> = <span class="hljs-title">Tournament</span><span class="hljs-params">(pop)</span></span><br><span class="hljs-built_in">i</span> = randsample(<span class="hljs-built_in">length</span>(pop), <span class="hljs-number">2</span>);<br>p1 = pop(<span class="hljs-built_in">i</span>(<span class="hljs-number">1</span>)); p2 = pop(<span class="hljs-built_in">i</span>(<span class="hljs-number">2</span>));<br><span class="hljs-keyword">if</span> p1.rank &lt; p2.rank; best = p1;<br><span class="hljs-keyword">elseif</span> p2.rank &lt; p1.rank; best = p2;<br><span class="hljs-keyword">elseif</span> p1.dist &gt; p2.dist; best = p1;<br><span class="hljs-keyword">else</span>; best = p2; <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[c1, c2]</span> = <span class="hljs-title">SBX</span><span class="hljs-params">(p1, p2, b, eta)</span></span><br>rand_val = <span class="hljs-built_in">rand</span>(<span class="hljs-built_in">size</span>(p1));<br>c1=p1; c2=p2;<br>idx = rand_val &lt;= <span class="hljs-number">0.5</span> &amp; <span class="hljs-built_in">abs</span>(p1-p2)&gt;<span class="hljs-number">1e-10</span>;<br><span class="hljs-keyword">if</span> any(idx)<br>    y1=<span class="hljs-built_in">min</span>(p1(idx),p2(idx)); y2=<span class="hljs-built_in">max</span>(p1(idx),p2(idx));<br>    <span class="hljs-built_in">beta</span> = <span class="hljs-number">1.0</span> + (<span class="hljs-number">2.0</span>*(y1-b(<span class="hljs-number">1</span>))./(y2-y1));<br>    alpha = <span class="hljs-number">2.0</span> - <span class="hljs-built_in">beta</span>.^(-(eta+<span class="hljs-number">1</span>));<br>    r = <span class="hljs-built_in">rand</span>(<span class="hljs-number">1</span>, sum(idx));<br>    bq = (r.*alpha).^(<span class="hljs-number">1</span>/(eta+<span class="hljs-number">1</span>));<br>    mask = r &gt; (<span class="hljs-number">1.</span>/alpha);<br>    bq(mask) = (<span class="hljs-number">1.</span>/(<span class="hljs-number">2</span>-r(mask).*alpha(mask))).^(<span class="hljs-number">1</span>/(eta+<span class="hljs-number">1</span>));<br>    c1(idx) = <span class="hljs-number">0.5</span>*((y1+y2)-bq.*(y2-y1));<br>    c2(idx) = <span class="hljs-number">0.5</span>*((y1+y2)+bq.*(y2-y1));<br><span class="hljs-keyword">end</span><br>c1 = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">min</span>(c1, b(<span class="hljs-number">2</span>)), b(<span class="hljs-number">1</span>));<br>c2 = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">min</span>(c2, b(<span class="hljs-number">2</span>)), b(<span class="hljs-number">1</span>));<br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">x</span> = <span class="hljs-title">Mut</span><span class="hljs-params">(x, b, pm, eta)</span></span><br>idx = <span class="hljs-built_in">rand</span>(<span class="hljs-built_in">size</span>(x)) &lt;= pm;<br><span class="hljs-keyword">if</span> any(idx)<br>    y = x(idx);<br>    d1 = (y-b(<span class="hljs-number">1</span>))/(b(<span class="hljs-number">2</span>)-b(<span class="hljs-number">1</span>)); d2 = (b(<span class="hljs-number">2</span>)-y)/(b(<span class="hljs-number">2</span>)-b(<span class="hljs-number">1</span>));<br>    r = <span class="hljs-built_in">rand</span>(<span class="hljs-number">1</span>, sum(idx));<br>    dq = (<span class="hljs-number">2</span>*r + (<span class="hljs-number">1</span><span class="hljs-number">-2</span>*r).*(<span class="hljs-number">1</span>-d1).^(eta+<span class="hljs-number">1</span>)).^(<span class="hljs-number">1</span>/(eta+<span class="hljs-number">1</span>)) - <span class="hljs-number">1</span>;<br>    mask = r &gt; <span class="hljs-number">0.5</span>;<br>    dq(mask) = <span class="hljs-number">1</span> - (<span class="hljs-number">2</span>*(<span class="hljs-number">1</span>-r(mask)) + <span class="hljs-number">2</span>*(r(mask)<span class="hljs-number">-0.5</span>).*(<span class="hljs-number">1</span>-d2(mask)).^(eta+<span class="hljs-number">1</span>)).^(<span class="hljs-number">1</span>/(eta+<span class="hljs-number">1</span>));<br>    x(idx) = y + dq.*(b(<span class="hljs-number">2</span>)-b(<span class="hljs-number">1</span>));<br><span class="hljs-keyword">end</span><br>x = <span class="hljs-built_in">max</span>(<span class="hljs-built_in">min</span>(x, b(<span class="hljs-number">2</span>)), b(<span class="hljs-number">1</span>));<br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-2-Python-code实现"><a href="#3-2-Python-code实现" class="headerlink" title="3.2 Python code实现"></a>3.2 Python code实现</h3><p>运行结果如图<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_112807.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><br><span class="hljs-comment"># ==========================</span><br><span class="hljs-comment"># 1. 问题定义 (ZDT1)</span><br><span class="hljs-comment"># ==========================</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">zdt1</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;ZDT1 测试函数 (支持向量化计算)&quot;&quot;&quot;</span><br>    <span class="hljs-comment"># x shape: (pop_size, n_var)</span><br>    <span class="hljs-keyword">if</span> x.ndim == <span class="hljs-number">1</span>:<br>        x = x.reshape(<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>)<br><br>    n_point, n_var = x.shape<br>    f1 = x[:, <span class="hljs-number">0</span>]<br>    g = <span class="hljs-number">1</span> + <span class="hljs-number">9</span> * np.<span class="hljs-built_in">sum</span>(x[:, <span class="hljs-number">1</span>:], axis=<span class="hljs-number">1</span>) / (n_var - <span class="hljs-number">1</span>)<br>    h = <span class="hljs-number">1</span> - np.sqrt(f1 / g)<br>    f2 = g * h<br>    <span class="hljs-keyword">return</span> np.column_stack([f1, f2])<br><br><br><span class="hljs-comment"># ==========================</span><br><span class="hljs-comment"># 2. 核心算法组件</span><br><span class="hljs-comment"># ==========================</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">fast_non_dominated_sort</span>(<span class="hljs-params">values</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;快速非支配排序&quot;&quot;&quot;</span><br>    num_pop = values.shape[<span class="hljs-number">0</span>]<br>    S = [[] <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_pop)]<br>    front = [[]]<br>    n = np.zeros(num_pop, dtype=<span class="hljs-built_in">int</span>)<br>    rank = np.zeros(num_pop, dtype=<span class="hljs-built_in">int</span>)<br><br>    <span class="hljs-comment"># 支配关系矩阵计算 (利用广播加速)</span><br>    <span class="hljs-comment"># dominates[i, j] = True 表示 i 支配 j</span><br>    val_expanded_1 = values[:, np.newaxis, :]<br>    val_expanded_2 = values[np.newaxis, :, :]<br><br>    <span class="hljs-comment"># 严格更优</span><br>    better = (val_expanded_1 &lt;= val_expanded_2).<span class="hljs-built_in">all</span>(axis=<span class="hljs-number">2</span>) &amp; (val_expanded_1 &lt; val_expanded_2).<span class="hljs-built_in">any</span>(axis=<span class="hljs-number">2</span>)<br><br>    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_pop):<br>        <span class="hljs-comment"># p 支配的解的索引</span><br>        S[p] = np.where(better[p])[<span class="hljs-number">0</span>].tolist()<br>        <span class="hljs-comment"># 支配 p 的解的数量</span><br>        n[p] = np.<span class="hljs-built_in">sum</span>(better[:, p])<br><br>        <span class="hljs-keyword">if</span> n[p] == <span class="hljs-number">0</span>:<br>            rank[p] = <span class="hljs-number">0</span><br>            front[<span class="hljs-number">0</span>].append(p)<br><br>    i = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> front[i]:<br>        Q = []<br>        <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> front[i]:<br>            <span class="hljs-keyword">for</span> q <span class="hljs-keyword">in</span> S[p]:<br>                n[q] -= <span class="hljs-number">1</span><br>                <span class="hljs-keyword">if</span> n[q] == <span class="hljs-number">0</span>:<br>                    rank[q] = i + <span class="hljs-number">1</span><br>                    Q.append(q)<br>        i += <span class="hljs-number">1</span><br>        front.append(Q)<br><br>    <span class="hljs-keyword">del</span> front[<span class="hljs-built_in">len</span>(front) - <span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">return</span> front<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">crowding_distance_assignment</span>(<span class="hljs-params">values, front</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;拥挤距离计算&quot;&quot;&quot;</span><br>    l = <span class="hljs-built_in">len</span>(front)<br>    distance = np.zeros(l)<br>    <span class="hljs-keyword">if</span> l == <span class="hljs-number">0</span>: <span class="hljs-keyword">return</span> distance<br><br>    num_obj = values.shape[<span class="hljs-number">1</span>]<br>    front_obj = values[front]<br><br>    <span class="hljs-keyword">for</span> m <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_obj):<br>        <span class="hljs-comment"># 对当前目标进行排序</span><br>        sorted_idx = np.argsort(front_obj[:, m])<br>        front_obj_sorted = front_obj[sorted_idx]<br><br>        <span class="hljs-comment"># 边界点设为无穷大</span><br>        distance[sorted_idx[<span class="hljs-number">0</span>]] = np.inf<br>        distance[sorted_idx[-<span class="hljs-number">1</span>]] = np.inf<br><br>        f_min = front_obj_sorted[<span class="hljs-number">0</span>, m]<br>        f_max = front_obj_sorted[-<span class="hljs-number">1</span>, m]<br><br>        <span class="hljs-keyword">if</span> np.isclose(f_max, f_min):<br>            <span class="hljs-keyword">continue</span><br><br>        <span class="hljs-comment"># 累加距离</span><br>        norm = f_max - f_min<br>        distance[sorted_idx[<span class="hljs-number">1</span>:-<span class="hljs-number">1</span>]] += (front_obj_sorted[<span class="hljs-number">2</span>:, m] - front_obj_sorted[:-<span class="hljs-number">2</span>, m]) / norm<br><br>    <span class="hljs-comment"># 将局部 distance 映射回原始 front 的顺序 (为了方便外部调用，其实可以直接返回 dict)</span><br>    <span class="hljs-comment"># 但这里我们返回对应 front 索引的距离列表</span><br>    <span class="hljs-keyword">return</span> distance<br><br><br><span class="hljs-comment"># ==========================</span><br><span class="hljs-comment"># 3. 遗传算子</span><br><span class="hljs-comment"># ==========================</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">tournament_selection</span>(<span class="hljs-params">pop, rank, distance, k=<span class="hljs-number">2</span></span>):<br>    n_pop = <span class="hljs-built_in">len</span>(pop)<br>    selected_indices = []<br><br>    <span class="hljs-comment"># 向量化锦标赛选择的准备</span><br>    participants = np.random.choice(n_pop, (n_pop, k))<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n_pop):<br>        candidates = participants[i]<br>        best = candidates[<span class="hljs-number">0</span>]<br>        <span class="hljs-keyword">for</span> idx <span class="hljs-keyword">in</span> candidates[<span class="hljs-number">1</span>:]:<br>            <span class="hljs-comment"># 比较逻辑: Rank越小越好; Rank相同时 Distance越大越好</span><br>            <span class="hljs-keyword">if</span> rank[idx] &lt; rank[best]:<br>                best = idx<br>            <span class="hljs-keyword">elif</span> rank[idx] == rank[best] <span class="hljs-keyword">and</span> distance[idx] &gt; distance[best]:<br>                best = idx<br>        selected_indices.append(best)<br><br>    <span class="hljs-keyword">return</span> pop[selected_indices]<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">crossover_mutation</span>(<span class="hljs-params">pop, lower_bound, upper_bound, pc=<span class="hljs-number">0.9</span>, pm=<span class="hljs-number">1.0</span> / <span class="hljs-number">30</span>, eta_c=<span class="hljs-number">20</span>, eta_m=<span class="hljs-number">20</span></span>):<br>    n_pop, n_var = pop.shape<br>    offspring = np.zeros_like(pop)<br><br>    <span class="hljs-comment"># SBX Crossover</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, n_pop, <span class="hljs-number">2</span>):<br>        p1, p2 = pop[i], pop[i + <span class="hljs-number">1</span>]<br>        <span class="hljs-keyword">if</span> np.random.rand() &lt; pc:<br>            c1, c2 = np.copy(p1), np.copy(p2)<br>            rand_vals = np.random.rand(n_var)<br><br>            <span class="hljs-comment"># 只有满足条件的维度才交叉</span><br>            mask = np.random.rand(n_var) &lt;= <span class="hljs-number">0.5</span><br><br>            <span class="hljs-keyword">if</span> np.<span class="hljs-built_in">any</span>(mask):<br>                y1 = np.minimum(p1, p2)<br>                y2 = np.maximum(p1, p2)<br><br>                beta = <span class="hljs-number">1.0</span> + (<span class="hljs-number">2.0</span> * (y1 - lower_bound) / (y2 - y1 + <span class="hljs-number">1e-10</span>))<br>                alpha = <span class="hljs-number">2.0</span> - np.power(beta, -(eta_c + <span class="hljs-number">1.0</span>))<br><br>                beta_q = np.zeros(n_var)<br>                mask_lower = rand_vals &lt;= (<span class="hljs-number">1.0</span> / alpha)<br><br>                val_lower = np.power(rand_vals * alpha, <span class="hljs-number">1.0</span> / (eta_c + <span class="hljs-number">1.0</span>))<br>                val_upper = np.power(<span class="hljs-number">1.0</span> / (<span class="hljs-number">2.0</span> - rand_vals * alpha), <span class="hljs-number">1.0</span> / (eta_c + <span class="hljs-number">1.0</span>))<br><br>                beta_q[mask_lower] = val_lower[mask_lower]<br>                beta_q[~mask_lower] = val_upper[~mask_lower]<br><br>                <span class="hljs-comment"># 应用只在 mask 为 True 的位置</span><br>                c1[mask] = <span class="hljs-number">0.5</span> * ((y1[mask] + y2[mask]) - beta_q[mask] * (y2[mask] - y1[mask]))<br>                c2[mask] = <span class="hljs-number">0.5</span> * ((y1[mask] + y2[mask]) + beta_q[mask] * (y2[mask] - y1[mask]))<br><br>            offspring[i] = np.clip(c1, lower_bound, upper_bound)<br>            offspring[i + <span class="hljs-number">1</span>] = np.clip(c2, lower_bound, upper_bound)<br>        <span class="hljs-keyword">else</span>:<br>            offspring[i], offspring[i + <span class="hljs-number">1</span>] = p1, p2<br><br>    <span class="hljs-comment"># Polynomial Mutation</span><br>    mutation_mask = np.random.rand(n_pop, n_var) &lt; pm<br>    <span class="hljs-keyword">if</span> np.<span class="hljs-built_in">any</span>(mutation_mask):<br>        y = offspring[mutation_mask]<br>        delta_1 = (y - lower_bound) / (upper_bound - lower_bound)<br>        delta_2 = (upper_bound - y) / (upper_bound - lower_bound)<br><br>        rand_vals = np.random.rand(<span class="hljs-built_in">len</span>(y))<br>        mut_pow = <span class="hljs-number">1.0</span> / (eta_m + <span class="hljs-number">1.0</span>)<br><br>        delta_q = np.zeros(<span class="hljs-built_in">len</span>(y))<br>        mask_lower = rand_vals &lt;= <span class="hljs-number">0.5</span><br><br>        val_lower = np.power(<span class="hljs-number">2.0</span> * rand_vals + (<span class="hljs-number">1.0</span> - <span class="hljs-number">2.0</span> * rand_vals) * np.power(<span class="hljs-number">1.0</span> - delta_1, eta_m + <span class="hljs-number">1.0</span>),<br>                             mut_pow) - <span class="hljs-number">1.0</span><br>        val_upper = <span class="hljs-number">1.0</span> - np.power(<br>            <span class="hljs-number">2.0</span> * (<span class="hljs-number">1.0</span> - rand_vals) + <span class="hljs-number">2.0</span> * (rand_vals - <span class="hljs-number">0.5</span>) * np.power(<span class="hljs-number">1.0</span> - delta_2, eta_m + <span class="hljs-number">1.0</span>), mut_pow)<br><br>        delta_q[mask_lower] = val_lower[mask_lower]<br>        delta_q[~mask_lower] = val_upper[~mask_lower]<br><br>        offspring[mutation_mask] = np.clip(y + delta_q * (upper_bound - lower_bound), lower_bound, upper_bound)<br><br>    <span class="hljs-keyword">return</span> offspring<br><br><br><span class="hljs-comment"># ==========================</span><br><span class="hljs-comment"># 4. 主程序 (Trace Mode Visualization)</span><br><span class="hljs-comment"># ==========================</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    <span class="hljs-comment"># 参数设置</span><br>    POP_SIZE = <span class="hljs-number">100</span><br>    MAX_GEN = <span class="hljs-number">60</span><br>    N_VAR = <span class="hljs-number">30</span><br>    BOUNDS = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]<br><br>    <span class="hljs-comment"># 初始化</span><br>    pop = np.random.uniform(BOUNDS[<span class="hljs-number">0</span>], BOUNDS[<span class="hljs-number">1</span>], (POP_SIZE, N_VAR))<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;启动 Python NSGA-II 轨迹可视化 (Pop: <span class="hljs-subst">&#123;POP_SIZE&#125;</span>, Gen: <span class="hljs-subst">&#123;MAX_GEN&#125;</span>)&quot;</span>)<br><br>    <span class="hljs-comment"># === 绘图初始化 ===</span><br>    plt.ion()<br>    fig, ax = plt.subplots(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">8</span>))<br><br>    <span class="hljs-comment"># 1. 设置坐标轴范围 (防止画面抖动)</span><br>    ax.set_xlim(<span class="hljs-number">0</span>, <span class="hljs-number">1.1</span>)<br>    ax.set_ylim(<span class="hljs-number">0</span>, <span class="hljs-number">8.0</span>)<br>    ax.set_xlabel(<span class="hljs-string">&#x27;Objective f1&#x27;</span>)<br>    ax.set_ylabel(<span class="hljs-string">&#x27;Objective f2&#x27;</span>)<br>    ax.set_title(<span class="hljs-string">&#x27;NSGA-II Search Trajectory&#x27;</span>)<br>    ax.grid(<span class="hljs-literal">True</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, alpha=<span class="hljs-number">0.5</span>)<br><br>    <span class="hljs-comment"># 2. 创建红色前沿的占位对象 (高层级 zorder=10)</span><br>    <span class="hljs-comment"># 注意：这里我们只创建一个 label，后续的蓝色点都不会有 label</span><br>    sc_best_front = ax.scatter([], [], c=<span class="hljs-string">&#x27;red&#x27;</span>, s=<span class="hljs-number">40</span>, edgecolors=<span class="hljs-string">&#x27;black&#x27;</span>, zorder=<span class="hljs-number">10</span>, label=<span class="hljs-string">&#x27;Current Pareto Front&#x27;</span>)<br><br>    <span class="hljs-comment"># 3. 只需要显示这个唯一的 label</span><br>    ax.legend(loc=<span class="hljs-string">&#x27;upper right&#x27;</span>)<br><br>    <span class="hljs-comment"># 主循环</span><br>    <span class="hljs-keyword">for</span> gen <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(MAX_GEN):<br><br>        <span class="hljs-comment"># --- 计算 ---</span><br>        obj_values = zdt1(pop)<br><br>        fronts = fast_non_dominated_sort(obj_values)<br>        rank = np.zeros(POP_SIZE)<br>        full_distance = np.zeros(POP_SIZE)  <span class="hljs-comment"># 用于存储所有个体的距离</span><br><br>        <span class="hljs-keyword">for</span> r, front <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(fronts):<br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> front:<br>                rank[i] = r<br>            dists = crowding_distance_assignment(obj_values, front)<br>            <span class="hljs-comment"># 映射回全局索引</span><br>            <span class="hljs-keyword">for</span> i, idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(front):<br>                full_distance[idx] = dists[i]<br><br>        <span class="hljs-comment"># --- 绘图 (Trace Effect) ---</span><br><br>        <span class="hljs-comment"># 1. 绘制当前种群作为&quot;历史痕迹&quot; (Trace)</span><br>        <span class="hljs-comment"># 关键优化：</span><br>        <span class="hljs-comment"># - c=&#x27;lightblue&#x27;: 浅蓝色</span><br>        <span class="hljs-comment"># - alpha=0.5: 半透明</span><br>        <span class="hljs-comment"># - zorder=1: 放在最底层，不会遮挡红色前沿</span><br>        <span class="hljs-comment"># - label=&#x27;_nolegend_&#x27;: 下划线开头告诉 matplotlib 不要在图例中显示它</span><br>        ax.scatter(obj_values[:, <span class="hljs-number">0</span>], obj_values[:, <span class="hljs-number">1</span>],<br>                   c=<span class="hljs-string">&#x27;lightblue&#x27;</span>, s=<span class="hljs-number">10</span>, alpha=<span class="hljs-number">0.6</span>, zorder=<span class="hljs-number">1</span>, label=<span class="hljs-string">&#x27;_nolegend_&#x27;</span>)<br><br>        <span class="hljs-comment"># 2. 更新红色前沿 (只更新数据位置，不重画对象)</span><br>        current_pareto = obj_values[fronts[<span class="hljs-number">0</span>]]<br>        sc_best_front.set_offsets(current_pareto)<br><br>        <span class="hljs-comment"># 3. 更新标题</span><br>        ax.set_title(<span class="hljs-string">f&#x27;NSGA-II Trajectory: Gen <span class="hljs-subst">&#123;gen&#125;</span> / <span class="hljs-subst">&#123;MAX_GEN&#125;</span>&#x27;</span>)<br><br>        <span class="hljs-comment"># 4. 刷新画布</span><br>        <span class="hljs-comment"># pause 是为了给 GUI 渲染时间</span><br>        plt.pause(<span class="hljs-number">0.01</span>)<br><br>        <span class="hljs-comment"># --- 进化 ---</span><br>        mating_pool = tournament_selection(pop, rank, full_distance)<br>        offspring = crossover_mutation(mating_pool, BOUNDS[<span class="hljs-number">0</span>], BOUNDS[<span class="hljs-number">1</span>])<br>        offspring_obj = zdt1(offspring)<br><br>        merged_pop = np.vstack((pop, offspring))<br>        merged_obj = np.vstack((obj_values, offspring_obj))<br><br>        fronts = fast_non_dominated_sort(merged_obj)<br>        new_pop_indices = []<br><br>        <span class="hljs-keyword">for</span> front <span class="hljs-keyword">in</span> fronts:<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(new_pop_indices) + <span class="hljs-built_in">len</span>(front) &lt;= POP_SIZE:<br>                new_pop_indices.extend(front)<br>            <span class="hljs-keyword">else</span>:<br>                dists = crowding_distance_assignment(merged_obj, front)<br>                <span class="hljs-comment"># 排序逻辑: (idx, dist)，按 dist 降序</span><br>                front_with_dist = <span class="hljs-built_in">sorted</span>(<span class="hljs-built_in">zip</span>(front, dists), key=<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-number">1</span>], reverse=<span class="hljs-literal">True</span>)<br>                n_needed = POP_SIZE - <span class="hljs-built_in">len</span>(new_pop_indices)<br>                new_pop_indices.extend([x[<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> front_with_dist[:n_needed]])<br>                <span class="hljs-keyword">break</span><br><br>        pop = merged_pop[new_pop_indices]<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;优化完成。&quot;</span>)<br>    plt.ioff()<br>    plt.show()<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Algorithm-Analysis/" class="category-chain-item">Algorithm Analysis</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/MATLAB/" class="print-no-link">#MATLAB</a>
+      
+        <a href="/tags/Evolutionary-Algorithms/" class="print-no-link">#Evolutionary Algorithms</a>
+      
+        <a href="/tags/Multi-Objective-Optimization/" class="print-no-link">#Multi-Objective Optimization</a>
+      
+        <a href="/tags/NSGA-II/" class="print-no-link">#NSGA-II</a>
+      
+        <a href="/tags/NSGA-III/" class="print-no-link">#NSGA-III</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>NSGA-II的原理解析及CODE实现&#34;</div>
+      <div>https://sunfove.xyz/2026/01/21/2026-01-21-nsga-ii-iii-principles-and-implementation/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 21, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/21/2026-01-19-PSO/" title="从椋鸟群到最优化：粒子群算法(PSO)的数学原理、实现与可视化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从椋鸟群到最优化：粒子群算法(PSO)的数学原理、实现与可视化</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/20/2026-01-20-daily-english/" title="🌍 Daily English: Through the Lens: How Wildlife Documentaries Shape Our Understanding of the Natural World | 2026-01-20">
+                        <span class="hidden-mobile">🌍 Daily English: Through the Lens: How Wildlife Documentaries Shape Our Understanding of the Natural World | 2026-01-20</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/21/2026-01-21-nsga-ii-iii-principles-and-implementation/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
