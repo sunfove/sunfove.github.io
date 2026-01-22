@@ -1,5 +1,5 @@
 ---
-title: 拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现
+title: 拟牛顿法的巅峰：BFGS 算法详解与code实现
 date: 2026-01-22 05:30:00
 tags: [Optimization, Mathematics, BFGS, Python, Algorithms]
 categories: [Computational Mathematics, Machine Learning]
@@ -16,6 +16,8 @@ BFGS 的伟大之处，在于它找到了一条完美的**中间道路**。它�
 它诞生于 1970 年，由四位数学家独立发现。在随后的几十年里，它是解决无约束非线性优化问题的**标准答案**。即使在今天，当我们需要极致的收敛精度而非单纯的统计平均时，BFGS 依然是那个不可替代的选择。
 
 本文将剥离复杂的索引符号，从**第一性原理**出发，带你领略这个算法背后的数学直觉与几何之美。
+
+![](https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_090805.png)
 
 
 
@@ -96,6 +98,8 @@ $$
 为了理解 BFGS，请想象你被蒙住双眼放到了一个未知的山谷中。你的目标是找到海拔最低点。你手头有一个用来记录地形的“小本子”（矩阵 $H$），初始时它是空白的（单位矩阵）。
 
 BFGS 的每一次迭代，就是一次完整的 **“探测-行动-修正”** 循环。
+
+![](https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_090448.png)
 
 ### 2.1 第一步：决定方向 (The Direction)
 > **直觉：不要垂直切等高线，要切向谷底。**

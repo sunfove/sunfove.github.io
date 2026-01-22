@@ -1,6 +1,6 @@
 ---
 title: 广义斯涅尔定律的完整物理推导
-date: 2026-01-20 10:00:00
+date: 2026-01-18 10:00:00
 tags: [Metasurface, Optics, Physics, Derivation]
 categories: [Metasurface]
 mathjax: true

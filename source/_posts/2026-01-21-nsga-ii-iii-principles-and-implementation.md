@@ -1,5 +1,5 @@
 ---
-title: NSGA-II的原理解析及CODE实现"
+title: NSGA-II的原理解析及CODE实现
 date: 2026-01-21 06:35:15
 tags:
   - Evolutionary Algorithms
@@ -26,6 +26,7 @@ mathjax: true
 
 **NSGA-II**的全称是 **Non-dominated Sorting Genetic Algorithm II**。中文通常翻译为：非支配排序遗传算法 II（或者第二代非支配排序遗传算法），它是由 K. Deb 等人在 2002 年提出的，是目前最流行、被引用次数最多的多目标进化算法之一。
 
+![](https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_115208.png)
 ---
 
 ## 第一部分：用直觉理解多目标优化
@@ -152,6 +153,7 @@ GA 和 NSGA 的分道扬镳，发生在**“自然选择”**这一步。
 
 **总结：**
 NSGA-II 并没有发明新的进化方式，它只是**给传统的 GA 换了一个更聪明的“导航员”**。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。
+
 ---
 
 ---

@@ -1,6 +1,6 @@
 ---
 title: Python 自动化实战：从识图点击、模拟真人轨迹到封装 EXE 全流程教学
-date: 2026-01-22 10:00:00
+date: 2026-01-19 10:00:00
 tags: [Python, Automation, PyAutoGUI, OpenCV, PyInstaller]
 categories: 
   - Python 实战

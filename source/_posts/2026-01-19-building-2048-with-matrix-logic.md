@@ -1,6 +1,6 @@
 ---
 title: 方格中的混沌与秩序：用线性代数思想构建 2048 游戏引擎
-date: 2026-01-23 09:00:00
+date: 2026-01-18 09:00:00
 tags: [Python, Pygame, Game Development, Linear Algebra, Algorithms]
 categories: 
   - Computer Science

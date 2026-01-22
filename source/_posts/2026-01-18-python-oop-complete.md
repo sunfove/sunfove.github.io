@@ -1,6 +1,6 @@
 ---
 title: Python 面向对象编程：从过程式思维到对象模型
-date: 2026-01-22
+date: 2026-01-18
 tags: [Python, OOP]
 categories: [Python]
 ---
