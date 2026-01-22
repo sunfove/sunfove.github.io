@@ -23,15 +23,16 @@
   
     <meta name="description" content="从第一性原理出发，深度剖析非支配排序遗传算法（NSGA-II &amp; NSGA-III）。本文将探讨帕累托最优的数学本质，揭示高维目标优化中的维数灾难，并提供基于 Python 和 MATLAB 的核心实现逻辑。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NSGA-II的原理解析及CODE实现&quot;">
+<meta property="og:title" content="NSGA-II的原理解析及CODE实现">
 <meta property="og:url" content="https://sunfove.xyz/2026/01/21/2026-01-21-nsga-ii-iii-principles-and-implementation/index.html">
 <meta property="og:site_name" content="明明如月">
 <meta property="og:description" content="从第一性原理出发，深度剖析非支配排序遗传算法（NSGA-II &amp; NSGA-III）。本文将探讨帕累托最优的数学本质，揭示高维目标优化中的维数灾难，并提供基于 Python 和 MATLAB 的核心实现逻辑。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_115208.png">
 <meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_112524.png">
 <meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_112807.png">
 <meta property="article:published_time" content="2026-01-21T06:35:15.000Z">
-<meta property="article:modified_time" content="2026-01-22T15:02:41.910Z">
+<meta property="article:modified_time" content="2026-01-22T15:12:22.228Z">
 <meta property="article:author" content="Sunfove">
 <meta property="article:tag" content="Evolutionary Algorithms">
 <meta property="article:tag" content="MATLAB">
@@ -40,11 +41,11 @@
 <meta property="article:tag" content="NSGA-III">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_112524.png">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_115208.png">
   
   
   
-  <title>NSGA-II的原理解析及CODE实现&#34; - 明明如月</title>
+  <title>NSGA-II的原理解析及CODE实现 - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -234,7 +235,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">NSGA-II的原理解析及CODE实现"</span>
+            <span id="subtitle">NSGA-II的原理解析及CODE实现</span>
           
         </div>
 
@@ -305,7 +306,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">NSGA-II的原理解析及CODE实现&#34;</h1>
+            <h1 id="seo-header">NSGA-II的原理解析及CODE实现</h1>
             
             
               <div class="markdown-body">
@@ -315,8 +316,7 @@
 <p>与单目标优化寻找全局最小值不同，MOP 的目标是寻找一个解集——<strong>帕累托前沿（Pareto Front）</strong>，代表了所有无法在不损害其他目标前提下改善某一目标的“完美权衡”状态。</p>
 <p>本文将从第一性原理出发，解构该领域重要的里程碑：<strong>NSGA-II</strong> 。我们将探讨它们的设计哲学，数学基础，以及如何用代码实现它们。</p>
 <p><strong>NSGA-II</strong>的全称是 <strong>Non-dominated Sorting Genetic Algorithm II</strong>。中文通常翻译为：非支配排序遗传算法 II（或者第二代非支配排序遗传算法），它是由 K. Deb 等人在 2002 年提出的，是目前最流行、被引用次数最多的多目标进化算法之一。</p>
-<hr>
-<h2 id="第一部分：用直觉理解多目标优化"><a href="#第一部分：用直觉理解多目标优化" class="headerlink" title="第一部分：用直觉理解多目标优化"></a>第一部分：用直觉理解多目标优化</h2><p>很多教程一上来就堆砌 $\mathbf{x} \in \Omega$ 和 $\nabla f(\mathbf{x})$，让人头大。我们不妨换个角度，把多目标优化想象成操作一个复杂的机器。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260121_115208.png" srcset="/img/loading.gif" lazyload></h2><h2 id="第一部分：用直觉理解多目标优化"><a href="#第一部分：用直觉理解多目标优化" class="headerlink" title="第一部分：用直觉理解多目标优化"></a>第一部分：用直觉理解多目标优化</h2><p>很多教程一上来就堆砌 $\mathbf{x} \in \Omega$ 和 $\nabla f(\mathbf{x})$，让人头大。我们不妨换个角度，把多目标优化想象成操作一个复杂的机器。</p>
 <h3 id="1-1-两个房间的故事：决策空间-vs-目标空间"><a href="#1-1-两个房间的故事：决策空间-vs-目标空间" class="headerlink" title="1.1 两个房间的故事：决策空间 vs. 目标空间"></a>1.1 两个房间的故事：决策空间 vs. 目标空间</h3><p>想象你在两个房间里工作，这两个房间通过一束看不见的电缆连接。</p>
 <ul>
 <li><p><strong>房间 A（决策空间 Decision Space）：</strong><br>  这里有一个巨大的控制台，上面有许多旋钮和推杆。</p>
@@ -433,7 +433,9 @@
 <td align="left">帕累托最优解集 (Pareto Optimal Set)</td>
 </tr>
 </tbody></table>
-<h2 id="总结：NSGA-II-并没有发明新的进化方式，它只是给传统的-GA-换了一个更聪明的“导航员”。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。"><a href="#总结：NSGA-II-并没有发明新的进化方式，它只是给传统的-GA-换了一个更聪明的“导航员”。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。" class="headerlink" title="总结：NSGA-II 并没有发明新的进化方式，它只是给传统的 GA 换了一个更聪明的“导航员”。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。"></a><strong>总结：</strong><br>NSGA-II 并没有发明新的进化方式，它只是<strong>给传统的 GA 换了一个更聪明的“导航员”</strong>。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。</h2><hr>
+<p><strong>总结：</strong><br>NSGA-II 并没有发明新的进化方式，它只是<strong>给传统的 GA 换了一个更聪明的“导航员”</strong>。这个导航员不再执着于寻找“唯一的王”，而是指挥种群去占领那条漫长而复杂的帕累托前沿防线。</p>
+<hr>
+<hr>
 <h2 id="第二部分：NSGA-II原理介绍"><a href="#第二部分：NSGA-II原理介绍" class="headerlink" title="第二部分：NSGA-II原理介绍"></a>第二部分：NSGA-II原理介绍</h2><p>Deb 等人在 2002 年提出的 NSGA-II 是进化计算领域的经典。它主要解决了初代 NSGA 的计算复杂度高、缺乏精英策略（Elitism）以及需要手动指定共享参数的问题。NSGA-II 建立在三大支柱之上：</p>
 <ol>
 <li><strong>快速非支配排序 (Fast Non-dominated Sorting):</strong> 建立收敛压力。</li>
@@ -545,7 +547,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>NSGA-II的原理解析及CODE实现&#34;</div>
+      <div>NSGA-II的原理解析及CODE实现</div>
       <div>https://sunfove.xyz/2026/01/21/2026-01-21-nsga-ii-iii-principles-and-implementation/</div>
     </div>
     <div class="license-meta">

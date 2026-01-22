@@ -21,19 +21,27 @@
   <meta name="author" content="Sunfove">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="2026-01-24-smooth-animation-in-2048">
+    <meta name="description" content="本文是 2048 开发系列的进阶篇。为了解决方块瞬间移动带来的糟糕视觉体验，我们将引入计算机图形学的核心概念——线性插值（Lerp）。文章将详细阐述如何通过数学方法在两个离散状态之间构建平滑过渡，并对原有的逻辑引擎进行架构级重构，引入 Tile 对象模型以追踪方块的运动轨迹。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="跨越离散时间：在 2048 游戏中实现基于线性插值(Lerp)的平滑动画">
 <meta property="og:url" content="https://sunfove.xyz/2026/01/19/2026-01-19-smooth-animation-in-2048/index.html">
 <meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文是 2048 开发系列的进阶篇。为了解决方块瞬间移动带来的糟糕视觉体验，我们将引入计算机图形学的核心概念——线性插值（Lerp）。文章将详细阐述如何通过数学方法在两个离散状态之间构建平滑过渡，并对原有的逻辑引擎进行架构级重构，引入 Tile 对象模型以追踪方块的运动轨迹。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-01-19T21:17:19.000Z">
-<meta property="article:modified_time" content="2026-01-22T15:02:41.909Z">
+<meta property="article:published_time" content="2026-01-19T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-22T15:12:22.227Z">
 <meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Animation">
+<meta property="article:tag" content="Game Math">
+<meta property="article:tag" content="Interpolation">
+<meta property="article:tag" content="Pygame">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Refactoring">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>2026-01-24-smooth-animation-in-2048 - 明明如月</title>
+  <title>跨越离散时间：在 2048 游戏中实现基于线性插值(Lerp)的平滑动画 - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -223,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">2026-01-24-smooth-animation-in-2048</span>
+            <span id="subtitle">跨越离散时间：在 2048 游戏中实现基于线性插值(Lerp)的平滑动画</span>
           
         </div>
 
@@ -234,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-19 21:17" pubdate>
-          January 19, 2026 pm
+        <time datetime="2026-01-19 10:00" pubdate>
+          January 19, 2026 am
         </time>
       </span>
     
@@ -246,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 words
+          2.1k words
         
       </span>
     
@@ -257,7 +265,7 @@
         
         
         
-          1 mins
+          18 mins
         
       </span>
     
@@ -294,12 +302,53 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">2026-01-24-smooth-animation-in-2048</h1>
+            <h1 id="seo-header">跨越离散时间：在 2048 游戏中实现基于线性插值(Lerp)的平滑动画</h1>
             
             
               <div class="markdown-body">
                 
-                
+                <p>在上一篇博文《方格中的混沌与秩序》中，我们构建了一个功能完备的 2048 逻辑内核。如果你运行过那个代码，你会发现当我们按下方向键时，方块会瞬间出现在新位置。</p>
+<p>从计算机科学的角度看，这是完全正确的：状态 $S_t$ 在一个时间步长内变成了 $S_{t+1}$。但在人类的视觉感知中，物体从 A 点到 B 点必须经过一条连续的路径。</p>
+<p>为了弥补这一感知裂痕，我们需要在离散的逻辑帧之间，插入连续的渲染帧。这就是<strong>动画</strong>的本质。</p>
+<h2 id="第一部分：数学基础——线性插值-Lerp"><a href="#第一部分：数学基础——线性插值-Lerp" class="headerlink" title="第一部分：数学基础——线性插值 (Lerp)"></a>第一部分：数学基础——线性插值 (Lerp)</h2><p>要让一个方块在时间 $T$ 内从位置 $P_{start}$ 平滑移动到 $P_{end}$，我们需要知道在任意时间点 $t$ ($0 \le t \le T$)，方块应该在哪里。</p>
+<p>为了简化计算，我们将时间归一化为 $[0, 1]$ 的区间。$t&#x3D;0$ 代表动画开始，$t&#x3D;1$ 代表动画结束。</p>
+<p>在二维平面上，任意时刻的位置 $P(t)$ 可以通过**线性插值（Linear Interpolation，简称 Lerp）**公式计算得出：</p>
+<p>$$<br>P(t) &#x3D; P_{start} + t \cdot (P_{end} - P_{start})<br>$$</p>
+<p>或者写作更直观的加权形式：</p>
+<p>$$<br>P(t) &#x3D; (1 - t) \cdot P_{start} + t \cdot P_{end}<br>$$</p>
+<ul>
+<li>当 $t&#x3D;0$ 时，$P(0) &#x3D; P_{start}$</li>
+<li>当 $t&#x3D;1$ 时，$P(1) &#x3D; P_{end}$</li>
+<li>当 $t&#x3D;0.5$ 时，$P(0.5)$ 恰好位于两者中点。</li>
+</ul>
+<p>这个简单的公式是我们实现所有平滑移动的基础。</p>
+<h2 id="第二部分：架构挑战与重构"><a href="#第二部分：架构挑战与重构" class="headerlink" title="第二部分：架构挑战与重构"></a>第二部分：架构挑战与重构</h2><p>现在我们面临一个严峻的工程挑战。</p>
+<p>在上一版的代码中，我们的棋盘 <code>self.grid</code> 只是一个简单的二维整数数组 <code>[[0, 2, 0, 0], ...] 和</code>。当执行一次左移操作后，数字 <code>2</code> 从位置 <code>(0, 1)</code> 变成了位置 <code>(0, 0)</code>。</p>
+<p><strong>问题在于：</strong> 新的网格只告诉了我们“现在这里有个 2”，它丢失了“这个 2 是从哪里来的”这一关键信息。没有起点，我们就无法使用 Lerp 公式。</p>
+<p>为了实现动画，我们需要知道每个方块的<strong>前世今生</strong>。</p>
+<h3 id="2-1-引入-Tile-对象模型"><a href="#2-1-引入-Tile-对象模型" class="headerlink" title="2.1 引入 Tile 对象模型"></a>2.1 引入 Tile 对象模型</h3><p>我们必须放弃简单的整数网格，转而使用对象。每个方块不再是一个冷冰冰的数字，而是一个拥有状态的 <code>Tile</code> 对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Tile</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, value, row, col</span>):<br>        <span class="hljs-variable language_">self</span>.value = value<br>        <span class="hljs-comment"># 当前逻辑位置 (目标位置)</span><br>        <span class="hljs-variable language_">self</span>.row = row<br>        <span class="hljs-variable language_">self</span>.col = col<br>        <span class="hljs-comment"># 上一帧的位置 (动画起点)</span><br>        <span class="hljs-variable language_">self</span>.old_row = row<br>        <span class="hljs-variable language_">self</span>.old_col = col<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">move_to</span>(<span class="hljs-params">self, new_row, new_col</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;更新逻辑位置前，先记录旧位置&quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.old_row = <span class="hljs-variable language_">self</span>.row<br>        <span class="hljs-variable language_">self</span>.old_col = <span class="hljs-variable language_">self</span>.col<br>        <span class="hljs-variable language_">self</span>.row = new_row<br>        <span class="hljs-variable language_">self</span>.col = new_col<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">reset_position</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;动画结束后，起点与终点重合&quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.old_row = <span class="hljs-variable language_">self</span>.row<br>        <span class="hljs-variable language_">self</span>.old_col = <span class="hljs-variable language_">self</span>.col<br></code></pre></td></tr></table></figure>
+
+<p>现在，我们的棋盘将存储 <code>Tile</code> 对象的引用，空白处为 <code>None</code>。</p>
+<h3 id="2-2-重构逻辑引擎-Logic-Engine"><a href="#2-2-重构逻辑引擎-Logic-Engine" class="headerlink" title="2.2 重构逻辑引擎 (Logic Engine)"></a>2.2 重构逻辑引擎 (Logic Engine)</h3><p>这是一个巨大的破坏性重构。之前的矩阵变换方法（转置、翻转）虽然优雅，但在处理对象引用和追踪位置时会变得异常复杂。为了追踪每个 Tile 的移动，回归到传统的基于行列遍历的方法反而更加清晰和易于管理。</p>
+<p>这是一种工程上的权衡（Trade-off）：为了获得更好的交互体验，我们牺牲了一部分代码的数学简洁性。</p>
+<p><em>(篇幅有限，以下仅展示核心的左移逻辑重构，其他方向逻辑类似)</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><br><span class="hljs-comment"># ... (引入上面的 Tile 类定义) ...</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">LogicEngineAdvanced</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># grid 现在存储 Tile 对象或 None</span><br>        <span class="hljs-variable language_">self</span>.grid = [[<span class="hljs-literal">None</span>] * <span class="hljs-number">4</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)]<br>        <span class="hljs-variable language_">self</span>.score = <span class="hljs-number">0</span><br>        <span class="hljs-variable language_">self</span>.add_new_tile()<br>        <span class="hljs-variable language_">self</span>.add_new_tile()<br>        <span class="hljs-comment"># 新增：用于标记是否需要播放移动动画</span><br>        <span class="hljs-variable language_">self</span>.moved_tiles = [] <br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">add_new_tile</span>(<span class="hljs-params">self</span>):<br>        empty_cells = [(r, c) <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>) <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>) <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.grid[r][c] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>]<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> empty_cells: <span class="hljs-keyword">return</span><br>        r, c = random.choice(empty_cells)<br>        val = <span class="hljs-number">2</span> <span class="hljs-keyword">if</span> random.random() &lt; <span class="hljs-number">0.9</span> <span class="hljs-keyword">else</span> <span class="hljs-number">4</span><br>        <span class="hljs-comment"># 创建新 Tile 对象</span><br>        <span class="hljs-variable language_">self</span>.grid[r][c] = Tile(val, r, c)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">reset_tile_positions</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;每轮动画开始前，同步所有 Tile 的起点&quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.moved_tiles.clear()<br>        <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>            <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>                <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.grid[r][c]:<br>                    <span class="hljs-variable language_">self</span>.grid[r][c].reset_position()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">move_left</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.reset_tile_positions()<br>        moved = <span class="hljs-literal">False</span><br>        <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>            <span class="hljs-comment"># 1. 提取本行非空 Tile</span><br>            tiles = [<span class="hljs-variable language_">self</span>.grid[r][c] <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>) <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.grid[r][c] <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>]<br>            new_row = []<br>            skip = <span class="hljs-literal">False</span><br>            <span class="hljs-comment"># 2. 执行合并逻辑</span><br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(tiles)):<br>                <span class="hljs-keyword">if</span> skip:<br>                    skip = <span class="hljs-literal">False</span><br>                    <span class="hljs-keyword">continue</span><br>                curr_tile = tiles[i]<br>                <span class="hljs-comment"># 如果有下一个且值相同，合并</span><br>                <span class="hljs-keyword">if</span> i + <span class="hljs-number">1</span> &lt; <span class="hljs-built_in">len</span>(tiles) <span class="hljs-keyword">and</span> curr_tile.value == tiles[i + <span class="hljs-number">1</span>].value:<br>                    next_tile = tiles[i + <span class="hljs-number">1</span>]<br>                    merged_value = curr_tile.value * <span class="hljs-number">2</span><br>                    <span class="hljs-variable language_">self</span>.score += merged_value<br>                    <br>                    <span class="hljs-comment"># 创建合并后的新 Tile</span><br>                    new_tile = Tile(merged_value, r, <span class="hljs-built_in">len</span>(new_row))<br>                    <span class="hljs-comment"># 关键：记录是由哪两个旧 Tile 合并而来，用于后续（可能的）合并动画</span><br>                    new_tile.merged_from = (curr_tile, next_tile)<br>                    <br>                    <span class="hljs-comment"># 更新旧 Tile 的目标位置，以便它们滑向合并点</span><br>                    curr_tile.move_to(r, <span class="hljs-built_in">len</span>(new_row))<br>                    next_tile.move_to(r, <span class="hljs-built_in">len</span>(new_row))<br>                    <br>                    new_row.append(new_tile)<br>                    <span class="hljs-comment"># 将这两个移动过的旧 tile 加入动画列表</span><br>                    <span class="hljs-variable language_">self</span>.moved_tiles.extend([curr_tile, next_tile])<br>                    skip = <span class="hljs-literal">True</span><br>                    moved = <span class="hljs-literal">True</span><br>                <span class="hljs-keyword">else</span>:<br>                    <span class="hljs-comment"># 不合并，直接放入新位置</span><br>                    curr_tile.move_to(r, <span class="hljs-built_in">len</span>(new_row))<br>                    new_row.append(curr_tile)<br>                    <span class="hljs-keyword">if</span> curr_tile.old_col != curr_tile.col:<br>                         <span class="hljs-variable language_">self</span>.moved_tiles.append(curr_tile)<br>                         moved = <span class="hljs-literal">True</span><br>            <br>            <span class="hljs-comment"># 3. 填充 None 并更新网格</span><br>            <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>                <span class="hljs-variable language_">self</span>.grid[r][c] = new_row[c] <span class="hljs-keyword">if</span> c &lt; <span class="hljs-built_in">len</span>(new_row) <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span><br>                <br>        <span class="hljs-keyword">return</span> moved<br><br>    <span class="hljs-comment"># ... (省略 move_right, move_up, move_down 的类似实现) ...</span><br>    <span class="hljs-comment"># 这里的实现需要分别编写四个方向的逻辑，虽然繁琐，但能精确控制每个对象的移动</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="第三部分：实现动画渲染循环"><a href="#第三部分：实现动画渲染循环" class="headerlink" title="第三部分：实现动画渲染循环"></a>第三部分：实现动画渲染循环</h2><p>逻辑引擎现在准备好了数据：每个 <code>Tile</code> 都知道自己上一帧在哪 (<code>old_row</code>, <code>old_col</code>)，以及现在应该在哪 (<code>row</code>, <code>col</code>)。</p>
+<p>我们需要修改 UI 类，引入一个“动画状态”。</p>
+<h3 id="3-1-线性插值辅助函数"><a href="#3-1-线性插值辅助函数" class="headerlink" title="3.1 线性插值辅助函数"></a>3.1 线性插值辅助函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">lerp</span>(<span class="hljs-params">start, end, t</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;线性插值计算&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> start + t * (end - start)<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-2-重构-GameUI"><a href="#3-2-重构-GameUI" class="headerlink" title="3.2 重构 GameUI"></a>3.2 重构 GameUI</h3><p>我们需要定义动画的持续时间，并在渲染循环中计算当前的进度 $t$。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pygame<br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-comment"># ... (保留之前的颜色常量定义) ...</span><br><br><span class="hljs-comment"># 动画配置</span><br>ANIMATION_DURATION = <span class="hljs-number">0.15</span>  <span class="hljs-comment"># 动画持续 150ms</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">GameUIAdvanced</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># ... (初始化 Pygame, 字体等，同上一篇) ...</span><br>        <span class="hljs-comment"># 使用新的逻辑引擎</span><br>        <span class="hljs-variable language_">self</span>.engine = LogicEngineAdvanced()<br>        <br>        <span class="hljs-comment"># 动画控制状态</span><br>        <span class="hljs-variable language_">self</span>.is_animating = <span class="hljs-literal">False</span><br>        <span class="hljs-variable language_">self</span>.anim_start_time = <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">trigger_move</span>(<span class="hljs-params">self, direction</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;触发移动并开始动画&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.is_animating: <span class="hljs-keyword">return</span> <span class="hljs-comment"># 防止动画中重复触发</span><br><br>        moved = <span class="hljs-literal">False</span><br>        <span class="hljs-keyword">if</span> direction == <span class="hljs-string">&#x27;Left&#x27;</span>: moved = <span class="hljs-variable language_">self</span>.engine.move_left()<br>        <span class="hljs-comment"># elif ... (其他方向)</span><br><br>        <span class="hljs-keyword">if</span> moved:<br>            <span class="hljs-variable language_">self</span>.engine.add_new_tile()<br>            <span class="hljs-comment"># 开始动画计时</span><br>            <span class="hljs-variable language_">self</span>.is_animating = <span class="hljs-literal">True</span><br>            <span class="hljs-variable language_">self</span>.anim_start_time = time.time()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw_tile</span>(<span class="hljs-params">self, tile, r, c, cell_size, padding, start_y</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;辅助函数：在指定行列绘制一个 Tile&quot;&quot;&quot;</span><br>        rect_x = padding + c * (cell_size + padding)<br>        rect_y = start_y + r * (cell_size + padding)<br>        <br>        color = COLORS.get(tile.value, (<span class="hljs-number">60</span>, <span class="hljs-number">58</span>, <span class="hljs-number">50</span>))<br>        pygame.draw.rect(<span class="hljs-variable language_">self</span>.screen, color, (rect_x, rect_y, cell_size, cell_size), border_radius=<span class="hljs-number">5</span>)<br>        <br>        <span class="hljs-comment"># ... (绘制文字代码同上一篇，省略) ...</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.screen.fill(BG_COLOR)<br>        <span class="hljs-comment"># ... (绘制分数等背景元素) ...</span><br>        <br>        current_time = time.time()<br>        t = <span class="hljs-number">0</span><br>        <span class="hljs-comment"># 计算动画进度 t [0.0, 1.0]</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.is_animating:<br>            t = (current_time - <span class="hljs-variable language_">self</span>.anim_start_time) / ANIMATION_DURATION<br>            <span class="hljs-keyword">if</span> t &gt;= <span class="hljs-number">1.0</span>:<br>                t = <span class="hljs-number">1.0</span><br>                <span class="hljs-variable language_">self</span>.is_animating = <span class="hljs-literal">False</span> <span class="hljs-comment"># 动画结束</span><br><br>        cell_size = <span class="hljs-number">80</span><br>        padding = <span class="hljs-number">10</span><br>        start_y = <span class="hljs-number">100</span><br>        <br>        <span class="hljs-comment"># 绘制所有 Tile</span><br>        <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>            <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>                tile = <span class="hljs-variable language_">self</span>.engine.grid[r][c]<br>                <span class="hljs-keyword">if</span> tile <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>: <span class="hljs-keyword">continue</span><br>                <br>                <span class="hljs-comment"># 核心逻辑：根据进度 t 计算当前的渲染位置</span><br>                <span class="hljs-comment"># 如果在动画中，使用插值位置；否则使用目标位置</span><br>                <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.is_animating:<br>                    render_r = lerp(tile.old_row, tile.row, t)<br>                    render_c = lerp(tile.old_col, tile.col, t)<br>                <span class="hljs-keyword">else</span>:<br>                    render_r, render_c = tile.row, tile.col<br>                    <br>                <span class="hljs-variable language_">self</span>.draw_tile(tile, render_r, render_c, cell_size, padding, start_y)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            <span class="hljs-comment"># ... (事件处理循环，调用 self.trigger_move) ...</span><br>            <br>            <span class="hljs-variable language_">self</span>.draw()<br>            pygame.display.update()<br>            <span class="hljs-comment"># 提高帧率以获得更平滑的动画</span><br>            <span class="hljs-variable language_">self</span>.clock.tick(<span class="hljs-number">60</span>) <br></code></pre></td></tr></table></figure>
+
+<h3 id="3-3-关键点解析"><a href="#3-3-关键点解析" class="headerlink" title="3.3 关键点解析"></a>3.3 关键点解析</h3><p>在 <code>draw</code> 方法中，我们不再直接使用 <code>tile.row</code> 和 <code>tile.col</code> 进行绘制。而是检查当前是否处于动画状态。如果是，我们利用 <code>lerp</code> 函数，根据当前时间进度 $t$，计算出 Tile 在起点 <code>(old_row, old_col)</code> 和终点 <code>(row, col)</code> 之间的中间位置。</p>
+<p>当 $t$ 从 0 增加到 1 时，<code>render_r</code> 和 <code>render_c</code> 就会平滑地从起点过渡到终点，从而在屏幕上呈现出滑动的效果。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>为了实现平滑动画，我们付出了不小的代价：我们将优雅简洁的矩阵操作代码，重构成了相对复杂的对象状态管理代码。</p>
+<p>这在软件工程中是非常典型的体现：<strong>需求的变化往往导致架构的变迁</strong>。纯粹的数据变换（上一篇）和富交互的视觉呈现（这一篇）对数据结构的要求是截然不同的。</p>
+<p>通过引入 <code>Tile</code> 对象模型和线性插值算法，我们成功连接了离散的逻辑世界和连续的视觉世界，让 2048 的体验上了一个新的台阶。</p>
+<p><strong>进阶思考：</strong><br>当前的实现中，合并的方块是瞬间变化的。如何利用 <code>new_tile.merged_from</code> 属性，实现两个旧方块移动到一起，然后新方块“弹出来”（Scale Animation）的效果？这需要更复杂的动画状态管理。</p>
+
                 
               </div>
             
@@ -307,6 +356,51 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Computer-Science/" class="category-chain-item">Computer Science</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Computer-Science/Game-Engineering/" class="category-chain-item">Game Engineering</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/Pygame/" class="print-no-link">#Pygame</a>
+      
+        <a href="/tags/Game-Math/" class="print-no-link">#Game Math</a>
+      
+        <a href="/tags/Animation/" class="print-no-link">#Animation</a>
+      
+        <a href="/tags/Interpolation/" class="print-no-link">#Interpolation</a>
+      
+        <a href="/tags/Refactoring/" class="print-no-link">#Refactoring</a>
+      
+    </div>
   
 </div>
 
@@ -316,7 +410,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>2026-01-24-smooth-animation-in-2048</div>
+      <div>跨越离散时间：在 2048 游戏中实现基于线性插值(Lerp)的平滑动画</div>
       <div>https://sunfove.xyz/2026/01/19/2026-01-19-smooth-animation-in-2048/</div>
     </div>
     <div class="license-meta">
@@ -361,9 +455,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/20/2026-01-20-genetic-algorithm-matlab-deep-dive/" title="深入解析遗传算法(GA)：从生物进化论原则到MATLAB高阶实现">
+                      <a href="/2026/01/19/2026-01-19-python-gui-automation-mechanisms/" title="Python 自动化实战：从识图点击、模拟真人轨迹到封装 EXE 全流程教学">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">深入解析遗传算法(GA)：从生物进化论原则到MATLAB高阶实现</span>
+                        <span class="hidden-mobile">Python 自动化实战：从识图点击、模拟真人轨迹到封装 EXE 全流程教学</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -371,8 +465,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/19/2026-01-19-daily-english/" title="🌍 Daily English: The Unseen World: How Wildlife Documentaries Reveal Nature&#39;s Hidden Narratives | 2026-01-19">
-                        <span class="hidden-mobile">🌍 Daily English: The Unseen World: How Wildlife Documentaries Reveal Nature&#39;s Hidden Narratives | 2026-01-19</span>
+                      <a href="/2026/01/18/2026-01-18-daily-english/" title="🌍 Daily English: The Interplay of Mind and Well-being: How Cognitive Processes Shape Mental Health | 2026-01-18">
+                        <span class="hidden-mobile">🌍 Daily English: The Interplay of Mind and Well-being: How Cognitive Processes Shape Mental Health | 2026-01-18</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

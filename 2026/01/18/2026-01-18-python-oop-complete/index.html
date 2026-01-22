@@ -21,27 +21,23 @@
   <meta name="author" content="Sunfove">
   <meta name="keywords" content="">
   
-    <meta name="description" content="四百年来，斯涅尔定律统治着光学的世界，告诉我们光只能按照折射率的差异偏折。但在 2011 年，超表面技术的诞生打破了这一枷锁。本文将作为本系列的第一篇硬核理论文章，从光学的最高准则“费马原理”出发，一步步完整推导广义斯涅尔定律，揭示光“任意弯曲”背后的数学秘密。">
+    <meta name="description" content="一、引言：为什么你迟早要面对面向对象很多人在学习 Python 时，会产生一个疑问：  Python 明明可以不用类，为什么还要学面向对象？  这是一个非常合理的问题。 在脚本、小工具、一次性任务中，过程式编程确实更加直接、高效。但当代码开始具备以下特征时，问题就会逐渐显现：  代码文件越来越多 同一类数据被反复传递给不同函数 修改一个功能，牵一发动全身 很难用“自然语言”描述代码结构  这些问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="广义斯涅尔定律的完整物理推导">
-<meta property="og:url" content="https://sunfove.xyz/2026/01/20/2026-01-18-generalized-snells-law/index.html">
+<meta property="og:title" content="Python 面向对象编程：从过程式思维到对象模型">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/18/2026-01-18-python-oop-complete/index.html">
 <meta property="og:site_name" content="明明如月">
-<meta property="og:description" content="四百年来，斯涅尔定律统治着光学的世界，告诉我们光只能按照折射率的差异偏折。但在 2011 年，超表面技术的诞生打破了这一枷锁。本文将作为本系列的第一篇硬核理论文章，从光学的最高准则“费马原理”出发，一步步完整推导广义斯涅尔定律，揭示光“任意弯曲”背后的数学秘密。">
+<meta property="og:description" content="一、引言：为什么你迟早要面对面向对象很多人在学习 Python 时，会产生一个疑问：  Python 明明可以不用类，为什么还要学面向对象？  这是一个非常合理的问题。 在脚本、小工具、一次性任务中，过程式编程确实更加直接、高效。但当代码开始具备以下特征时，问题就会逐渐显现：  代码文件越来越多 同一类数据被反复传递给不同函数 修改一个功能，牵一发动全身 很难用“自然语言”描述代码结构  这些问题">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_091145.png">
-<meta property="article:published_time" content="2026-01-20T10:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-22T15:02:41.908Z">
+<meta property="article:published_time" content="2026-01-18T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-22T15:12:22.226Z">
 <meta property="article:author" content="Sunfove">
-<meta property="article:tag" content="Derivation">
-<meta property="article:tag" content="Metasurface">
-<meta property="article:tag" content="Optics">
-<meta property="article:tag" content="Physics">
+<meta property="article:tag" content="OOP">
+<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_091145.png">
   
   
   
-  <title>广义斯涅尔定律的完整物理推导 - 明明如月</title>
+  <title>Python 面向对象编程：从过程式思维到对象模型 - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -231,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">广义斯涅尔定律的完整物理推导</span>
+            <span id="subtitle">Python 面向对象编程：从过程式思维到对象模型</span>
           
         </div>
 
@@ -242,8 +238,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-20 10:00" pubdate>
-          January 20, 2026 am
+        <time datetime="2026-01-18 00:00" pubdate>
+          January 18, 2026 am
         </time>
       </span>
     
@@ -254,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k words
+          1.2k words
         
       </span>
     
@@ -265,7 +261,7 @@
         
         
         
-          15 mins
+          11 mins
         
       </span>
     
@@ -302,81 +298,173 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">广义斯涅尔定律的完整物理推导</h1>
+            <h1 id="seo-header">Python 面向对象编程：从过程式思维到对象模型</h1>
             
             
               <div class="markdown-body">
                 
-                <p>公元 1621 年，威勒布拉德·斯涅尔 (Willebrord Snellius) 发现了著名的折射定律：$n_1 \sin\theta_1 &#x3D; n_2 \sin\theta_2$。这条定律像一道枷锁，规定了光在穿过两种介质界面时，其折射方向只能由两边的材料属性（折射率）决定。</p>
-<p>几个世纪以来，为了控制光，人类不得不打磨各种曲面透镜，通过改变厚度来积累相位。这就是为什么你的相机镜头如此厚重。</p>
-<p>直到 2011 年，哈佛大学 Capasso 教授团队提出了<strong>广义斯涅尔定律 (Generalized Snell’s Law)</strong>，指出如果在界面上引入一个<strong>相位突变 (Phase Discontinuity)</strong>，光就可以打破枷锁，实现任意方向的折射。这一发现直接开启了<strong>超表面 (Metasurface)</strong> 的黄金时代。</p>
-<p>但这背后的物理原理究竟是什么？为什么引入相位梯度就能改变光路？</p>
-<p>本文将不依赖任何现成结论，从光学的本源——<strong>费马原理</strong>出发，对这一核心定律进行一次完整的数学推导。</p>
-<hr>
-<h2 id="01-物理原本：费马原理与相位平稳"><a href="#01-物理原本：费马原理与相位平稳" class="headerlink" title="01. 物理原本：费马原理与相位平稳"></a>01. 物理原本：费马原理与相位平稳</h2><p>要推导光怎么走，必须问光遵循什么规则。</p>
-<p><strong>费马原理 (Fermat’s Principle)</strong> 告诉我们：光在两点之间传播，总是选择<strong>光程 (Optical Path Length, OPL)</strong> 取极值的路径。</p>
-<p>在波动光学中，光程对应着<strong>相位 (Phase)</strong>。费马原理等价于<strong>相位平稳原理 (Principle of Stationary Phase)</strong>：</p>
+                <h2 id="一、引言：为什么你迟早要面对面向对象"><a href="#一、引言：为什么你迟早要面对面向对象" class="headerlink" title="一、引言：为什么你迟早要面对面向对象"></a>一、引言：为什么你迟早要面对面向对象</h2><p>很多人在学习 Python 时，会产生一个疑问：</p>
 <blockquote>
-<p>对于真实的光路，其总相位积累 $\Psi$ 对路径参数的微分为零。<br>$$\frac{d\Psi}{dx} &#x3D; 0$$</p>
+<p>Python 明明可以不用类，为什么还要学面向对象？</p>
 </blockquote>
-<p>这意味着，如果我们考察两条无限接近的真实光路，它们到达同一点时的<strong>相位差必须为零</strong>（即发生相长干涉）。我们将利用这个微元思想来构建方程。</p>
-<hr>
-<h2 id="02-推导模型构建"><a href="#02-推导模型构建" class="headerlink" title="02. 推导模型构建"></a>02. 推导模型构建</h2><p>让我们建立一个标准的二维物理模型：</p>
-<ol>
-<li><strong>界面</strong>：$y&#x3D;0$ 平面将空间分为两部分。<ul>
-<li>上方：介质 1，折射率 $n_i$。</li>
-<li>下方：介质 2，折射率 $n_t$。</li>
-</ul>
-</li>
-<li><strong>超表面</strong>：在界面上布置了一层亚波长结构，它们在位置 $x$ 处引入了一个额外的相位突变 $\Phi(x)$。</li>
-<li><strong>入射光</strong>：平面波从介质 1 入射，入射角 $\theta_i$。</li>
-<li><strong>折射光</strong>：进入介质 2，折射角 $\theta_t$。</li>
-</ol>
-<hr>
-<h2 id="03-核心推导过程"><a href="#03-核心推导过程" class="headerlink" title="03. 核心推导过程"></a>03. 核心推导过程</h2><p>我们考察两条极度接近的光线路径，它们打在界面上的位置分别为 $A$ 点 ($x$) 和 $B$ 点 ($x+dx$)。</p>
-<p>为了满足波前连续性（或者说费马原理），这两条光线在通过界面后，其<strong>总相位变化量必须相等</strong>。</p>
-<p>总相位由三部分组成：<br>$$\Psi_{total} &#x3D; \Psi_{in} + \Phi_{interface} + \Psi_{out}$$</p>
-<p>我们需要计算这三部分在 $dx$ 距离内的<strong>增量</strong>。</p>
-<h3 id="第一步：入射侧的相位差-d-Psi-in"><a href="#第一步：入射侧的相位差-d-Psi-in" class="headerlink" title="第一步：入射侧的相位差 ($d\Psi_{in}$)"></a>第一步：入射侧的相位差 ($d\Psi_{in}$)</h3><p>观察入射光波前（垂直于波矢量的面）：<br>当光线落点从 $x$ 移到 $x+dx$ 时，光线实际上需要多走一段路程才能到达界面。</p>
-<p>根据几何关系，这段额外的路程是：<br>$$dL_{in} &#x3D; dx \cdot \sin\theta_i$$</p>
-<p>对应的相位增量为（$k_0 &#x3D; \frac{2\pi}{\lambda_0}$ 为真空波数）：<br>$$d\Psi_{in} &#x3D; k_0 n_i \cdot (dx \sin\theta_i)$$</p>
-<h3 id="第二步：界面上的相位突变差-d-Phi"><a href="#第二步：界面上的相位突变差-d-Phi" class="headerlink" title="第二步：界面上的相位突变差 ($d\Phi$)"></a>第二步：界面上的相位突变差 ($d\Phi$)</h3><p>这是经典光学中不存在的项。<br>由于超表面结构随位置变化，点 $x$ 和点 $x+dx$ 处的微纳结构不同，导致光获得的额外相位也不同。<br>这个差异就是<strong>相位梯度</strong>：<br>$$d\Phi &#x3D; \frac{d\Phi(x)}{dx} dx$$</p>
-<h3 id="第三步：折射侧的相位差-d-Psi-out"><a href="#第三步：折射侧的相位差-d-Psi-out" class="headerlink" title="第三步：折射侧的相位差 ($d\Psi_{out}$)"></a>第三步：折射侧的相位差 ($d\Psi_{out}$)</h3><p>观察折射光波前：<br>当光线从 $x+dx$ 射出时，相比于从 $x$ 射出的光线，它在介质 2 中的行程“缩短”了（或者说，为了保持波前垂直于光线，$x$ 点发出的光已经多走了一段）。</p>
-<p>折射侧的几何路程投影为：<br>$$dL_{out} &#x3D; dx \cdot \sin\theta_t$$</p>
-<p>对应的相位补偿为：<br>$$d\Psi_{out} &#x3D; k_0 n_t \cdot (dx \sin\theta_t)$$</p>
-<h3 id="第四步：建立平衡方程"><a href="#第四步：建立平衡方程" class="headerlink" title="第四步：建立平衡方程"></a>第四步：建立平衡方程</h3><p>根据相位平稳原理，两条路径的总相位必须匹配。<br>也就是说：<strong>入射相位增量 + 界面相位增量 &#x3D; 折射相位增量</strong></p>
-<p>$$k_0 n_i \sin\theta_i \cdot dx + \frac{d\Phi}{dx} dx &#x3D; k_0 n_t \sin\theta_t \cdot dx$$</p>
-<hr>
-<h2 id="04-广义斯涅尔定律的诞生"><a href="#04-广义斯涅尔定律的诞生" class="headerlink" title="04. 广义斯涅尔定律的诞生"></a>04. 广义斯涅尔定律的诞生</h2><p>消去公因式 $dx$，我们得到：</p>
-<p>$$k_0 n_i \sin\theta_i + \frac{d\Phi}{dx} &#x3D; k_0 n_t \sin\theta_t$$</p>
-<p>为了让公式更美观，我们将 $k_0 &#x3D; \frac{2\pi}{\lambda_0}$ 代入并移项：</p>
-<p>$$n_t \sin\theta_t - n_i \sin\theta_i &#x3D; \frac{\lambda_0}{2\pi} \frac{d\Phi}{dx}$$</p>
-<p>这就是震动光学界的<strong>广义斯涅尔定律</strong>。<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_091145.png" srcset="/img/loading.gif" lazyload></p>
-<p>它包含两部分：</p>
-<ol>
-<li><strong>经典项</strong> ($n_t \sin\theta_t - n_i \sin\theta_i &#x3D; 0$)：如果界面没有相位梯度 ($\frac{d\Phi}{dx}&#x3D;0$)，它就退化为经典的斯涅尔定律。</li>
-<li><strong>梯度项</strong> ($\frac{d\Phi}{dx}$)：这是超表面赋予我们的新自由度。只要设计合适的相位梯度，我们就能任意控制折射角 $\theta_t$。</li>
-</ol>
-<p>同理，我们可以推导出<strong>广义反射定律</strong>：<br>$$\sin\theta_r - \sin\theta_i &#x3D; \frac{\lambda_0}{2\pi n_i} \frac{d\Phi}{dx}$$</p>
-<hr>
-<h2 id="05-物理本质：光子动量守恒"><a href="#05-物理本质：光子动量守恒" class="headerlink" title="05. 物理本质：光子动量守恒"></a>05. 物理本质：光子动量守恒</h2><p>这个公式虽然是几何推导出来的，但它背后藏着更深刻的量子力学原理：<strong>动量守恒 (Momentum Conservation)</strong>。</p>
-<p>光子的动量为 $\vec{p} &#x3D; \hbar \vec{k}$。<br>在界面切向方向 ($x$ 轴)，动量必须守恒。</p>
-<p>$$k_{x, out} &#x3D; k_{x, in} + k_{surface}$$</p>
+<p>这是一个<strong>非常合理的问题</strong>。</p>
+<p>在脚本、小工具、一次性任务中，过程式编程确实更加直接、高效。但当代码开始具备以下特征时，问题就会逐渐显现：</p>
 <ul>
-<li>$k_{x, in} &#x3D; k_0 n_i \sin\theta_i$ 是入射光子的切向动量。</li>
-<li>$k_{x, out} &#x3D; k_0 n_t \sin\theta_t$ 是出射光子的切向动量。</li>
-<li><strong>$\nabla\Phi &#x3D; \frac{d\Phi}{dx}$ 正是超表面提供给光子的“虚拟动量”</strong>。</li>
+<li>代码文件越来越多</li>
+<li>同一类数据被反复传递给不同函数</li>
+<li>修改一个功能，牵一发动全身</li>
+<li>很难用“自然语言”描述代码结构</li>
 </ul>
-<p><strong>结论：</strong> 超表面本质上是一个动量转换器。它通过精细的结构设计，给路过的光子“踢”了一脚，改变了它的动量大小，从而改变了它的方向。</p>
+<p>这些问题，并不是因为你“写得不好”，<br>而是<strong>过程式模型本身不擅长表达复杂系统</strong>。</p>
+<p>面向对象编程，正是为了解决这一类问题而诞生的。</p>
 <hr>
-<h2 id="06-临界情况：光会消失吗？"><a href="#06-临界情况：光会消失吗？" class="headerlink" title="06. 临界情况：光会消失吗？"></a>06. 临界情况：光会消失吗？</h2><p>观察公式，如果不小心把 $\frac{d\Phi}{dx}$ 设计得太大，使得右边的计算结果大于 $n_t$ 怎么办？</p>
-<p>$$\sin\theta_t &#x3D; \frac{n_i}{n_t}\sin\theta_i + \frac{\lambda_0}{2\pi n_t}\frac{d\Phi}{dx} &gt; 1$$</p>
-<p>此时 $\sin\theta_t$ 无实数解。这意味着光<strong>无法折射</strong>进入介质 2。<br>光会变成<strong>倏逝波 (Evanescent Wave)</strong>，紧贴着界面传播，能量在垂直方向指数衰减。</p>
-<p>这在物理上对应着<strong>衍射极限</strong>。在设计超透镜 (Metalens) 时，这是一个必须校验的边界条件。</p>
+<h2 id="二、回顾过程式编程的局限"><a href="#二、回顾过程式编程的局限" class="headerlink" title="二、回顾过程式编程的局限"></a>二、回顾过程式编程的局限</h2><p>我们先看一个典型的过程式示例：银行账户系统。</p>
+<pre><code class="hljs">balance = 1000
+
+def deposit(balance, amount):
+    return balance + amount
+
+def withdraw(balance, amount):
+    if amount &gt; balance:
+        raise ValueError(&quot;Insufficient funds&quot;)
+    return balance - amount
+</code></pre>
+<p>这个模型的特点是：</p>
+<ul>
+<li>数据（balance）是“裸露”的</li>
+<li>函数通过参数间接操作数据</li>
+<li>状态的一致性完全依赖调用者的自律</li>
+</ul>
+<p>当系统中只有一个账户时，这样的代码尚可接受；<br>但当账户数量增加时，你很快会遇到问题：</p>
+<ul>
+<li>如何区分不同账户？</li>
+<li>如何保证每个账户的状态不被错误修改？</li>
+<li>如何为不同类型账户增加不同规则？</li>
+</ul>
+<p>此时，代码结构会迅速变得混乱。</p>
 <hr>
-<h2 id="07-结语"><a href="#07-结语" class="headerlink" title="07. 结语"></a>07. 结语</h2><p>通过这次推导，我们不仅得到了一个公式，更理解了超表面的核心哲学：<strong>用空间换相位，用相位换动量。</strong></p>
-<p>既然我们知道了 $\frac{d\Phi}{dx}$ 决定了光的方向，那么接下来的问题就是：<strong>工程上，我们如何制造出这个 $\Phi(x)$？</strong></p>
-<p>这需要我们设计一种微纳结构（人工原子），通过改变它的形状（如圆柱的直径、长方体的角度），来精确控制光穿过它时的相位延迟。</p>
+<h2 id="三、对象思维：把“事物”作为第一公民"><a href="#三、对象思维：把“事物”作为第一公民" class="headerlink" title="三、对象思维：把“事物”作为第一公民"></a>三、对象思维：把“事物”作为第一公民</h2><p>面向对象的核心思想可以总结为一句话：</p>
+<p><strong>程序不再围绕“函数”，而是围绕“对象”展开。</strong></p>
+<p>对象具备三个关键特征：</p>
+<ol>
+<li><strong>状态（State）</strong>：对象当前持有的数据</li>
+<li><strong>行为（Behavior）</strong>：对象可以执行的操作</li>
+<li><strong>身份（Identity）</strong>：对象彼此独立、互不干扰</li>
+</ol>
+<p>在现实世界中，我们天然以对象的方式思考问题：</p>
+<ul>
+<li>一个“账户”有余额</li>
+<li>一个“账户”可以存钱、取钱</li>
+<li>不同账户彼此独立</li>
+</ul>
+<p>面向对象只是把这种思维方式映射到了代码中。</p>
+<hr>
+<h2 id="四、类：对象的设计图纸"><a href="#四、类：对象的设计图纸" class="headerlink" title="四、类：对象的设计图纸"></a>四、类：对象的设计图纸</h2><p>在 Python 中，类用于描述一类对象的共同特征。</p>
+<pre><code class="hljs">class BankAccount:
+    def __init__(self, balance):
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            raise ValueError(&quot;Insufficient funds&quot;)
+        self.balance -= amount
+</code></pre>
+<p>这里有几个关键点需要理解：</p>
+<ul>
+<li><code>__init__</code> 是对象的初始化方法</li>
+<li><code>self</code> 代表当前对象本身</li>
+<li>每个方法的第一个参数必须是 <code>self</code></li>
+</ul>
+<p>创建对象时：</p>
+<pre><code class="hljs">account_a = BankAccount(1000)
+account_b = BankAccount(500)
+</code></pre>
+<p>两个对象共享<strong>行为定义</strong>，但拥有<strong>完全独立的状态</strong>。</p>
+<hr>
+<h2 id="五、封装：控制复杂度的第一道防线"><a href="#五、封装：控制复杂度的第一道防线" class="headerlink" title="五、封装：控制复杂度的第一道防线"></a>五、封装：控制复杂度的第一道防线</h2><p>封装（Encapsulation）的本质不是“隐藏”，<br>而是<strong>建立清晰、可控的访问边界</strong>。</p>
+<p>改进账户模型：</p>
+<pre><code class="hljs">class BankAccount:
+    def __init__(self, balance):
+        self._balance = balance
+
+    def deposit(self, amount):
+        if amount &lt;= 0:
+            raise ValueError(&quot;Invalid amount&quot;)
+        self._balance += amount
+
+    def withdraw(self, amount):
+        if amount &gt; self._balance:
+            raise ValueError(&quot;Insufficient funds&quot;)
+        self._balance -= amount
+
+    def get_balance(self):
+        return self._balance
+</code></pre>
+<p>通过封装：</p>
+<ul>
+<li>对象自己负责维护合法状态</li>
+<li>外部代码不能随意破坏内部数据</li>
+<li>错误更早暴露，调试成本更低</li>
+</ul>
+<hr>
+<h2 id="六、继承：表达“是什么”，而不是“像什么”"><a href="#六、继承：表达“是什么”，而不是“像什么”" class="headerlink" title="六、继承：表达“是什么”，而不是“像什么”"></a>六、继承：表达“是什么”，而不是“像什么”</h2><p>继承用于描述<strong>本质上的从属关系</strong>。</p>
+<pre><code class="hljs">class SavingsAccount(BankAccount):
+    def add_interest(self, rate):
+        self._balance *= (1 + rate)
+</code></pre>
+<p>这里的语义是：</p>
+<blockquote>
+<p>储蓄账户 <strong>是一种</strong> 银行账户</p>
+</blockquote>
+<p>继承的价值在于：</p>
+<ul>
+<li>复用成熟、稳定的行为</li>
+<li>在保持一致接口的前提下扩展功能</li>
+<li>构建清晰的类型层级结构</li>
+</ul>
+<p>但需要强调的是：</p>
+<p><strong>继承是强约束关系，应谨慎使用。</strong></p>
+<hr>
+<h2 id="七、多态：面向对象真正的威力所在"><a href="#七、多态：面向对象真正的威力所在" class="headerlink" title="七、多态：面向对象真正的威力所在"></a>七、多态：面向对象真正的威力所在</h2><p>多态并不依赖复杂语法，而是一种设计原则：</p>
+<blockquote>
+<p><strong>面向接口编程，而不是面向具体实现。</strong></p>
+</blockquote>
+<p>示例：</p>
+<pre><code class="hljs">def process_account(account):
+    account.deposit(100)
+</code></pre>
+<p>只要传入的对象具备 <code>deposit</code> 方法，这段代码就可以正常工作。</p>
+<p>这带来的好处是：</p>
+<ul>
+<li>函数无需关心对象的具体类型</li>
+<li>新类型可以无缝接入现有系统</li>
+<li>系统对变化更加“免疫”</li>
+</ul>
+<p>这正是大型系统可扩展性的关键。</p>
+<hr>
+<h2 id="八、何时不该使用面向对象"><a href="#八、何时不该使用面向对象" class="headerlink" title="八、何时不该使用面向对象"></a>八、何时不该使用面向对象</h2><p>面向对象并非银弹。</p>
+<p>以下场景中，过程式或函数式更合适：</p>
+<ul>
+<li>简单数据处理脚本</li>
+<li>明确的数学计算流程</li>
+<li>一次性工具代码</li>
+</ul>
+<p>成熟的工程师，追求的不是“全用 OOP”，<br>而是<strong>在合适的地方使用合适的抽象层级</strong>。</p>
+<hr>
+<h2 id="九、结语：面向对象是一种建模能力"><a href="#九、结语：面向对象是一种建模能力" class="headerlink" title="九、结语：面向对象是一种建模能力"></a>九、结语：面向对象是一种建模能力</h2><p>学习面向对象编程，真正的收获并不是：</p>
+<ul>
+<li>学会 <code>class</code></li>
+<li>学会 <code>self</code></li>
+<li>学会继承语法</li>
+</ul>
+<p>而是学会：</p>
+<blockquote>
+<p><strong>如何把现实世界的问题，映射成稳定、可演化的软件结构。</strong></p>
+</blockquote>
+<p>当你的系统开始“自然地长成一棵树”，<br>而不是一团纠缠的函数调用时，<br>你就真正掌握了面向对象的价值。</p>
 
                 
               </div>
@@ -395,7 +483,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Metasurface/" class="category-chain-item">Metasurface</a>
+  <a href="/categories/Python/" class="category-chain-item">Python</a>
   
   
 
@@ -410,13 +498,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Metasurface/" class="print-no-link">#Metasurface</a>
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
       
-        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
-      
-        <a href="/tags/Physics/" class="print-no-link">#Physics</a>
-      
-        <a href="/tags/Derivation/" class="print-no-link">#Derivation</a>
+        <a href="/tags/OOP/" class="print-no-link">#OOP</a>
       
     </div>
   
@@ -428,8 +512,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>广义斯涅尔定律的完整物理推导</div>
-      <div>https://sunfove.xyz/2026/01/20/2026-01-18-generalized-snells-law/</div>
+      <div>Python 面向对象编程：从过程式思维到对象模型</div>
+      <div>https://sunfove.xyz/2026/01/18/2026-01-18-python-oop-complete/</div>
     </div>
     <div class="license-meta">
       
@@ -441,7 +525,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 20, 2026</div>
+          <div>January 18, 2026</div>
         </div>
       
       
@@ -473,9 +557,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/20/2026-01-20-vitamin-c-mechanisms-and-safety/" title="抗坏血酸的全景解析：从量子化学、进化悖论到巨剂量争议">
+                      <a href="/2026/01/18/2026-01-18-%20CPO%20vs%20%E5%8F%AF%E6%8F%92%E6%8B%94%E5%85%89%E6%A8%A1%E5%9D%97/" title="CPO vs 可插拔光模块：系统级互连架构的深度对比">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">抗坏血酸的全景解析：从量子化学、进化悖论到巨剂量争议</span>
+                        <span class="hidden-mobile">CPO vs 可插拔光模块：系统级互连架构的深度对比</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -483,8 +567,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/20/2026-01-19-hands-on-simulated-annealing-python/" title="实战篇：用 Python 徒手实现模拟退火算法解决 TSP 问题">
-                        <span class="hidden-mobile">实战篇：用 Python 徒手实现模拟退火算法解决 TSP 问题</span>
+                      <a href="/2026/01/17/2026-01-17-daily-english/" title="🌍 Daily English: The Lens of Conservation: How Wildlife Documentaries Shape Our Understanding of Nature | 2026-01-17">
+                        <span class="hidden-mobile">🌍 Daily English: The Lens of Conservation: How Wildlife Documentaries Shape Our Understanding of Nature | 2026-01-17</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -499,7 +583,7 @@
   
     <article id="comments" lazyload>
       
-  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/20/2026-01-18-generalized-snells-law/'></div>
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/18/2026-01-18-python-oop-complete/'></div>
   <script type="text/javascript">
     Fluid.utils.loadComments('#SOHUCS', function() {
       Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {

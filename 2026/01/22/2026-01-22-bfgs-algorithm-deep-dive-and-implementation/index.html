@@ -21,19 +21,26 @@
   <meta name="author" content="Sunfove">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="2026-01-22-bfgs-algorithm-deep-dive-and-implementation">
+    <meta name="description" content="牛顿法太慢，梯度下降太蠢。BFGS 算法作为拟牛顿法家族的皇冠，如何在不计算海森矩阵的情况下，利用梯度的历史信息构造出完美的曲率近似？本文将从割线方程推导核心公式，并提供完整的 Python 实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现">
 <meta property="og:url" content="https://sunfove.xyz/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation/index.html">
 <meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="牛顿法太慢，梯度下降太蠢。BFGS 算法作为拟牛顿法家族的皇冠，如何在不计算海森矩阵的情况下，利用梯度的历史信息构造出完美的曲率近似？本文将从割线方程推导核心公式，并提供完整的 Python 实现。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-01-22T20:02:56.000Z">
-<meta property="article:modified_time" content="2026-01-22T15:02:41.910Z">
+<meta property="article:published_time" content="2026-01-22T04:15:00.000Z">
+<meta property="article:modified_time" content="2026-01-22T15:12:22.228Z">
 <meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithms">
+<meta property="article:tag" content="BFGS">
+<meta property="article:tag" content="Mathematics">
+<meta property="article:tag" content="Optimization">
+<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>2026-01-22-bfgs-algorithm-deep-dive-and-implementation - 明明如月</title>
+  <title>拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现 - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -223,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">2026-01-22-bfgs-algorithm-deep-dive-and-implementation</span>
+            <span id="subtitle">拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</span>
           
         </div>
 
@@ -234,8 +241,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-22 20:02" pubdate>
-          January 22, 2026 pm
+        <time datetime="2026-01-22 04:15" pubdate>
+          January 22, 2026 am
         </time>
       </span>
     
@@ -246,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 words
+          2.1k words
         
       </span>
     
@@ -257,7 +264,7 @@
         
         
         
-          1 mins
+          18 mins
         
       </span>
     
@@ -294,12 +301,71 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">2026-01-22-bfgs-algorithm-deep-dive-and-implementation</h1>
+            <h1 id="seo-header">拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</h1>
             
             
               <div class="markdown-body">
                 
-                
+                <p>在优化算法的家族谱系中，BFGS 处于一个微妙而完美的平衡点。</p>
+<ul>
+<li><strong>梯度下降 (Gradient Descent)</strong> 像是一个登山者，只看脚下的坡度，低头猛冲，容易陷入震荡。</li>
+<li><strong>牛顿法 (Newton’s Method)</strong> 像是一个拥有上帝视角的测绘师，它能看到地形的曲率（二阶导数），一步到位。但是，计算海森矩阵（Hessian Matrix）及其逆矩阵的代价是极其高昂的（$O(N^3)$）。</li>
+</ul>
+<p>BFGS 的核心哲学是：<strong>如果你走过的路足够多，你就能通过脚下的变化推测出地形的全貌，而不需要上帝视角。</strong></p>
+<p>本文将深入解构 BFGS 算法的数学原理，并从零编写一个 Python 实现。</p>
+<h2 id="一、-第一性原理：从割线方程出发"><a href="#一、-第一性原理：从割线方程出发" class="headerlink" title="一、 第一性原理：从割线方程出发"></a>一、 第一性原理：从割线方程出发</h2><h3 id="1-1-回顾牛顿法"><a href="#1-1-回顾牛顿法" class="headerlink" title="1.1 回顾牛顿法"></a>1.1 回顾牛顿法</h3><p>为了求目标函数 $f(x)$ 的极小值，牛顿法的更新公式为：</p>
+<p>$$<br>x_{k+1} &#x3D; x_k - H_k^{-1} \nabla f(x_k)<br>$$</p>
+<p>其中 $H_k &#x3D; \nabla^2 f(x_k)$ 是海森矩阵。我们的目标是找到一个矩阵 $B_k$ 来近似 $H_k$，或者更直接地，找到一个矩阵 $D_k$ 来近似 $H_k^{-1}$，从而避免求逆运算。BFGS 选择直接逼近逆矩阵 $H^{-1}$。为了符合通用教材符号，下文中我们用 $H_k$ <strong>表示海森矩阵的逆矩阵近似</strong>（Inverse Hessian Approximation）。</p>
+<p>即更新方向为：$p_k &#x3D; -H_k \nabla f(x_k)$。</p>
+<h3 id="1-2-割线方程-The-Secant-Equation"><a href="#1-2-割线方程-The-Secant-Equation" class="headerlink" title="1.2 割线方程 (The Secant Equation)"></a>1.2 割线方程 (The Secant Equation)</h3><p>BFGS 的基石在于<strong>割线条件</strong>。</p>
+<p>我们考察第 $k$ 步到第 $k+1$ 步的变化：</p>
+<ul>
+<li><strong>位置变化</strong>：$s_k &#x3D; x_{k+1} - x_k$</li>
+<li><strong>梯度变化</strong>：$y_k &#x3D; \nabla f(x_{k+1}) - \nabla f(x_k)$</li>
+</ul>
+<p>在二次函数的假设下（或者对 $f(x)$ 在 $x_{k+1}$ 处进行二阶泰勒展开），梯度之间的关系满足：</p>
+<p>$$<br>\nabla f(x_{k+1}) \approx \nabla f(x_k) + \nabla^2 f(x_{k+1}) (x_{k+1} - x_k)<br>$$</p>
+<p>移项得到 $y_k \approx \nabla^2 f \cdot s_k$。因为 $H_{k+1}$ 是我们要维护的<strong>逆</strong>海森矩阵近似，所以我们要求 $H_{k+1}$ 满足：</p>
+<p>$$<br>H_{k+1} y_k &#x3D; s_k<br>$$</p>
+<p>这就是著名的<strong>拟牛顿条件（或者叫割线方程）</strong>。任何拟牛顿法都必须满足这个方程。它告诉我们：<strong>新的矩阵必须能够正确映射这一步的梯度变化到位移变化。</strong></p>
+<h3 id="1-3-秩二更新-Rank-Two-Update"><a href="#1-3-秩二更新-Rank-Two-Update" class="headerlink" title="1.3 秩二更新 (Rank-Two Update)"></a>1.3 秩二更新 (Rank-Two Update)</h3><p>满足割线方程的矩阵 $H_{k+1}$ 有无穷多个。BFGS 的天才之处在于它选择“距离”上一步 $H_k$ 最近的那个矩阵。</p>
+<p>这是一个带约束的优化问题（利用 Frobenius 范数）：</p>
+<p>$$<br>\min |H_{k+1} - H_k| \quad \text{s.t.} \quad H_{k+1} &#x3D; H_{k+1}^T, \quad H_{k+1} y_k &#x3D; s_k<br>$$</p>
+<p>经过复杂的数学推导（此处省略拉格朗日乘数法的冗长过程），我们得到了著名的 <strong>BFGS 更新公式</strong>。这个公式是一个秩二更新（Rank-Two Update），意味着我们通过加上两个秩为 1 的矩阵来修正 $H_k$：</p>
+<p>$$<br>H_{k+1} &#x3D; (I - \rho_k s_k y_k^T) H_k (I - \rho_k y_k s_k^T) + \rho_k s_k s_k^T<br>$$</p>
+<p>其中标量 $\rho_k &#x3D; \frac{1}{y_k^T s_k}$。</p>
+<p><strong>物理意义</strong>：<br>这个公式本质上是在不断“扭曲”空间。初始时，$H_0$ 通常设为单位矩阵 $I$（此时第一步等同于梯度下降）。随着迭代进行，$H_k$ 逐渐吸收了地形的曲率信息，变形为真实的逆海森矩阵，使得优化路径从“之”字形变为直指靶心的直线。</p>
+<h2 id="二、-算法完整流程"><a href="#二、-算法完整流程" class="headerlink" title="二、 算法完整流程"></a>二、 算法完整流程</h2><p>BFGS 的每一次迭代包含以下四个核心步骤：</p>
+<ol>
+<li><strong>计算方向</strong>：利用当前的逆海森近似矩阵计算下降方向：$p_k &#x3D; -H_k \nabla f(x_k)$。</li>
+<li><strong>线搜索 (Line Search)</strong>：在方向 $p_k$ 上寻找合适的步长 $\alpha_k$，使得 $x_{k+1} &#x3D; x_k + \alpha_k p_k$ 满足<strong>Wolfe 条件</strong>（保证函数值充分下降且曲率满足要求）。</li>
+<li><strong>计算差值</strong>：计算 $s_k &#x3D; x_{k+1} - x_k$ 和 $y_k &#x3D; \nabla f(x_{k+1}) - \nabla f(x_k)$。</li>
+<li><strong>矩阵更新</strong>：利用 BFGS 公式更新 $H_k \to H_{k+1}$。</li>
+</ol>
+<h2 id="三、-Python-代码实现"><a href="#三、-Python-代码实现" class="headerlink" title="三、 Python 代码实现"></a>三、 Python 代码实现</h2><p>为了彻底理解，我们将不使用 <code>scipy.optimize</code>，而是仅使用 <code>numpy</code> 实现 BFGS。我们将使用经典的 <strong>Rosenbrock 函数</strong>（香蕉函数）作为测试场，这是一个著名的非凸优化难题，拥有一个狭长的抛物线山谷。</p>
+<h3 id="3-1-目标函数与梯度"><a href="#3-1-目标函数与梯度" class="headerlink" title="3.1 目标函数与梯度"></a>3.1 目标函数与梯度</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rosenbrock</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Rosenbrock 函数: f(x,y) = (a-x)^2 + b(y-x^2)^2</span><br><span class="hljs-string">    通常 a=1, b=100. 全局最小值为 0，在 (1, 1) 处。</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> (<span class="hljs-number">1</span> - x[<span class="hljs-number">0</span>])**<span class="hljs-number">2</span> + <span class="hljs-number">100</span> * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)**<span class="hljs-number">2</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rosenbrock_grad</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Rosenbrock 函数的梯度</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    grad = np.zeros_like(x)<br>    grad[<span class="hljs-number">0</span>] = -<span class="hljs-number">2</span> * (<span class="hljs-number">1</span> - x[<span class="hljs-number">0</span>]) - <span class="hljs-number">400</span> * x[<span class="hljs-number">0</span>] * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)<br>    grad[<span class="hljs-number">1</span>] = <span class="hljs-number">200</span> * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)<br>    <span class="hljs-keyword">return</span> grad<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-2-简单的回溯线搜索-Backtracking-Line-Search"><a href="#3-2-简单的回溯线搜索-Backtracking-Line-Search" class="headerlink" title="3.2 简单的回溯线搜索 (Backtracking Line Search)"></a>3.2 简单的回溯线搜索 (Backtracking Line Search)</h3><p>在工业级实现中（如 L-BFGS-B），通常使用满足强 Wolfe 条件的线搜索。为了代码清晰，这里实现一个满足 <strong>Armijo 条件</strong>（充分下降条件）的回溯线搜索。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">backtracking_line_search</span>(<span class="hljs-params">f, grad_f, x, p, alpha=<span class="hljs-number">1.0</span>, rho=<span class="hljs-number">0.5</span>, c=<span class="hljs-number">1e-4</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    寻找步长 alpha，使得 f(x + alpha * p) &lt;= f(x) + c * alpha * grad_f(x)^T * p</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    f_val = f(x)<br>    grad_dot_p = np.dot(grad_f(x), p)<br>    <br>    <span class="hljs-keyword">while</span> f(x + alpha * p) &gt; f_val + c * alpha * grad_dot_p:<br>        alpha *= rho  <span class="hljs-comment"># 步长减半</span><br>        <span class="hljs-keyword">if</span> alpha &lt; <span class="hljs-number">1e-16</span>: <span class="hljs-comment"># 防止死循环</span><br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">return</span> alpha<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-3-BFGS-核心逻辑实现"><a href="#3-3-BFGS-核心逻辑实现" class="headerlink" title="3.3 BFGS 核心逻辑实现"></a>3.3 BFGS 核心逻辑实现</h3><p>这是魔法发生的地方。请注意观察 <code>H_new</code> 的更新公式是如何直接翻译数学公式的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">bfgs_optimize</span>(<span class="hljs-params">f, grad_f, x0, max_iter=<span class="hljs-number">100</span>, tol=<span class="hljs-number">1e-5</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    BFGS 优化算法主函数</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    x = np.array(x0, dtype=<span class="hljs-built_in">float</span>)<br>    n = <span class="hljs-built_in">len</span>(x)<br>    <br>    <span class="hljs-comment"># 初始化逆海森矩阵近似 H 为单位矩阵</span><br>    <span class="hljs-comment"># 此时第一步相当于梯度下降</span><br>    H = np.eye(n)<br>    <br>    path = [x.copy()] <span class="hljs-comment"># 记录路径用于可视化</span><br>    <br>    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(max_iter):<br>        g = grad_f(x)<br>        <br>        <span class="hljs-comment"># 0. 检查收敛 (梯度范数)</span><br>        g_norm = np.linalg.norm(g)<br>        <span class="hljs-keyword">if</span> g_norm &lt; tol:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Converged at iteration <span class="hljs-subst">&#123;k&#125;</span>, Gradient Norm: <span class="hljs-subst">&#123;g_norm:<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br>            <span class="hljs-keyword">break</span><br>        <br>        <span class="hljs-comment"># 1. 计算搜索方向 p = -H * g</span><br>        p = -np.dot(H, g)<br>        <br>        <span class="hljs-comment"># 2. 线搜索确定步长 alpha</span><br>        alpha = backtracking_line_search(f, grad_f, x, p)<br>        <br>        <span class="hljs-comment"># 3. 更新位置</span><br>        x_new = x + alpha * p<br>        s = x_new - x<br>        y = grad_f(x_new) - g<br>        <br>        <span class="hljs-comment"># 4. BFGS 矩阵更新</span><br>        <span class="hljs-comment"># 注意: 必须保证 y^T * s &gt; 0 (曲率条件)，否则无法保证正定性，应跳过更新</span><br>        rho_inv = np.dot(y, s)<br>        <br>        <span class="hljs-keyword">if</span> rho_inv &gt; <span class="hljs-number">1e-10</span>: <span class="hljs-comment"># 数值稳定性检查</span><br>            rho = <span class="hljs-number">1.0</span> / rho_inv<br>            I = np.eye(n)<br>            <br>            <span class="hljs-comment"># 为了代码可读性，分步计算公式:</span><br>            <span class="hljs-comment"># H_&#123;k+1&#125; = (I - rho s y^T) H (I - rho y s^T) + rho s s^T</span><br>            <br>            term1 = I - rho * np.outer(s, y)<br>            term2 = I - rho * np.outer(y, s)<br>            term3 = rho * np.outer(s, s)<br>            <br>            H = np.dot(term1, np.dot(H, term2)) + term3<br>        <br>        x = x_new<br>        path.append(x.copy())<br>        <br>        <span class="hljs-keyword">if</span> k % <span class="hljs-number">10</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Iter <span class="hljs-subst">&#123;k&#125;</span>: f(x) = <span class="hljs-subst">&#123;f(x):<span class="hljs-number">.6</span>f&#125;</span>, x = <span class="hljs-subst">&#123;x&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> x, np.array(path)<br><br><span class="hljs-comment"># --- 运行测试 ---</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    start_point = [-<span class="hljs-number">1.2</span>, <span class="hljs-number">1.0</span>] <span class="hljs-comment"># Rosenbrock 的经典起始点</span><br>    opt_x, path = bfgs_optimize(rosenbrock, rosenbrock_grad, start_point)<br>    <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\nOptimization Result:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Solution: <span class="hljs-subst">&#123;opt_x&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;True Min: [1.0, 1.0]&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="四、-为什么-BFGS-优于梯度下降？"><a href="#四、-为什么-BFGS-优于梯度下降？" class="headerlink" title="四、 为什么 BFGS 优于梯度下降？"></a>四、 为什么 BFGS 优于梯度下降？</h2><p>当你运行上述代码时，你会发现 BFGS 能够在 30-40 次迭代内收敛到 <code>(1.0, 1.0)</code>。作为对比，如果使用普通梯度下降（即使带有动量），在这个起点往往需要几千次迭代才能走出 Rosenbrock 函数平坦的山谷。</p>
+<p><strong>关键差异在于 $H$ 矩阵</strong>：</p>
+<ul>
+<li>在峡谷中，垂直于谷底方向的梯度很大，沿谷底方向的梯度很小。</li>
+<li>梯度下降会被大梯度主导，在峡谷壁之间来回震荡。</li>
+<li>BFGS 的矩阵 $H$ 会“学习”到这个峡谷的形状（Condition Number），自动缩放各个方向的步长——抑制震荡方向，加速平坦方向。</li>
+</ul>
+<h2 id="五、-局限性与-L-BFGS"><a href="#五、-局限性与-L-BFGS" class="headerlink" title="五、 局限性与 L-BFGS"></a>五、 局限性与 L-BFGS</h2><p>BFGS 有一个致命弱点：<strong>内存消耗</strong>。</p>
+<p>如果参数量 $N&#x3D;1,000,000$（这在深度学习中很常见），存储 $N \times N$ 的矩阵 $H$ 需要 $10^{12}$ 个浮点数，相当于数 TB 的内存。</p>
+<p>这就是 <strong>L-BFGS (Limited-memory BFGS)</strong> 诞生的原因。L-BFGS 并不显式存储矩阵 $H$，而是存储最近 $m$ 步（通常 $m&#x3D;10$）的 $s_k$ 和 $y_k$ 向量。当需要计算 $H \cdot g$ 时，利用双循环递归算法（Two-loop recursion）动态还原出矩阵向量积。这使得空间复杂度从 $O(N^2)$ 骤降为 $O(mN)$，也就是 $O(N)$。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>BFGS 算法是数学美感的典范。它没有粗暴地丢弃历史信息，也没有奢求全知全能的二阶导数，而是在“无知”与“全知”之间，通过<strong>迭代的逼近</strong>找到了一条最优路径。</p>
+<p>掌握 BFGS，不仅是掌握了一种算法，更是理解了**曲率（Curvature）**在优化问题中那决定性的力量。</p>
+<hr>
+<p><em>Would you like to see how to implement the L-BFGS version to handle larger scale problems, or dive into the mathematical proof of why BFGS maintains the positive definiteness of the matrix?</em></p>
+
                 
               </div>
             
@@ -307,6 +373,49 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Computational-Mathematics/" class="category-chain-item">Computational Mathematics</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Computational-Mathematics/Machine-Learning/" class="category-chain-item">Machine Learning</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/Optimization/" class="print-no-link">#Optimization</a>
+      
+        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
+      
+        <a href="/tags/Algorithms/" class="print-no-link">#Algorithms</a>
+      
+        <a href="/tags/BFGS/" class="print-no-link">#BFGS</a>
+      
+    </div>
   
 </div>
 
@@ -316,7 +425,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>2026-01-22-bfgs-algorithm-deep-dive-and-implementation</div>
+      <div>拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</div>
       <div>https://sunfove.xyz/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation/</div>
     </div>
     <div class="license-meta">
@@ -361,9 +470,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/23/2026-01-18-cpo/" title="光电共封装（CPO）：突破算力互连瓶颈的关键架构">
+                      <a href="/2026/01/22/2026-01-22-hessian-matrix-geometry-and-optimization/" title="深度解析海森矩阵：从二阶曲率到高维优化">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">光电共封装（CPO）：突破算力互连瓶颈的关键架构</span>
+                        <span class="hidden-mobile">深度解析海森矩阵：从二阶曲率到高维优化</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -371,8 +480,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/22/2026-01-22-daily-english/" title="🌍 Daily English: The Interwoven Threads of Thought: How Cognitive Psychology Illuminates Mental Well-being | 2026-01-22">
-                        <span class="hidden-mobile">🌍 Daily English: The Interwoven Threads of Thought: How Cognitive Psychology Illuminates Mental Well-being | 2026-01-22</span>
+                      <a href="/2026/01/22/2026-01-22-classic-optimization-algorithms-deep-dive/" title="超越梯度下降：经典优化算法的深度解析与第一性原理">
+                        <span class="hidden-mobile">超越梯度下降：经典优化算法的深度解析与第一性原理</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

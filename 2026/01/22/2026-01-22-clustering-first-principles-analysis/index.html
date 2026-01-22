@@ -28,8 +28,9 @@
 <meta property="og:site_name" content="明明如月">
 <meta property="og:description" content="本文从第一性原理出发，深入探讨聚类分析的数学本质、几何意义及哲学内涵。不仅涵盖从 K-Means 到谱聚类的数学推导，更包含完整的 Python 实战对比，揭示基于概率（GMM）与基于拓扑（Spectral）的算法在处理复杂数据结构时的本质差异。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_103951.png">
 <meta property="article:published_time" content="2026-01-22T06:37:57.000Z">
-<meta property="article:modified_time" content="2026-01-22T15:02:41.910Z">
+<meta property="article:modified_time" content="2026-01-22T15:12:22.228Z">
 <meta property="article:author" content="Sunfove">
 <meta property="article:tag" content="Algorithms">
 <meta property="article:tag" content="Data Science">
@@ -37,6 +38,7 @@
 <meta property="article:tag" content="Mathematics">
 <meta property="article:tag" content="Unsupervised Learning">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_103951.png">
   
   
   
@@ -253,7 +255,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k words
+          2.2k words
         
       </span>
     
@@ -363,7 +365,7 @@
 
 <h3 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h3><ul>
 <li><strong>左图 (GMM)</strong>: 成功捕捉到了被拉伸的椭圆分布。这是因为 GMM 的协方差矩阵 $\Sigma$ 学习到了数据的方向性，这是 K-Means 无法做到的。</li>
-<li><strong>右图 (Spectral)</strong>: 成功分割了交错的双月形。这是因为算法构建了近邻图，识别出了数据在流形上的连通性，而非仅仅测量直线距离。</li>
+<li><strong>右图 (Spectral)</strong>: 成功分割了交错的双月形。这是因为算法构建了近邻图，识别出了数据在流形上的连通性，而非仅仅测量直线距离。<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_103951.png" srcset="/img/loading.gif" lazyload></li>
 </ul>
 <hr>
 <h1 id="结论：寻找数据的“自然关节”"><a href="#结论：寻找数据的“自然关节”" class="headerlink" title="结论：寻找数据的“自然关节”"></a>结论：寻找数据的“自然关节”</h1><p>通过对 K-Means、GMM、DBSCAN 和谱聚类的解构，我们发现聚类算法的演进史，就是人类对“结构”这一概念理解不断深化的历史：</p>
@@ -374,9 +376,6 @@
 </ol>
 <p>在选择聚类算法时，我们不应仅仅关注计算效率，更应思考数据的物理生成过程（Data Generation Process）。聚类，最终是为了在信息的熵增海洋中，寻找那一抹低熵的孤岛。</p>
 <hr>
-<blockquote>
-<p><strong>下一步行动建议</strong>：<br>如果您想进一步深入，可以尝试在上述代码中加入 <code>DBSCAN</code> 进行对比，特别是调节 $\epsilon$ 参数观察其对“密度”定义的敏感性。</p>
-</blockquote>
 
                 
               </div>
@@ -492,8 +491,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation-1/" title="拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现">
-                        <span class="hidden-mobile">拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</span>
+                      <a href="/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation-1/" title="拟牛顿法的巅峰：BFGS 算法详解与code实现">
+                        <span class="hidden-mobile">拟牛顿法的巅峰：BFGS 算法详解与code实现</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -23,14 +23,16 @@
   
     <meta name="description" content="牛顿法太慢，梯度下降太蠢。BFGS 算法作为拟牛顿法家族的皇冠，如何在不计算海森矩阵的情况下，利用梯度的历史信息构造出完美的曲率近似？本文将从割线方程推导核心公式，并提供完整的 Python 实现。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现">
+<meta property="og:title" content="拟牛顿法的巅峰：BFGS 算法详解与code实现">
 <meta property="og:url" content="https://sunfove.xyz/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation-1/index.html">
 <meta property="og:site_name" content="明明如月">
 <meta property="og:description" content="牛顿法太慢，梯度下降太蠢。BFGS 算法作为拟牛顿法家族的皇冠，如何在不计算海森矩阵的情况下，利用梯度的历史信息构造出完美的曲率近似？本文将从割线方程推导核心公式，并提供完整的 Python 实现。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_090805.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_090448.png">
 <meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_083301.png">
 <meta property="article:published_time" content="2026-01-22T05:30:00.000Z">
-<meta property="article:modified_time" content="2026-01-22T15:02:41.910Z">
+<meta property="article:modified_time" content="2026-01-22T15:12:22.228Z">
 <meta property="article:author" content="Sunfove">
 <meta property="article:tag" content="Algorithms">
 <meta property="article:tag" content="BFGS">
@@ -38,11 +40,11 @@
 <meta property="article:tag" content="Optimization">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_083301.png">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_090805.png">
   
   
   
-  <title>拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现 - 明明如月</title>
+  <title>拟牛顿法的巅峰：BFGS 算法详解与code实现 - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -232,7 +234,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</span>
+            <span id="subtitle">拟牛顿法的巅峰：BFGS 算法详解与code实现</span>
           
         </div>
 
@@ -303,7 +305,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</h1>
+            <h1 id="seo-header">拟牛顿法的巅峰：BFGS 算法详解与code实现</h1>
             
             
               <div class="markdown-body">
@@ -313,6 +315,7 @@
 <p>BFGS 的伟大之处，在于它找到了一条完美的<strong>中间道路</strong>。它不需要直接计算那个昂贵的矩阵，而是通过观察每一步的“梯度变化”与“位移变化”，在迭代中<strong>逆向重构</strong>出地形的曲率信息。</p>
 <p>它诞生于 1970 年，由四位数学家独立发现。在随后的几十年里，它是解决无约束非线性优化问题的<strong>标准答案</strong>。即使在今天，当我们需要极致的收敛精度而非单纯的统计平均时，BFGS 依然是那个不可替代的选择。</p>
 <p>本文将剥离复杂的索引符号，从<strong>第一性原理</strong>出发，带你领略这个算法背后的数学直觉与几何之美。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_090805.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="一、-第一性原理：从牛顿法到-BFGS-的逻辑重构"><a href="#一、-第一性原理：从牛顿法到-BFGS-的逻辑重构" class="headerlink" title="一、 第一性原理：从牛顿法到 BFGS 的逻辑重构"></a>一、 第一性原理：从牛顿法到 BFGS 的逻辑重构</h2><p>要理解 BFGS，必须先理解它是如何“修补”牛顿法的。我们将把这个思维过程拆解为四个逻辑连贯的步骤。</p>
 <h3 id="1-1-起点：牛顿法的完美与代价"><a href="#1-1-起点：牛顿法的完美与代价" class="headerlink" title="1.1 起点：牛顿法的完美与代价"></a>1.1 起点：牛顿法的完美与代价</h3><p>假设目标函数 $f(x)$ 是光滑的，我们在当前点 $x_k$ 处对其进行<strong>二阶泰勒展开</strong>：</p>
 <p>$$<br>f(x) \approx f(x_k) + \nabla f(x_k)^T (x - x_k) + \frac{1}{2} (x - x_k)^T \mathbf{B} (x - x_k)<br>$$</p>
@@ -343,6 +346,7 @@
 <p>其中标量 $\rho_k &#x3D; \frac{1}{y_k^T s_k}$。</p>
 <h2 id="二、-算法完整流程：盲人探险家的“心智地图”"><a href="#二、-算法完整流程：盲人探险家的“心智地图”" class="headerlink" title="二、 算法完整流程：盲人探险家的“心智地图”"></a>二、 算法完整流程：盲人探险家的“心智地图”</h2><p>为了理解 BFGS，请想象你被蒙住双眼放到了一个未知的山谷中。你的目标是找到海拔最低点。你手头有一个用来记录地形的“小本子”（矩阵 $H$），初始时它是空白的（单位矩阵）。</p>
 <p>BFGS 的每一次迭代，就是一次完整的 <strong>“探测-行动-修正”</strong> 循环。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_090448.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="2-1-第一步：决定方向-The-Direction"><a href="#2-1-第一步：决定方向-The-Direction" class="headerlink" title="2.1 第一步：决定方向 (The Direction)"></a>2.1 第一步：决定方向 (The Direction)</h3><blockquote>
 <p><strong>直觉：不要垂直切等高线，要切向谷底。</strong></p>
 </blockquote>
@@ -469,7 +473,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</div>
+      <div>拟牛顿法的巅峰：BFGS 算法详解与code实现</div>
       <div>https://sunfove.xyz/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation-1/</div>
     </div>
     <div class="license-meta">
