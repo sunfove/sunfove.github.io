@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文不谈Adam或RMSprop，而是回归数学与物理的本源，深度剖析牛顿法、共轭梯度、模拟退火及拉格朗日对偶等经典优化算法。通过第一性原理，我们将看到这些算法背后蕴含的几何美感与自然法则。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="超越梯度下降：经典优化算法的深度解析与第一性原理">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/22/2026-01-22-classic-optimization-algorithms-deep-dive/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文不谈Adam或RMSprop，而是回归数学与物理的本源，深度剖析牛顿法、共轭梯度、模拟退火及拉格朗日对偶等经典优化算法。通过第一性原理，我们将看到这些算法背后蕴含的几何美感与自然法则。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-22T03:55:00.000Z">
+<meta property="article:modified_time" content="2026-01-22T14:59:16.398Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithms">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Mathematics">
+<meta property="article:tag" content="Optimization">
+<meta property="article:tag" content="Physics">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>超越梯度下降：经典优化算法的深度解析与第一性原理 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">超越梯度下降：经典优化算法的深度解析与第一性原理</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-22 03:55" pubdate>
+          January 22, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">超越梯度下降：经典优化算法的深度解析与第一性原理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在当今的深度学习热潮中，我们往往沉迷于 SGD 及其变种（Adam, AdaGrad 等）在非凸优化曲面上的炼金术。然而，优化理论的大厦并非建立在这些现代启发式方法之上。要真正理解“优化”二字的重量，我们需要回溯历史，去探寻那些由柯西（Cauchy）、牛顿（Newton）、拉格朗日（Lagrange）以及统计物理学家们铺就的基石。</p>
+<p>优化的本质是什么？在物理学中，它是能量最低原理（The Principle of Minimum Energy）；在经济学中，它是效用最大化（Utility Maximization）；在数学中，它是寻找流形上的驻点。</p>
+<p>本文将剥离现代框架的层层封装，从第一性原理（First Principles）出发，重新审视那些值得我们终身学习的经典优化算法。</p>
+<h2 id="一、-二阶法的王冠：牛顿法-Newton’s-Method"><a href="#一、-二阶法的王冠：牛顿法-Newton’s-Method" class="headerlink" title="一、 二阶法的王冠：牛顿法 (Newton’s Method)"></a>一、 二阶法的王冠：牛顿法 (Newton’s Method)</h2><p>如果说梯度下降（Gradient Descent）是在迷雾中沿着坡度摸索，那么牛顿法就是拥有了上帝视角，试图看清地形的曲率。</p>
+<h3 id="1-1-第一性原理：泰勒级数的二次近似"><a href="#1-1-第一性原理：泰勒级数的二次近似" class="headerlink" title="1.1 第一性原理：泰勒级数的二次近似"></a>1.1 第一性原理：泰勒级数的二次近似</h3><p>梯度下降利用的是目标函数的一阶泰勒展开（线性近似），而牛顿法则利用了二阶泰勒展开（二次近似）。</p>
+<p>假设我们要最小化函数 $f(x)$。在点 $x_k$ 附近，我们不仅关心“往哪走下降最快”（梯度 $\nabla f(x_k)$），还关心“地形弯曲得有多厉害”（海森矩阵 Hessian Matrix, $\nabla^2 f(x_k)$）。</p>
+<p>我们将 $f(x)$ 在 $x_k$ 处进行二阶泰勒展开：</p>
+<p>$$<br>f(x) \approx f(x_k) + \nabla f(x_k)^T (x - x_k) + \frac{1}{2} (x - x_k)^T H_k (x - x_k)<br>$$</p>
+<p>其中 $H_k &#x3D; \nabla^2 f(x_k)$ 是海森矩阵。为了找到这个二次近似函数的极小值点，我们对其求导并令其为 0：</p>
+<p>$$<br>\nabla f(x) \approx \nabla f(x_k) + H_k (x - x_k) &#x3D; 0<br>$$</p>
+<p>解出 $x$，我们得到牛顿法的更新公式：</p>
+<p>$$<br>x_{k+1} &#x3D; x_k - H_k^{-1} \nabla f(x_k)<br>$$</p>
+<h3 id="1-2-几何意义与物理直觉"><a href="#1-2-几何意义与物理直觉" class="headerlink" title="1.2 几何意义与物理直觉"></a>1.2 几何意义与物理直觉</h3><ul>
+<li><strong>几何上</strong>：梯度下降是用一个平面去切曲面，而牛顿法是用一个抛物面（Paraboloid）去拟合曲面。如果目标函数本身就是二次的（Quadrtic），牛顿法一步就能收敛。</li>
+<li><strong>物理上</strong>：海森矩阵对应着物理系统中的“刚度矩阵”。梯度对应力，海森矩阵对应弹簧常数。$F &#x3D; kx \implies x &#x3D; F&#x2F;k$，这正是 $x \sim \nabla f &#x2F; H$ 的物理原型。</li>
+</ul>
+<h3 id="1-3-为什么它值得学习？"><a href="#1-3-为什么它值得学习？" class="headerlink" title="1.3 为什么它值得学习？"></a>1.3 为什么它值得学习？</h3><p>尽管在深度学习中，计算海森矩阵的逆 $H^{-1}$ 极其昂贵（$O(n^3)$），但在参数量较小的科学计算、控制理论（Control Theory）和传统的统计机器学习中，牛顿法的<strong>二次收敛速度</strong>（Quadratic Convergence）是无与伦比的。它教会我们：<strong>曲率信息（Curvature）是加速收敛的关键</strong>。</p>
+<h2 id="二、-拟牛顿法：计算效率的妥协-Quasi-Newton-Methods-BFGS"><a href="#二、-拟牛顿法：计算效率的妥协-Quasi-Newton-Methods-BFGS" class="headerlink" title="二、 拟牛顿法：计算效率的妥协 (Quasi-Newton Methods &#x2F; BFGS)"></a>二、 拟牛顿法：计算效率的妥协 (Quasi-Newton Methods &#x2F; BFGS)</h2><p>既然计算 $H^{-1}$ 太慢，能不能去近似它？这就引出了拟牛顿法（Quasi-Newton Methods）。其中最著名的当属 BFGS 算法（Broyden–Fletcher–Goldfarb–Shanno）。</p>
+<h3 id="2-1-割线方程-The-Secant-Equation"><a href="#2-1-割线方程-The-Secant-Equation" class="headerlink" title="2.1 割线方程 (The Secant Equation)"></a>2.1 割线方程 (The Secant Equation)</h3><p>我们希望在不计算二阶导数的情况下，通过一阶导数的变化量来推断二阶导数的信息。这就好比在一维情况下，用割线斜率近似切线斜率。</p>
+<p>定义：</p>
+<ul>
+<li>位移变化量：$s_k &#x3D; x_{k+1} - x_k$</li>
+<li>梯度变化量：$y_k &#x3D; \nabla f(x_{k+1}) - \nabla f(x_k)$</li>
+</ul>
+<p>根据中值定理或泰勒展开，我们有 $y_k \approx H_{k+1} s_k$。这就是著名的<strong>割线方程</strong>。</p>
+<h3 id="2-2-BFGS-的精妙之处"><a href="#2-2-BFGS-的精妙之处" class="headerlink" title="2.2 BFGS 的精妙之处"></a>2.2 BFGS 的精妙之处</h3><p>BFGS 算法的核心在于迭代地更新海森矩阵的逆近似 $B_k \approx H_k^{-1}$。它必须满足两个条件：</p>
+<ol>
+<li>满足割线方程。</li>
+<li>保持 $B_k$ 的对称正定性（Symmetric Positive Definite），确保优化方向始终是下降方向。</li>
+</ol>
+<p>BFGS 的更新公式虽然复杂，但它体现了数学上的极致权衡：<strong>用秩二更新（Rank-Two Update）在保留历史曲率信息的同时，将计算复杂度从 $O(n^3)$ 降到了 $O(n^2)$。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">bfgs_update</span>(<span class="hljs-params">B, s, y</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    简化的 BFGS 更新逻辑演示</span><br><span class="hljs-string">    B: 当前 Hessian 逆的近似</span><br><span class="hljs-string">    s: 位移向量 (x_new - x_old)</span><br><span class="hljs-string">    y: 梯度差向量 (grad_new - grad_old)</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    rho = <span class="hljs-number">1.0</span> / (y.T @ s)<br>    I = np.eye(<span class="hljs-built_in">len</span>(s))<br>    <br>    <span class="hljs-comment"># 经典的 BFGS 更新公式</span><br>    V = I - rho * (s @ y.T)<br>    B_new = V @ B @ V.T + rho * (s @ s.T)<br>    <br>    <span class="hljs-keyword">return</span> B_new<br></code></pre></td></tr></table></figure>
+
+<p>对于大规模问题，L-BFGS（Limited-memory BFGS）进一步通过只存储最近 $m$ 步的向量来隐式构建 $B_k$，将空间复杂度降为 $O(n)$。<strong>这是工业界（如 CTR 预估、大规模逻辑回归）最强大的兵器之一。</strong></p>
+<h2 id="三、-共轭梯度法：正交的艺术-Conjugate-Gradient"><a href="#三、-共轭梯度法：正交的艺术-Conjugate-Gradient" class="headerlink" title="三、 共轭梯度法：正交的艺术 (Conjugate Gradient)"></a>三、 共轭梯度法：正交的艺术 (Conjugate Gradient)</h2><p>如果我们面对的是一个巨大的正定二次型问题（比如求解 $Ax&#x3D;b$，等价于最小化 $\frac{1}{2}x^TAx - b^Tx$），梯度下降往往会在狭长的山谷中震荡（Zig-zagging）。</p>
+<h3 id="3-1-为什么要“共轭”？"><a href="#3-1-为什么要“共轭”？" class="headerlink" title="3.1 为什么要“共轭”？"></a>3.1 为什么要“共轭”？</h3><p>普通梯度下降的问题在于，我们在一个方向上优化完之后，随后的步骤可能会破坏之前方向上的优化成果。</p>
+<p>共轭梯度法（CG）提出并通过了一个天才的想法：<strong>让我们的一步走得足够“精准”，保证在这个方向上永远不需要再次优化。</strong></p>
+<p>这需要我们选取的搜索方向 $p_0, p_1, \dots$ 对于矩阵 $A$ 是<strong>共轭</strong>的（Conjugate），即：</p>
+<p>$$<br>p_i^T A p_j &#x3D; 0, \quad \forall i \neq j<br>$$</p>
+<p>这是一种广义的“正交”。在共轭方向上进行线性搜索（Line Search），可以保证在 $n$ 步之内（对于 $n$ 维问题）精确收敛到全局最优解。</p>
+<h3 id="3-2-克雷洛夫子空间-Krylov-Subspace"><a href="#3-2-克雷洛夫子空间-Krylov-Subspace" class="headerlink" title="3.2 克雷洛夫子空间 (Krylov Subspace)"></a>3.2 克雷洛夫子空间 (Krylov Subspace)</h3><p>从更高深的线性代数视角来看，CG 实际上是在克雷洛夫子空间 $\mathcal{K}_n(A, b) &#x3D; \text{span}{b, Ab, A^2b, \dots, A^{n-1}b}$ 中寻找最优解。这一视角将优化算法与矩阵分析深刻地联系在了一起。</p>
+<h2 id="四、-对偶理论与拉格朗日乘数-Duality-Lagrange-Multipliers"><a href="#四、-对偶理论与拉格朗日乘数-Duality-Lagrange-Multipliers" class="headerlink" title="四、 对偶理论与拉格朗日乘数 (Duality &amp; Lagrange Multipliers)"></a>四、 对偶理论与拉格朗日乘数 (Duality &amp; Lagrange Multipliers)</h2><p>当优化问题遇到了约束（Constraints），单纯的“下山”就不够了。我们不仅要低头看路，还要看有没有撞到墙。</p>
+<h3 id="4-1-经济学视角：影子价格"><a href="#4-1-经济学视角：影子价格" class="headerlink" title="4.1 经济学视角：影子价格"></a>4.1 经济学视角：影子价格</h3><p>考虑带约束问题：<br>$$<br>\min f(x) \quad \text{s.t.} \quad g(x) &#x3D; 0<br>$$</p>
+<p>拉格朗日函数为 $L(x, \lambda) &#x3D; f(x) + \lambda g(x)$。</p>
+<p>这里的 $\lambda$（拉格朗日乘子）不仅是一个数学辅助变量，它有着深刻的<strong>经济学含义</strong>——<strong>影子价格（Shadow Price）</strong>。它代表了约束条件的“边际成本”。如果你稍微放松一点约束（让 $g(x) &#x3D; \epsilon$），目标函数 $f(x)$ 会下降多少？答案正是 $\lambda$。</p>
+<h3 id="4-2-KKT-条件与对偶性"><a href="#4-2-KKT-条件与对偶性" class="headerlink" title="4.2 KKT 条件与对偶性"></a>4.2 KKT 条件与对偶性</h3><p>对于不等式约束 $g(x) \le 0$，我们引入了 KKT 条件（Karush-Kuhn-Tucker conditions）。其中最迷人的是<strong>互补松弛性（Complementary Slackness）</strong>：</p>
+<p>$$<br>\lambda_i g_i(x) &#x3D; 0<br>$$</p>
+<p>这意味着：要么约束不起作用（$g_i(x) &lt; 0$，此时 $\lambda_i &#x3D; 0$，资源不稀缺，价格为0）；要么约束紧绷（$g_i(x) &#x3D; 0$，此时 $\lambda_i &gt; 0$，资源稀缺，价格为正）。</p>
+<p>通过<strong>拉格朗日对偶（Lagrange Duality）</strong>，我们可以将一个棘手的原问题（Primal Problem）转化为一个可能更容易求解的对偶问题（Dual Problem）。支持向量机（SVM）的巨大成功，正是建立在凸优化与强对偶性的坚实地基之上。</p>
+<h2 id="五、-模拟退火：来自统计物理的启示-Simulated-Annealing"><a href="#五、-模拟退火：来自统计物理的启示-Simulated-Annealing" class="headerlink" title="五、 模拟退火：来自统计物理的启示 (Simulated Annealing)"></a>五、 模拟退火：来自统计物理的启示 (Simulated Annealing)</h2><p>当我们面对非凸、离散、甚至没有梯度的NP-Hard问题时，微积分失效了。这时，我们向物理学家求助。</p>
+<h3 id="5-1-热力学与玻尔兹曼分布"><a href="#5-1-热力学与玻尔兹曼分布" class="headerlink" title="5.1 热力学与玻尔兹曼分布"></a>5.1 热力学与玻尔兹曼分布</h3><p>模拟退火（Simulated Annealing, SA）的灵感来源于金属冶炼中的退火过程。当金属缓慢冷却时，原子有足够的时间重新排列，最终形成能量最低的晶体结构。</p>
+<p>在算法中，我们接受一个“更差的解”的概率遵循<strong>玻尔兹曼分布（Boltzmann Distribution）</strong>：</p>
+<p>$$<br>P(\text{accept}) &#x3D; \exp\left( -\frac{\Delta E}{T} \right)<br>$$</p>
+<p>其中 $\Delta E$ 是目标函数（能量）的增加量，$T$ 是温度。</p>
+<h3 id="5-2-熵与探索"><a href="#5-2-熵与探索" class="headerlink" title="5.2 熵与探索"></a>5.2 熵与探索</h3><ul>
+<li><strong>高温 ($T \to \infty$)</strong>：$P \approx 1$。算法表现为随机游走（Random Walk）。这是**探索（Exploration）**阶段，能够跳出局部最优的陷阱。</li>
+<li><strong>低温 ($T \to 0$)</strong>：$P \to 0$（如果 $\Delta E &gt; 0$）。算法表现为贪心搜索（Greedy Search）。这是**开发（Exploitation）**阶段，精细打磨解的质量。</li>
+</ul>
+<p>模拟退火本质上是在利用**熵（Entropy）**的力量来对抗局部极小值。它证明了：有时候，为了得到最好的结果，你必须允许暂时的倒退。这是一个极具哲学意味的算法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">import</span> random<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">simulated_annealing</span>(<span class="hljs-params">objective_func, initial_temp, cooling_rate</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    模拟退火算法核心逻辑</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    current_sol = random_start()<br>    current_energy = objective_func(current_sol)<br>    temp = initial_temp<br>    <br>    <span class="hljs-keyword">while</span> temp &gt; <span class="hljs-number">1</span>:<br>        new_sol = get_neighbor(current_sol)<br>        new_energy = objective_func(new_sol)<br>        <br>        <span class="hljs-comment"># Metropolis 准则</span><br>        <span class="hljs-keyword">if</span> new_energy &lt; current_energy:<br>            current_sol = new_sol<br>            current_energy = new_energy<br>        <span class="hljs-keyword">else</span>:<br>            prob = math.exp((current_energy - new_energy) / temp)<br>            <span class="hljs-keyword">if</span> random.random() &lt; prob:<br>                current_sol = new_sol<br>                current_energy = new_energy<br>                <br>        temp *= cooling_rate  <span class="hljs-comment"># 降温</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="六、-单纯形法：几何学的巅峰-The-Simplex-Method"><a href="#六、-单纯形法：几何学的巅峰-The-Simplex-Method" class="headerlink" title="六、 单纯形法：几何学的巅峰 (The Simplex Method)"></a>六、 单纯形法：几何学的巅峰 (The Simplex Method)</h2><p>在线性规划（Linear Programming, LP）领域，乔治·丹齐格（George Dantzig）提出的单纯形法是永恒的经典。</p>
+<p>虽然它在最坏情况下的时间复杂度是指数级的，但在实际应用中，它快得惊人。为什么？</p>
+<h3 id="6-1-多胞体的顶点"><a href="#6-1-多胞体的顶点" class="headerlink" title="6.1 多胞体的顶点"></a>6.1 多胞体的顶点</h3><p>线性规划的可行域是一个高维空间中的凸多胞体（Polytope）。线性函数的极值一定取在多胞体的**顶点（Vertex）**上。</p>
+<p>单纯形法的本质，就是沿着多胞体的棱（Edge），从一个顶点跳到相邻的另一个目标函数值更优的顶点。</p>
+<h3 id="6-2-为什么值得学？"><a href="#6-2-为什么值得学？" class="headerlink" title="6.2 为什么值得学？"></a>6.2 为什么值得学？</h3><p>尽管内点法（Interior Point Methods）在理论复杂度上更优，但单纯形法教会了我们如何利用**基（Basis）**变换来遍历解空间。它连接了组合数学、几何学和线性代数。理解单纯形法，你就理解了资源分配问题的核心。</p>
+<h2 id="结语：算法的统一性"><a href="#结语：算法的统一性" class="headerlink" title="结语：算法的统一性"></a>结语：算法的统一性</h2><p>回望这些经典算法，我们会发现它们并非孤立存在：</p>
+<ol>
+<li><strong>牛顿法</strong>利用了二阶几何结构。</li>
+<li><strong>共轭梯度</strong>利用了线性代数的正交性。</li>
+<li><strong>拉格朗日乘数</strong>利用了经济学的对偶性。</li>
+<li><strong>模拟退火</strong>利用了热力学的统计规律。</li>
+</ol>
+<p>作为一名技术人员，学习这些算法不仅是为了“调包”，更是为了培养一种<strong>跨学科的建模直觉</strong>。当你面对一个新的工程问题时，你会思考：这个系统的“能量”是什么？它的“约束”在哪里？我是应该利用“梯度”快速下降，还是利用“温度”跳出陷阱？</p>
+<p>这就是经典算法的力量——它们不仅是工具，更是理解世界的思维模型。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Computer-Science/" class="category-chain-item">Computer Science</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Computer-Science/Applied-Mathematics/" class="category-chain-item">Applied Mathematics</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Physics/" class="print-no-link">#Physics</a>
+      
+        <a href="/tags/Optimization/" class="print-no-link">#Optimization</a>
+      
+        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
+      
+        <a href="/tags/Algorithms/" class="print-no-link">#Algorithms</a>
+      
+        <a href="/tags/Machine-Learning/" class="print-no-link">#Machine Learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>超越梯度下降：经典优化算法的深度解析与第一性原理</div>
+      <div>https://sunfove.xyz/2026/01/22/2026-01-22-classic-optimization-algorithms-deep-dive/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 22, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-hessian-matrix-geometry-and-optimization/" title="深度解析海森矩阵：从二阶曲率到高维优化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">深度解析海森矩阵：从二阶曲率到高维优化</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-18-python-oop-complete/" title="Python 面向对象编程：从过程式思维到对象模型">
+                        <span class="hidden-mobile">Python 面向对象编程：从过程式思维到对象模型</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/22/2026-01-22-classic-optimization-algorithms-deep-dive/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,848 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="现代数字文明建立在一个简单的不等式之上：fs &gt; 2B。本文从傅里叶变换与卷积定理出发，深入数学底层，揭示香农采样定理如何架起了模拟世界与数字世界之间的桥梁，并解析混叠、Sinc插值背后的物理真理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="离散与连续的桥梁：香农采样定理的第一性原理">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/22/2026-01-22-shannon-sampling-theorem-deep-dive/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="现代数字文明建立在一个简单的不等式之上：fs &gt; 2B。本文从傅里叶变换与卷积定理出发，深入数学底层，揭示香农采样定理如何架起了模拟世界与数字世界之间的桥梁，并解析混叠、Sinc插值背后的物理真理。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-22T06:45:00.000Z">
+<meta property="article:modified_time" content="2026-01-22T14:59:16.398Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Electrical Engineering">
+<meta property="article:tag" content="Information Theory">
+<meta property="article:tag" content="Mathematics">
+<meta property="article:tag" content="Physics">
+<meta property="article:tag" content="Signal Processing">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>离散与连续的桥梁：香农采样定理的第一性原理 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">离散与连续的桥梁：香农采样定理的第一性原理</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-22 06:45" pubdate>
+          January 22, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">离散与连续的桥梁：香农采样定理的第一性原理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="引言：数字世界的基石"><a href="#引言：数字世界的基石" class="headerlink" title="引言：数字世界的基石"></a>引言：数字世界的基石</h1><p>如果你正在通过屏幕阅读这段文字，或者通过耳机聆听音乐，你正在享受一个数学奇迹的成果。</p>
+<p>物理世界在微观层面或许是量子的，但在我们的宏观感知中，时间与信号是**连续（Continuous）<strong>的。然而，计算机只能处理</strong>离散（Discrete）**的 0 和 1。</p>
+<p>如何将连续的现实无损地转化为离散的数据，然后再完美地还原回去？这听起来像是一种有损的压缩，仿佛无论我们切分得多么细致，总会遗漏切片之间的信息。</p>
+<p>但在 1948 年，克劳德·香农（Claude Shannon）证明了一个反直觉的真理：<strong>只要满足特定的数学条件，离散采样可以包含连续信号的全部信息，毫无损失。</strong></p>
+<p>这个条件，就是著名的<strong>香农-奈奎斯特采样定理（Shannon-Nyquist Sampling Theorem）</strong>。本文将摒弃简单的公式背诵，从傅里叶分析的第一性原理出发，推导这一现代文明的基石。</p>
+<hr>
+<h1 id="第一章：采样的数学本质——狄拉克梳状函数"><a href="#第一章：采样的数学本质——狄拉克梳状函数" class="headerlink" title="第一章：采样的数学本质——狄拉克梳状函数"></a>第一章：采样的数学本质——狄拉克梳状函数</h1><p>要理解采样，我们首先必须用数学语言描述“采样”这个动作。</p>
+<p>在时域（Time Domain）上，采样并不是简单的“切分”，而是将连续信号 $x(t)$ 与一个脉冲序列相乘。这个脉冲序列被称为<strong>狄拉克梳状函数（Dirac Comb）</strong>，记为 $s(t)$。</p>
+<p>$$<br>s(t) &#x3D; \sum_{n&#x3D;-\infty}^{+\infty} \delta(t - nT_s)<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$\delta(t)$ 是狄拉克 $\delta$ 函数（单位脉冲），它在 $t&#x3D;0$ 处无穷大，积分面积为 1，其余位置为 0。</li>
+<li>$T_s$ 是采样周期（Sampling Period）。</li>
+<li>$f_s &#x3D; 1&#x2F;T_s$ 是采样频率。</li>
+</ul>
+<p>采样后的离散信号 $x_s(t)$ 可以表示为：</p>
+<p>$$<br>x_s(t) &#x3D; x(t) \cdot s(t) &#x3D; x(t) \cdot \sum_{n&#x3D;-\infty}^{+\infty} \delta(t - nT_s)<br>$$</p>
+<p>这一步看似简单，但它是通往真相的关键。我们将一个平滑的函数变成了无数个强度不一的脉冲。</p>
+<p>!</p>
+<hr>
+<h1 id="第二章：频域的启示——卷积定理的魔法"><a href="#第二章：频域的启示——卷积定理的魔法" class="headerlink" title="第二章：频域的启示——卷积定理的魔法"></a>第二章：频域的启示——卷积定理的魔法</h1><p>为什么采样会有频率限制？答案不在时域，而在频域（Frequency Domain）。我们需要对采样后的信号 $x_s(t)$ 进行<strong>傅里叶变换（Fourier Transform）</strong>。</p>
+<p>这里我们需要用到信号处理中最强大的工具之一：<strong>卷积定理（Convolution Theorem）</strong>。</p>
+<blockquote>
+<p><strong>时域的乘积，等于频域的卷积。</strong></p>
+</blockquote>
+<p>$$<br>\mathcal{F}{x(t) \cdot s(t)} &#x3D; X(f) * S(f)<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$X(f)$ 是原始信号的频谱。</li>
+<li>$S(f)$ 是狄拉克梳状函数的频谱。</li>
+<li>$*$ 表示卷积运算。</li>
+</ul>
+<h3 id="2-1-梳状函数的频谱还是梳状函数"><a href="#2-1-梳状函数的频谱还是梳状函数" class="headerlink" title="2.1 梳状函数的频谱还是梳状函数"></a>2.1 梳状函数的频谱还是梳状函数</h3><p>这是一个美妙的数学巧合（实际上是泊松求和公式的体现）：周期为 $T_s$ 的狄拉克梳状函数，其傅里叶变换仍然是一个狄拉克梳状函数，但周期变成了 $f_s$（即 $1&#x2F;T_s$）。</p>
+<p>$$<br>S(f) &#x3D; \frac{1}{T_s} \sum_{k&#x3D;-\infty}^{+\infty} \delta(f - kf_s)<br>$$</p>
+<h3 id="2-2-频谱的周期性延拓"><a href="#2-2-频谱的周期性延拓" class="headerlink" title="2.2 频谱的周期性延拓"></a>2.2 频谱的周期性延拓</h3><p>现在，我们执行卷积运算。任何函数与 $\delta(f - f_0)$ 卷积，相当于将该函数平移到 $f_0$ 的位置。</p>
+<p>因此，采样信号的频谱 $X_s(f)$ 实际上是原始频谱 $X(f)$ 的<strong>无限复制与平移</strong>：</p>
+<p>$$<br>X_s(f) &#x3D; X(f) * \left( \frac{1}{T_s} \sum_{k&#x3D;-\infty}^{+\infty} \delta(f - kf_s) \right) &#x3D; \frac{1}{T_s} \sum_{k&#x3D;-\infty}^{+\infty} X(f - kf_s)<br>$$</p>
+<p><strong>这就是采样定理的核心真相：</strong> 采样在时域是离散化，在频域则是将原始频谱以 $f_s$ 为周期进行无限次的周期性延拓（Periodic Replication）。</p>
+<p>!</p>
+<hr>
+<h1 id="第三章：混叠——当复制品发生碰撞"><a href="#第三章：混叠——当复制品发生碰撞" class="headerlink" title="第三章：混叠——当复制品发生碰撞"></a>第三章：混叠——当复制品发生碰撞</h1><p>理解了“频谱复制”，采样定理的条件就变得显而易见了。</p>
+<p>假设原始信号是<strong>带限的（Band-limited）</strong>，即它的最大频率为 $f_{max}$（或者带宽为 $B$）。那么 $X(f)$ 在 $[-f_{max}, f_{max}]$ 之外为 0。</p>
+<p>当我们以频率 $f_s$ 进行复制时，副本中心分别位于 $0, \pm f_s, \pm 2f_s, …$。</p>
+<ul>
+<li>原始频谱的右边界是 $f_{max}$。</li>
+<li>第一个右移副本（中心在 $f_s$）的左边界是 $f_s - f_{max}$。</li>
+</ul>
+<p>为了保证这些副本<strong>互不重叠（No Overlap）</strong>，以便我们能清晰地辨认出原始频谱，必须满足：</p>
+<p>$$<br>f_s - f_{max} &gt; f_{max}<br>$$</p>
+<p>即：</p>
+<p>$$<br>f_s &gt; 2f_{max}<br>$$</p>
+<p>这就是<strong>香农-奈奎斯特采样定理</strong>。</p>
+<h3 id="3-1-混叠-Aliasing-的几何解释"><a href="#3-1-混叠-Aliasing-的几何解释" class="headerlink" title="3.1 混叠 (Aliasing) 的几何解释"></a>3.1 混叠 (Aliasing) 的几何解释</h3><p>如果 $f_s &lt; 2f_{max}$，相邻的频谱副本就会发生重叠。高频部分会“折叠”进低频部分，这种现象称为<strong>混叠（Aliasing）</strong>。</p>
+<p>一旦发生混叠，信息就永久丢失了。这就好比车轮转得太快，摄像机帧率不够时，车轮看起来像是在倒转（马车轮效应）。那个“倒转”的频率就是混叠后的伪信号。</p>
+<p>!</p>
+<hr>
+<h1 id="第四章：完美的重建——Sinc-插值的奇迹"><a href="#第四章：完美的重建——Sinc-插值的奇迹" class="headerlink" title="第四章：完美的重建——Sinc 插值的奇迹"></a>第四章：完美的重建——Sinc 插值的奇迹</h1><p>只要满足 $f_s &gt; 2f_{max}$，原始频谱 $X(f)$ 就在采样信号频谱 $X_s(f)$ 中完好无损地保留着（位于中心位置）。</p>
+<p>既然频谱还在，我们如何恢复出原始的 $x(t)$？</p>
+<h3 id="4-1-理想低通滤波器"><a href="#4-1-理想低通滤波器" class="headerlink" title="4.1 理想低通滤波器"></a>4.1 理想低通滤波器</h3><p>我们需要一个“手术刀”，把中心的主频谱切出来，扔掉两边无数的复制品。这个手术刀就是<strong>理想低通滤波器（Ideal Low-pass Filter）</strong>。</p>
+<p>在频域上，它是一个矩形函数（Rectangular Function），宽度为 $f_s$，高度为 $T_s$：</p>
+<p>$$<br>H(f) &#x3D; T_s \cdot \text{rect}\left(\frac{f}{f_s}\right)<br>$$</p>
+<h3 id="4-2-时域的-Sinc-函数"><a href="#4-2-时域的-Sinc-函数" class="headerlink" title="4.2 时域的 Sinc 函数"></a>4.2 时域的 Sinc 函数</h3><p>再次运用卷积定理：<strong>频域的乘积，等于时域的卷积。</strong></p>
+<p>我们要恢复原始信号，就是将采样信号 $x_s(t)$ 与滤波器的脉冲响应 $h(t)$ 卷积。<br>矩形函数的傅里叶逆变换是 <strong>Sinc 函数</strong>（$\frac{\sin x}{x}$）：</p>
+<p>$$<br>h(t) &#x3D; \text{sinc}\left(\frac{t}{T_s}\right) &#x3D; \frac{\sin(\pi t &#x2F; T_s)}{\pi t &#x2F; T_s}<br>$$</p>
+<p>因此，原始信号的重建公式为：</p>
+<p>$$<br>x(t) &#x3D; \sum_{n&#x3D;-\infty}^{+\infty} x[n] \cdot \text{sinc}\left(\frac{t - nT_s}{T_s}\right)<br>$$</p>
+<p><strong>这是一个极其震撼的结论：</strong> 任意带限连续信号，都可以看作是无数个 Sinc 函数的叠加。每个采样点 $x[n]$ 都是一个 Sinc 波的波峰，这些波纹在采样点之间相互干涉、叠加，最终完美地填补了采样点之间的空隙，丝毫不差地还原了原本的曲线。</p>
+<p>这解释了为什么 CD 音频（44.1kHz 采样）还原出的 20kHz 正弦波是平滑的，而不是锯齿状的阶梯波。<strong>阶梯波是零阶保持（Zero-order hold），而 Sinc 插值才是完美的重建。</strong></p>
+<p>!</p>
+<hr>
+<h1 id="第五章：工程现实与哲学思考"><a href="#第五章：工程现实与哲学思考" class="headerlink" title="第五章：工程现实与哲学思考"></a>第五章：工程现实与哲学思考</h1><h3 id="5-1-为什么-CD-采样率是-44-1kHz？"><a href="#5-1-为什么-CD-采样率是-44-1kHz？" class="headerlink" title="5.1 为什么 CD 采样率是 44.1kHz？"></a>5.1 为什么 CD 采样率是 44.1kHz？</h3><p>人耳的听觉极限大约是 20kHz ($f_{max}$)。根据定理，采样率必须大于 40kHz。<br>然而，现实中不存在完美的“垂直切断”的理想低通滤波器。物理滤波器总有一个过渡带（Transition Band）。</p>
+<p>为了给滤波器留出过渡空间，我们需要留出<strong>保护带（Guard Band）</strong>。44.1kHz 留出了 $4.1kHz$ 的余量，使得抗混叠滤波器（Anti-aliasing Filter）的设计在工程上成为可能。</p>
+<h3 id="5-2-连续与离散的对偶"><a href="#5-2-连续与离散的对偶" class="headerlink" title="5.2 连续与离散的对偶"></a>5.2 连续与离散的对偶</h3><p>香农采样定理不仅仅是工程工具，它揭示了自然界的一种深层对偶性。它告诉我们，<strong>信息受到带宽的限制</strong>。如果一个系统的变化速度（频率）是有限的，那么它的自由度（维度）就是有限的。</p>
+<p>在全息原理（Holographic Principle）和黑洞熵的讨论中，我们也能看到类似的思想：连续的空间在某种极限下，可以被离散的信息量所描述。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>香农采样定理是连接两个世界的桥梁。它告诉我们，只要我们掌握了变化的边界（带宽），我们就可以用有限的数字，捕获无限的连续时间。</p>
+<p>下一次当你听到数字音乐中那声完美的镲片震动时，请记住，那不是模拟的逼近，那是数学保证的、绝对真实的完美重建——这就是 Sinc 函数在虚空中编织的魔法。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Technical-Deep-Dive/" class="category-chain-item">Technical Deep Dive</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Technical-Deep-Dive/Math-Physics/" class="category-chain-item">Math &amp; Physics</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Physics/" class="print-no-link">#Physics</a>
+      
+        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
+      
+        <a href="/tags/Information-Theory/" class="print-no-link">#Information Theory</a>
+      
+        <a href="/tags/Signal-Processing/" class="print-no-link">#Signal Processing</a>
+      
+        <a href="/tags/Electrical-Engineering/" class="print-no-link">#Electrical Engineering</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>离散与连续的桥梁：香农采样定理的第一性原理</div>
+      <div>https://sunfove.xyz/2026/01/22/2026-01-22-shannon-sampling-theorem-deep-dive/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 22, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-kalman-filter-from-scratch/" title="在噪声中看见真相：卡尔曼滤波的第一性原理推导">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">在噪声中看见真相：卡尔曼滤波的第一性原理推导</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-clustering-first-principles-analysis/" title="超越分组：聚类算法的第一性原理深度解析">
+                        <span class="hidden-mobile">超越分组：聚类算法的第一性原理深度解析</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/22/2026-01-22-shannon-sampling-theorem-deep-dive/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

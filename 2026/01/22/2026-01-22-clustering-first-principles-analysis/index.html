@@ -1,0 +1,842 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文从第一性原理出发，深入探讨聚类分析的数学本质、几何意义及哲学内涵。不仅涵盖从 K-Means 到谱聚类的数学推导，更包含完整的 Python 实战对比，揭示基于概率（GMM）与基于拓扑（Spectral）的算法在处理复杂数据结构时的本质差异。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="超越分组：聚类算法的第一性原理深度解析">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/22/2026-01-22-clustering-first-principles-analysis/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文从第一性原理出发，深入探讨聚类分析的数学本质、几何意义及哲学内涵。不仅涵盖从 K-Means 到谱聚类的数学推导，更包含完整的 Python 实战对比，揭示基于概率（GMM）与基于拓扑（Spectral）的算法在处理复杂数据结构时的本质差异。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-22T06:37:57.000Z">
+<meta property="article:modified_time" content="2026-01-22T14:59:16.398Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithms">
+<meta property="article:tag" content="Data Science">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="Mathematics">
+<meta property="article:tag" content="Unsupervised Learning">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>超越分组：聚类算法的第一性原理深度解析 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">超越分组：聚类算法的第一性原理深度解析</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-22 06:37" pubdate>
+          January 22, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">超越分组：聚类算法的第一性原理深度解析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="引言：混沌中的秩序与认知的本质"><a href="#引言：混沌中的秩序与认知的本质" class="headerlink" title="引言：混沌中的秩序与认知的本质"></a>引言：混沌中的秩序与认知的本质</h1><p>人类认知的基石在于“分类”。早在古希腊时期，柏拉图在《费德鲁斯篇》中就借苏格拉底之口提出了“按照自然关节将事物切分（Carving nature at its joints）”的思想。这便是聚类（Clustering）的哲学雏形：在没有先验标签（Label）指导的情况下，如何从混沌的数据中发现内在的结构与秩序？</p>
+<p>在机器学习领域，聚类作为无监督学习（Unsupervised Learning）的核心支柱，其本质并非简单的“分组”，而是对<strong>数据流形（Data Manifold）拓扑结构</strong>的探索，是对**熵（Entropy）**的最小化尝试。</p>
+<p>本文将摒弃对 API 的肤浅调用，转而从数学的第一性原理出发，解构聚类算法背后的几何学、概率论与线性代数基础，并通过实战代码验证不同算法视角的差异。</p>
+<hr>
+<h1 id="第一章：相似性的几何本质-The-Geometry-of-Similarity"><a href="#第一章：相似性的几何本质-The-Geometry-of-Similarity" class="headerlink" title="第一章：相似性的几何本质 (The Geometry of Similarity)"></a>第一章：相似性的几何本质 (The Geometry of Similarity)</h1><p>聚类的核心问题可以归结为一个定义问题：<strong>什么是“相似”？</strong></p>
+<p>在数学上，相似性通常通过距离度量（Distance Metric）的倒数来体现。一个度量空间 $(M, d)$ 必须满足非负性、对称性和三角不等式。</p>
+<h3 id="1-1-欧几里得空间的局限与诅咒"><a href="#1-1-欧几里得空间的局限与诅咒" class="headerlink" title="1.1 欧几里得空间的局限与诅咒"></a>1.1 欧几里得空间的局限与诅咒</h3><p>最直观的度量是欧几里得距离（Euclidean Distance）：</p>
+<p>$$<br>d(x, y) &#x3D; \sqrt{\sum_{i&#x3D;1}^{n} (x_i - y_i)^2}<br>$$</p>
+<p>然而，从第一性原理来看，欧式距离假设了空间的<strong>各向同性（Isotropy）</strong>，即所有特征维度的权重和尺度是等同的。但在高维空间中，我们面临“维度诅咒（Curse of Dimensionality）”。</p>
+<p>随着维度 $d \to \infty$，任意两点之间的距离趋向于相等。这意味着在高维空间中，基于欧式距离的聚类将失效，因为“最近邻”和“最远邻”的差异变得微不足道。</p>
+<h3 id="1-2-马哈拉诺比斯距离-Mahalanobis-Distance"><a href="#1-2-马哈拉诺比斯距离-Mahalanobis-Distance" class="headerlink" title="1.2 马哈拉诺比斯距离 (Mahalanobis Distance)"></a>1.2 马哈拉诺比斯距离 (Mahalanobis Distance)</h3><p>为了修正特征间的相关性和尺度差异，我们引入协方差矩阵 $\Sigma$。马哈拉诺比斯距离考虑了数据的分布形状：</p>
+<p>$$<br>d_M(x, y) &#x3D; \sqrt{(x - y)^T \Sigma^{-1} (x - y)}<br>$$</p>
+<p>如果 $\Sigma$ 是单位矩阵，则退化为欧式距离。这一视角的引入，让我们意识到聚类不仅仅是点与点的几何关系，更是点与分布统计特性之间的关系。</p>
+<hr>
+<h1 id="第二章：K-Means-的变分法视角-A-Variational-Perspective-on-K-Means"><a href="#第二章：K-Means-的变分法视角-A-Variational-Perspective-on-K-Means" class="headerlink" title="第二章：K-Means 的变分法视角 (A Variational Perspective on K-Means)"></a>第二章：K-Means 的变分法视角 (A Variational Perspective on K-Means)</h1><p>K-Means 是最普及的算法，但很少有人从<strong>优化理论</strong>的角度去审视它。</p>
+<h3 id="2-1-目标函数的推导"><a href="#2-1-目标函数的推导" class="headerlink" title="2.1 目标函数的推导"></a>2.1 目标函数的推导</h3><p>K-Means 的本质是一个非凸优化问题。我们的目标是最小化簇内方差（Intra-cluster Variance），也就是最小化惯性（Inertia）。</p>
+<p>设数据集为 $X &#x3D; {x_1, …, x_n}$，我们要将其划分为 $k$ 个集合 $S &#x3D; {S_1, …, S_k}$，以最小化以下目标函数 $J$：</p>
+<p>$$<br>J &#x3D; \sum_{i&#x3D;1}^{k} \sum_{x \in S_i} ||x - \mu_i||^2<br>$$</p>
+<p>其中 $\mu_i$ 是 $S_i$ 的质心。</p>
+<h3 id="2-2-期望最大化-EM-算法的特例"><a href="#2-2-期望最大化-EM-算法的特例" class="headerlink" title="2.2 期望最大化 (EM) 算法的特例"></a>2.2 期望最大化 (EM) 算法的特例</h3><p>K-Means 实际上是 EM 算法（Expectation-Maximization）在硬聚类（Hard Clustering）下的一个特例。</p>
+<ul>
+<li><strong>E-Step (Assignment):</strong> 固定质心 $\mu_i$，将每个点 $x$ 分配给最近的 $\mu_i$。这相当于构建了 <strong>Voronoi 泰森多边形</strong>。</li>
+<li><strong>M-Step (Update):</strong> 固定分配方案，更新质心 $\mu_i$ 为该簇内所有点的均值。</li>
+</ul>
+<p>$$<br>\frac{\partial J}{\partial \mu_i} &#x3D; -2 \sum_{x \in S_i} (x - \mu_i) &#x3D; 0 \implies \mu_i &#x3D; \frac{1}{|S_i|} \sum_{x \in S_i} x<br>$$</p>
+<h3 id="2-3-局限性的几何解释"><a href="#2-3-局限性的几何解释" class="headerlink" title="2.3 局限性的几何解释"></a>2.3 局限性的几何解释</h3><p>由于 K-Means 依赖于 Voronoi 划分，它隐含地假设簇是**凸形（Convex）**且各向同性的。对于环形、新月形或长条形的数据分布，K-Means 会强行将其切割为凸多边形，从而导致错误的聚类。</p>
+<hr>
+<h1 id="第三章：概率生成的视角——高斯混合模型-GMM"><a href="#第三章：概率生成的视角——高斯混合模型-GMM" class="headerlink" title="第三章：概率生成的视角——高斯混合模型 (GMM)"></a>第三章：概率生成的视角——高斯混合模型 (GMM)</h1><p>如果我们承认现实世界充满了不确定性，那么硬聚类（要么属于A，要么属于B）就是一种过于武断的简化。</p>
+<h3 id="3-1-软聚类与隐变量"><a href="#3-1-软聚类与隐变量" class="headerlink" title="3.1 软聚类与隐变量"></a>3.1 软聚类与隐变量</h3><p>高斯混合模型（Gaussian Mixture Model, GMM）假设数据是由 $K$ 个高斯分布线性叠加而成的。这里的“聚类”不再是划分，而是<strong>参数估计</strong>。</p>
+<p>数据的概率密度函数为：</p>
+<p>$$<br>P(x) &#x3D; \sum_{k&#x3D;1}^{K} \pi_k \mathcal{N}(x | \mu_k, \Sigma_k)<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$\pi_k$ 是混合系数（Mixing Coefficient），满足 $\sum \pi_k &#x3D; 1$。</li>
+<li>$\mathcal{N}(x | \mu_k, \Sigma_k)$ 是第 $k$ 个高斯分量。</li>
+<li>$\Sigma_k$ 是协方差矩阵，它允许簇呈现椭圆形，从而突破了 K-Means 的各向同性限制。</li>
+</ul>
+<h3 id="3-2-似然函数最大化"><a href="#3-2-似然函数最大化" class="headerlink" title="3.2 似然函数最大化"></a>3.2 似然函数最大化</h3><p>我们需要最大化对数似然函数（Log-Likelihood）：</p>
+<p>$$<br>\ln p(X | \pi, \mu, \Sigma) &#x3D; \sum_{n&#x3D;1}^{N} \ln \left{ \sum_{k&#x3D;1}^{K} \pi_k \mathcal{N}(x_n | \mu_k, \Sigma_k) \right}<br>$$</p>
+<p>从物理学的角度看，GMM 试图找到数据分布的“势能面”，通过高斯势阱来捕捉数据点。</p>
+<hr>
+<h1 id="第四章：密度的拓扑——DBSCAN-与-谱聚类"><a href="#第四章：密度的拓扑——DBSCAN-与-谱聚类" class="headerlink" title="第四章：密度的拓扑——DBSCAN 与 谱聚类"></a>第四章：密度的拓扑——DBSCAN 与 谱聚类</h1><p>当数据结构极其复杂，甚至嵌入在非欧流形上时（例如瑞士卷 Swiss Roll 数据），传统的距离度量失效。我们需要将数据转化为<strong>图（Graph）</strong>，利用谱图理论（Spectral Graph Theory）进行切分。</p>
+<h3 id="4-1-谱聚类：从几何到图论"><a href="#4-1-谱聚类：从几何到图论" class="headerlink" title="4.1 谱聚类：从几何到图论"></a>4.1 谱聚类：从几何到图论</h3><p>我们将每个数据点视为图 $G&#x3D;(V, E)$ 的顶点。边权重 $W_{ij}$ 表示点 $i$ 和点 $j$ 的相似度。定义度矩阵 $D$ 为对角矩阵，拉普拉斯矩阵定义为 $L &#x3D; D - W$。</p>
+<p>谱聚类的目标是找到图的最小割（Min-Cut）。在数学上，这等价于求解 $L$ 的特征向量问题。</p>
+<p>$$<br>f^T L f &#x3D; \frac{1}{2} \sum_{i,j} W_{ij} (f_i - f_j)^2<br>$$</p>
+<p>通过计算 $L$ 的前 $k$ 个最小特征值对应的特征向量，我们将原始的高维非线性数据映射到了一个低维的<strong>谱嵌入空间（Spectral Embedding Space）</strong>。</p>
+<hr>
+<h1 id="第六章：实战验证——几何与拓扑的对决"><a href="#第六章：实战验证——几何与拓扑的对决" class="headerlink" title="第六章：实战验证——几何与拓扑的对决"></a>第六章：实战验证——几何与拓扑的对决</h1><p>为了直观展示“概率分布（GMM）”与“拓扑结构（Spectral）”在处理不同数据形态时的本质差异，我们编写了以下完整的 Python 对比脚本。</p>
+<p>这段代码将生成两种极端情况的数据：</p>
+<ol>
+<li><strong>拉伸的椭圆数据</strong>：挑战欧氏距离（K-Means），适合 GMM。</li>
+<li><strong>双月形非凸数据</strong>：挑战凸集假设，适合谱聚类。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> make_blobs, make_moons<br><span class="hljs-keyword">from</span> sklearn.mixture <span class="hljs-keyword">import</span> GaussianMixture<br><span class="hljs-keyword">from</span> sklearn.cluster <span class="hljs-keyword">import</span> SpectralClustering<br><br><span class="hljs-comment"># 设置绘图风格</span><br>plt.style.use(<span class="hljs-string">&#x27;seaborn-v0_8-darkgrid&#x27;</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_clustering</span>(<span class="hljs-params">X, labels, title, subplot_index</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;辅助函数：用于绘制聚类结果&quot;&quot;&quot;</span><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, subplot_index)<br>    unique_labels = np.unique(labels)<br>    colors = plt.cm.Spectral(np.linspace(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(unique_labels)))<br><br>    <span class="hljs-keyword">for</span> k, col <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(unique_labels, colors):<br>        <span class="hljs-keyword">if</span> k == -<span class="hljs-number">1</span>:<br>            <span class="hljs-comment"># 噪声点（如果算法支持）设为黑色</span><br>            col = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]<br><br>        class_member_mask = (labels == k)<br>        xy = X[class_member_mask]<br>        plt.scatter(xy[:, <span class="hljs-number">0</span>], xy[:, <span class="hljs-number">1</span>], c=[col], s=<span class="hljs-number">40</span>, edgecolors=<span class="hljs-string">&#x27;k&#x27;</span>, label=<span class="hljs-string">f&#x27;Cluster <span class="hljs-subst">&#123;k&#125;</span>&#x27;</span>)<br><br>    plt.title(title, fontsize=<span class="hljs-number">14</span>, fontweight=<span class="hljs-string">&#x27;bold&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;Feature 1&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Feature 2&#x27;</span>)<br><br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 场景 1: GMM (高斯混合模型) - 处理各向异性分布</span><br><span class="hljs-comment"># 第一性原理：数据由概率分布生成，且形状未必是正圆</span><br><span class="hljs-comment"># ==========================================</span><br><br><span class="hljs-comment"># 1. 生成拉伸的数据（模拟非球形分布，K-Means在此会失败）</span><br>X_gmm, y_gmm = make_blobs(n_samples=<span class="hljs-number">400</span>, centers=<span class="hljs-number">2</span>, cluster_std=<span class="hljs-number">0.60</span>, random_state=<span class="hljs-number">0</span>)<br>transformation = [[<span class="hljs-number">0.6</span>, -<span class="hljs-number">0.6</span>], [-<span class="hljs-number">0.4</span>, <span class="hljs-number">0.8</span>]]<br>X_gmm = np.dot(X_gmm, transformation)<br><br><span class="hljs-comment"># 2. 运行 GMM (covariance_type=&#x27;full&#x27; 允许学习椭圆形状)</span><br>gmm = GaussianMixture(n_components=<span class="hljs-number">2</span>, covariance_type=<span class="hljs-string">&#x27;full&#x27;</span>, random_state=<span class="hljs-number">42</span>)<br>gmm_labels = gmm.fit_predict(X_gmm)<br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 场景 2: Spectral Clustering (谱聚类) - 处理非凸结构</span><br><span class="hljs-comment"># 第一性原理：数据是图上的节点，聚类是切分图（连通性）</span><br><span class="hljs-comment"># ==========================================</span><br><br><span class="hljs-comment"># 1. 生成双月形数据（非凸，无法用直线分割）</span><br>X_spec, y_spec = make_moons(n_samples=<span class="hljs-number">400</span>, noise=<span class="hljs-number">0.05</span>, random_state=<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 2. 运行谱聚类 (affinity=&#x27;nearest_neighbors&#x27; 构建近邻图)</span><br>spectral = SpectralClustering(<br>    n_clusters=<span class="hljs-number">2</span>,<br>    eigen_solver=<span class="hljs-string">&#x27;arpack&#x27;</span>,<br>    affinity=<span class="hljs-string">&quot;nearest_neighbors&quot;</span>,<br>    n_neighbors=<span class="hljs-number">20</span>,  <span class="hljs-comment"># &lt;--- 核心修改：增加近邻数，增强图的连通性</span><br>    random_state=<span class="hljs-number">42</span><br>)<br>spec_labels = spectral.fit_predict(X_spec)<br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 可视化对比</span><br><span class="hljs-comment"># ==========================================</span><br><br>plt.figure(figsize=(<span class="hljs-number">16</span>, <span class="hljs-number">6</span>))<br>plot_clustering(X_gmm, gmm_labels, <span class="hljs-string">&quot;GMM: Probabilistic/Elliptical Data&quot;</span>, <span class="hljs-number">1</span>)<br>plot_clustering(X_spec, spec_labels, <span class="hljs-string">&quot;Spectral: Topological/Non-Convex Data&quot;</span>, <span class="hljs-number">2</span>)<br><br>plt.tight_layout()<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<h3 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h3><ul>
+<li><strong>左图 (GMM)</strong>: 成功捕捉到了被拉伸的椭圆分布。这是因为 GMM 的协方差矩阵 $\Sigma$ 学习到了数据的方向性，这是 K-Means 无法做到的。</li>
+<li><strong>右图 (Spectral)</strong>: 成功分割了交错的双月形。这是因为算法构建了近邻图，识别出了数据在流形上的连通性，而非仅仅测量直线距离。</li>
+</ul>
+<hr>
+<h1 id="结论：寻找数据的“自然关节”"><a href="#结论：寻找数据的“自然关节”" class="headerlink" title="结论：寻找数据的“自然关节”"></a>结论：寻找数据的“自然关节”</h1><p>通过对 K-Means、GMM、DBSCAN 和谱聚类的解构，我们发现聚类算法的演进史，就是人类对“结构”这一概念理解不断深化的历史：</p>
+<ol>
+<li><strong>K-Means</strong>: 结构是空间中紧凑的球体（欧氏几何）。</li>
+<li><strong>GMM</strong>: 结构是统计分布的叠加（概率论）。</li>
+<li><strong>Spectral</strong>: 结构是图上的切分（谱图理论）。</li>
+</ol>
+<p>在选择聚类算法时，我们不应仅仅关注计算效率，更应思考数据的物理生成过程（Data Generation Process）。聚类，最终是为了在信息的熵增海洋中，寻找那一抹低熵的孤岛。</p>
+<hr>
+<blockquote>
+<p><strong>下一步行动建议</strong>：<br>如果您想进一步深入，可以尝试在上述代码中加入 <code>DBSCAN</code> 进行对比，特别是调节 $\epsilon$ 参数观察其对“密度”定义的敏感性。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Technical-Deep-Dive/" class="category-chain-item">Technical Deep Dive</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Technical-Deep-Dive/AI-Theory/" class="category-chain-item">AI Theory</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
+      
+        <a href="/tags/Algorithms/" class="print-no-link">#Algorithms</a>
+      
+        <a href="/tags/Machine-Learning/" class="print-no-link">#Machine Learning</a>
+      
+        <a href="/tags/Data-Science/" class="print-no-link">#Data Science</a>
+      
+        <a href="/tags/Unsupervised-Learning/" class="print-no-link">#Unsupervised Learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>超越分组：聚类算法的第一性原理深度解析</div>
+      <div>https://sunfove.xyz/2026/01/22/2026-01-22-clustering-first-principles-analysis/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 22, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-shannon-sampling-theorem-deep-dive/" title="离散与连续的桥梁：香农采样定理的第一性原理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">离散与连续的桥梁：香农采样定理的第一性原理</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation-1/" title="拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现">
+                        <span class="hidden-mobile">拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/22/2026-01-22-clustering-first-principles-analysis/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

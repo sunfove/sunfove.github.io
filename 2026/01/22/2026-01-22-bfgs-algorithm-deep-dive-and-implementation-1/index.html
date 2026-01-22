@@ -1,0 +1,874 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="牛顿法太慢，梯度下降太蠢。BFGS 算法作为拟牛顿法家族的皇冠，如何在不计算海森矩阵的情况下，利用梯度的历史信息构造出完美的曲率近似？本文将从割线方程推导核心公式，并提供完整的 Python 实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation-1/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="牛顿法太慢，梯度下降太蠢。BFGS 算法作为拟牛顿法家族的皇冠，如何在不计算海森矩阵的情况下，利用梯度的历史信息构造出完美的曲率近似？本文将从割线方程推导核心公式，并提供完整的 Python 实现。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_083301.png">
+<meta property="article:published_time" content="2026-01-22T05:30:00.000Z">
+<meta property="article:modified_time" content="2026-01-22T14:59:16.398Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithms">
+<meta property="article:tag" content="BFGS">
+<meta property="article:tag" content="Mathematics">
+<meta property="article:tag" content="Optimization">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_083301.png">
+  
+  
+  
+  <title>拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-22 05:30" pubdate>
+          January 22, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在深度学习彻底统治视野之前，数值优化领域曾有一座难以逾越的高峰，它就是 <strong>BFGS 算法</strong> (Broyden–Fletcher–Goldfarb–Shanno algorithm)。</p>
+<p>如果把梯度下降（Gradient Descent）比作一个只低头看路的登山者，那么牛顿法（Newton’s Method）就是一个拥有全地形地图的上帝。然而，上帝视角的代价是昂贵的——计算海森矩阵（Hessian Matrix）及其逆矩阵在工程上往往不可行。</p>
+<p>BFGS 的伟大之处，在于它找到了一条完美的<strong>中间道路</strong>。它不需要直接计算那个昂贵的矩阵，而是通过观察每一步的“梯度变化”与“位移变化”，在迭代中<strong>逆向重构</strong>出地形的曲率信息。</p>
+<p>它诞生于 1970 年，由四位数学家独立发现。在随后的几十年里，它是解决无约束非线性优化问题的<strong>标准答案</strong>。即使在今天，当我们需要极致的收敛精度而非单纯的统计平均时，BFGS 依然是那个不可替代的选择。</p>
+<p>本文将剥离复杂的索引符号，从<strong>第一性原理</strong>出发，带你领略这个算法背后的数学直觉与几何之美。</p>
+<h2 id="一、-第一性原理：从牛顿法到-BFGS-的逻辑重构"><a href="#一、-第一性原理：从牛顿法到-BFGS-的逻辑重构" class="headerlink" title="一、 第一性原理：从牛顿法到 BFGS 的逻辑重构"></a>一、 第一性原理：从牛顿法到 BFGS 的逻辑重构</h2><p>要理解 BFGS，必须先理解它是如何“修补”牛顿法的。我们将把这个思维过程拆解为四个逻辑连贯的步骤。</p>
+<h3 id="1-1-起点：牛顿法的完美与代价"><a href="#1-1-起点：牛顿法的完美与代价" class="headerlink" title="1.1 起点：牛顿法的完美与代价"></a>1.1 起点：牛顿法的完美与代价</h3><p>假设目标函数 $f(x)$ 是光滑的，我们在当前点 $x_k$ 处对其进行<strong>二阶泰勒展开</strong>：</p>
+<p>$$<br>f(x) \approx f(x_k) + \nabla f(x_k)^T (x - x_k) + \frac{1}{2} (x - x_k)^T \mathbf{B} (x - x_k)<br>$$</p>
+<p>这里 $\mathbf{B} &#x3D; \nabla^2 f(x_k)$ 是真实的<strong>海森矩阵（Hessian Matrix）</strong>，代表地形的曲率。<br>为了找到这个二次近似函数的极小值，我们对其求导并令其为 0，得到牛顿法的标准迭代公式：</p>
+<p>$$<br>x_{k+1} &#x3D; x_k - \mathbf{B}^{-1} \nabla f(x_k)<br>$$</p>
+<p><strong>这里的瓶颈在于</strong>：</p>
+<ol>
+<li><strong>计算难</strong>：计算 $\mathbf{B}$ 需要 $O(N^2)$ 次二阶导数运算。</li>
+<li><strong>求逆难</strong>：计算 $\mathbf{B}^{-1}$ 需要 $O(N^3)$ 的时间复杂度。当 $N$ 很大时，这是不可接受的。</li>
+</ol>
+<p><strong>BFGS 的核心思路</strong>：我们不再计算真实的 $\mathbf{B}$，也不直接求逆。我们要维护一个矩阵 $H_k$，用来直接<strong>近似</strong> $\mathbf{B}^{-1}$（即海森矩阵的逆）。</p>
+<h3 id="1-2-观测：曲率蕴含在变化之中"><a href="#1-2-观测：曲率蕴含在变化之中" class="headerlink" title="1.2 观测：曲率蕴含在变化之中"></a>1.2 观测：曲率蕴含在变化之中</h3><p>如果不计算二阶导数，我们去哪里找曲率信息？答案在于：<strong>梯度的变化率</strong>。</p>
+<p>想象你在爬山。</p>
+<ul>
+<li>你迈出了一步：$s_k &#x3D; x_{k+1} - x_k$ （位移）。</li>
+<li>你发现脚下的坡度变了：$y_k &#x3D; \nabla f(x_{k+1}) - \nabla f(x_k)$ （梯度的变化）。</li>
+</ul>
+<p>根据梯度的泰勒展开（忽略高阶项）：<br>$$<br>\nabla f(x_{k+1}) \approx \nabla f(x_k) + \mathbf{B} \cdot (x_{k+1} - x_k)<br>$$</p>
+<p>将 $s_k$ 和 $y_k$ 代入，我们得到：<br>$$<br>y_k \approx \mathbf{B} s_k<br>$$</p>
+<p>因为我们要维护的是逆矩阵 $H_k \approx \mathbf{B}^{-1}$，所以我们在等式两边同乘 $H_{k+1}$，得到著名的<strong>拟牛顿条件（Quasi-Newton Condition）</strong>，也称为<strong>割线方程</strong>：</p>
+<p>$$<br>H_{k+1} y_k &#x3D; s_k<br>$$</p>
+<p>这个方程的物理含义极其深刻：<strong>更新后的矩阵 $H_{k+1}$，必须能够正确地将“梯度的变化 ($y_k$)”映射回“位移 ($s_k$)”。</strong> 这是任何拟牛顿法必须遵守的硬约束。</p>
+<h3 id="1-3-策略：最小的变化量"><a href="#1-3-策略：最小的变化量" class="headerlink" title="1.3 策略：最小的变化量"></a>1.3 策略：最小的变化量</h3><p>满足割线方程 $H_{k+1} y_k &#x3D; s_k$ 的矩阵 $H_{k+1}$ 有无穷多个。BFGS 遵循**“最小作用量原理”**：我们希望新的矩阵 $H_{k+1}$ 与旧的矩阵 $H_k$ 尽可能相似，只做必要的修正。</p>
+<p>这是一个带约束的优化问题：<br>$$<br>\min |H_{k+1} - H_k| \quad \text{s.t.} \quad H_{k+1} &#x3D; H_{k+1}^T, \quad H_{k+1} y_k &#x3D; s_k<br>$$</p>
+<p>我们希望 $H_{k+1}$ 保持对称正定（保证下降方向），并满足割线方程。解决这个优化问题（利用加权 Frobenius 范数），我们最终推导出了 <strong>BFGS 更新公式</strong>。</p>
+<h3 id="1-4-结论：BFGS-更新公式"><a href="#1-4-结论：BFGS-更新公式" class="headerlink" title="1.4 结论：BFGS 更新公式"></a>1.4 结论：BFGS 更新公式</h3><p>这就是我们在代码中实现的最终公式。它是一个<strong>秩二更新（Rank-Two Update）</strong>，意味着我们在原矩阵上叠加了两个秩为 1 的修正项：</p>
+<p>$$<br>H_{k+1} &#x3D; (I - \rho_k s_k y_k^T) H_k (I - \rho_k y_k s_k^T) + \rho_k s_k s_k^T<br>$$</p>
+<p>其中标量 $\rho_k &#x3D; \frac{1}{y_k^T s_k}$。</p>
+<h2 id="二、-算法完整流程：盲人探险家的“心智地图”"><a href="#二、-算法完整流程：盲人探险家的“心智地图”" class="headerlink" title="二、 算法完整流程：盲人探险家的“心智地图”"></a>二、 算法完整流程：盲人探险家的“心智地图”</h2><p>为了理解 BFGS，请想象你被蒙住双眼放到了一个未知的山谷中。你的目标是找到海拔最低点。你手头有一个用来记录地形的“小本子”（矩阵 $H$），初始时它是空白的（单位矩阵）。</p>
+<p>BFGS 的每一次迭代，就是一次完整的 <strong>“探测-行动-修正”</strong> 循环。</p>
+<h3 id="2-1-第一步：决定方向-The-Direction"><a href="#2-1-第一步：决定方向-The-Direction" class="headerlink" title="2.1 第一步：决定方向 (The Direction)"></a>2.1 第一步：决定方向 (The Direction)</h3><blockquote>
+<p><strong>直觉：不要垂直切等高线，要切向谷底。</strong></p>
+</blockquote>
+<p>在当前位置 $x_k$，你的脚感觉到一个向下的坡度（梯度 $\nabla f$）。</p>
+<ul>
+<li><strong>梯度下降的做法</strong>：完全听从脚的感觉，垂直于等高线往下冲。这在狭长峡谷中会撞墙。</li>
+<li><strong>BFGS 的做法</strong>：你会参考手中的“小本子” ($H_k$)。如果本子上记录着“这个方向虽然坡度大，但其实是峡谷壁，别往那走”，你会调整方向。</li>
+</ul>
+<p>数学公式：<br>$$<br>p_k &#x3D; -H_k \nabla f(x_k)<br>$$<br>这里的 $H_k$ 起到了 <strong>“扭转”</strong> 的作用，把梯度方向修正为直指谷底的方向。</p>
+<h3 id="2-2-第二步：试探步长-Line-Search"><a href="#2-2-第二步：试探步长-Line-Search" class="headerlink" title="2.2 第二步：试探步长 (Line Search)"></a>2.2 第二步：试探步长 (Line Search)</h3><blockquote>
+<p><strong>直觉：步子太大容易扯着蛋，步子太小走不到终点。</strong></p>
+</blockquote>
+<p>选定方向 $p_k$ 后，你不能闭眼一直走。你需要决定走多远（步长 $\alpha_k$）。BFGS 要求步长必须满足两个 <strong>“安全规则”</strong> （Wolfe 条件）：</p>
+<ol>
+<li><strong>必须要下降 (Armijo)</strong>：走完这一步，海拔必须确实降低了，不能白忙活。</li>
+<li><strong>坡度要变缓 (Curvature)</strong>：如果你走到的新位置坡度还是很陡，说明你还没走到坑底，步子太小了；如果你走过了头导致坡度反向了，说明步子太大了。</li>
+</ol>
+<p>在代码中，我们通常简化为一个<strong>回溯策略</strong>：先尝试迈一大步，如果发现没降下去，就退回来缩短一半，直到满足条件。</p>
+<h3 id="2-3-第三步：收集情报-Information-Gathering"><a href="#2-3-第三步：收集情报-Information-Gathering" class="headerlink" title="2.3 第三步：收集情报 (Information Gathering)"></a>2.3 第三步：收集情报 (Information Gathering)</h3><blockquote>
+<p><strong>直觉：不仅看走了多远，还要看坡度变了多少。</strong></p>
+</blockquote>
+<p>你迈出了完美的一步，到达了新位置 $x_{k+1}$。现在你需要测量两样东西，这是更新地图的关键素材：</p>
+<ol>
+<li><strong>位移 ($s_k$)</strong>：我实际移动了多少向量？<br>$$s_k &#x3D; x_{k+1} - x_k$$</li>
+<li><strong>梯度差 ($y_k$)</strong>：坡度发生了什么变化？<br>$$y_k &#x3D; \nabla f(x_{k+1}) - \nabla f(x_k)$$</li>
+</ol>
+<p>这两者的关系 ($H y_k &#x3D; s_k$) 蕴含了这一段路程中地形的<strong>弯曲程度</strong>。</p>
+<h3 id="2-4-第四步：修正地图-Matrix-Update"><a href="#2-4-第四步：修正地图-Matrix-Update" class="headerlink" title="2.4 第四步：修正地图 (Matrix Update)"></a>2.4 第四步：修正地图 (Matrix Update)</h3><blockquote>
+<p><strong>直觉：让小本子符合最新的观测结果。</strong></p>
+</blockquote>
+<p>这是 BFGS 的灵魂。利用 $s_k$ 和 $y_k$，我们对 $H_k$ 进行修正，得到 $H_{k+1}$。</p>
+<p>但在修正前，必须做一个**“现实扭曲检查”**：<br>我们要检查 $y_k^T s_k &gt; 0$。</p>
+<ul>
+<li><strong>含义</strong>：这表示当我们沿着位移方向走时，梯度是增加的（也就是地形是“凸”的，像个碗）。</li>
+<li><strong>保护机制</strong>：如果 $y_k^T s_k \le 0$，说明地形可能变成了“拱桥形”或者数据有误。强行更新会导致矩阵坏掉（不再正定），算法会崩溃。<strong>这时候 BFGS 会选择“装傻”，跳过这次更新，沿用旧地图。</strong></li>
+</ul>
+<p>如果检查通过，我们就套用那个吓人的秩二更新公式，将这一步获取的曲率信息永久刻入 $H$ 矩阵中。</p>
+<hr>
+<h3 id="总结：BFGS-的心路历程"><a href="#总结：BFGS-的心路历程" class="headerlink" title="总结：BFGS 的心路历程"></a>总结：BFGS 的心路历程</h3><ol>
+<li><strong>查地图</strong>：根据当前坡度和脑海中的地图，算出最佳方向。</li>
+<li><strong>迈步子</strong>：小心翼翼地试探，直到找到一个既下降又平稳的落脚点。</li>
+<li><strong>测变化</strong>：对比起步点和落脚点的坡度差异。</li>
+<li><strong>改地图</strong>：“哦，原来这里比我想象的要陡&#x2F;平！”，修正地图，准备下一步。</li>
+</ol>
+<h2 id="三、-完整的-Python-代码实现"><a href="#三、-完整的-Python-代码实现" class="headerlink" title="三、 完整的 Python 代码实现"></a>三、 完整的 Python 代码实现</h2><p>为了彻底理解，我们将不使用 <code>scipy.optimize</code>，而是仅使用 <code>numpy</code> 实现 BFGS。代码包含测试函数（Rosenbrock）、回溯线搜索和 BFGS 主逻辑。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> matplotlib.colors <span class="hljs-keyword">import</span> LogNorm<br><br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 1. 目标函数: Himmelblau Function</span><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">himmelblau</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Himmelblau 函数</span><br><span class="hljs-string">    范围通常在 x, y ∈ [-5, 5]</span><br><span class="hljs-string">    有 4 个全局最小点，函数值为 0</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> (x[<span class="hljs-number">0</span>] ** <span class="hljs-number">2</span> + x[<span class="hljs-number">1</span>] - <span class="hljs-number">11</span>) ** <span class="hljs-number">2</span> + (x[<span class="hljs-number">0</span>] + x[<span class="hljs-number">1</span>] ** <span class="hljs-number">2</span> - <span class="hljs-number">7</span>) ** <span class="hljs-number">2</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">himmelblau_grad</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Himmelblau 函数的梯度</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    term1 = x[<span class="hljs-number">0</span>] ** <span class="hljs-number">2</span> + x[<span class="hljs-number">1</span>] - <span class="hljs-number">11</span><br>    term2 = x[<span class="hljs-number">0</span>] + x[<span class="hljs-number">1</span>] ** <span class="hljs-number">2</span> - <span class="hljs-number">7</span><br><br>    grad = np.zeros_like(x)<br>    <span class="hljs-comment"># 对 x 求导: 2 * term1 * 2x + 2 * term2 * 1</span><br>    grad[<span class="hljs-number">0</span>] = <span class="hljs-number">4</span> * x[<span class="hljs-number">0</span>] * term1 + <span class="hljs-number">2</span> * term2<br>    <span class="hljs-comment"># 对 y 求导: 2 * term1 * 1 + 2 * term2 * 2y</span><br>    grad[<span class="hljs-number">1</span>] = <span class="hljs-number">2</span> * term1 + <span class="hljs-number">4</span> * x[<span class="hljs-number">1</span>] * term2<br>    <span class="hljs-keyword">return</span> grad<br><br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 2. 优化算法 (保持核心逻辑不变)</span><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">backtracking_line_search</span>(<span class="hljs-params">f, grad_f, x, p, alpha=<span class="hljs-number">1.0</span>, rho=<span class="hljs-number">0.5</span>, c=<span class="hljs-number">1e-4</span></span>):<br>    f_val = f(x)<br>    grad_dot_p = np.dot(grad_f(x), p)<br>    current_alpha = alpha<br>    <span class="hljs-keyword">while</span> f(x + current_alpha * p) &gt; f_val + c * current_alpha * grad_dot_p:<br>        current_alpha *= rho<br>        <span class="hljs-keyword">if</span> current_alpha &lt; <span class="hljs-number">1e-16</span>: <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">return</span> current_alpha<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">gradient_descent</span>(<span class="hljs-params">f, grad_f, x0, max_iter=<span class="hljs-number">1000</span>, tol=<span class="hljs-number">1e-5</span></span>):<br>    x = np.array(x0, dtype=<span class="hljs-built_in">float</span>)<br>    path = [x.copy()]<br>    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(max_iter):<br>        g = grad_f(x)<br>        <span class="hljs-keyword">if</span> np.linalg.norm(g) &lt; tol: <span class="hljs-keyword">break</span><br>        p = -g<br>        alpha = backtracking_line_search(f, grad_f, x, p)<br>        x = x + alpha * p<br>        path.append(x.copy())<br>    <span class="hljs-keyword">return</span> x, np.array(path)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">bfgs_optimize</span>(<span class="hljs-params">f, grad_f, x0, max_iter=<span class="hljs-number">200</span>, tol=<span class="hljs-number">1e-5</span></span>):<br>    x = np.array(x0, dtype=<span class="hljs-built_in">float</span>)<br>    n = <span class="hljs-built_in">len</span>(x)<br>    H = np.eye(n)<br>    path = [x.copy()]<br>    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(max_iter):<br>        g = grad_f(x)<br>        <span class="hljs-keyword">if</span> np.linalg.norm(g) &lt; tol: <span class="hljs-keyword">break</span><br>        p = -np.dot(H, g)<br>        alpha = backtracking_line_search(f, grad_f, x, p)<br>        x_new = x + alpha * p<br>        s = x_new - x<br>        y = grad_f(x_new) - g<br>        rho_inv = np.dot(y, s)<br>        <span class="hljs-keyword">if</span> rho_inv &gt; <span class="hljs-number">1e-10</span>:<br>            rho = <span class="hljs-number">1.0</span> / rho_inv<br>            I = np.eye(n)<br>            term1 = I - rho * np.outer(s, y)<br>            term2 = I - rho * np.outer(y, s)<br>            H = np.dot(term1, np.dot(H, term2)) + rho * np.outer(s, s)<br>        x = x_new<br>        path.append(x.copy())<br>    <span class="hljs-keyword">return</span> x, np.array(path)<br><br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 3. 可视化逻辑 (针对 Himmelblau 调整)</span><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_himmelblau_comparison</span>(<span class="hljs-params">path_gd, path_bfgs</span>):<br>    <span class="hljs-comment"># 设定画图范围 [-5, 5] 是 Himmelblau 的经典展示区</span><br>    x = np.linspace(-<span class="hljs-number">5</span>, <span class="hljs-number">5</span>, <span class="hljs-number">400</span>)<br>    y = np.linspace(-<span class="hljs-number">5</span>, <span class="hljs-number">5</span>, <span class="hljs-number">400</span>)<br>    X, Y = np.meshgrid(x, y)<br><br>    <span class="hljs-comment"># 这里的输入处理是为了适配 list 输入</span><br>    Z = (X ** <span class="hljs-number">2</span> + Y - <span class="hljs-number">11</span>) ** <span class="hljs-number">2</span> + (X + Y ** <span class="hljs-number">2</span> - <span class="hljs-number">7</span>) ** <span class="hljs-number">2</span><br><br>    plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">10</span>))<br><br>    <span class="hljs-comment"># --- 1. 绘制伪彩热力图 ---</span><br>    <span class="hljs-comment"># LogNorm 在这里非常重要，因为 Himmelblau 的最大值很大，但我们只关心 0 附近的细节</span><br>    <span class="hljs-comment"># +0.1 是为了防止 log(0) 报错</span><br>    levels = np.logspace(-<span class="hljs-number">1</span>, <span class="hljs-number">3.5</span>, <span class="hljs-number">100</span>)<br>    cp = plt.contourf(X, Y, Z + <span class="hljs-number">0.1</span>, levels=levels, cmap=<span class="hljs-string">&#x27;viridis&#x27;</span>, norm=LogNorm())<br><br>    cbar = plt.colorbar(cp)<br>    cbar.set_label(<span class="hljs-string">&#x27;Log Scale Objective Value&#x27;</span>, rotation=<span class="hljs-number">270</span>, labelpad=<span class="hljs-number">20</span>)<br><br>    <span class="hljs-comment"># 叠加白色等高线增加层次感</span><br>    plt.contour(X, Y, Z, levels=levels[::<span class="hljs-number">5</span>], colors=<span class="hljs-string">&#x27;white&#x27;</span>, alpha=<span class="hljs-number">0.2</span>, linewidths=<span class="hljs-number">0.5</span>)<br><br>    <span class="hljs-comment"># --- 2. 标记 4 个理论极小值点 ---</span><br>    minima = np.array([<br>        [<span class="hljs-number">3.0</span>, <span class="hljs-number">2.0</span>],<br>        [-<span class="hljs-number">2.805118</span>, <span class="hljs-number">3.131312</span>],<br>        [-<span class="hljs-number">3.779310</span>, -<span class="hljs-number">3.283186</span>],<br>        [<span class="hljs-number">3.584428</span>, -<span class="hljs-number">1.848126</span>]<br>    ])<br>    plt.scatter(minima[:, <span class="hljs-number">0</span>], minima[:, <span class="hljs-number">1</span>], s=<span class="hljs-number">100</span>, facecolors=<span class="hljs-string">&#x27;none&#x27;</span>, edgecolors=<span class="hljs-string">&#x27;white&#x27;</span>,<br>                linewidth=<span class="hljs-number">2</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, label=<span class="hljs-string">&#x27;Global Minima (True)&#x27;</span>)<br><br>    <span class="hljs-comment"># --- 3. 绘制算法路径 ---</span><br><br>    <span class="hljs-comment"># Gradient Descent (白色虚线)</span><br>    plt.plot(path_gd[:, <span class="hljs-number">0</span>], path_gd[:, <span class="hljs-number">1</span>], color=<span class="hljs-string">&#x27;white&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, linewidth=<span class="hljs-number">1.5</span>,<br>             label=<span class="hljs-string">f&#x27;Gradient Descent (<span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(path_gd)&#125;</span> steps)&#x27;</span>)<br>    plt.scatter(path_gd[-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], path_gd[-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>], color=<span class="hljs-string">&#x27;white&#x27;</span>, s=<span class="hljs-number">50</span>)<br><br>    <span class="hljs-comment"># BFGS (红色实线)</span><br>    plt.plot(path_bfgs[:, <span class="hljs-number">0</span>], path_bfgs[:, <span class="hljs-number">1</span>], color=<span class="hljs-string">&#x27;red&#x27;</span>, linestyle=<span class="hljs-string">&#x27;-&#x27;</span>, linewidth=<span class="hljs-number">2.5</span>,<br>             label=<span class="hljs-string">f&#x27;BFGS (<span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(path_bfgs)&#125;</span> steps)&#x27;</span>)<br>    plt.scatter(path_bfgs[:, <span class="hljs-number">0</span>], path_bfgs[:, <span class="hljs-number">1</span>], color=<span class="hljs-string">&#x27;red&#x27;</span>, s=<span class="hljs-number">50</span>, zorder=<span class="hljs-number">10</span>)<br><br>    <span class="hljs-comment"># 标记起点</span><br>    plt.scatter(path_bfgs[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>], path_bfgs[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], color=<span class="hljs-string">&#x27;orange&#x27;</span>, marker=<span class="hljs-string">&#x27;*&#x27;</span>, s=<span class="hljs-number">200</span>,<br>                edgecolors=<span class="hljs-string">&#x27;black&#x27;</span>, label=<span class="hljs-string">&#x27;Start Point&#x27;</span>, zorder=<span class="hljs-number">20</span>)<br><br>    plt.title(<span class="hljs-string">&#x27;Himmelblau Function: 4 Minima Challenge\n(BFGS vs Gradient Descent)&#x27;</span>, fontsize=<span class="hljs-number">16</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;x&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;y&#x27;</span>)<br>    plt.legend(loc=<span class="hljs-string">&#x27;upper right&#x27;</span>, framealpha=<span class="hljs-number">0.8</span>, facecolor=<span class="hljs-string">&#x27;black&#x27;</span>, labelcolor=<span class="hljs-string">&#x27;white&#x27;</span>)<br><br>    plt.tight_layout()<br>    plt.show()<br><br><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-comment"># 4. 运行</span><br><span class="hljs-comment"># ==========================================</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment"># 选取一个能够产生有趣路径的起始点</span><br>    <span class="hljs-comment"># (0, 0) 在 Himmelblau 中是一个局部高点附近，算法需要决定往哪个坑里跳</span><br>    start_point = [<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>]<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Start Point: <span class="hljs-subst">&#123;start_point&#125;</span>&quot;</span>)<br><br>    _, path_gd = gradient_descent(himmelblau, himmelblau_grad, start_point)<br>    _, path_bfgs = bfgs_optimize(himmelblau, himmelblau_grad, start_point)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;GD Steps: <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(path_gd)&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;BFGS Steps: <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(path_bfgs)&#125;</span>&quot;</span>)<br><br>    plot_himmelblau_comparison(path_gd, path_bfgs)<br></code></pre></td></tr></table></figure>
+
+<p>运行结果如下图</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260122_083301.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="四、-深度解析：为什么-BFGS-优于梯度下降？"><a href="#四、-深度解析：为什么-BFGS-优于梯度下降？" class="headerlink" title="四、 深度解析：为什么 BFGS 优于梯度下降？"></a>四、 深度解析：为什么 BFGS 优于梯度下降？</h2><p>当你运行上述代码时，你会看到 BFGS 画出了一条优雅的弧线直奔终点，而梯度下降则在平坦区域寸步难行。这种巨大的性能鸿沟背后，隐藏着三个深刻的数学原理。</p>
+<h3 id="4-1-对抗“病态”-The-Condition-Number"><a href="#4-1-对抗“病态”-The-Condition-Number" class="headerlink" title="4.1 对抗“病态” (The Condition Number)"></a>4.1 对抗“病态” (The Condition Number)</h3><p>在 Beale 函数的平坦山谷中，Hessian 矩阵的<strong>条件数 (Condition Number)</strong> 非常大。</p>
+<ul>
+<li><strong>特征值差异</strong>：峡谷底部的特征值（对应平坦方向）非常小，而峡谷壁的特征值（对应陡峭方向）非常大。</li>
+<li><strong>GD 的困境</strong>：梯度下降的收敛速度受制于 $\kappa &#x3D; \lambda_{\max} &#x2F; \lambda_{\min}$。为了不震荡，步长必须很小（受限于 $\lambda_{\max}$），但这导致它在平坦方向上（需要大步长）几乎不动。</li>
+<li><strong>BFGS 的解法</strong>：BFGS 构建的矩阵 $H_k$ 本质上是在<strong>重新缩放</strong>坐标轴。它将那个狭长的椭圆峡谷，通过线性变换“拉圆”了。在一个正圆的势能面中，梯度方向就是指向圆心的方向，一步即可到达。</li>
+</ul>
+<h3 id="4-2-仿射不变性-Affine-Invariance"><a href="#4-2-仿射不变性-Affine-Invariance" class="headerlink" title="4.2 仿射不变性 (Affine Invariance)"></a>4.2 仿射不变性 (Affine Invariance)</h3><p>这是牛顿法家族（包括 BFGS）最优雅的特性。<br>想象我们将变量 $x$ 的单位从“米”换成“毫米”，梯度下降是<strong>敏感</strong>的，你必须重新调整学习率。但 BFGS 是<strong>鲁棒</strong>的。无论你如何线性拉伸或旋转坐标系，BFGS 产生的迭代序列（在变换回原空间后）是完全一致的。这意味着 BFGS <strong>自带归一化（Normalization）功能</strong>。</p>
+<h3 id="4-3-变度量视角-Variable-Metric-Perspective"><a href="#4-3-变度量视角-Variable-Metric-Perspective" class="headerlink" title="4.3 变度量视角 (Variable Metric Perspective)"></a>4.3 变度量视角 (Variable Metric Perspective)</h3><p>在黎曼几何中，梯度下降是在欧几里得空间（Euclidean Space）中寻找最速下降方向，其隐含的度量矩阵是单位阵 $I$。<br>而 BFGS 实际上是在<strong>黎曼流形 (Riemannian Manifold)</strong> 上优化。矩阵 $H_k$ 定义了一个动态变化的<strong>度量张量 (Metric Tensor)</strong>：</p>
+<p>$$<br>|x|_H &#x3D; \sqrt{x^T H^{-1} x}<br>$$</p>
+<p>BFGS 不仅仅是在跑，它还在不断地根据地形<strong>修改“距离”的定义</strong>。在平坦的方向上，它认为距离“很短”，所以敢迈大步；在陡峭的方向上，它认为距离“很长”，所以小心翼翼。</p>
+<h2 id="结语：在精确与效率之间"><a href="#结语：在精确与效率之间" class="headerlink" title="结语：在精确与效率之间"></a>结语：在精确与效率之间</h2><p>BFGS 算法并非真理的终点，而是一座精妙的桥梁。</p>
+<p>四十多年前，Broyden, Fletcher, Goldfarb 和 Shanno 四位学者在计算资源极度匮乏的年代，通过对数学性质的极致挖掘，找到了一条能在“无知”（仅有一阶梯度）与“全知”（全海森矩阵）之间优雅穿行的路径。它教会我们的，不仅仅是计算公式，更是一种工程美学：</p>
+<p>当我们无法承担追求完美的代价时，如何用最小的成本去逼近完美？</p>
+<p>当然，BFGS 也有其时代的局限性。在参数量数以亿计、充满随机噪声的现代深度学习浪潮中，它往往不得不让位于更简单、更具统计鲁棒性的 SGD 及其变种。但每当我们回溯 L-BFGS 在大规模逻辑回归、条件随机场等经典模型中的贡献时，依然能感受到二阶优化思想的厚重。</p>
+<p>学习 BFGS，与其说是为了掌握一种具体的工具，不如说是为了磨练一种 <strong>“见微知著”</strong> 的数学直觉——学会在只有局部信息的情况下，依然能描绘出全局的风景。</p>
+<p>在算法的浩瀚海洋中，我们始终是探索者。保持谦逊，保持好奇，或许是我们面对未来不断变化的 AI 技术栈时，唯一不变的罗盘。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Computational-Mathematics/" class="category-chain-item">Computational Mathematics</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Computational-Mathematics/Machine-Learning/" class="category-chain-item">Machine Learning</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/Optimization/" class="print-no-link">#Optimization</a>
+      
+        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
+      
+        <a href="/tags/Algorithms/" class="print-no-link">#Algorithms</a>
+      
+        <a href="/tags/BFGS/" class="print-no-link">#BFGS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>拟牛顿法的巅峰：BFGS 算法详解与 Python 从零实现</div>
+      <div>https://sunfove.xyz/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation-1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 22, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-clustering-first-principles-analysis/" title="超越分组：聚类算法的第一性原理深度解析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">超越分组：聚类算法的第一性原理深度解析</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-hessian-matrix-geometry-and-optimization/" title="深度解析海森矩阵：从二阶曲率到高维优化">
+                        <span class="hidden-mobile">深度解析海森矩阵：从二阶曲率到高维优化</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/22/2026-01-22-bfgs-algorithm-deep-dive-and-implementation-1/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
