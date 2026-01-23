@@ -1,0 +1,867 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文从热力学第二定律和玻尔兹曼分布出发，推导模拟退火算法的数学本质。我们将深入剖析 Metropolis-Hastings 准则如何构建满足细致平衡条件的马尔可夫链，从而实现非凸优化问题的全局收敛。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法之美：模拟退火算法的物理原理与数学表述">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/23/2026-01-23-simulated-annealing-physics-optimization/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文从热力学第二定律和玻尔兹曼分布出发，推导模拟退火算法的数学本质。我们将深入剖析 Metropolis-Hastings 准则如何构建满足细致平衡条件的马尔可夫链，从而实现非凸优化问题的全局收敛。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260123_112019.png">
+<meta property="article:published_time" content="2026-01-23T15:10:00.000Z">
+<meta property="article:modified_time" content="2026-01-23T15:41:07.332Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Mathematics">
+<meta property="article:tag" content="Optimization">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Statistical Mechanics">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260123_112019.png">
+  
+  
+  
+  <title>算法之美：模拟退火算法的物理原理与数学表述 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">算法之美：模拟退火算法的物理原理与数学表述</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-23 15:10" pubdate>
+          January 23, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">算法之美：模拟退火算法的物理原理与数学表述</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在组合优化领域，模拟退火算法（Simulated Annealing, SA）常被视为一种通用的随机搜索启发式算法。然而，它的核心并非简单的随机游走，而是<strong>统计力学</strong>在计算科学中的完美投影。</p>
+<p>本文将解析该算法如何通过模拟热力学系统演化，将物理世界的“能量最低态”映射为数学世界的“全局最优解”。</p>
+<hr>
+<h2 id="第一章：物理本源-——-统计力学与自由能的博弈"><a href="#第一章：物理本源-——-统计力学与自由能的博弈" class="headerlink" title="第一章：物理本源 —— 统计力学与自由能的博弈"></a>第一章：物理本源 —— 统计力学与自由能的博弈</h2><p>在物理世界中，大自然解决“复杂系统优化问题”的方式非常独特：它不微观地指挥每一个原子去哪里，而是制定一个宏观的概率规则，让亿万原子在热运动中自己找到最舒适的位置（能量最低态）。</p>
+<p>这个宏观规则，就是<strong>玻尔兹曼分布</strong>。</p>
+<h3 id="1-1-上帝的骰子：什么是玻尔兹曼分布？"><a href="#1-1-上帝的骰子：什么是玻尔兹曼分布？" class="headerlink" title="1.1 上帝的骰子：什么是玻尔兹曼分布？"></a>1.1 上帝的骰子：什么是玻尔兹曼分布？</h3><p>在热力学中，当我们研究一个与恒温热库（温度 $T$）保持接触的封闭系统（物理上称为<strong>正则系综</strong>）时，系统处于某一特定微观状态 $i$ 的概率 $P_i$ 并非均等，而是严格由该状态的能量 $E_i$ 决定的。</p>
+<p>这就是著名的<strong>玻尔兹曼分布 (Boltzmann Distribution)</strong>：</p>
+<p>$$<br>P_i(T) &#x3D; \frac{1}{Z(T)} \exp\left(-\frac{E_i}{k_B T}\right)<br>$$</p>
+<p>这个公式看似抽象，实则包含三个核心物理直觉：</p>
+<ol>
+<li><p><strong>指数衰减 ($e^{-E}$)：</strong><br>能量越低，概率越大；能量越高，概率呈指数级下降。</p>
+<ul>
+<li><em>为什么是指数形式？</em> 因为对于两个独立的子系统，总能量是相加的 ($E_{total} &#x3D; E_1 + E_2$)，而联合概率是相乘的 ($P_{total} &#x3D; P_1 \times P_2$)。只有指数函数能满足这种将“加法”转化为“乘法”的数学特性 ($e^{a+b} &#x3D; e^a \cdot e^b$)，即在能量和概率之间建立联系。</li>
+</ul>
+</li>
+<li><p><strong>温度项 ($T$)：</strong><br>温度作为分母出现在指数中，它是系统对“高能量”状态的<strong>容忍度</strong>。</p>
+<ul>
+<li><strong>高温时</strong>：$T$ 很大，指数项趋近于 0 ($e^0&#x3D;1$)，能量高低造成的概率差异被抹平，系统处于“混乱”状态。</li>
+<li><strong>低温时</strong>：$T$ 很小，指数项差异被急剧放大，低能态的概率远高于高能态，系统被“锁定”在有序状态。</li>
+</ul>
+</li>
+<li><p><strong>配分函数 ($Z$)：</strong><br>$$Z(T) &#x3D; \sum_{j} \exp(-E_j &#x2F; k_B T)$$<br>这是所有可能状态概率的归一化因子（Normalization Constant），确保所有概率之和为 1。</p>
+<ul>
+<li><em>注：在实际算法中，$Z$ 的计算涉及遍历所有解空间，是不可行的。这也是为什么我们需要后文的 Metropolis 准则——通过计算两个状态的<strong>概率比率</strong>来消去 $Z$。</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="1-2-深度原理：自由能最小化-F-E-TS"><a href="#1-2-深度原理：自由能最小化-F-E-TS" class="headerlink" title="1.2 深度原理：自由能最小化 ($F &#x3D; E - TS$)"></a>1.2 深度原理：自由能最小化 ($F &#x3D; E - TS$)</h3><p>为什么自然界会遵循这种分布？为什么高温下系统喜欢混乱，低温下喜欢有序？</p>
+<p>这源于<strong>热力学第二定律</strong>。在恒温条件下，系统演化的终极目标并非单纯的“能量 $E$ 最小化”，而是**“赫尔姆霍兹自由能 (Helmholtz Free Energy)”** $F$ 的最小化。</p>
+<p>自由能的定义揭示了模拟退火的根本动力：</p>
+<p>$$<br>F &#x3D; E - T \cdot S<br>$$</p>
+<ul>
+<li><strong>$E$ (Internal Energy)</strong>：系统的内能。对应优化问题中的<strong>目标函数值</strong>。</li>
+<li><strong>$S$ (Entropy)</strong>：系统的熵。对应解空间的<strong>多样性</strong>或<strong>无序度</strong>。</li>
+<li><strong>$T$ (Temperature)</strong>：温度。对应算法的<strong>控制参数</strong>。</li>
+</ul>
+<p><strong>这个公式解释了算法行为的本质博弈：</strong></p>
+<ol>
+<li><p><strong>当温度极高时 ($T \to \infty$)</strong>：<br>公式中 $-TS$ 项（熵项）占据绝对主导。为了最小化 $F$，系统倾向于<strong>最大化熵 $S$</strong>。</p>
+<ul>
+<li><strong>物理现象</strong>：金属熔化为液态，原子剧烈运动，排列极度无序。</li>
+<li><strong>算法映射</strong>：算法忽略能量 $E$ 的高低，以近乎均匀的概率遍历整个解空间。这对应<strong>全局搜索 (Exploration)</strong>。</li>
+</ul>
+</li>
+<li><p><strong>当温度极低时 ($T \to 0$)</strong>：<br>$-TS$ 项趋近于 0，能量 $E$ 项占据主导。为了最小化 $F$，系统必须<strong>最小化能量 $E$</strong>。</p>
+<ul>
+<li><strong>物理现象</strong>：原子被锁定在晶格节点上，形成规则且稳定的晶体。</li>
+<li><strong>算法映射</strong>：算法变得“贪婪”，只接受能量更低的状态，拒绝任何能量升高的尝试。这对应<strong>局部收敛 (Exploitation)</strong>。</li>
+</ul>
+</li>
+</ol>
+<h3 id="1-3-直观理解：概率地形的重塑"><a href="#1-3-直观理解：概率地形的重塑" class="headerlink" title="1.3 直观理解：概率地形的重塑"></a>1.3 直观理解：概率地形的重塑</h3><p>让我们通过计算概率比率，看看温度 $T$ 是如何重塑解空间的概率地形的。</p>
+<p>假设有两个状态：<strong>优解 A</strong> ($E_A&#x3D;10$) 和 <strong>差解 B</strong> ($E_B&#x3D;30$)。它们的相对概率比率为：</p>
+<p>$$<br>\frac{P(B)}{P(A)} &#x3D; \frac{e^{-30&#x2F;T}}{e^{-10&#x2F;T}} &#x3D; \exp\left(-\frac{20}{T}\right)<br>$$</p>
+<ul>
+<li><strong>高温 ($T&#x3D;1000$)</strong>：比率 $\approx e^{-0.02} \approx 0.98$。<br>  此时，差解 B 出现的概率几乎和优解 A 一样！系统“看不清”好坏，能够轻易翻越能量壁垒，从 A 跳到 B。</li>
+<li><strong>低温 ($T&#x3D;1$)</strong>：比率 $&#x3D; e^{-20} \approx 2 \times 10^{-9}$。<br>  此时，差解 B 出现的概率微乎其微。系统被牢牢“锁”在优解 A 附近。</li>
+</ul>
+<p>!</p>
+<p><strong>总结：</strong> 模拟退火算法的本质，就是模拟自然界从“熵驱动（高温、无序、全局）”平滑过渡到“能量驱动（低温、有序、局部）”的过程。我们在计算机中重演了这一物理奇迹，从而在庞大的解空间中“生长”出最优解。</p>
+<hr>
+<h2 id="二、-算法核心：Metropolis-准则"><a href="#二、-算法核心：Metropolis-准则" class="headerlink" title="二、 算法核心：Metropolis 准则"></a>二、 算法核心：Metropolis 准则</h2><p>在计算机中直接计算配分函数 $Z(T)$ 通常是不可行的（涉及对所有可能状态求和，属于 #P-complete 问题）。</p>
+<p>1953年，Metropolis 等人提出了一种巧妙的采样方法，无需计算 $Z(T)$ 即可从玻尔兹曼分布中采样。其核心在于计算两个状态之间的<strong>概率比</strong>。</p>
+<h3 id="2-1-状态转移推导"><a href="#2-1-状态转移推导" class="headerlink" title="2.1 状态转移推导"></a>2.1 状态转移推导</h3><p>假设系统当前处于状态 $i$（能量 $E_i$），试图转移到状态 $j$（能量 $E_j$）。根据玻尔兹曼分布，两者的概率比为：</p>
+<p>$$<br>\frac{P_j}{P_i} &#x3D; \frac{\frac{1}{Z} e^{-E_j &#x2F; kT}}{\frac{1}{Z} e^{-E_i &#x2F; kT}} &#x3D; \exp\left( - \frac{E_j - E_i}{kT} \right)<br>$$</p>
+<p>定义能量差 $\Delta E &#x3D; E_j - E_i$。</p>
+<h3 id="2-2-接受概率公式"><a href="#2-2-接受概率公式" class="headerlink" title="2.2 接受概率公式"></a>2.2 接受概率公式</h3><p>Metropolis 准则定义了从 $i$ 接受转移到 $j$ 的概率 $A_{ij}$：</p>
+<p>$$<br>A_{ij} &#x3D; \min\left(1, \exp\left(-\frac{\Delta E}{T}\right)\right)<br>$$</p>
+<p>这个分段函数包含了两个物理逻辑：</p>
+<ol>
+<li>**若 $\Delta E &lt; 0$**（新状态能量更低）：指数项 $&gt; 1$，取最小值 1。<strong>意味着必定接受更优解。</strong></li>
+<li><strong>若 $\Delta E \ge 0$</strong>（新状态能量更高）：以概率 $e^{-\Delta E &#x2F; T}$ 接受。<strong>意味着以一定概率容忍劣解。</strong></li>
+</ol>
+<p>正是这一概率性接受劣解的机制（Metropolis Criterion），使得算法具有了**跳出局部极小值（Local Minima）**的能力。</p>
+<hr>
+<h2 id="三、-随机过程视角：马尔可夫链"><a href="#三、-随机过程视角：马尔可夫链" class="headerlink" title="三、 随机过程视角：马尔可夫链"></a>三、 随机过程视角：马尔可夫链</h2><p>从随机过程的角度看，模拟退火算法在每一个固定的温度 $T_k$ 下，都在构造一个<strong>时齐马尔可夫链（Homogeneous Markov Chain）</strong>。</p>
+<h3 id="3-1-细致平衡条件-Detailed-Balance"><a href="#3-1-细致平衡条件-Detailed-Balance" class="headerlink" title="3.1 细致平衡条件 (Detailed Balance)"></a>3.1 细致平衡条件 (Detailed Balance)</h3><p>为了保证该马尔可夫链的平稳分布（Stationary Distribution）确实是玻尔兹曼分布，转移概率矩阵 $P$ 必须满足细致平衡条件：</p>
+<p>$$<br>\pi_i P_{ij} &#x3D; \pi_j P_{ji}<br>$$</p>
+<p>其中 $\pi_i$ 是玻尔兹曼分布概率。Metropolis 准则的构造正是为了满足这一等式。这意味着，在温度 $T$ 保持不变且迭代次数足够多的情况下，算法生成的解序列将在概率上收敛于玻尔兹曼分布。</p>
+<h3 id="3-2-冷却进度-Cooling-Schedule"><a href="#3-2-冷却进度-Cooling-Schedule" class="headerlink" title="3.2 冷却进度 (Cooling Schedule)"></a>3.2 冷却进度 (Cooling Schedule)</h3><p>由于我们最终需要的是 $T \to 0$ 时的分布，算法变成了一个<strong>非时齐</strong>马尔可夫链。Geman 和 Geman (1984) 证明了，要保证算法以概率 1 收敛到全局最优，温度 $T_k$ 的下降速度需满足：</p>
+<p>$$<br>T_k \ge \frac{c}{\ln(1+k)}<br>$$</p>
+<p>这被称为<strong>对数冷却</strong>。但在工程实践中，因其收敛过慢，我们通常采用<strong>指数冷却</strong>（Geometric Cooling）作为近似：</p>
+<p>$$<br>T_{k+1} &#x3D; \alpha \cdot T_k \quad (\alpha \in [0.8, 0.99])<br>$$</p>
+<hr>
+<h2 id="四、-算法实现与可视化"><a href="#四、-算法实现与可视化" class="headerlink" title="四、 算法实现与可视化"></a>四、 算法实现与可视化</h2><p>为了直观感受模拟退火的“物理过程”，我们编写一个带有实时可视化功能的 Python 脚本。</p>
+<p>我们将优化一个经典的非凸函数：$f(x) &#x3D; x^2 + 10\sin(x)$。这个函数在全局最低点附近布满了局部陷阱，非常适合用来演示 SA 算法如何“跳出”局部最优。</p>
+<h3 id="4-1-Python-可视化代码"><a href="#4-1-Python-可视化代码" class="headerlink" title="4.1 Python 可视化代码"></a>4.1 Python 可视化代码</h3><p>请确保你的环境中安装了 <code>matplotlib</code> (<code>pip install matplotlib</code>)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><br><span class="hljs-comment"># --- 1. 定义目标函数 ---</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">objective_function</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> x ** <span class="hljs-number">2</span> + <span class="hljs-number">10</span> * np.sin(x)<br><br><br><span class="hljs-comment"># --- 2. 模拟退火算法 </span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run_sa_clean_result</span>():<br>    <span class="hljs-comment"># === A. 参数设置 ===</span><br>    bounds = [-<span class="hljs-number">10</span>, <span class="hljs-number">10</span>]<br>    T = <span class="hljs-number">100.0</span><br>    T_min = <span class="hljs-number">0.01</span><br>    alpha = <span class="hljs-number">0.98</span><br>    iter_per_temp = <span class="hljs-number">50</span><br><br>    <span class="hljs-comment"># === B. 初始化 ===</span><br>    <span class="hljs-comment"># 随机生成起点</span><br>    start_x = np.random.uniform(bounds[<span class="hljs-number">0</span>], bounds[<span class="hljs-number">1</span>])<br>    start_e = objective_function(start_x)<br><br>    <span class="hljs-comment"># 当前状态 &amp; 最优状态</span><br>    current_x = start_x<br>    current_e = start_e<br>    best_x = current_x<br>    best_e = current_e<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;初始位置: x=<span class="hljs-subst">&#123;start_x:<span class="hljs-number">.4</span>f&#125;</span>, E=<span class="hljs-subst">&#123;start_e:<span class="hljs-number">.4</span>f&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在计算中...&quot;</span>)<br><br>    <span class="hljs-comment"># === C. 纯计算循环 (无需记录轨迹，只记结果) ===</span><br>    <span class="hljs-keyword">while</span> T &gt; T_min:<br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(iter_per_temp):<br>            perturbation = np.random.normal(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) * (T * <span class="hljs-number">0.1</span>)<br>            new_x = current_x + perturbation<br>            new_x = np.clip(new_x, bounds[<span class="hljs-number">0</span>], bounds[<span class="hljs-number">1</span>])<br>            new_e = objective_function(new_x)<br><br>            <span class="hljs-comment"># Metropolis</span><br>            delta_e = new_e - current_e<br>            <span class="hljs-keyword">if</span> delta_e &lt; <span class="hljs-number">0</span>:<br>                accept = <span class="hljs-literal">True</span><br>            <span class="hljs-keyword">else</span>:<br>                prob = np.exp(-delta_e / T)<br>                accept = np.random.random() &lt; prob<br><br>            <span class="hljs-keyword">if</span> accept:<br>                current_x = new_x<br>                current_e = new_e<br>                <span class="hljs-keyword">if</span> current_e &lt; best_e:<br>                    best_x = current_x<br>                    best_e = current_e<br><br>        T *= alpha<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;计算结束！最优解: x=<span class="hljs-subst">&#123;best_x:<span class="hljs-number">.4</span>f&#125;</span>, E=<span class="hljs-subst">&#123;best_e:<span class="hljs-number">.4</span>f&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在生成结果图...&quot;</span>)<br><br>    <span class="hljs-comment"># === D. 极简绘图 ===</span><br>    fig, ax = plt.subplots(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">6</span>))<br><br>    <span class="hljs-comment"># 1. 绘制背景函数曲线 (清晰的深灰色)</span><br>    x_grid = np.linspace(bounds[<span class="hljs-number">0</span>], bounds[<span class="hljs-number">1</span>], <span class="hljs-number">1000</span>)<br>    y_grid = objective_function(x_grid)<br>    ax.plot(x_grid, y_grid, color=<span class="hljs-string">&#x27;#444444&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Objective Function&#x27;</span>)<br><br>    <span class="hljs-comment"># 2. 绘制起点 (蓝色方块)</span><br>    ax.scatter(start_x, start_e, color=<span class="hljs-string">&#x27;blue&#x27;</span>, marker=<span class="hljs-string">&#x27;s&#x27;</span>, s=<span class="hljs-number">100</span>, label=<span class="hljs-string">&#x27;Start Point&#x27;</span>, zorder=<span class="hljs-number">5</span>)<br><br>    <span class="hljs-comment"># 3. 绘制终点/最优解 (绿色大五角星)</span><br>    ax.scatter(best_x, best_e, color=<span class="hljs-string">&#x27;#00FF00&#x27;</span>, marker=<span class="hljs-string">&#x27;*&#x27;</span>, s=<span class="hljs-number">350</span>, edgecolors=<span class="hljs-string">&#x27;black&#x27;</span>,<br>               label=<span class="hljs-string">f&#x27;Global Best\n(E=<span class="hljs-subst">&#123;best_e:<span class="hljs-number">.4</span>f&#125;</span>)&#x27;</span>, zorder=<span class="hljs-number">10</span>)<br><br>    <span class="hljs-comment"># 4. 添加漂亮的标注箭头 (Annotate)</span><br>    <span class="hljs-comment"># 给起点加箭头</span><br>    ax.annotate(<span class="hljs-string">&#x27;Start Here&#x27;</span>, xy=(start_x, start_e), xytext=(start_x, start_e + <span class="hljs-number">20</span>),<br>                arrowprops=<span class="hljs-built_in">dict</span>(facecolor=<span class="hljs-string">&#x27;blue&#x27;</span>, shrink=<span class="hljs-number">0.05</span>),<br>                fontsize=<span class="hljs-number">10</span>, ha=<span class="hljs-string">&#x27;center&#x27;</span>)<br><br>    <span class="hljs-comment"># 给终点加箭头</span><br>    ax.annotate(<span class="hljs-string">&#x27;Found Minimum&#x27;</span>, xy=(best_x, best_e), xytext=(best_x, best_e + <span class="hljs-number">30</span>),<br>                arrowprops=<span class="hljs-built_in">dict</span>(facecolor=<span class="hljs-string">&#x27;green&#x27;</span>, shrink=<span class="hljs-number">0.05</span>),<br>                fontsize=<span class="hljs-number">12</span>, fontweight=<span class="hljs-string">&#x27;bold&#x27;</span>, ha=<span class="hljs-string">&#x27;center&#x27;</span>)<br><br>    <span class="hljs-comment"># 5. 美化布局</span><br>    ax.set_title(<span class="hljs-string">f&quot;Simulated Annealing Result\nFinal Best: x=<span class="hljs-subst">&#123;best_x:<span class="hljs-number">.4</span>f&#125;</span>, E=<span class="hljs-subst">&#123;best_e:<span class="hljs-number">.4</span>f&#125;</span>&quot;</span>, fontsize=<span class="hljs-number">14</span>)<br>    ax.set_xlabel(<span class="hljs-string">&quot;x value&quot;</span>)<br>    ax.set_ylabel(<span class="hljs-string">&quot;Energy&quot;</span>)<br>    ax.grid(<span class="hljs-literal">True</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, alpha=<span class="hljs-number">0.5</span>)<br>    ax.legend()<br><br>    plt.tight_layout()<br>    plt.show()<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    run_sa_clean_result()<br></code></pre></td></tr></table></figure>
+
+<p>最终运行结果如图所示</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260123_112019.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="五、-总结与展望"><a href="#五、-总结与展望" class="headerlink" title="五、 总结与展望"></a>五、 总结与展望</h2><p>模拟退火算法的魅力在于其简洁背后的深刻物理意义。</p>
+<ol>
+<li><strong>全局观</strong>：它利用高温阶段的**熵增（Entropy maximization）**机制，赋予了算法“遍历”解空间的能力。</li>
+<li><strong>局部观</strong>：它利用低温阶段的**能量最小化（Energy minimization）**机制，保证了最终解的精度。</li>
+<li><strong>平衡</strong>：温度 $T$ 实际上是“探索（Exploration）”与“利用（Exploitation）”之间的平衡因子。</li>
+</ol>
+<p>尽管在深度学习等梯度敏感领域，SA 已不再是主流，但在<strong>离散组合优化</strong>（如 TSP、车间调度、芯片布局）以及<strong>无梯度黑盒优化</strong>场景中，基于坚实物理原理的模拟退火算法依然是不可或缺的利器。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Computer-Science/" class="category-chain-item">Computer Science</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Computer-Science/Theoretical-Computer-Science/" class="category-chain-item">Theoretical Computer Science</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/Algorithm/" class="print-no-link">#Algorithm</a>
+      
+        <a href="/tags/Optimization/" class="print-no-link">#Optimization</a>
+      
+        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
+      
+        <a href="/tags/Statistical-Mechanics/" class="print-no-link">#Statistical Mechanics</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>算法之美：模拟退火算法的物理原理与数学表述</div>
+      <div>https://sunfove.xyz/2026/01/23/2026-01-23-simulated-annealing-physics-optimization/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 23, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-daily-english/" title="🌍 Daily English: The Interwoven Threads of Thought: How Cognitive Psychology Illuminates Mental Well-being | 2026-01-22">
+                        <span class="hidden-mobile">🌍 Daily English: The Interwoven Threads of Thought: How Cognitive Psychology Illuminates Mental Well-being | 2026-01-22</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/23/2026-01-23-simulated-annealing-physics-optimization/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
