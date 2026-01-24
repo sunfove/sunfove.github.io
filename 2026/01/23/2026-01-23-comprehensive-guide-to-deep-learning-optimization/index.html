@@ -1,0 +1,965 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文是一篇万字级深度综述。从梯度的物理本质出发，系统性剖析 SGD、Momentum、AdamW 及 LION 等算法的演进逻辑；结合“平坦极小值”理论探讨泛化性差异，并提供大模型时代的生产级优化器代码实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习优化算法全景指南">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/23/2026-01-23-comprehensive-guide-to-deep-learning-optimization/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文是一篇万字级深度综述。从梯度的物理本质出发，系统性剖析 SGD、Momentum、AdamW 及 LION 等算法的演进逻辑；结合“平坦极小值”理论探讨泛化性差异，并提供大模型时代的生产级优化器代码实现。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_012859.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_011636.png">
+<meta property="article:published_time" content="2026-01-23T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-24T05:58:07.279Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="PyTorch">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="优化算法">
+<meta property="article:tag" content="数学建模">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="第一性原理">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_012859.png">
+  
+  
+  
+  <title>深度学习优化算法全景指南 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">深度学习优化算法全景指南</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-23 00:00" pubdate>
+          January 23, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深度学习优化算法全景指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在人工智能的宏伟蓝图中，如果说神经网络的架构（Architecture）是躯体，数据（Data）是血液，那么 <strong>优化算法（Optimization Algorithm）</strong> 就是驱动这具躯体不断进化的灵魂。</p>
+<p>从数学本质上讲，深度学习的训练过程，就是一个在高维、非凸（Non-convex）、充满鞍点（Saddle Points）的复杂流形上，寻找损失函数（Loss Function）全局最小值的过程。这篇文章将摒弃浅层的 API 调用讲解，从第一性原理出发，系统性地剖析优化算法的演进逻辑、数理本质以及在当今大模型（LLM）时代的实战应用。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_012859.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="第一章：优化算法的演进谱系与全景分类"><a href="#第一章：优化算法的演进谱系与全景分类" class="headerlink" title="第一章：优化算法的演进谱系与全景分类"></a>第一章：优化算法的演进谱系与全景分类</h2><p>在深入细节之前，我们需要建立一个清晰的分类坐标系。现代深度学习优化算法并非杂乱无章，而是沿着<strong>解决特定数学困境</strong>的路径演进的。</p>
+<p>我们可以将主流优化算法分为四大核心家族：</p>
+<h3 id="1-1-朴素梯度下降家族-The-Gradient-Descent-Family"><a href="#1-1-朴素梯度下降家族-The-Gradient-Descent-Family" class="headerlink" title="1.1 朴素梯度下降家族 (The Gradient Descent Family)"></a>1.1 朴素梯度下降家族 (The Gradient Descent Family)</h3><p>这是优化的起点。它们基于一阶泰勒展开，利用梯度信息指导参数更新。</p>
+<ul>
+<li><strong>代表算法</strong>：BGD (批量梯度下降), SGD (随机梯度下降), Mini-batch GD。</li>
+<li><strong>核心逻辑</strong>：沿着梯度的反方向，一步步走下山谷。</li>
+</ul>
+<h3 id="1-2-动量加速家族-The-Momentum-Family"><a href="#1-2-动量加速家族-The-Momentum-Family" class="headerlink" title="1.2 动量加速家族 (The Momentum Family)"></a>1.2 动量加速家族 (The Momentum Family)</h3><p>为了解决朴素梯度下降在“峡谷”地形震荡和陷入局部极小值的问题，引入了物理学中的“惯性”概念。</p>
+<ul>
+<li><strong>代表算法</strong>：Momentum (动量法), Nesterov Accelerated Gradient (NAG, Nesterov 加速梯度)。</li>
+<li><strong>核心逻辑</strong>：不仅看当前的坡度，还参考之前的速度，从而冲过平坦区，抑制震荡。</li>
+</ul>
+<h3 id="1-3-自适应学习率家族-The-Adaptive-Learning-Rate-Family"><a href="#1-3-自适应学习率家族-The-Adaptive-Learning-Rate-Family" class="headerlink" title="1.3 自适应学习率家族 (The Adaptive Learning Rate Family)"></a>1.3 自适应学习率家族 (The Adaptive Learning Rate Family)</h3><p>为了解决不同参数对学习率敏感度不同的问题（即参数空间的各向异性），引入了针对每个参数动态调整学习率的机制。</p>
+<ul>
+<li><strong>代表算法</strong>：AdaGrad, RMSProp, <strong>Adam (自适应矩估计)</strong>, AdamW。</li>
+<li><strong>核心逻辑</strong>：梯度的方差越大（更新越频繁），给予的学习率越小；反之则越大。</li>
+</ul>
+<h3 id="1-4-现代高效与分布式家族-Modern-Efficient-Distributed"><a href="#1-4-现代高效与分布式家族-Modern-Efficient-Distributed" class="headerlink" title="1.4 现代高效与分布式家族 (Modern Efficient &amp; Distributed)"></a>1.4 现代高效与分布式家族 (Modern Efficient &amp; Distributed)</h3><p>在大模型时代，为了应对显存瓶颈和超大规模计算，衍生出的新一代算法。</p>
+<ul>
+<li><strong>代表算法</strong>：LION (符号进化优化), ZeRO (零冗余优化器)。</li>
+<li><strong>核心逻辑</strong>：通过量化、符号化或分片存储，极致压缩优化器的显存占用。</li>
+</ul>
+<p>!</p>
+<hr>
+<h2 id="第二章：从随机性到物理惯性-——-梯度下降与动量"><a href="#第二章：从随机性到物理惯性-——-梯度下降与动量" class="headerlink" title="第二章：从随机性到物理惯性 —— 梯度下降与动量"></a>第二章：从随机性到物理惯性 —— 梯度下降与动量</h2><h3 id="2-1-随机梯度下降-SGD-：混沌中的秩序"><a href="#2-1-随机梯度下降-SGD-：混沌中的秩序" class="headerlink" title="2.1 随机梯度下降 (SGD)：混沌中的秩序"></a>2.1 随机梯度下降 (SGD)：混沌中的秩序</h3><p>虽然全量梯度下降（BGD）能计算出最准确的下降方向，但在海量数据面前，其计算成本是不可接受的。<strong>随机梯度下降（Stochastic Gradient Descent, SGD）</strong> 每次仅随机采样一个样本（或一个小批次）来估计梯度。</p>
+<p>$$ \theta_{t+1} &#x3D; \theta_t - \eta \cdot \nabla J(\theta_t; x^{(i)}, y^{(i)}) $$</p>
+<ul>
+<li><p><strong>第一性原理推导</strong>：<br>  SGD 引入的“噪声”在某种程度上起到了**隐式正则化（Implicit Regularization）**的作用。这种随机性可以帮助模型跳出浅层的局部极小值（Local Minima）。然而，SGD 的路径非常曲折，就像一个醉汉在下山。</p>
+</li>
+<li><p><strong>面临的挑战：病态曲率 (Ill-conditioned Curvature)</strong><br>  在深度神经网络的损失曲面上，经常会出现“峡谷”形状——在一个方向上坡度极陡，而在另一个方向上坡度极缓。SGD 会在陡峭方向上剧烈震荡，而在平缓方向上移动缓慢，导致收敛速度极慢。</p>
+</li>
+</ul>
+<h3 id="2-2-动量法-Momentum-：引入物理世界的惯性"><a href="#2-2-动量法-Momentum-：引入物理世界的惯性" class="headerlink" title="2.2 动量法 (Momentum)：引入物理世界的惯性"></a>2.2 动量法 (Momentum)：引入物理世界的惯性</h3><p>为了抑制震荡并加速收敛，我们引入了物理学中的动量概念。现在的更新不仅仅依赖当前的梯度，还保留了上一步的更新方向。</p>
+<p>$$ v_t &#x3D; \gamma v_{t-1} + \eta \nabla J(\theta_t) $$<br>$$ \theta_{t+1} &#x3D; \theta_t - v_t $$</p>
+<ul>
+<li><strong>原理深度解析</strong>：<ul>
+<li><strong>累积效应</strong>：如果梯度方向连续多次保持一致（如在下坡路段），动量项 $v_t$ 会不断增大，从而加速下降。</li>
+<li><strong>平滑效应</strong>（低通滤波）：如果梯度方向发生改变（如在峡谷壁之间），正负梯度会相互抵消，从而抑制震荡。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：<br>  动量法在计算机视觉（CV）任务（如 ResNet, VGG 训练）中依然表现出色，特别是在需要精细调整 SGD 策略以获得更好泛化能力（Generalization）的场景中。</li>
+</ul>
+<h3 id="2-3-Nesterov-加速梯度-NAG-：具备预判能力的动量"><a href="#2-3-Nesterov-加速梯度-NAG-：具备预判能力的动量" class="headerlink" title="2.3 Nesterov 加速梯度 (NAG)：具备预判能力的动量"></a>2.3 Nesterov 加速梯度 (NAG)：具备预判能力的动量</h3><p>Nesterov 动量是对标准动量法的改进。它的核心思想是：“既然我们要按照动量方向迈步，不如先看看迈出这一步后的地形，再决定怎么走。”</p>
+<p>$$ v_t &#x3D; \gamma v_{t-1} + \eta \nabla J(\theta_t - \gamma v_{t-1}) $$</p>
+<p>注意这里的 $\nabla J(\theta_t - \gamma v_{t-1})$，它计算的是<strong>超前点</strong>的梯度。这种“预判”能力使得 NAG 在接近极值点时能够提前减速，具有更强的收敛稳定性。</p>
+<hr>
+<h2 id="第三章：自适应学习率-——-为每个参数定制“步伐”"><a href="#第三章：自适应学习率-——-为每个参数定制“步伐”" class="headerlink" title="第三章：自适应学习率 —— 为每个参数定制“步伐”"></a>第三章：自适应学习率 —— 为每个参数定制“步伐”</h2><p>在处理稀疏数据（如 NLP 中的词向量）或深层网络时，不同参数的梯度量级可能相差数个数量级。对所有参数使用同一个学习率（Global Learning Rate）显然不再是最优解。</p>
+<h3 id="3-1-AdaGrad：历史的积累与惩罚"><a href="#3-1-AdaGrad：历史的积累与惩罚" class="headerlink" title="3.1 AdaGrad：历史的积累与惩罚"></a>3.1 AdaGrad：历史的积累与惩罚</h3><p>AdaGrad (Adaptive Gradient Algorithm) 是自适应算法的先驱。它通过累积历史梯度的平方和，来动态调整每个参数的学习率。</p>
+<p>$$ G_{t, ii} &#x3D; \sum_{\tau&#x3D;1}^t (g_{\tau, i})^2 $$<br>$$ \theta_{t+1, i} &#x3D; \theta_{t, i} - \frac{\eta}{\sqrt{G_{t, ii} + \epsilon}} \cdot g_{t, i} $$</p>
+<ul>
+<li><strong>原理</strong>：频繁更新的参数（梯度大），其 $G_t$ 大，学习率被显著降低；稀疏更新的参数，学习率保持较大。</li>
+<li><strong>缺陷</strong>：$G_t$ 是单调递增的，导致训练后期学习率会趋近于 0，模型提前停止学习。</li>
+</ul>
+<h3 id="3-2-RMSProp：遗忘的艺术"><a href="#3-2-RMSProp：遗忘的艺术" class="headerlink" title="3.2 RMSProp：遗忘的艺术"></a>3.2 RMSProp：遗忘的艺术</h3><p>为了解决 AdaGrad 学习率过早消失的问题，Geoff Hinton 提出了 RMSProp。它引入了<strong>指数移动平均 (Exponential Moving Average, EMA)</strong> 来计算二阶矩。</p>
+<p>$$ E[g^2]<em>t &#x3D; \beta E[g^2]</em>{t-1} + (1 - \beta) g_t^2 $$</p>
+<p>这使得算法只关注“最近”的梯度情况，从而摆脱了历史梯度的沉重包袱。</p>
+<h3 id="3-3-Adam：集大成者-Adaptive-Moment-Estimation"><a href="#3-3-Adam：集大成者-Adaptive-Moment-Estimation" class="headerlink" title="3.3 Adam：集大成者 (Adaptive Moment Estimation)"></a>3.3 Adam：集大成者 (Adaptive Moment Estimation)</h3><p><strong>Adam</strong> 无疑是目前最流行的优化算法。它结合了 Momentum 的一阶矩估计（梯度的均值）和 RMSProp 的二阶矩估计（梯度的未中心化方差）。</p>
+<ul>
+<li><p><strong>数学形式</strong>：</p>
+<ol>
+<li><strong>一阶矩 (Momentum)</strong>: $m_t &#x3D; \beta_1 m_{t-1} + (1 - \beta_1) g_t$</li>
+<li><strong>二阶矩 (Adaptive)</strong>: $v_t &#x3D; \beta_2 v_{t-1} + (1 - \beta_2) g_t^2$</li>
+<li><strong>偏差修正 (Bias Correction)</strong>: 由于 $m_0, v_0$ 初始化为 0，初期估值偏向 0，因此需要除以 $(1-\beta^t)$ 进行修正。</li>
+</ol>
+</li>
+<li><p><strong>AdamW 的修正：L2 正则与权重衰减的解耦</strong><br>  在 Adam 中使用 L2 正则化与权重衰减（Weight Decay）并不等价。<strong>AdamW</strong> 将权重衰减项从梯度更新中解耦出来，直接作用于参数本身：<br>  $$ \theta_{t+1} &#x3D; \theta_t - \eta (\dots) - \eta \lambda \theta_t $$<br>  这一改动在大语言模型（如 BERT, GPT）和 Transformer 架构的训练中至关重要，是目前 LLM 训练的标准配置。</p>
+</li>
+</ul>
+<h3 id="3-4-LION-EvoLved-Sign-Momentum-：符号化的进化奇点"><a href="#3-4-LION-EvoLved-Sign-Momentum-：符号化的进化奇点" class="headerlink" title="3.4 LION (EvoLved Sign Momentum)：符号化的进化奇点"></a>3.4 LION (EvoLved Sign Momentum)：符号化的进化奇点</h3><p>2023 年，Google Brain 通过程序自动搜索（AutoML）发现了一个极其简单的算法——<strong>LION</strong>。与 Adam 存储复杂的梯度值不同，LION <strong>只关注梯度的符号（正或负）</strong>。</p>
+<p>$$ \theta_{t+1} &#x3D; \theta_{t} - \eta \cdot \text{sign}(\beta_1 m_{t-1} + (1-\beta_1)g_t) $$</p>
+<ul>
+<li><strong>第一性原理</strong>：它抛弃了梯度的“大小”信息，只保留“方向”。这在数理上类似于将优化过程约束在一个超立方体的顶点上移动。</li>
+<li><strong>核心优势</strong>：<ol>
+<li><strong>省显存</strong>：不需要存储二阶矩 $v_t$，显存占用比 AdamW 少 50%。</li>
+<li><strong>泛化强</strong>：在 Vision Transformer 和 Diffusion Model 上表现优于 AdamW。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="第四章：算法核心指标对比与场景选择"><a href="#第四章：算法核心指标对比与场景选择" class="headerlink" title="第四章：算法核心指标对比与场景选择"></a>第四章：算法核心指标对比与场景选择</h2><p>“没有免费的午餐定理”（No Free Lunch Theorem）告诉我们，不存在一种在所有问题上都表现最优的算法。优化算法的选择，往往是在<strong>收敛速度</strong>、<strong>泛化能力</strong>和<strong>计算资源</strong>构成的“不可能三角”中寻找平衡。</p>
+<h3 id="4-1-核心算法多维度对比表"><a href="#4-1-核心算法多维度对比表" class="headerlink" title="4.1 核心算法多维度对比表"></a>4.1 核心算法多维度对比表</h3><table>
+<thead>
+<tr>
+<th align="left">算法名称</th>
+<th align="left">收敛速度</th>
+<th align="left">泛化能力</th>
+<th align="left">显存开销</th>
+<th align="left">对超参敏感度</th>
+<th align="left">核心特性一句话总结</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>SGD</strong></td>
+<td align="left">慢 (Slow)</td>
+<td align="left">⭐⭐⭐⭐⭐ (极强)</td>
+<td align="left">⭐ (极低)</td>
+<td align="left">高 (难调)</td>
+<td align="left">依靠随机噪声寻找平坦极小值，CV 领域的“老将”。</td>
+</tr>
+<tr>
+<td align="left"><strong>Momentum</strong></td>
+<td align="left">中 (Medium)</td>
+<td align="left">⭐⭐⭐⭐ (强)</td>
+<td align="left">⭐ (低)</td>
+<td align="left">中</td>
+<td align="left">引入物理惯性穿越鞍点，SGD 的强力升级版。</td>
+</tr>
+<tr>
+<td align="left"><strong>AdaGrad</strong></td>
+<td align="left">快 (前期)</td>
+<td align="left">⭐⭐ (较弱)</td>
+<td align="left">⭐⭐ (中)</td>
+<td align="left">低</td>
+<td align="left">适合稀疏数据，但学习率过早衰减导致后期无力。</td>
+</tr>
+<tr>
+<td align="left"><strong>AdamW</strong></td>
+<td align="left">极快 (Fast)</td>
+<td align="left">⭐⭐⭐ (中&#x2F;强*)</td>
+<td align="left">⭐⭐⭐ (高)</td>
+<td align="left">极低 (好调)</td>
+<td align="left"><strong>工业界默认首选</strong>。AdamW 修复了权重衰减问题，成为 LLM 标配。</td>
+</tr>
+<tr>
+<td align="left"><strong>LION</strong></td>
+<td align="left">极快</td>
+<td align="left">⭐⭐⭐⭐ (强)</td>
+<td align="left">⭐⭐ (较低)</td>
+<td align="left">低</td>
+<td align="left">Google 新宠，仅用符号信息，比 AdamW 省显存且泛化更好。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>注</strong>：*Adam 在配合正确的权重衰减（即 AdamW）和学习率预热（Warmup）后，泛化能力可逼近 SGD。</p>
+</blockquote>
+<h3 id="4-2-深度辩论：泛化差距-Generalization-Gap-之谜"><a href="#4-2-深度辩论：泛化差距-Generalization-Gap-之谜" class="headerlink" title="4.2 深度辩论：泛化差距 (Generalization Gap) 之谜"></a>4.2 深度辩论：泛化差距 (Generalization Gap) 之谜</h3><h4 id="为什么-CV（计算机视觉）偏爱-SGD？"><a href="#为什么-CV（计算机视觉）偏爱-SGD？" class="headerlink" title="为什么 CV（计算机视觉）偏爱 SGD？"></a>为什么 CV（计算机视觉）偏爱 SGD？</h4><p>研究表明，自适应算法（Adam 等）倾向于收敛到<strong>尖锐极小值（Sharp Minima）</strong>，而 SGD 倾向于收敛到<strong>平坦极小值（Flat Minima）</strong>。</p>
+<ul>
+<li><strong>尖锐极小值</strong>：训练集 Loss 很低，但测试数据稍有分布偏移，Loss 就会剧增（泛化差）。</li>
+<li><strong>平坦极小值</strong>：周围区域 Loss 都很低，对数据偏移具有鲁棒性（泛化好）。<br>因此，在 ResNet, YOLO 等视觉模型训练中，<strong>SGD + Momentum + Cosine Decay</strong> 依然是刷榜标配。</li>
+</ul>
+<h4 id="为什么-NLP-与-LLM-必须用-AdamW？"><a href="#为什么-NLP-与-LLM-必须用-AdamW？" class="headerlink" title="为什么 NLP 与 LLM 必须用 AdamW？"></a>为什么 NLP 与 LLM 必须用 AdamW？</h4><p>Transformer 架构层级深、参数分布动态范围极大。SGD 在这种复杂的损失地形上极难调试，容易遭遇梯度消失或爆炸。AdamW 的自适应学习率能够自动平滑不同层级的梯度差异，极大地稳定了训练过程。</p>
+<h3 id="4-3-场景化选型指南"><a href="#4-3-场景化选型指南" class="headerlink" title="4.3 场景化选型指南"></a>4.3 场景化选型指南</h3><ol>
+<li><strong>CNN &#x2F; ResNet &#x2F; 图像分类</strong>：首选 <code>SGD + Momentum</code>。追求极致精度。</li>
+<li><strong>Transformer &#x2F; BERT &#x2F; GPT &#x2F; Llama</strong>：首选 <code>AdamW</code>。必须保证收敛稳定性。</li>
+<li><strong>微调 (Fine-tuning)</strong>：<code>AdamW</code> 或 <code>RMSProp</code>。快速适配新数据。</li>
+<li><strong>显存极度受限 (LoRA&#x2F;QLoRA)</strong>：首选 <code>PagedAdamW (8-bit)</code> 或 <code>LION</code>。</li>
+</ol>
+<hr>
+<h2 id="第五章：代码实战-——-可视化优化轨迹与收敛对比"><a href="#第五章：代码实战-——-可视化优化轨迹与收敛对比" class="headerlink" title="第五章：代码实战 —— 可视化优化轨迹与收敛对比"></a>第五章：代码实战 —— 可视化优化轨迹与收敛对比</h2><p>理论的终点是代码，而代码的终点是“可见性”。为了真正理解 SGD 与 AdamW 的区别，我们不仅要看最终的 Loss，更要看它们是如何“下山”的。</p>
+<p>以下代码包含两个部分：</p>
+<ol>
+<li><strong>Trainer 类</strong>：生产级的训练逻辑，包含梯度裁剪与 Warmup。</li>
+<li><strong>Visualizer 脚本</strong>：在一个模拟的 2D 损失曲面上，直观对比不同算法的寻优路径。</li>
+</ol>
+<h3 id="5-1-构建生产级优化闭环"><a href="#5-1-构建生产级优化闭环" class="headerlink" title="5.1 构建生产级优化闭环"></a>5.1 构建生产级优化闭环</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">from</span> torch.optim <span class="hljs-keyword">import</span> AdamW, SGD<br><span class="hljs-keyword">from</span> torch.optim.lr_scheduler <span class="hljs-keyword">import</span> CosineAnnealingWarmRestarts<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Trainer</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, model, optimizer_type=<span class="hljs-string">&#x27;adamw&#x27;</span>, lr=<span class="hljs-number">1e-3</span></span>):<br>        <span class="hljs-variable language_">self</span>.model = model<br>        <span class="hljs-variable language_">self</span>.losses = []  <span class="hljs-comment"># 用于记录 Loss 轨迹</span><br>        <br>        <span class="hljs-comment"># 1. 参数分组：权重衰减解耦 (Weight Decay Decoupling)</span><br>        <span class="hljs-comment"># 第一性原理：LayerNorm 和 Bias 不应被正则化衰减，否则会破坏数值稳定性</span><br>        param_optimizer = <span class="hljs-built_in">list</span>(model.named_parameters())<br>        no_decay = [<span class="hljs-string">&#x27;bias&#x27;</span>, <span class="hljs-string">&#x27;LayerNorm.bias&#x27;</span>, <span class="hljs-string">&#x27;LayerNorm.weight&#x27;</span>]<br>        optimizer_grouped_parameters = [<br>            &#123;<span class="hljs-string">&#x27;params&#x27;</span>: [p <span class="hljs-keyword">for</span> n, p <span class="hljs-keyword">in</span> param_optimizer <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-built_in">any</span>(nd <span class="hljs-keyword">in</span> n <span class="hljs-keyword">for</span> nd <span class="hljs-keyword">in</span> no_decay)], <br>             <span class="hljs-string">&#x27;weight_decay&#x27;</span>: <span class="hljs-number">0.01</span>&#125;,<br>            &#123;<span class="hljs-string">&#x27;params&#x27;</span>: [p <span class="hljs-keyword">for</span> n, p <span class="hljs-keyword">in</span> param_optimizer <span class="hljs-keyword">if</span> <span class="hljs-built_in">any</span>(nd <span class="hljs-keyword">in</span> n <span class="hljs-keyword">for</span> nd <span class="hljs-keyword">in</span> no_decay)], <br>             <span class="hljs-string">&#x27;weight_decay&#x27;</span>: <span class="hljs-number">0.0</span>&#125;<br>        ]<br><br>        <span class="hljs-comment"># 2. 优化器工厂</span><br>        <span class="hljs-keyword">if</span> optimizer_type.lower() == <span class="hljs-string">&#x27;adamw&#x27;</span>:<br>            <span class="hljs-comment"># Betas=(0.9, 0.95) 是 LLaMA 等大模型训练的经验参数</span><br>            <span class="hljs-variable language_">self</span>.optimizer = AdamW(optimizer_grouped_parameters, lr=lr, betas=(<span class="hljs-number">0.9</span>, <span class="hljs-number">0.95</span>))<br>        <span class="hljs-keyword">elif</span> optimizer_type.lower() == <span class="hljs-string">&#x27;sgd&#x27;</span>:<br>            <span class="hljs-variable language_">self</span>.optimizer = SGD(optimizer_grouped_parameters, lr=lr, momentum=<span class="hljs-number">0.9</span>)<br>            <br>        <span class="hljs-comment"># 3. 学习率调度：余弦退火</span><br>        <span class="hljs-variable language_">self</span>.scheduler = CosineAnnealingWarmRestarts(<span class="hljs-variable language_">self</span>.optimizer, T_0=<span class="hljs-number">50</span>, T_mult=<span class="hljs-number">2</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">train_step</span>(<span class="hljs-params">self, data, target</span>):<br>        <span class="hljs-variable language_">self</span>.model.train()<br>        <span class="hljs-variable language_">self</span>.optimizer.zero_grad()<br>        <br>        output = <span class="hljs-variable language_">self</span>.model(data)<br>        loss = nn.MSELoss()(output, target)<br>        loss.backward()<br><br>        <span class="hljs-comment"># 4. 梯度裁剪 (Gradient Clipping)</span><br>        <span class="hljs-comment"># 防止高维峡谷地形中的梯度爆炸</span><br>        torch.nn.utils.clip_grad_norm_(<span class="hljs-variable language_">self</span>.model.parameters(), max_norm=<span class="hljs-number">1.0</span>)<br><br>        <span class="hljs-variable language_">self</span>.optimizer.step()<br>        <span class="hljs-variable language_">self</span>.scheduler.step()<br>        <br>        <span class="hljs-variable language_">self</span>.losses.append(loss.item())<br>        <span class="hljs-keyword">return</span> loss.item()<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-见证差异：SGD-vs-AdamW-的轨迹可视化"><a href="#5-2-见证差异：SGD-vs-AdamW-的轨迹可视化" class="headerlink" title="5.2 见证差异：SGD vs AdamW 的轨迹可视化"></a>5.2 见证差异：SGD vs AdamW 的轨迹可视化</h3><p>为了直观展示“随机性”与“自适应”的区别，我们构建一个简单的模拟实验：让两个优化器去拟合简单的线性数据，并画出 Loss 下降曲线。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">visualize_comparison</span>():<br>    <span class="hljs-comment"># 模拟数据：y = 2x + 1</span><br>    X = torch.linspace(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">100</span>).view(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    Y = <span class="hljs-number">2</span> * X + <span class="hljs-number">1</span> + torch.randn(X.size()) * <span class="hljs-number">0.1</span> <span class="hljs-comment"># 加入噪声</span><br>    <br>    <span class="hljs-comment"># 定义简单模型</span><br>    model_sgd = nn.Linear(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    model_adam = nn.Linear(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    <br>    <span class="hljs-comment"># 保持初始权重一致，确保公平对比</span><br>    <span class="hljs-keyword">with</span> torch.no_grad():<br>        model_adam.weight.copy_(model_sgd.weight)<br>        model_adam.bias.copy_(model_sgd.bias)<br><br>    <span class="hljs-comment"># 实例化训练器</span><br>    trainer_sgd = Trainer(model_sgd, optimizer_type=<span class="hljs-string">&#x27;sgd&#x27;</span>, lr=<span class="hljs-number">0.1</span>)<br>    trainer_adam = Trainer(model_adam, optimizer_type=<span class="hljs-string">&#x27;adamw&#x27;</span>, lr=<span class="hljs-number">0.1</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;开始对比训练...&quot;</span>)<br>    steps = <span class="hljs-number">100</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(steps):<br>        trainer_sgd.train_step(X, Y)<br>        trainer_adam.train_step(X, Y)<br><br>    <span class="hljs-comment"># --- 绘图逻辑 ---</span><br>    plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">5</span>))<br>    <br>    <span class="hljs-comment"># 绘制 Loss 曲线</span><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br>    plt.plot(trainer_sgd.losses, label=<span class="hljs-string">&#x27;SGD + Momentum&#x27;</span>, color=<span class="hljs-string">&#x27;blue&#x27;</span>, alpha=<span class="hljs-number">0.7</span>)<br>    plt.plot(trainer_adam.losses, label=<span class="hljs-string">&#x27;AdamW&#x27;</span>, color=<span class="hljs-string">&#x27;red&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, linewidth=<span class="hljs-number">2</span>)<br>    plt.title(<span class="hljs-string">&#x27;Convergence Speed Comparison&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;Steps&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Loss (MSE)&#x27;</span>)<br>    plt.legend()<br>    plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br><br>    <span class="hljs-comment"># 绘制拟合结果</span><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br>    plt.scatter(X.numpy(), Y.numpy(), color=<span class="hljs-string">&#x27;gray&#x27;</span>, alpha=<span class="hljs-number">0.5</span>, label=<span class="hljs-string">&#x27;Data&#x27;</span>)<br>    plt.plot(X.numpy(), model_sgd(X).detach().numpy(), <span class="hljs-string">&#x27;b-&#x27;</span>, label=<span class="hljs-string">&#x27;SGD Fit&#x27;</span>)<br>    plt.plot(X.numpy(), model_adam(X).detach().numpy(), <span class="hljs-string">&#x27;r--&#x27;</span>, label=<span class="hljs-string">&#x27;AdamW Fit&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Final Model Fit&#x27;</span>)<br>    plt.legend()<br>    <br>    plt.tight_layout()<br>    plt.show()<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    visualize_comparison()<br></code></pre></td></tr></table></figure>
+
+<h4 id="💡-结果解读-Result-Interpretation"><a href="#💡-结果解读-Result-Interpretation" class="headerlink" title="💡 结果解读 (Result Interpretation)"></a>💡 结果解读 (Result Interpretation)</h4><p>运行上述代码，通过观察 Loss 曲线，我们可以验证以下深层规律（基于典型实验结果）：<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_011636.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li><p><strong>SGD 的“莽撞”与震荡</strong>：</p>
+<ul>
+<li>在简单凸优化任务中，配置了动量（Momentum）的 SGD 下降极快（蓝线），在初期甚至可能超过 AdamW。</li>
+<li><strong>关键细节</strong>：注意蓝线在底部的<strong>波动（Oscillation）</strong>。由于 SGD 对梯度的缩放是线性的，动量过大容易导致它出现“过冲”现象——冲过谷底再折返。在复杂的深层网络中，这种震荡可能导致模型无法收敛。</li>
+</ul>
+</li>
+<li><p><strong>AdamW 的“稳健”与平滑</strong>：</p>
+<ul>
+<li>红线（AdamW）展示了极佳的稳定性。依靠自适应学习率，它根据梯度的方差动态调整步长。</li>
+<li>即便在初期下降速度与 SGD 持平或稍慢，AdamW 也能<strong>平滑地（Smoothly）</strong> 着陆，极少出现剧烈震荡。这种特性在 Transformer 等对超参敏感的大模型训练中是决定性的优势。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="结语：在混沌中寻找最优解"><a href="#结语：在混沌中寻找最优解" class="headerlink" title="结语：在混沌中寻找最优解"></a>结语：在混沌中寻找最优解</h2><p>回顾深度学习优化算法的演进史，我们看到的不仅是数学公式的堆砌，而是人类试图驯服高维混沌的智慧。</p>
+<ul>
+<li><strong>SGD</strong> 告诉我们，<strong>随机性</strong>（Randomness）并非噪音，而是跳出局部最优的阶梯。</li>
+<li><strong>Momentum</strong> 告诉我们，<strong>历史</strong>（History）是有价值的，保持惯性才能跨越低谷。</li>
+<li><strong>Adam</strong> 告诉我们，<strong>适应性</strong>（Adaptability）是关键，对不同的维度要给予不同的关注。</li>
+<li><strong>LION</strong> 告诉我们，<strong>简洁</strong>（Simplicity）往往蕴含着最强的泛化力量。</li>
+</ul>
+<p>在大模型迈向 AGI 的征途中，优化算法依然在进化。从 LION 的符号化尝试，到 ZeRO 的分布式拆解，未来的优化器将更加关注<strong>计算效率</strong>与<strong>硬件协同</strong>。掌握这些底层逻辑，你就掌握了调教 AI 的核心钥匙。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/" class="category-chain-item">技术深度解析</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+        <a href="/tags/PyTorch/" class="print-no-link">#PyTorch</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="print-no-link">#人工智能</a>
+      
+        <a href="/tags/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/" class="print-no-link">#优化算法</a>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="print-no-link">#数学建模</a>
+      
+        <a href="/tags/%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%86/" class="print-no-link">#第一性原理</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度学习优化算法全景指南</div>
+      <div>https://sunfove.xyz/2026/01/23/2026-01-23-comprehensive-guide-to-deep-learning-optimization/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 23, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/23/2026-01-23-simulated-annealing-physics-optimization/" title="算法之美：模拟退火算法的物理原理与数学表述">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">算法之美：模拟退火算法的物理原理与数学表述</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/22/2026-01-22-daily-english/" title="🌍 Daily English: The Interwoven Threads of Thought: How Cognitive Psychology Illuminates Mental Well-being | 2026-01-22">
+                        <span class="hidden-mobile">🌍 Daily English: The Interwoven Threads of Thought: How Cognitive Psychology Illuminates Mental Well-being | 2026-01-22</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/23/2026-01-23-comprehensive-guide-to-deep-learning-optimization/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
