@@ -1,0 +1,886 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="深入解析琼斯矩阵(Jones Matrix)的物理本源。从麦克斯韦方程组出发，探讨光的偏振态如何被数学抽象为二维复向量，以及光学元件如何作为线性算符改变光的性质。本文涵盖数学推导、物理图景及系统级应用分析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/24/2026-01-24-jones-matrix-polarization-calculus/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="深入解析琼斯矩阵(Jones Matrix)的物理本源。从麦克斯韦方程组出发，探讨光的偏振态如何被数学抽象为二维复向量，以及光学元件如何作为线性算符改变光的性质。本文涵盖数学推导、物理图景及系统级应用分析。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102041.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102533.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102648.png">
+<meta property="article:published_time" content="2026-01-24T04:55:21.000Z">
+<meta property="article:modified_time" content="2026-01-24T14:42:04.637Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Electrodynamics">
+<meta property="article:tag" content="Linear Algebra">
+<meta property="article:tag" content="Optics">
+<meta property="article:tag" content="Physics">
+<meta property="article:tag" content="Polarization">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102041.png">
+  
+  
+  
+  <title>穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-24 04:55" pubdate>
+          January 24, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>当我们谈论光时，通过肉眼最直观的感受往往是<strong>强度 (Intensity)</strong> 和 <strong>颜色 (Frequency)</strong>。然而，光作为电磁波，还拥有一个更为隐秘却至关重要的自由度——<strong>偏振 (Polarization)</strong>。</p>
+<p>在现代光学工程、量子信息处理以及液晶显示技术中，对偏振的控制是核心能力。1941年，美国物理学家 R. Clark Jones 在宝丽来公司 (Polaroid Corporation) 工作时，为了简化偏振系统的分析，提出了一套基于 $2 \times 1$ 复向量和 $2 \times 2$ 复矩阵的数学形式体系。这就是<strong>琼斯演算 (Jones Calculus)</strong>。</p>
+<p>本文将剥离工程应用的表象，回归麦克斯韦方程组，探讨为什么我们可以用简单的 $2 \times 2$ 矩阵来描述复杂的光学世界。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102041.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="1-物理本源：从麦克斯韦方程组到琼斯向量"><a href="#1-物理本源：从麦克斯韦方程组到琼斯向量" class="headerlink" title="1. 物理本源：从麦克斯韦方程组到琼斯向量"></a>1. 物理本源：从麦克斯韦方程组到琼斯向量</h2><p>要理解琼斯矩阵，首先必须理解它操作的对象——<strong>琼斯向量 (Jones Vector)</strong>。这并非一个随意定义的数学对象，而是直接源于波动光学的基本解。</p>
+<h3 id="1-1-横波与平面波解"><a href="#1-1-横波与平面波解" class="headerlink" title="1.1 横波与平面波解"></a>1.1 横波与平面波解</h3><p>光是电磁波。在各向同性、非导电的线性介质中，源于麦克斯韦方程组的波动方程为：</p>
+<p>$$ \nabla^2 \mathbf{E} - \mu \epsilon \frac{\partial^2 \mathbf{E}}{\partial t^2} &#x3D; 0 $$</p>
+<p>对于沿 $z$ 轴传播的单色平面波，其电场矢量 $\mathbf{E}$ 必须垂直于传播方向（横波性质）。因此，电场矢量仅在 $xy$ 平面上振动。我们可以将解写为：</p>
+<p>$$ \mathbf{E}(z, t) &#x3D; \begin{pmatrix} E_x(z,t) \ E_y(z,t) \end{pmatrix} &#x3D; \begin{pmatrix} E_{0x} e^{i(kz - \omega t + \phi_x)} \ E_{0y} e^{i(kz - \omega t + \phi_y)} \end{pmatrix} $$</p>
+<p>其中：</p>
+<ul>
+<li>$E_{0x}, E_{0y}$ 是振幅。</li>
+<li>$\phi_x, \phi_y$ 是初始相位。</li>
+<li>$k$ 是波数，$\omega$ 是角频率。</li>
+</ul>
+<h3 id="1-2-数学抽象：时间与空间的剥离"><a href="#1-2-数学抽象：时间与空间的剥离" class="headerlink" title="1.2 数学抽象：时间与空间的剥离"></a>1.2 数学抽象：时间与空间的剥离</h3><p>在处理同一束光通过一系列光学元件时，$\omega$ 通常不变（非线性光学除外），而 $e^{i(kz - \omega t)}$这一项对于 $x$ 分量和 $y$ 分量是公共的。为了简化计算，我们可以将这一时空因子提取出来并忽略（因为它不携带偏振态信息），仅保留描述<strong>相对振幅</strong>和<strong>相对相位差</strong>的部分。</p>
+<p>这就定义了<strong>琼斯向量</strong> $\mathbf{V}$：</p>
+<p>$$ \mathbf{V} &#x3D; \begin{pmatrix} E_{0x} e^{i\phi_x} \ E_{0y} e^{i\phi_y} \end{pmatrix} $$</p>
+<p>为了便于比较，我们通常提取公因子 $E_{0x} e^{i\phi_x}$ 或进行归一化处理。最重要的物理量是两个分量之间的<strong>相位差</strong> $\delta &#x3D; \phi_y - \phi_x$。</p>
+<p>$$ \mathbf{V} \propto \begin{pmatrix} 1 \ \frac{E_{0y}}{E_{0x}} e^{i\delta} \end{pmatrix} $$</p>
+<h3 id="1-3-典型偏振态的向量表示"><a href="#1-3-典型偏振态的向量表示" class="headerlink" title="1.3 典型偏振态的向量表示"></a>1.3 典型偏振态的向量表示</h3><p>通过琼斯向量，我们可以精准定义光的偏振状态：</p>
+<ul>
+<li><p><strong>线偏振 (Linear Polarization):</strong> 相位差 $\delta &#x3D; n\pi$。</p>
+<ul>
+<li>水平偏振 (H): $\begin{pmatrix} 1 \ 0 \end{pmatrix}$</li>
+<li>垂直偏振 (V): $\begin{pmatrix} 0 \ 1 \end{pmatrix}$</li>
+<li>$+45^\circ$ 偏振: $\frac{1}{\sqrt{2}}\begin{pmatrix} 1 \ 1 \end{pmatrix}$</li>
+</ul>
+</li>
+<li><p><strong>圆偏振 (Circular Polarization):</strong> $E_{0x}&#x3D;E_{0y}$ 且 $\delta &#x3D; \pm \pi&#x2F;2$。</p>
+<ul>
+<li>右旋圆偏振 (RCP): $\frac{1}{\sqrt{2}}\begin{pmatrix} 1 \ -i \end{pmatrix}$</li>
+<li>左旋圆偏振 (LCP): $\frac{1}{\sqrt{2}}\begin{pmatrix} 1 \ i \end{pmatrix}$</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong> 左旋与右旋的定义在光学和工程界有时存在符号约定的差异（取决于观察者是迎着光还是顺着光）。琼斯演算中通常采用”迎着光看”的约定。</p>
+</blockquote>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102533.png" srcset="/img/loading.gif" lazyload alt="image_description"></p>
+<hr>
+<h2 id="2-算符的引入：琼斯矩阵的推导"><a href="#2-算符的引入：琼斯矩阵的推导" class="headerlink" title="2. 算符的引入：琼斯矩阵的推导"></a>2. 算符的引入：琼斯矩阵的推导</h2><p>如果光的状态是一个向量 $\mathbf{V}$，那么光学元件（如偏振片、波片）的作用就是将一个输入向量 $\mathbf{V}<em>{in}$ 变换为一个输出向量 $\mathbf{V}</em>{out}$。</p>
+<p>根据线性系统的性质，这种变换是线性的。在线性代数中，<strong>线性变换对应于矩阵</strong>。由于琼斯向量是二维的，对应的算符必然是 $2 \times 2$ 的矩阵，即<strong>琼斯矩阵 (Jones Matrix)</strong> $\mathbf{J}$：</p>
+<p>$$ \mathbf{V}<em>{out} &#x3D; \mathbf{J} \mathbf{V}</em>{in} &#x3D; \begin{pmatrix} J_{11} &amp; J_{12} \ J_{21} &amp; J_{22} \end{pmatrix} \begin{pmatrix} E_x \ E_y \end{pmatrix} $$</p>
+<p>这一公式是整个琼斯演算的核心。下面我们推导几种基础元件的矩阵形式。</p>
+<h3 id="2-1-理想线偏振片-Linear-Polarizer"><a href="#2-1-理想线偏振片-Linear-Polarizer" class="headerlink" title="2.1 理想线偏振片 (Linear Polarizer)"></a>2.1 理想线偏振片 (Linear Polarizer)</h3><p>假设一个理想的水平线偏振片，它只允许 $x$ 方向的分量通过，完全吸收 $y$ 方向的分量。</p>
+<ul>
+<li>输入 $\begin{pmatrix} 1 \ 0 \end{pmatrix} \to$ 输出 $\begin{pmatrix} 1 \ 0 \end{pmatrix}$</li>
+<li>输入 $\begin{pmatrix} 0 \ 1 \end{pmatrix} \to$ 输出 $\begin{pmatrix} 0 \ 0 \end{pmatrix}$</li>
+</ul>
+<p>由此，可以构造水平线偏振片的琼斯矩阵：<br>$$ \mathbf{J}_{H} &#x3D; \begin{pmatrix} 1 &amp; 0 \ 0 &amp; 0 \end{pmatrix} $$</p>
+<p>同理，垂直偏振片为：<br>$$ \mathbf{J}_{V} &#x3D; \begin{pmatrix} 0 &amp; 0 \ 0 &amp; 1 \end{pmatrix} $$</p>
+<h3 id="2-2-相位延迟器-波片-Retarder-Waveplate"><a href="#2-2-相位延迟器-波片-Retarder-Waveplate" class="headerlink" title="2.2 相位延迟器&#x2F;波片 (Retarder &#x2F; Waveplate)"></a>2.2 相位延迟器&#x2F;波片 (Retarder &#x2F; Waveplate)</h3><p>波片是利用晶体的双折射效应制成的。光在快轴 (Fast Axis) 和慢轴 (Slow Axis) 上的传播速度不同，从而引入相位差。假设快轴沿 $x$ 轴，慢轴沿 $y$ 轴，慢轴相对于快轴引入了 $\Gamma$ 的相位延迟。</p>
+<p>这意味着 $x$ 分量不变（或作为参考），$y$ 分量乘以相位因子 $e^{-i\Gamma}$（滞后）：</p>
+<p>$$ \mathbf{J}_{Retarder}(\Gamma) &#x3D; \begin{pmatrix} 1 &amp; 0 \ 0 &amp; e^{-i\Gamma} \end{pmatrix} $$</p>
+<p>为了保持矩阵的对称性（通常为了去除绝对相位因子，只看相对相位），我们常写作：</p>
+<p>$$ \mathbf{J}_{Retarder}(\Gamma) &#x3D; e^{-i\Gamma&#x2F;2} \begin{pmatrix} e^{i\Gamma&#x2F;2} &amp; 0 \ 0 &amp; e^{-i\Gamma&#x2F;2} \end{pmatrix} $$</p>
+<ul>
+<li><strong>四分之一波片 (QWP):</strong> $\Gamma &#x3D; \pi&#x2F;2$。用于将线偏振转为圆偏振。<br>  $$ \mathbf{J}_{QWP} &#x3D; \begin{pmatrix} 1 &amp; 0 \ 0 &amp; -i \end{pmatrix} $$</li>
+<li><strong>半波片 (HWP):</strong> $\Gamma &#x3D; \pi$。用于旋转偏振方向。<br>  $$ \mathbf{J}_{HWP} &#x3D; \begin{pmatrix} 1 &amp; 0 \ 0 &amp; -1 \end{pmatrix} $$</li>
+</ul>
+<hr>
+<h2 id="3-坐标旋转：通用的琼斯矩阵"><a href="#3-坐标旋转：通用的琼斯矩阵" class="headerlink" title="3. 坐标旋转：通用的琼斯矩阵"></a>3. 坐标旋转：通用的琼斯矩阵</h2><p>上述矩阵都是建立在光学元件的主轴与坐标轴 ($x, y$) 重合的假设之上。如果光学元件旋转了 $\theta$ 角度，我们该怎么办？</p>
+<p>这里利用线性代数中的<strong>基底变换 (Change of Basis)</strong>。</p>
+<p>设旋转矩阵 $\mathbf{R}(\theta)$ 为：<br>$$ \mathbf{R}(\theta) &#x3D; \begin{pmatrix} \cos\theta &amp; \sin\theta \ -\sin\theta &amp; \cos\theta \end{pmatrix} $$</p>
+<p>一个旋转了 $\theta$ 角度的光学元件的琼斯矩阵 $\mathbf{J}(\theta)$ 可以通过以下步骤获得：</p>
+<ol>
+<li>将光矢量旋转 $-\theta$ 到元件的特征坐标系（$\mathbf{R}(\theta)$）。</li>
+<li>应用元件的主轴琼斯矩阵 $\mathbf{J}_{axis}$。</li>
+<li>将光矢量旋转回原坐标系（$\mathbf{R}(-\theta)$）。</li>
+</ol>
+<p>数学表达式为相似变换：<br>$$ \mathbf{J}(\theta) &#x3D; \mathbf{R}(-\theta) \mathbf{J}_{axis} \mathbf{R}(\theta) $$</p>
+<p>例如，透光轴与 $x$ 轴成 $\theta$ 角的线偏振片矩阵推导：</p>
+<p>$$<br>\begin{aligned}<br>\mathbf{J}_{LP}(\theta) &amp;&#x3D; \begin{pmatrix} \cos\theta &amp; -\sin\theta \ \sin\theta &amp; \cos\theta \end{pmatrix} \begin{pmatrix} 1 &amp; 0 \ 0 &amp; 0 \end{pmatrix} \begin{pmatrix} \cos\theta &amp; \sin\theta \ -\sin\theta &amp; \cos\theta \end{pmatrix} \<br>&amp;&#x3D; \begin{pmatrix} \cos^2\theta &amp; \cos\theta\sin\theta \ \cos\theta\sin\theta &amp; \sin^2\theta \end{pmatrix}<br>\end{aligned}<br>$$</p>
+<p>这展示了琼斯演算的强大之处：<strong>通过简单的矩阵乘法，我们可以模拟任意角度、任意性质的光学元件。</strong></p>
+<p>琼斯矩阵处理旋转光学元件的核心数学工具是<strong>相似变换 (Similarity Transformation)</strong>。其物理本质是<strong>基底变换 (Change of Basis)</strong>。</p>
+<h3 id="实例验证：水平偏振片的-90-circ-旋转"><a href="#实例验证：水平偏振片的-90-circ-旋转" class="headerlink" title="实例验证：水平偏振片的 $90^\circ$ 旋转"></a>实例验证：水平偏振片的 $90^\circ$ 旋转</h3><p>假设水平偏振片 ($\mathbf{J}_H$) 旋转 $90^\circ$。直觉上它应变为垂直偏振片 ($\mathbf{J}_V$)。</p>
+<ul>
+<li><strong>元件矩阵</strong>：$\mathbf{J}_{axis} &#x3D; \begin{pmatrix} 1 &amp; 0 \ 0 &amp; 0 \end{pmatrix}$</li>
+<li><strong>旋转矩阵</strong> ($\theta&#x3D;90^\circ$)：$\mathbf{R}(90^\circ) &#x3D; \begin{pmatrix} 0 &amp; 1 \ -1 &amp; 0 \end{pmatrix}$</li>
+<li><strong>逆旋转矩阵</strong>：$\mathbf{R}(-90^\circ) &#x3D; \begin{pmatrix} 0 &amp; -1 \ 1 &amp; 0 \end{pmatrix}$</li>
+</ul>
+<p><strong>计算过程</strong>：</p>
+<p>$$<br>\begin{aligned}<br>\mathbf{J}(90^\circ) &amp;&#x3D; \begin{pmatrix} 0 &amp; -1 \ 1 &amp; 0 \end{pmatrix} \begin{pmatrix} 1 &amp; 0 \ 0 &amp; 0 \end{pmatrix} \begin{pmatrix} 0 &amp; 1 \ -1 &amp; 0 \end{pmatrix} \<br>&amp;&#x3D; \begin{pmatrix} 0 &amp; -1 \ 1 &amp; 0 \end{pmatrix} \begin{pmatrix} 0 &amp; 1 \ 0 &amp; 0 \end{pmatrix} \<br>&amp;&#x3D; \begin{pmatrix} 0 &amp; 0 \ 0 &amp; 1 \end{pmatrix}<br>\end{aligned}<br>$$</p>
+<hr>
+<h2 id="4-级联系统与非对易性"><a href="#4-级联系统与非对易性" class="headerlink" title="4. 级联系统与非对易性"></a>4. 级联系统与非对易性</h2><p>在实际光学系统中，光往往连续通过多个元件。如果光依次通过元件 $1, 2, \dots, n$，其对应的矩阵分别为 $\mathbf{J}_1, \mathbf{J}_2, \dots, \mathbf{J}<em>n$，则系统的总矩阵 $\mathbf{J}</em>{sys}$ 为：</p>
+<p>$$ \mathbf{J}_{sys} &#x3D; \mathbf{J}<em>n \mathbf{J}</em>{n-1} \dots \mathbf{J}_2 \mathbf{J}_1 $$</p>
+<p><strong>关键点：</strong> 矩阵乘法一般<strong>不满足交换律</strong> (Non-commutative)。<br>$$ \mathbf{A}\mathbf{B} \neq \mathbf{B}\mathbf{A} $$</p>
+<p>这意味着，先通过偏振片再通过波片，与先通过波片再通过偏振片，其结果通常是截然不同的。这在量子力学中对应算符的不对易性，而在经典光学中，这体现了偏振操作的顺序敏感性。</p>
+<h2 id="5-代码实现"><a href="#5-代码实现" class="headerlink" title="5. 代码实现"></a>5. 代码实现</h2><p>琼斯演算的真正威力在于处理复杂的多元件系统。手算三个以上的矩阵相乘不仅枯燥且容易出错，而计算机则能瞬间完成模拟。</p>
+<p>为了从直观上理解偏振，我们将构建一个 Python 仿真工具，它不仅能计算最终的琼斯向量，还能<strong>可视化光的振动轨迹（偏振椭圆）<strong>以及</strong>模拟旋转光学元件时的强度变化</strong>。</p>
+<h3 id="5-1-核心仿真代码"><a href="#5-1-核心仿真代码" class="headerlink" title="5.1 核心仿真代码"></a>5.1 核心仿真代码</h3><p>我们将定义一个 <code>JonesCalculus</code> 类来封装矩阵运算和绘图功能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> matplotlib.gridspec <span class="hljs-keyword">import</span> GridSpec<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">JonesCalculus</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 基础矩阵定义</span><br>        <span class="hljs-variable language_">self</span>.matrices = &#123;<br>            <span class="hljs-string">&#x27;Identity&#x27;</span>: np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]]),<br>            <span class="hljs-string">&#x27;Horizontal_LP&#x27;</span>: np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]]), <span class="hljs-comment"># 水平线偏振</span><br>            <span class="hljs-string">&#x27;Vertical_LP&#x27;</span>: np.array([[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]]),   <span class="hljs-comment"># 垂直线偏振</span><br>            <span class="hljs-string">&#x27;QWP&#x27;</span>: np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, -<span class="hljs-number">1j</span>]]),         <span class="hljs-comment"># 四分之一波片 (快轴x)</span><br>            <span class="hljs-string">&#x27;HWP&#x27;</span>: np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>]])           <span class="hljs-comment"># 半波片 (快轴x)</span><br>        &#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rotate</span>(<span class="hljs-params">self, matrix, theta_deg</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;对光学元件应用坐标旋转变换: R(-theta) * J * R(theta)&quot;&quot;&quot;</span><br>        theta = np.radians(theta_deg)<br>        c, s = np.cos(theta), np.sin(theta)<br>        R = np.array([[c, s], [-s, c]])<br>        R_inv = np.array([[c, -s], [s, c]])<br>        <span class="hljs-keyword">return</span> R_inv @ matrix @ R<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_intensity</span>(<span class="hljs-params">self, jones_vector</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;计算光强 I = |Ex|^2 + |Ey|^2&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> np.<span class="hljs-built_in">sum</span>(np.<span class="hljs-built_in">abs</span>(jones_vector)**<span class="hljs-number">2</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_polarization_ellipse</span>(<span class="hljs-params">self, jones_vectors, titles</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        可视化偏振椭圆：绘制电场矢量 E(t) 在 xy 平面上的轨迹</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        fig = plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">5</span>))<br>        gs = GridSpec(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(jones_vectors))<br>        <br>        t = np.linspace(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>*np.pi, <span class="hljs-number">100</span>) <span class="hljs-comment"># 时间周期</span><br>        <br>        <span class="hljs-keyword">for</span> i, (vec, title) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(<span class="hljs-built_in">zip</span>(jones_vectors, titles)):<br>            ax = fig.add_subplot(gs[<span class="hljs-number">0</span>, i])<br>            <br>            <span class="hljs-comment"># 计算时域轨迹: E(t) = Re[ V * exp(-iwt) ]</span><br>            <span class="hljs-comment"># 这里的 vec 是复振幅</span><br>            Ex = np.real(vec[<span class="hljs-number">0</span>] * np.exp(-<span class="hljs-number">1j</span> * t))<br>            Ey = np.real(vec[<span class="hljs-number">1</span>] * np.exp(-<span class="hljs-number">1j</span> * t))<br>            <br>            <span class="hljs-comment"># 绘制轨迹</span><br>            ax.plot(Ex, Ey, label=<span class="hljs-string">&#x27;E-field Trace&#x27;</span>, linewidth=<span class="hljs-number">2</span>)<br>            <br>            <span class="hljs-comment"># 绘制箭头指示旋转方向</span><br>            ax.arrow(Ex[<span class="hljs-number">50</span>], Ey[<span class="hljs-number">50</span>], Ex[<span class="hljs-number">51</span>]-Ex[<span class="hljs-number">50</span>], Ey[<span class="hljs-number">51</span>]-Ey[<span class="hljs-number">50</span>], <br>                     head_width=<span class="hljs-number">0.05</span>, color=<span class="hljs-string">&#x27;red&#x27;</span>, zorder=<span class="hljs-number">5</span>)<br>            <br>            ax.set_title(title)<br>            ax.set_xlim(-<span class="hljs-number">1.1</span>, <span class="hljs-number">1.1</span>); ax.set_ylim(-<span class="hljs-number">1.1</span>, <span class="hljs-number">1.1</span>)<br>            ax.set_xlabel(<span class="hljs-string">&#x27;Ex&#x27;</span>); ax.set_ylabel(<span class="hljs-string">&#x27;Ey&#x27;</span>)<br>            ax.grid(<span class="hljs-literal">True</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, alpha=<span class="hljs-number">0.6</span>)<br>            ax.set_aspect(<span class="hljs-string">&#x27;equal&#x27;</span>)<br>            <br>        plt.tight_layout()<br>        plt.show()<br><br><span class="hljs-comment"># --- 实例化仿真器 ---</span><br>sim = JonesCalculus()<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-实际案例：光状态的可视化"><a href="#5-2-实际案例：光状态的可视化" class="headerlink" title="5.2 实际案例：光状态的可视化"></a>5.2 实际案例：光状态的可视化</h3><p>我们来模拟一个经典的场景：<strong>线偏振光通过四分之一波片 (QWP)</strong>。<br>理论告诉我们：如果线偏振光与 QWP 快轴成 45°，输出应为圆偏振光；如果平行，输出仍为线偏振。让我们验证一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义入射光：水平线偏振</span><br>V_in = np.array([[<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>]])<br><br><span class="hljs-comment"># 场景 A: QWP 快轴水平 (theta=0) -&gt; 结果应仍为线偏振 (只是相位变了)</span><br>J_QWP_0 = sim.rotate(sim.matrices[<span class="hljs-string">&#x27;QWP&#x27;</span>], <span class="hljs-number">0</span>)<br>V_out_A = J_QWP_0 @ V_in<br><br><span class="hljs-comment"># 场景 B: QWP 快轴旋转 45度 -&gt; 结果应为右旋圆偏振</span><br>J_QWP_45 = sim.rotate(sim.matrices[<span class="hljs-string">&#x27;QWP&#x27;</span>], <span class="hljs-number">45</span>)<br>V_out_B = J_QWP_45 @ V_in<br><br><span class="hljs-comment"># 可视化对比</span><br>sim.plot_polarization_ellipse(<br>    [V_in, V_out_A, V_out_B], <br>    [<span class="hljs-string">&#x27;Input: Linear (H)&#x27;</span>, <span class="hljs-string">&#x27;Output A (QWP @ 0°): Linear&#x27;</span>, <span class="hljs-string">&#x27;Output B (QWP @ 45°): Circular&#x27;</span>]<br>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>运行结果解读：</strong><br>运行上述代码，你会看到三张子图：</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102648.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li>第一张是一条水平直线（水平线偏振）。</li>
+<li>第二张也是直线（因为光沿快轴传播，偏振态未改变）。</li>
+<li>第三张是一个完美的圆，且箭头指示顺时针方向（右旋圆偏振）。这直观地验证了 $\lambda&#x2F;4$ 波片的作用。</li>
+</ol>
+<p>实际上，这也就是本文首图所展示的，通过使用1&#x2F;4波片，将线偏光，转化成了圆偏光。</p>
+<hr>
+<h2 id="6-局限性与超越：从-Jones-到-Mueller"><a href="#6-局限性与超越：从-Jones-到-Mueller" class="headerlink" title="6. 局限性与超越：从 Jones 到 Mueller"></a>6. 局限性与超越：从 Jones 到 Mueller</h2><p>虽然琼斯矩阵优雅简洁，但它并非万能。它的核心假设是<strong>光是完全偏振的 (Fully Polarized)</strong> 且是<strong>相干的 (Coherent)</strong>。</p>
+<p>然而，在现实世界中，我们经常遇到：</p>
+<ol>
+<li><strong>非偏振光 (Unpolarized Light):</strong> 如太阳光、白炽灯光。</li>
+<li><strong>部分偏振光 (Partially Polarized Light):</strong> 散射光。</li>
+<li><strong>退偏振效应 (Depolarization):</strong> 光通过毛玻璃或生物组织。</li>
+</ol>
+<p>对于这些情况，琼斯向量（2个复数）包含的信息量不足。我们需要升级到 <strong>斯托克斯向量 (Stokes Vector)</strong>（4个实数）和 <strong>穆勒矩阵 (Mueller Matrix)</strong>（$4 \times 4$ 实矩阵）。</p>
+<ul>
+<li><strong>琼斯演算：</strong> 处理 <strong>振幅 (Amplitude)</strong> 的叠加，保留相位信息，适用于相干光。</li>
+<li><strong>穆勒演算：</strong> 处理 <strong>强度 (Intensity)</strong> 的叠加，丢失绝对相位信息，适用于非相干光和部分偏振光。</li>
+</ul>
+<p>尽管如此，琼斯矩阵依然是激光光学、光纤通信和相干光学领域的通用语言。</p>
+<hr>
+<h2 id="7-结语"><a href="#7-结语" class="headerlink" title="7. 结语"></a>7. 结语</h2><p>琼斯矩阵是物理学简练之美的典范。它将复杂的麦克斯韦电磁场理论压缩进了 $2 \times 2$ 的矩阵之中。通过简单的矩阵乘法，我们不仅能够计算光通过显微镜、望远镜或液晶屏幕时的行为，甚至能通过类比，窥探量子力学中量子比特（Qubit）的演化——因为数学形式上，琼斯向量与量子力学中的自旋态向量有着惊人的同构性（SU(2) 群）。</p>
+<p>掌握琼斯矩阵，不仅仅是掌握了一种计算工具，更是获得了一把解构光与物质相互作用的逻辑钥匙。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Theoretical-Physics/" class="category-chain-item">Theoretical Physics</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
+      
+        <a href="/tags/Physics/" class="print-no-link">#Physics</a>
+      
+        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
+      
+        <a href="/tags/Electrodynamics/" class="print-no-link">#Electrodynamics</a>
+      
+        <a href="/tags/Polarization/" class="print-no-link">#Polarization</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美</div>
+      <div>https://sunfove.xyz/2026/01/24/2026-01-24-jones-matrix-polarization-calculus/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 24, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/23/2026-01-23-the-mystery-of-anhui-beef-noodles-in-hebei/" title="为什么安徽牛肉板面变成了河北特色美食？">
+                        <span class="hidden-mobile">为什么安徽牛肉板面变成了河北特色美食？</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/24/2026-01-24-jones-matrix-polarization-calculus/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
