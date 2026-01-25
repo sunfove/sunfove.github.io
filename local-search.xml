@@ -4,6 +4,37 @@
   
   
   <entry>
+    <title>冬天的太阳颜色为什么和夏天的不一样？</title>
+    <link href="/2026/01/25/2026-01-25-winter-sun/"/>
+    <url>/2026/01/25/2026-01-25-winter-sun/</url>
+    
+    <content type="html"><![CDATA[<p>不知道大家平时有没有注意过，冬天的太阳和夏天的太阳颜色看起来不一样：夏日的太阳如同一枚功率全开、近乎发白的白炽灯，带着令人眩晕的灼热质感；而冬日的阳光却像是一块被精心打磨的暖金色琥珀，色调柔和且边缘锐利。但不都是同一个太阳么，为什么会产生这种不同颜色的差异呢，本文将从其内部原理出发，给出问题的解答。</p><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_105646.png"></p><p>虽然太阳本身作为黑体辐射源（表面温度约为 $5778\ K$），其发射的光谱在四季中几乎保持恒定，但作为观测者，我们处于地球大气层底部。大气层充当了一个<strong>动态的光学滤波器</strong>，而季节改变了这个滤波器的物理参数（厚度、介质成分）。</p><p>以下是详细的物理机制拆解：</p><hr><h2 id="1-几何光学：光程与大气质量-Air-Mass"><a href="#1-几何光学：光程与大气质量-Air-Mass" class="headerlink" title="1. 几何光学：光程与大气质量 (Air Mass)"></a>1. 几何光学：光程与大气质量 (Air Mass)</h2><p>这是导致颜色差异的最根本原因。地球自转轴相对于公转轨道平面有 $23.5^\circ$ 的倾角。</p><ul><li><strong>夏季（北半球）：</strong> 太阳直射北回归线附近，正午时太阳高度角（Solar Elevation Angle, $\alpha$）很大，接近天顶。</li><li><strong>冬季（北半球）：</strong> 太阳直射南回归线附近，北半球观测到的太阳高度角 $\alpha$ 显著降低。</li></ul><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102437.png"></p><h3 id="大气质量-AM-的概念"><a href="#大气质量-AM-的概念" class="headerlink" title="大气质量 (AM) 的概念"></a>大气质量 (AM) 的概念</h3><p>在光学和光伏领域，我们用 <strong>Air Mass (AM)</strong> 来量化光线穿过大气的路径长度。如果天顶方向的路径为 1，那么任意角度的路径长度 $AM$ 近似为：<br>$$<br>AM \approx \frac{1}{\cos(\theta_z)} &#x3D; \frac{1}{\sin(\alpha)}<br>$$<br>其中 $\theta_z$ 是天顶角（Zenith Angle）。</p><ul><li><strong>夏天：</strong> 太阳几乎垂直入射，$\alpha \approx 80^\circ$-$90^\circ$，光程最短，$AM \approx 1$。光线受到的衰减最少。</li><li><strong>冬天：</strong> 太阳斜射，$\alpha$ 可能只有 $30^\circ$-$40^\circ$ 甚至更低，光程显著增加，$AM$ 值可能达到 2 或 3 以上。这意味着光线要穿过比夏天厚 <strong>2 到 3 倍</strong> 的大气层才能到达你的眼睛。</li></ul><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102627.png"></p><hr><h2 id="2-散射物理：瑞利散射与光谱过滤"><a href="#2-散射物理：瑞利散射与光谱过滤" class="headerlink" title="2. 散射物理：瑞利散射与光谱过滤"></a>2. 散射物理：瑞利散射与光谱过滤</h2><p>光在大气中传播距离变长，会发生什么？这涉及两个核心散射机制：</p><h3 id="A-瑞利散射-Rayleigh-Scattering-——-颜色的决定者"><a href="#A-瑞利散射-Rayleigh-Scattering-——-颜色的决定者" class="headerlink" title="A. 瑞利散射 (Rayleigh Scattering) —— 颜色的决定者"></a>A. 瑞利散射 (Rayleigh Scattering) —— 颜色的决定者</h3><p>当光与大气中的气体分子（尺寸远小于光波长，如 $N_2, O_2$）相互作用时，发生瑞利散射。其散射强度 $I$ 与波长 $\lambda$ 的关系为：<br>$$<br>I \propto \frac{1}{\lambda^4}<br>$$</p><p>这意味着：<strong>波长越短（蓝紫光），被散射得越强；波长越长（红黄光），穿透力越强。</strong></p><ul><li><strong>夏天的“白色&#x2F;浅黄”：</strong> 由于 $AM \approx 1$，光程短，只有少量的短波（蓝光）被散射掉。剩下的光谱成分依然很全，混合在一起呈现出极其明亮的<strong>白色</strong>，仅带有轻微的黄色调。</li><li><strong>冬天的“金色&#x2F;橙红”：</strong> 由于 $AM &gt; 2$，光程极长。在长途跋涉中，绝大部分的高频短波（蓝、靛、紫、甚至部分绿光）都被大气分子散射到了四面八方（这也是为什么晴朗的冬日天空特别蓝）。最终能够直线穿透到达人眼的，主要是低频的长波（<strong>黄、橙、红</strong>）。因此，太阳呈现出柔和的金色。</li></ul><h3 id="B-米氏散射-Mie-Scattering-——-质感的决定者"><a href="#B-米氏散射-Mie-Scattering-——-质感的决定者" class="headerlink" title="B. 米氏散射 (Mie Scattering) —— 质感的决定者"></a>B. 米氏散射 (Mie Scattering) —— 质感的决定者</h3><p>当光与尺寸接近或大于波长的微粒（如水滴、气溶胶、灰尘）作用时，发生米氏散射。这种散射对波长不敏感（全波段散射），呈现<strong>白色</strong>。</p><ul><li><strong>夏天的“朦胧感”：</strong> 夏季高温导致空气湿度大，悬浮水汽多。强烈的米氏散射将所有颜色的光混合散射，导致天空呈现<strong>灰白色</strong>或<strong>乳白色</strong>，太阳周围有一圈明亮的“光晕”，视觉上显得非常刺眼且浑浊。</li><li><strong>冬天的“通透感”：</strong> 冬季气温低，冷空气保持水分的能力极差（绝对湿度低）。空气中水汽含量少，米氏散射大大减弱。此时瑞利散射占主导，导致光线非常**“干”<strong>和</strong>“透”**，阴影边缘清晰锐利。</li></ul><hr><h2 id="3-辐射度学：光通量密度的稀释"><a href="#3-辐射度学：光通量密度的稀释" class="headerlink" title="3. 辐射度学：光通量密度的稀释"></a>3. 辐射度学：光通量密度的稀释</h2><p>为什么冬天的太阳看起来没有那么“毒辣”？除了大气衰减，还有一个几何投影的问题，遵循<strong>朗伯余弦定律 (Lambert’s Cosine Law)</strong>。</p><p>即使太阳发出的总能量不变，但这束光照射到地面的面积发生了变化。<br>$$<br>E &#x3D; E_0 \cos(\theta_z)<br>$$<br>其中 $E$ 是地面的辐照度（Irradiance, $W&#x2F;m^2$），$E_0$ 是垂直入射时的辐照度。</p><ul><li><strong>夏天：</strong> 光束垂直打在地面，能量集中在最小的面积上，能量密度极高。</li><li><strong>冬天：</strong> 同样一束光，因为倾斜入射，被“涂抹”在了更大的面积上。单位面积接收到的光子数量显著减少。</li></ul><p><strong>结论：</strong> 视觉上，你会觉得冬天的阳光虽然颜色偏暖（金黄），但<strong>亮度（Luminance）</strong> 降低了，不再像夏天那样甚至无法直视。</p><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_103115.png"></p><hr><h2 id="4-一个反直觉的事实：近日点-Perihelion"><a href="#4-一个反直觉的事实：近日点-Perihelion" class="headerlink" title="4. 一个反直觉的事实：近日点 (Perihelion)"></a>4. 一个反直觉的事实：近日点 (Perihelion)</h2><p>这里有一个物理学上的“冷知识”：</p><p><strong>其实，冬天的太阳比夏天的太阳距离我们要更近一些（针对北半球）。</strong></p><p>地球轨道是椭圆的。</p><ul><li><strong>近日点：</strong> 每年 <strong>1月3日</strong> 左右，地球距离太阳最近（约 1.47 亿公里）。</li><li><strong>远日点：</strong> 每年 <strong>7月4日</strong> 左右，地球距离太阳最远（约 1.52 亿公里）。</li></ul><p>这意味着，在北半球的隆冬时节，到达大气层顶部的太阳辐射其实比夏天要强约 <strong>6.9%</strong>。<br><em>但是</em>，由于前文提到的 <strong>高度角（光程长、投影面积大）</strong> 因素的影响力远超这就距离变化，所以我们依然感觉冬天是寒冷且光线柔和的。</p><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102943.png"></p><hr><h2 id="总结：冬夏太阳特征对比表"><a href="#总结：冬夏太阳特征对比表" class="headerlink" title="总结：冬夏太阳特征对比表"></a>总结：冬夏太阳特征对比表</h2><table><thead><tr><th align="left">特征维度</th><th align="left">夏天的太阳</th><th align="left">冬天的太阳</th><th align="left">物理主因</th></tr></thead><tbody><tr><td align="left"><strong>视觉颜色</strong></td><td align="left">刺眼白、浅黄</td><td align="left">金黄、橙红</td><td align="left"><strong>瑞利散射</strong>（光程 $AM$ 差异）</td></tr><tr><td align="left"><strong>天空质感</strong></td><td align="left">朦胧、乳白蓝</td><td align="left">通透、深邃蓝</td><td align="left"><strong>米氏散射</strong>（空气湿度&#x2F;水汽差异）</td></tr><tr><td align="left"><strong>阴影特征</strong></td><td align="left">短、边缘模糊</td><td align="left">长、边缘锐利</td><td align="left">投影几何 + 散射光比例</td></tr><tr><td align="left"><strong>能量感受</strong></td><td align="left">灼热、暴晒</td><td align="left">温暖、温和</td><td align="left"><strong>朗伯余弦定律</strong>（能量密度分散）</td></tr><tr><td align="left"><strong>地日距离</strong></td><td align="left">较远（远日点）</td><td align="left"><strong>较近（近日点）</strong></td><td align="left">轨道偏心率（虽然近，但由于角度低，依然冷）</td></tr></tbody></table><p>综上所述，冬天的太阳之所以呈现出迷人的金色和通透的质感，本质上是因为我们是在透过一个 <strong>更厚（角度低）</strong> 但 <strong>更纯净（湿度低）</strong> 的大气透镜在观察它。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>科学深度分析</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>光学</tag>
+      
+      <tag>物理学</tag>
+      
+      <tag>气象学</tag>
+      
+      <tag>天文学</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>🌍 Daily English: The Unseen World: How Technology Transforms Wildlife Filmmaking | 2026-01-24</title>
     <link href="/2026/01/24/2026-01-24-daily-english/"/>
     <url>/2026/01/24/2026-01-24-daily-english/</url>
@@ -22,11 +53,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -599,11 +630,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -801,11 +832,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -1253,11 +1284,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -1422,11 +1453,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -1688,11 +1719,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -1991,11 +2022,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -2222,11 +2253,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -2391,11 +2422,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -2420,8 +2451,6 @@
     
     <tags>
       
-      <tag>光学设计</tag>
-      
       <tag>波动方程</tag>
       
       <tag>激光物理</tag>
@@ -2429,6 +2458,8 @@
       <tag>高斯光束</tag>
       
       <tag>傍轴近似</tag>
+      
+      <tag>光学设计</tag>
       
     </tags>
     
@@ -2490,11 +2521,11 @@
       
       <tag>光学设计</tag>
       
-      <tag>物理公式</tag>
-      
       <tag>摄影光学</tag>
       
       <tag>显微镜</tag>
+      
+      <tag>物理公式</tag>
       
     </tags>
     
@@ -2616,11 +2647,11 @@
       
       <tag>光学设计</tag>
       
+      <tag>物理公式</tag>
+      
       <tag>辐射度学</tag>
       
       <tag>光度学</tag>
-      
-      <tag>物理公式</tag>
       
     </tags>
     
@@ -2820,11 +2851,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -2888,11 +2919,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -3119,11 +3150,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -3181,11 +3212,11 @@
       
       <tag>English</tag>
       
+      <tag>Nature &amp; Wildlife Documentary</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -3212,11 +3243,11 @@
       
       <tag>English</tag>
       
-      <tag>Optics &amp; Metasurfaces Technology</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
