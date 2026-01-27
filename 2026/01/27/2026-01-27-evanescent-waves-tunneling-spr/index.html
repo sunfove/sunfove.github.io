@@ -21,26 +21,19 @@
   <meta name="author" content="Sunfove">
   <meta name="keywords" content="">
   
-    <meta name="description" content="卡尔曼滤波不仅仅是导航和控制的算法，它是贝叶斯推理在连续系统中的完美体现。本文从高斯分布的融合出发，不依赖死记硬背的矩阵公式，直观推导预测与观测如何通过协方差矩阵实现最优的数据融合。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="在噪声中看见真相：卡尔曼滤波的第一性原理推导">
-<meta property="og:url" content="https://sunfove.xyz/2026/01/22/2026-01-22-kalman-filter-from-scratch/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="2026-01-27-evanescent-waves-tunneling-spr">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/27/2026-01-27-evanescent-waves-tunneling-spr/index.html">
 <meta property="og:site_name" content="明明如月">
-<meta property="og:description" content="卡尔曼滤波不仅仅是导航和控制的算法，它是贝叶斯推理在连续系统中的完美体现。本文从高斯分布的融合出发，不依赖死记硬背的矩阵公式，直观推导预测与观测如何通过协方差矩阵实现最优的数据融合。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-01-22T07:15:00.000Z">
-<meta property="article:modified_time" content="2026-01-27T13:21:49.090Z">
+<meta property="article:published_time" content="2026-01-27T20:59:34.000Z">
+<meta property="article:modified_time" content="2026-01-27T13:21:49.091Z">
 <meta property="article:author" content="Sunfove">
-<meta property="article:tag" content="Algorithms">
-<meta property="article:tag" content="Bayesian Inference">
-<meta property="article:tag" content="Control Theory">
-<meta property="article:tag" content="Mathematics">
-<meta property="article:tag" content="Robotics">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>在噪声中看见真相：卡尔曼滤波的第一性原理推导 - 明明如月</title>
+  <title>2026-01-27-evanescent-waves-tunneling-spr - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +223,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">在噪声中看见真相：卡尔曼滤波的第一性原理推导</span>
+            <span id="subtitle">2026-01-27-evanescent-waves-tunneling-spr</span>
           
         </div>
 
@@ -241,8 +234,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-22 07:15" pubdate>
-          January 22, 2026 am
+        <time datetime="2026-01-27 20:59" pubdate>
+          January 27, 2026 pm
         </time>
       </span>
     
@@ -253,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k words
+          0 words
         
       </span>
     
@@ -264,7 +257,7 @@
         
         
         
-          17 mins
+          1 mins
         
       </span>
     
@@ -301,96 +294,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">在噪声中看见真相：卡尔曼滤波的第一性原理推导</h1>
+            <h1 id="seo-header">2026-01-27-evanescent-waves-tunneling-spr</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="引言：阿波罗登月的幕后英雄"><a href="#引言：阿波罗登月的幕后英雄" class="headerlink" title="引言：阿波罗登月的幕后英雄"></a>引言：阿波罗登月的幕后英雄</h1><p>1969 年，阿波罗 11 号飞船在飞向月球的过程中，面临着一个棘手的问题：</p>
-<p>飞船上的导航传感器（陀螺仪、加速度计）存在误差，且误差会随时间累积（漂移）；地面雷达的追踪虽然没有漂移，但存在巨大的随机噪声。<br>更糟糕的是，飞船的推力并不完全稳定，存在内部扰动。</p>
-<p>如果你是当年的工程师，你该相信谁？<br>相信飞船内部的传感器？它会把你带偏。<br>相信地面的雷达？它的读数跳动得像心电图。</p>
-<p>鲁道夫·卡尔曼（Rudolf Kalman）给出的答案是：<strong>都不要全信，但也都要信一点。</strong></p>
-<p>这就是<strong>卡尔曼滤波（Kalman Filter）</strong>。它不是一种过滤杂质的物理筛子，而是一种**信息融合（Information Fusion）**的哲学。它在充满不确定性（Uncertainty）的世界中，寻找方差最小的“最优估计”。</p>
-<hr>
-<h1 id="第一章：直觉——两个高斯分布的相遇"><a href="#第一章：直觉——两个高斯分布的相遇" class="headerlink" title="第一章：直觉——两个高斯分布的相遇"></a>第一章：直觉——两个高斯分布的相遇</h1><p>要理解卡尔曼滤波，我们必须先忘掉矩阵，回到概率论的最基础：<strong>高斯分布（正态分布）</strong>。</p>
-<p>假设我们在黑暗的走廊里行走。</p>
-<ol>
-<li><strong>预测（Prediction）</strong>：根据我的步幅和走路时间，我<strong>觉得</strong>我向前走了 10 米。但我不敢确定，可能走了 9 米，也可能 11 米。这种不确定性，可以用一个高斯分布 $N(\mu_1, \sigma_1^2)$ 来描述。</li>
-<li><strong>观测（Measurement）</strong>：此时我伸手摸到了墙上的一个标记。根据手感，我<strong>测量</strong>出我现在在 10.2 米处。但我的手感也有误差，这又是一个高斯分布 $N(\mu_2, \sigma_2^2)$。</li>
-</ol>
-<p>现在的核心问题是：<strong>我到底在哪里？</strong></p>
-<p>直觉告诉我们，真值应该介于 10 和 10.2 之间。如果我的测量（手感）非常准（$\sigma_2$ 很小），我就应该更偏向 10.2；如果我对自己的步幅非常有信心（$\sigma_1$ 很小），我就更偏向 10。</p>
-<p>在数学上，最佳的估计位置，就是这两个高斯分布概率密度函数（PDF）<strong>乘积</strong>后的新高斯分布的峰值。</p>
-<p>$$<br>N_{new}(\mu’, \sigma’^2) &#x3D; N(\mu_1, \sigma_1^2) \times N(\mu_2, \sigma_2^2)<br>$$</p>
-<p>经过推导，新的均值 $\mu’$ 为：</p>
-<p>$$<br>\mu’ &#x3D; \mu_1 + \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2} (\mu_2 - \mu_1)<br>$$</p>
-<p>请盯着这个公式。如果我们令 $K &#x3D; \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2}$，那么：</p>
-<p>$$<br>\mu’ &#x3D; \mu_1 + K (\text{观测值} - \text{预测值})<br>$$</p>
-<p>这个 $K$，就是传说中的<strong>卡尔曼增益（Kalman Gain）</strong>。<br>它的物理含义极其优美：<strong>它是“预测误差”占“总误差”的比例。</strong> 如果预测误差很大（$\sigma_1$ 大），$K$ 就接近 1，我们就完全听从观测值；如果观测误差很大（$\sigma_2$ 大），$K$ 就接近 0，我们就完全听从预测值。</p>
-<p>这就是卡尔曼滤波的全部灵魂。剩下的，只是把它扩展到多维矩阵而已。</p>
-<p>!</p>
-<hr>
-<h1 id="第二章：状态空间模型——用数学描述世界"><a href="#第二章：状态空间模型——用数学描述世界" class="headerlink" title="第二章：状态空间模型——用数学描述世界"></a>第二章：状态空间模型——用数学描述世界</h1><p>现实系统不是一维的。我们需要处理位置、速度、加速度等多个变量，而且它们之间相互关联（速度改变位置）。因此，我们引入<strong>矩阵</strong>。</p>
-<h3 id="2-1-状态向量与状态转移"><a href="#2-1-状态向量与状态转移" class="headerlink" title="2.1 状态向量与状态转移"></a>2.1 状态向量与状态转移</h3><p>设系统的状态为向量 $x_k$（例如包含位置 $p$ 和速度 $v$）。<br>根据物理定律（如牛顿力学），我们可以根据上一时刻的状态 $x_{k-1}$ 预测当前时刻的状态：</p>
-<p>$$<br>x_k &#x3D; F x_{k-1} + B u_k + w_k<br>$$</p>
-<ul>
-<li>$F$：<strong>状态转移矩阵</strong>（State Transition Matrix）。例如 $p_k &#x3D; p_{k-1} + v_{k-1} \Delta t$。</li>
-<li>$u_k$：<strong>控制输入</strong>（Control Input）。例如踩下油门产生的加速度。</li>
-<li>$w_k$：<strong>过程噪声</strong>（Process Noise）。来自风阻、路面不平整等不可控因素。假设服从 $N(0, Q)$，其中 $Q$ 是过程噪声协方差矩阵。</li>
-</ul>
-<h3 id="2-2-观测模型"><a href="#2-2-观测模型" class="headerlink" title="2.2 观测模型"></a>2.2 观测模型</h3><p>我们通过传感器观察世界，但传感器只能看到一部分信息（例如只能测速，不能测位置）：</p>
-<p>$$<br>z_k &#x3D; H x_k + v_k<br>$$</p>
-<ul>
-<li>$H$：<strong>观测矩阵</strong>（Observation Matrix）。将状态空间映射到观测空间。</li>
-<li>$v_k$：<strong>测量噪声</strong>（Measurement Noise）。假设服从 $N(0, R)$，其中 $R$ 是测量噪声协方差矩阵。</li>
-</ul>
-<hr>
-<h1 id="第三章：协方差矩阵-P-——不确定性的形状"><a href="#第三章：协方差矩阵-P-——不确定性的形状" class="headerlink" title="第三章：协方差矩阵 $P$——不确定性的形状"></a>第三章：协方差矩阵 $P$——不确定性的形状</h1><p>在卡尔曼滤波中，最关键的变量不是状态 $x$，而是<strong>协方差矩阵 $P$</strong>。</p>
-<p>如果 $x$ 告诉我们要去哪里，那么 $P$ 就告诉我们<strong>有多大的把握</strong>。<br>$P_{ij}$ 描述了第 $i$ 个变量和第 $j$ 个变量之间的相关性。在几何上，它定义了一个高维椭球体。</p>
-<ul>
-<li>随着时间推移，因为有过程噪声 $Q$，预测会越来越不准，椭球体会<strong>变大</strong>。</li>
-<li>每当我们获得一次观测，信息增加了，不确定性减少，椭球体会<strong>变小</strong>。</li>
-</ul>
-<p>卡尔曼滤波，就是这个椭球体不断“呼吸”（变大又变小）的过程。</p>
-<hr>
-<h1 id="第四章：算法的五大公式——预测与更新的循环"><a href="#第四章：算法的五大公式——预测与更新的循环" class="headerlink" title="第四章：算法的五大公式——预测与更新的循环"></a>第四章：算法的五大公式——预测与更新的循环</h1><p>卡尔曼滤波是一个递归（Recursive）过程，分为两个阶段：<strong>预测（Predict）<strong>和</strong>更新（Update）</strong>。</p>
-<h3 id="阶段一：预测（先验估计）"><a href="#阶段一：预测（先验估计）" class="headerlink" title="阶段一：预测（先验估计）"></a>阶段一：预测（先验估计）</h3><p>我们闭上眼睛，根据物理模型瞎猜下一步在哪。</p>
-<ol>
-<li><strong>状态预测</strong>：<br>$$ \hat{x}<em>{k}^- &#x3D; F \hat{x}</em>{k-1} + B u_k $$</li>
-<li><strong>协方差预测</strong>（不确定性扩散）：<br>$$ P_{k}^- &#x3D; F P_{k-1} F^T + Q $$<br><em>注：这里加上 $Q$ 表示因为外部干扰，我们对系统的信心下降了。</em></li>
-</ol>
-<h3 id="阶段二：更新（后验修正）"><a href="#阶段二：更新（后验修正）" class="headerlink" title="阶段二：更新（后验修正）"></a>阶段二：更新（后验修正）</h3><p>我们睁开眼睛，看了一眼传感器，用来修正刚才的瞎猜。</p>
-<ol start="3">
-<li><p><strong>计算卡尔曼增益</strong> $K$（权重的分配）：<br>$$ K_k &#x3D; P_k^- H^T (H P_k^- H^T + R)^{-1} $$<br><em>注：这正是第一章中 $K &#x3D; \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2}$ 的矩阵形式。$R$ 越大，$K$ 越小。</em></p>
-</li>
-<li><p><strong>状态更新</strong>（融合预测与观测）：<br>$$ \hat{x}_k &#x3D; \hat{x}_k^- + K_k (z_k - H \hat{x}_k^-) $$<br><em>注：$z_k - H \hat{x}_k^-$ 称为<strong>残差（Innovation）</strong>，即观测值与预测值的差异。</em></p>
-</li>
-<li><p><strong>协方差更新</strong>（信心增强）：<br>$$ P_k &#x3D; (I - K_k H) P_k^- $$<br><em>注：更新后的协方差 $P_k$ 必定小于预测的 $P_k^-$，因为观测带来了信息。</em></p>
-</li>
-</ol>
-<p>!</p>
-<hr>
-<h1 id="第五章：非线性的世界——EKF-与-UKF"><a href="#第五章：非线性的世界——EKF-与-UKF" class="headerlink" title="第五章：非线性的世界——EKF 与 UKF"></a>第五章：非线性的世界——EKF 与 UKF</h1><p>标准的卡尔曼滤波假设系统是<strong>线性</strong>的（矩阵乘法）。但现实世界充满了非线性（例如正弦函数、机器人关节角度）。</p>
-<p>如果我们直接对高斯分布进行非线性变换，它就不再是高斯分布了，算法会失效。为了解决这个问题：</p>
-<ol>
-<li><p><strong>扩展卡尔曼滤波 (EKF)</strong>：<br>使用<strong>泰勒级数展开</strong>，在当前工作点将非线性函数线性化（计算雅可比矩阵 Jacobian）。</p>
-<ul>
-<li><em>缺点</em>：计算繁琐，且如果非线性太强，截断误差会导致发散。</li>
-</ul>
-</li>
-<li><p><strong>无迹卡尔曼滤波 (UKF)</strong>：<br>不搞复杂的导数，而是采用<strong>确定性采样（Sigma Points）</strong>。选几个代表性的点，穿过非线性函数，再统计变换后的均值和方差。</p>
-<ul>
-<li><em>优点</em>：更准、更鲁棒，不用算雅可比矩阵。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h1 id="结论：贝叶斯眼中的世界"><a href="#结论：贝叶斯眼中的世界" class="headerlink" title="结论：贝叶斯眼中的世界"></a>结论：贝叶斯眼中的世界</h1><p>卡尔曼滤波之所以伟大，不在于它能算出导弹的轨迹，而在于它提供了一种<strong>世界观</strong>：</p>
-<p>我们永远无法得知世界的<strong>真值（Ground Truth）</strong>，真值是上帝的特权。作为凡人，我们拥有的只有<strong>先验知识（物理模型）<strong>和</strong>感官数据（传感器观测）</strong>，且两者都充满噪声。</p>
-<p>卡尔曼滤波告诉我们：<strong>不要傲慢地只相信模型，也不要盲目地只相信数据。</strong> 唯有根据它们各自的可信度（方差），动态地权衡与融合，我们才能在充满噪声的混沌中，无限逼近那个不可触碰的真理。</p>
-<p>这就是算法的禅意。</p>
-<hr>
-
+                
                 
               </div>
             
@@ -398,49 +307,6 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Technical-Deep-Dive/" class="category-chain-item">Technical Deep Dive</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/Technical-Deep-Dive/Engineering-Mathematics/" class="category-chain-item">Engineering Mathematics</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
-      
-        <a href="/tags/Algorithms/" class="print-no-link">#Algorithms</a>
-      
-        <a href="/tags/Control-Theory/" class="print-no-link">#Control Theory</a>
-      
-        <a href="/tags/Bayesian-Inference/" class="print-no-link">#Bayesian Inference</a>
-      
-        <a href="/tags/Robotics/" class="print-no-link">#Robotics</a>
-      
-    </div>
   
 </div>
 
@@ -450,8 +316,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>在噪声中看见真相：卡尔曼滤波的第一性原理推导</div>
-      <div>https://sunfove.xyz/2026/01/22/2026-01-22-kalman-filter-from-scratch/</div>
+      <div>2026-01-27-evanescent-waves-tunneling-spr</div>
+      <div>https://sunfove.xyz/2026/01/27/2026-01-27-evanescent-waves-tunneling-spr/</div>
     </div>
     <div class="license-meta">
       
@@ -463,7 +329,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 22, 2026</div>
+          <div>January 27, 2026</div>
         </div>
       
       
@@ -495,18 +361,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/22/2026-01-22-daily-english/" title="🌍 Daily English: The Interwoven Threads of Thought: How Cognitive Psychology Illuminates Mental Well-being | 2026-01-22">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">🌍 Daily English: The Interwoven Threads of Thought: How Cognitive Psychology Illuminates Mental Well-being | 2026-01-22</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/22/2026-01-22-shannon-sampling-theorem-deep-dive/" title="离散与连续的桥梁：香农采样定理的第一性原理">
-                        <span class="hidden-mobile">离散与连续的桥梁：香农采样定理的第一性原理</span>
+                      <a href="/2026/01/26/2026-01-26-daily-english/" title="🌍 Daily English: The Architecture of Ambition: Building a Career Through Intentional Growth | 2026-01-26">
+                        <span class="hidden-mobile">🌍 Daily English: The Architecture of Ambition: Building a Career Through Intentional Growth | 2026-01-26</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -521,7 +381,7 @@
   
     <article id="comments" lazyload>
       
-  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/22/2026-01-22-kalman-filter-from-scratch/'></div>
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/27/2026-01-27-evanescent-waves-tunneling-spr/'></div>
   <script type="text/javascript">
     Fluid.utils.loadComments('#SOHUCS', function() {
       Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
