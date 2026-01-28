@@ -13,7 +13,7 @@ mathjax: true
 
 本文将摒弃经验法则，回归几何光学，通过数学推导揭示这两个概念的本质联系。
 
-![Optical System Diagram showing Object and Image Planes](https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260128_114936.png)
+![](https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260128_114936.png)
 
 ## 1. 定义：清晰度的物理边界
 
