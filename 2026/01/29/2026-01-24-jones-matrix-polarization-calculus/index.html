@@ -21,30 +21,25 @@
   <meta name="author" content="Sunfove">
   <meta name="keywords" content="">
   
-    <meta name="description" content="深入解析琼斯矩阵(Jones Matrix)的物理本源。从麦克斯韦方程组出发，探讨光的偏振态如何被数学抽象为二维复向量，以及光学元件如何作为线性算符改变光的性质。本文涵盖数学推导、物理图景及系统级应用分析。">
+    <meta name="description" content="当我们谈论光时，通过肉眼最直观的感受往往是强度 (Intensity) 和 颜色 (Frequency)。然而，光作为电磁波，还拥有一个更为隐秘却至关重要的自由度——偏振 (Polarization)。 在现代光学工程、量子信息处理以及液晶显示技术中，对偏振的控制是核心能力。1941年，美国物理学家 R. Clark Jones 在宝丽来公司 (Polaroid Corporation) 工作时，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美">
-<meta property="og:url" content="https://sunfove.xyz/2026/01/24/2026-01-24-jones-matrix-polarization-calculus/index.html">
+<meta property="og:title" content="明明如月">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/29/2026-01-24-jones-matrix-polarization-calculus/index.html">
 <meta property="og:site_name" content="明明如月">
-<meta property="og:description" content="深入解析琼斯矩阵(Jones Matrix)的物理本源。从麦克斯韦方程组出发，探讨光的偏振态如何被数学抽象为二维复向量，以及光学元件如何作为线性算符改变光的性质。本文涵盖数学推导、物理图景及系统级应用分析。">
+<meta property="og:description" content="当我们谈论光时，通过肉眼最直观的感受往往是强度 (Intensity) 和 颜色 (Frequency)。然而，光作为电磁波，还拥有一个更为隐秘却至关重要的自由度——偏振 (Polarization)。 在现代光学工程、量子信息处理以及液晶显示技术中，对偏振的控制是核心能力。1941年，美国物理学家 R. Clark Jones 在宝丽来公司 (Polaroid Corporation) 工作时，">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102041.png">
 <meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102533.png">
 <meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102648.png">
-<meta property="article:published_time" content="2026-01-24T04:55:21.000Z">
-<meta property="article:modified_time" content="2026-01-28T16:31:44.602Z">
+<meta property="article:published_time" content="2026-01-29T14:55:37.399Z">
+<meta property="article:modified_time" content="2026-01-29T14:55:37.399Z">
 <meta property="article:author" content="Sunfove">
-<meta property="article:tag" content="Electrodynamics">
-<meta property="article:tag" content="Linear Algebra">
-<meta property="article:tag" content="Optics">
-<meta property="article:tag" content="Physics">
-<meta property="article:tag" content="Polarization">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102041.png">
   
   
   
-  <title>穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美 - 明明如月</title>
+  <title>明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -234,7 +229,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美</span>
+            <span id="subtitle"></span>
           
         </div>
 
@@ -245,8 +240,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-24 04:55" pubdate>
-          January 24, 2026 am
+        <time datetime="2026-01-29 14:55" pubdate>
+          January 29, 2026 pm
         </time>
       </span>
     
@@ -305,13 +300,13 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美</h1>
+            <h1 id="seo-header"></h1>
             
             
               <div class="markdown-body">
                 
                 <p>当我们谈论光时，通过肉眼最直观的感受往往是<strong>强度 (Intensity)</strong> 和 <strong>颜色 (Frequency)</strong>。然而，光作为电磁波，还拥有一个更为隐秘却至关重要的自由度——<strong>偏振 (Polarization)</strong>。</p>
-<p>在现代光学工程、量子信息处理以及液晶显示技术中，对偏振的控制是核心能力。1941年，美国物理学家 R. Clark Jones 在宝丽来公司 (Polaroid Corporation) 工作时，为了简化偏振系统的分析，提出了一套基于 $2 \times 1$ 复向量和 $2 \times 2$ 复矩阵的数学形式体系。这就是<strong>琼斯演算 (Jones Calculus)</strong>。</p>
+<p>在现代光学工程、量子信息处理以及液晶显示技术中，对偏振的控制是核心能力。1941年，美国物理学家 R. Clark Jones 在宝丽来公司 (Polaroid Corporation) 工作时，为了简化偏振系统的分析，提出了一套基于 $2 \times 1$ 复向量和 $2 \times 2$ 复矩阵的数学形式体系。这就是<strong>琼斯演算 (Jones Calculus)</strong> 。</p>
 <p>本文将剥离工程应用的表象，回归麦克斯韦方程组，探讨为什么我们可以用简单的 $2 \times 2$ 矩阵来描述复杂的光学世界。</p>
 <p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102041.png" srcset="/img/loading.gif" lazyload></p>
 <hr>
@@ -405,7 +400,7 @@
 <h3 id="5-1-核心仿真代码"><a href="#5-1-核心仿真代码" class="headerlink" title="5.1 核心仿真代码"></a>5.1 核心仿真代码</h3><p>我们将定义一个 <code>JonesCalculus</code> 类来封装矩阵运算和绘图功能。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> matplotlib.gridspec <span class="hljs-keyword">import</span> GridSpec<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">JonesCalculus</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 基础矩阵定义</span><br>        <span class="hljs-variable language_">self</span>.matrices = &#123;<br>            <span class="hljs-string">&#x27;Identity&#x27;</span>: np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]]),<br>            <span class="hljs-string">&#x27;Horizontal_LP&#x27;</span>: np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]]), <span class="hljs-comment"># 水平线偏振</span><br>            <span class="hljs-string">&#x27;Vertical_LP&#x27;</span>: np.array([[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]]),   <span class="hljs-comment"># 垂直线偏振</span><br>            <span class="hljs-string">&#x27;QWP&#x27;</span>: np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, -<span class="hljs-number">1j</span>]]),         <span class="hljs-comment"># 四分之一波片 (快轴x)</span><br>            <span class="hljs-string">&#x27;HWP&#x27;</span>: np.array([[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>]])           <span class="hljs-comment"># 半波片 (快轴x)</span><br>        &#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rotate</span>(<span class="hljs-params">self, matrix, theta_deg</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;对光学元件应用坐标旋转变换: R(-theta) * J * R(theta)&quot;&quot;&quot;</span><br>        theta = np.radians(theta_deg)<br>        c, s = np.cos(theta), np.sin(theta)<br>        R = np.array([[c, s], [-s, c]])<br>        R_inv = np.array([[c, -s], [s, c]])<br>        <span class="hljs-keyword">return</span> R_inv @ matrix @ R<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_intensity</span>(<span class="hljs-params">self, jones_vector</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;计算光强 I = |Ex|^2 + |Ey|^2&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> np.<span class="hljs-built_in">sum</span>(np.<span class="hljs-built_in">abs</span>(jones_vector)**<span class="hljs-number">2</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_polarization_ellipse</span>(<span class="hljs-params">self, jones_vectors, titles</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        可视化偏振椭圆：绘制电场矢量 E(t) 在 xy 平面上的轨迹</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        fig = plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">5</span>))<br>        gs = GridSpec(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(jones_vectors))<br>        <br>        t = np.linspace(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>*np.pi, <span class="hljs-number">100</span>) <span class="hljs-comment"># 时间周期</span><br>        <br>        <span class="hljs-keyword">for</span> i, (vec, title) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(<span class="hljs-built_in">zip</span>(jones_vectors, titles)):<br>            ax = fig.add_subplot(gs[<span class="hljs-number">0</span>, i])<br>            <br>            <span class="hljs-comment"># 计算时域轨迹: E(t) = Re[ V * exp(-iwt) ]</span><br>            <span class="hljs-comment"># 这里的 vec 是复振幅</span><br>            Ex = np.real(vec[<span class="hljs-number">0</span>] * np.exp(-<span class="hljs-number">1j</span> * t))<br>            Ey = np.real(vec[<span class="hljs-number">1</span>] * np.exp(-<span class="hljs-number">1j</span> * t))<br>            <br>            <span class="hljs-comment"># 绘制轨迹</span><br>            ax.plot(Ex, Ey, label=<span class="hljs-string">&#x27;E-field Trace&#x27;</span>, linewidth=<span class="hljs-number">2</span>)<br>            <br>            <span class="hljs-comment"># 绘制箭头指示旋转方向</span><br>            ax.arrow(Ex[<span class="hljs-number">50</span>], Ey[<span class="hljs-number">50</span>], Ex[<span class="hljs-number">51</span>]-Ex[<span class="hljs-number">50</span>], Ey[<span class="hljs-number">51</span>]-Ey[<span class="hljs-number">50</span>], <br>                     head_width=<span class="hljs-number">0.05</span>, color=<span class="hljs-string">&#x27;red&#x27;</span>, zorder=<span class="hljs-number">5</span>)<br>            <br>            ax.set_title(title)<br>            ax.set_xlim(-<span class="hljs-number">1.1</span>, <span class="hljs-number">1.1</span>); ax.set_ylim(-<span class="hljs-number">1.1</span>, <span class="hljs-number">1.1</span>)<br>            ax.set_xlabel(<span class="hljs-string">&#x27;Ex&#x27;</span>); ax.set_ylabel(<span class="hljs-string">&#x27;Ey&#x27;</span>)<br>            ax.grid(<span class="hljs-literal">True</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, alpha=<span class="hljs-number">0.6</span>)<br>            ax.set_aspect(<span class="hljs-string">&#x27;equal&#x27;</span>)<br>            <br>        plt.tight_layout()<br>        plt.show()<br><br><span class="hljs-comment"># --- 实例化仿真器 ---</span><br>sim = JonesCalculus()<br></code></pre></td></tr></table></figure>
 
-<h3 id="5-2-实际案例：光状态的可视化"><a href="#5-2-实际案例：光状态的可视化" class="headerlink" title="5.2 实际案例：光状态的可视化"></a>5.2 实际案例：光状态的可视化</h3><p>我们来模拟一个经典的场景：<strong>线偏振光通过四分之一波片 (QWP)</strong>。<br>理论告诉我们：如果线偏振光与 QWP 快轴成 45°，输出应为圆偏振光；如果平行，输出仍为线偏振。让我们验证一下。</p>
+<h3 id="5-2-实际案例：光状态的可视化"><a href="#5-2-实际案例：光状态的可视化" class="headerlink" title="5.2 实际案例：光状态的可视化"></a>5.2 实际案例：光状态的可视化</h3><p>我们来模拟一个经典的场景：<strong>线偏振光通过四分之一波片 (QWP)</strong> 。<br>理论告诉我们：如果线偏振光与 QWP 快轴成 45°，输出应为圆偏振光；如果平行，输出仍为线偏振。让我们验证一下。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义入射光：水平线偏振</span><br>V_in = np.array([[<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>]])<br><br><span class="hljs-comment"># 场景 A: QWP 快轴水平 (theta=0) -&gt; 结果应仍为线偏振 (只是相位变了)</span><br>J_QWP_0 = sim.rotate(sim.matrices[<span class="hljs-string">&#x27;QWP&#x27;</span>], <span class="hljs-number">0</span>)<br>V_out_A = J_QWP_0 @ V_in<br><br><span class="hljs-comment"># 场景 B: QWP 快轴旋转 45度 -&gt; 结果应为右旋圆偏振</span><br>J_QWP_45 = sim.rotate(sim.matrices[<span class="hljs-string">&#x27;QWP&#x27;</span>], <span class="hljs-number">45</span>)<br>V_out_B = J_QWP_45 @ V_in<br><br><span class="hljs-comment"># 可视化对比</span><br>sim.plot_polarization_ellipse(<br>    [V_in, V_out_A, V_out_B], <br>    [<span class="hljs-string">&#x27;Input: Linear (H)&#x27;</span>, <span class="hljs-string">&#x27;Output A (QWP @ 0°): Linear&#x27;</span>, <span class="hljs-string">&#x27;Output B (QWP @ 45°): Circular&#x27;</span>]<br>)<br></code></pre></td></tr></table></figure>
 
 <p><strong>运行结果解读：</strong><br>运行上述代码，你会看到三张子图：</p>
@@ -415,7 +410,9 @@
 <li>第二张也是直线（因为光沿快轴传播，偏振态未改变）。</li>
 <li>第三张是一个完美的圆，且箭头指示顺时针方向（右旋圆偏振）。这直观地验证了 $\lambda&#x2F;4$ 波片的作用。</li>
 </ol>
+<blockquote>
 <p>实际上，这也就是本文首图所展示的，通过使用1&#x2F;4波片，将线偏光，转化成了圆偏光。</p>
+</blockquote>
 <hr>
 <h2 id="6-局限性与超越：从-Jones-到-Mueller"><a href="#6-局限性与超越：从-Jones-到-Mueller" class="headerlink" title="6. 局限性与超越：从 Jones 到 Mueller"></a>6. 局限性与超越：从 Jones 到 Mueller</h2><p>虽然琼斯矩阵优雅简洁，但它并非万能。它的核心假设是<strong>光是完全偏振的 (Fully Polarized)</strong> 且是<strong>相干的 (Coherent)</strong>。</p>
 <p>然而，在现实世界中，我们经常遇到：</p>
@@ -442,42 +439,6 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Theoretical-Physics/" class="category-chain-item">Theoretical Physics</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
-      
-        <a href="/tags/Physics/" class="print-no-link">#Physics</a>
-      
-        <a href="/tags/Linear-Algebra/" class="print-no-link">#Linear Algebra</a>
-      
-        <a href="/tags/Electrodynamics/" class="print-no-link">#Electrodynamics</a>
-      
-        <a href="/tags/Polarization/" class="print-no-link">#Polarization</a>
-      
-    </div>
   
 </div>
 
@@ -487,8 +448,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>穿透光的面纱：琼斯矩阵(Jones Matrix)与偏振光学的线性代数之美</div>
-      <div>https://sunfove.xyz/2026/01/24/2026-01-24-jones-matrix-polarization-calculus/</div>
+      <div></div>
+      <div>https://sunfove.xyz/2026/01/29/2026-01-24-jones-matrix-polarization-calculus/</div>
     </div>
     <div class="license-meta">
       
@@ -500,7 +461,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 24, 2026</div>
+          <div>January 29, 2026</div>
         </div>
       
       
@@ -532,18 +493,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/24/2026-01-24-daily-english/" title="🌍 Daily English: The Unseen World: How Technology Transforms Wildlife Filmmaking | 2026-01-24">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">🌍 Daily English: The Unseen World: How Technology Transforms Wildlife Filmmaking | 2026-01-24</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/23/2026-01-23-the-mystery-of-anhui-beef-noodles-in-hebei/" title="为什么安徽牛肉板面变成了河北特色美食？">
-                        <span class="hidden-mobile">为什么安徽牛肉板面变成了河北特色美食？</span>
+                      <a href="/2026/01/29/2026-01-29-fast-simulated-annealing-analysis/" title="穿越势能的幽灵：从模拟退火到快速退火的第一性原理剖析">
+                        <span class="hidden-mobile">穿越势能的幽灵：从模拟退火到快速退火的第一性原理剖析</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -558,7 +513,7 @@
   
     <article id="comments" lazyload>
       
-  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/24/2026-01-24-jones-matrix-polarization-calculus/'></div>
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/29/2026-01-24-jones-matrix-polarization-calculus/'></div>
   <script type="text/javascript">
     Fluid.utils.loadComments('#SOHUCS', function() {
       Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
