@@ -1,0 +1,836 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="当数值孔径(NA)超过0.85时，传统的标量衍射理论失效。本文深度解析光刻中的“矢量效应”，探讨TE&#x2F;TM偏振对成像对比度的决定性影响，以及浸没式光刻中的偏振照明工程（SMO）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用">
+<meta property="og:url" content="https://sunfove.xyz/2026/01/30/2026-01-30-polarization-in-photolithography-vector-imaging/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="当数值孔径(NA)超过0.85时，传统的标量衍射理论失效。本文深度解析光刻中的“矢量效应”，探讨TE&#x2F;TM偏振对成像对比度的决定性影响，以及浸没式光刻中的偏振照明工程（SMO）。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-30T13:25:22.000Z">
+<meta property="article:modified_time" content="2026-01-30T14:50:07.228Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光刻">
+<meta property="article:tag" content="半导体">
+<meta property="article:tag" content="微纳制造">
+<meta property="article:tag" content="物理光学">
+<meta property="article:tag" content="麦克斯韦方程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-30 13:25" pubdate>
+          January 30, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用"><a href="#矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用" class="headerlink" title="矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用"></a>矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用</h1><h2 id="1-引言：从标量到矢量的范式转移"><a href="#1-引言：从标量到矢量的范式转移" class="headerlink" title="1. 引言：从标量到矢量的范式转移"></a>1. 引言：从标量到矢量的范式转移</h2><p>在半导体光刻的早期（微米级及亚微米级时代），光刻工程师们生活在一个相对简单的<strong>标量世界</strong>里。那时的数值孔径（Numerical Aperture, NA）较低，光线几乎垂直入射到晶圆表面。我们只需要关心光的强度（Intensity），而可以忽略电场矢量的方向。</p>
+<p>然而，随着摩尔定律的推进，为了追求更小的临界尺寸（CD），我们不断推高 $NA$。根据瑞利判据：<br>$$CD &#x3D; k_1 \frac{\lambda}{NA}$$</p>
+<p>当 $NA$ 突破 $0.85$，特别是随着 $193\text{nm}$ 浸没式光刻（Immersion Lithography, $NA &gt; 1.0$）的引入，光线以极大的角度干涉成像。此时，<strong>标量衍射理论彻底失效</strong>。不同方向的电场矢量叠加不再遵循简单的代数加法，光的**偏振态（Polarization）**成为了决定成像对比度生死的关键变量。</p>
+<p>本文将从第一性原理出发，推导高 NA 下的<strong>矢量干涉效应</strong>，并解析工业界如何利用偏振照明（Polarized Illumination）延续摩尔定律。</p>
+<hr>
+<h2 id="2-物理本质：矢量干涉与对比度危机"><a href="#2-物理本质：矢量干涉与对比度危机" class="headerlink" title="2. 物理本质：矢量干涉与对比度危机"></a>2. 物理本质：矢量干涉与对比度危机</h2><h3 id="2-1-干涉的矢量描述"><a href="#2-1-干涉的矢量描述" class="headerlink" title="2.1 干涉的矢量描述"></a>2.1 干涉的矢量描述</h3><p>在光刻投影物镜的焦面上，图像是由两束或多束衍射光干涉形成的。假设两束相干光 $\vec{E}_1$ 和 $\vec{E}_2$ 以角度 $\theta$ 汇聚到晶圆表面。总光强 $I$ 并非简单的振幅标量相加，而是电场矢量的叠加：</p>
+<p>$$I &#x3D; |\vec{E}_{total}|^2 &#x3D; |\vec{E}_1 + \vec{E}_2|^2 &#x3D; |\vec{E}_1|^2 + |\vec{E}_2|^2 + 2 \vec{E}_1 \cdot \vec{E}_2$$</p>
+<p>注意这一项：$2 \vec{E}_1 \cdot \vec{E}_2$。这是干涉项，决定了图像的对比度。点积（Dot Product）意味着只有<strong>相互平行</strong>的电场分量才能发生有效干涉。</p>
+<h3 id="2-2-TE-模与-TM-模的命运分野"><a href="#2-2-TE-模与-TM-模的命运分野" class="headerlink" title="2.2 TE 模与 TM 模的命运分野"></a>2.2 TE 模与 TM 模的命运分野</h3><p>我们将入射光分解为两个正交的偏振态：</p>
+<ul>
+<li><strong>TE 偏振 (s-polarization)</strong>：电场矢量垂直于入射平面（即平行于晶圆表面）。</li>
+<li><strong>TM 偏振 (p-polarization)</strong>：电场矢量平行于入射平面。</li>
+</ul>
+<p>在高 NA 系统中，两束光的夹角 $2\theta$ 很大。</p>
+<h4 id="情况-A：TE-偏振-完美干涉"><a href="#情况-A：TE-偏振-完美干涉" class="headerlink" title="情况 A：TE 偏振 (完美干涉)"></a>情况 A：TE 偏振 (完美干涉)</h4><p>对于 TE 波，无论入射角 $\theta$ 多大，$\vec{E}_1$ 和 $\vec{E}_2$ 始终保持平行（都垂直于纸面）。<br>$$\vec{E}_1 \cdot \vec{E}_2 &#x3D; E_1 E_2 \cos(0^\circ) &#x3D; E_1 E_2$$<br>干涉项最大，对比度理论上为 1。</p>
+<h4 id="情况-B：TM-偏振-对比度衰减"><a href="#情况-B：TM-偏振-对比度衰减" class="headerlink" title="情况 B：TM 偏振 (对比度衰减)"></a>情况 B：TM 偏振 (对比度衰减)</h4><p>对于 TM 波，$\vec{E}_1$ 和 $\vec{E}_2$ 在入射平面内。随着入射角 $\theta$ 增大，两个电场矢量的夹角也增大。<br>$$\vec{E}_1 \cdot \vec{E}_2 &#x3D; E_1 E_2 \cos(2\theta)$$</p>
+<p>这是一个灾难性的结论：</p>
+<ul>
+<li>当 $\theta &#x3D; 45^\circ$ ($2\theta &#x3D; 90^\circ$) 时，$\cos(90^\circ) &#x3D; 0$。两束光正交，干涉项消失，图像对比度降为 <strong>0</strong>。</li>
+<li>在浸没式光刻中，$\theta$ 经常接近 $45^\circ$，这意味着如果不控制偏振，TM 光将只会增加背景光强（Background DC component），而不会贡献任何图像信息。</li>
+</ul>
+<blockquote>
+<p><strong>结论</strong>：在高 NA 光刻中，<strong>TE 偏振是信号，TM 偏振是噪声</strong>。光刻机必须尽可能剔除 TM 分量。</p>
+</blockquote>
+<hr>
+<h2 id="3-工程实现：光源-掩模协同优化-SMO"><a href="#3-工程实现：光源-掩模协同优化-SMO" class="headerlink" title="3. 工程实现：光源-掩模协同优化 (SMO)"></a>3. 工程实现：光源-掩模协同优化 (SMO)</h2><p>为了最大化 TE 偏振分量，光刻机照明系统（Illuminator）必须根据掩模上的图形特征，动态调整光的偏振状态。</p>
+<h3 id="3-1-偶极照明与线性偏振"><a href="#3-1-偶极照明与线性偏振" class="headerlink" title="3.1 偶极照明与线性偏振"></a>3.1 偶极照明与线性偏振</h3><p>对于最简单的<strong>密集线条（Lines and Spaces）</strong>：</p>
+<ul>
+<li><strong>垂直线条（Vertical Lines）</strong>：衍射光分布在水平方向（X轴）。为了使电场垂直于入射面（XZ平面），需要 <strong>Y向线性偏振</strong>。</li>
+<li><strong>水平线条（Horizontal Lines）</strong>：衍射光分布在垂直方向（Y轴）。为了使电场垂直于入射面（YZ平面），需要 <strong>X向线性偏振</strong>。</li>
+</ul>
+<p>这被称为 <strong>X-Dipole</strong> 和 <strong>Y-Dipole</strong> 照明模式，且必须配合正交的偏振态。</p>
+<h3 id="3-2-环形-四极照明与切向偏振"><a href="#3-2-环形-四极照明与切向偏振" class="headerlink" title="3.2 环形&#x2F;四极照明与切向偏振"></a>3.2 环形&#x2F;四极照明与切向偏振</h3><p>对于复杂的二维图形（如接触孔 Contact Holes），光来自于四面八方。此时，单一的线性偏振无法满足所有方向的 TE 要求。</p>
+<p>解决方案是<strong>切向偏振（Azimuthal&#x2F;Tangential Polarization）</strong>，也称为 TE-Polarization。</p>
+<ul>
+<li>在照明光瞳（Pupil）的每一点上，电场方向都垂直于径向。</li>
+<li>这确保了无论光线从哪个角度入射，相对于光轴平面，它始终是 TE 态。</li>
+</ul>
+<p>相反，**径向偏振（Radial Polarization）**在光刻成像中通常是禁忌的，因为它纯粹由 TM 态组成，会极大地降低对比度。</p>
+<h3 id="3-3-模拟仿真：计算对比度损失"><a href="#3-3-模拟仿真：计算对比度损失" class="headerlink" title="3.3 模拟仿真：计算对比度损失"></a>3.3 模拟仿真：计算对比度损失</h3><p>我们可以用一段简单的 Python 代码来模拟不同 NA 下，TM 偏振导致的对比度损失：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_contrast_loss</span>(<span class="hljs-params">na, refractive_index=<span class="hljs-number">1.44</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    计算给定NA下的TM偏振干涉效率</span><br><span class="hljs-string">    Assuming 2-beam interference for 1:1 line/space</span><br><span class="hljs-string">    sin(theta) = NA / n</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    theta = np.arcsin(na / refractive_index)<br>    <br>    <span class="hljs-comment"># TE efficiency is always 1 (perfect interference)</span><br>    efficiency_te = <span class="hljs-number">1.0</span><br>    <br>    <span class="hljs-comment"># TM efficiency follows cos(2*theta)</span><br>    efficiency_tm = np.cos(<span class="hljs-number">2</span> * theta)<br>    <br>    <span class="hljs-keyword">return</span> efficiency_te, efficiency_tm<br><br>na_values = np.linspace(<span class="hljs-number">0.5</span>, <span class="hljs-number">1.35</span>, <span class="hljs-number">100</span>)<br>tm_contrasts = []<br><br><span class="hljs-keyword">for</span> na <span class="hljs-keyword">in</span> na_values:<br>    _, tm = calculate_contrast_loss(na)<br>    tm_contrasts.append(tm)<br><br>plt.figure(figsize=(<span class="hljs-number">8</span>, <span class="hljs-number">5</span>))<br>plt.plot(na_values, tm_contrasts, label=<span class="hljs-string">&#x27;TM Polarization Contrast Factor&#x27;</span>, color=<span class="hljs-string">&#x27;red&#x27;</span>)<br>plt.axhline(<span class="hljs-number">0</span>, color=<span class="hljs-string">&#x27;black&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;Numerical Aperture (NA)&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;Interference Efficiency (Contrast)&#x27;</span>)<br>plt.title(<span class="hljs-string">&#x27;The Vector Effect: TM Contrast Loss in Immersion Lithography&#x27;</span>)<br>plt.grid(<span class="hljs-literal">True</span>)<br>plt.legend()<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<p>运行此模拟会发现，当 NA 接近 1.35（水的折射率极限附近）时，TM 对比度甚至可能变为负值（反相干涉），这是物理上必须避免的。</p>
+<hr>
+<h2 id="4-挑战与前沿：EUV-与薄膜效应"><a href="#4-挑战与前沿：EUV-与薄膜效应" class="headerlink" title="4. 挑战与前沿：EUV 与薄膜效应"></a>4. 挑战与前沿：EUV 与薄膜效应</h2><h3 id="4-1-掩模诱导的偏振效应-Mask-3D-Effects"><a href="#4-1-掩模诱导的偏振效应-Mask-3D-Effects" class="headerlink" title="4.1 掩模诱导的偏振效应 (Mask 3D Effects)"></a>4.1 掩模诱导的偏振效应 (Mask 3D Effects)</h3><p>当掩模上的特征尺寸接近波长时（亚波长光栅），掩模本身就变成了一个<strong>线栅偏振器（Wire Grid Polarizer）</strong>。</p>
+<ul>
+<li>这会导致特定偏振光透过率降低。</li>
+<li>OPC（光学邻近效应修正）必须建立严格的电磁场模型（EMF Simulation）来预测这些效应，不再能简单地把掩模当成黑白透光片。</li>
+</ul>
+<h3 id="4-2-EUV-光刻中的偏振"><a href="#4-2-EUV-光刻中的偏振" class="headerlink" title="4.2 EUV 光刻中的偏振"></a>4.2 EUV 光刻中的偏振</h3><p>极紫外（EUV, 13.5nm）光刻虽然波长极短，但也面临偏振问题，但机制不同。</p>
+<ul>
+<li>EUV 系统全是反射镜（布拉格反射镜）。</li>
+<li>光线以 $45^\circ$ 角入射时，接近<strong>布儒斯特角（Brewster’s Angle）</strong>。此时，p-偏振光（TM）会被完全透射（被吸收），只有 s-偏振光（TE）被反射。</li>
+<li>因此，EUV 光学系统天然具有起偏作用。这对高 NA EUV ($NA&#x3D;0.55$) 的设计提出了巨大的挑战，需要在系统设计层面进行极其复杂的矢量补偿。</li>
+</ul>
+<hr>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h2><p>偏振光在光刻中的应用，是人类工程学对抗物理极限的经典案例。</p>
+<ol>
+<li><strong>物理动因</strong>：在高 NA 下，矢量干涉效应导致 TM 偏振光对比度归零。</li>
+<li><strong>核心策略</strong>：剔除 TM，保留 TE。</li>
+<li><strong>技术手段</strong>：采用切向偏振（Azimuthal Polarization）照明源，并结合 SMO 技术进行光源-掩模协同优化。</li>
+</ol>
+<p>从标量光刻到矢量光刻的跨越，标志着我们不再是简单地“照亮”晶圆，而是在纳米尺度上精细地“雕刻”电磁场。</p>
+<hr>
+<p><strong>您是否希望我进一步生成关于“Jones Matrix（琼斯矩阵）在光刻系统像差分析中的应用”或“EUV光刻机中变形照明（Anamorphic Optics）”的详细内容？</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%A1%AC%E6%A0%B8%E7%A7%91%E6%8A%80/" class="category-chain-item">硬核科技</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%A1%AC%E6%A0%B8%E7%A7%91%E6%8A%80/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%B7%A5%E8%89%BA/" class="category-chain-item">半导体工艺</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%89%A9%E7%90%86%E5%85%89%E5%AD%A6/" class="print-no-link">#物理光学</a>
+      
+        <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B/" class="print-no-link">#麦克斯韦方程</a>
+      
+        <a href="/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93/" class="print-no-link">#半导体</a>
+      
+        <a href="/tags/%E5%85%89%E5%88%BB/" class="print-no-link">#光刻</a>
+      
+        <a href="/tags/%E5%BE%AE%E7%BA%B3%E5%88%B6%E9%80%A0/" class="print-no-link">#微纳制造</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>矢量光学的胜利：偏振光在纳米光刻中的物理原理与工程应用</div>
+      <div>https://sunfove.xyz/2026/01/30/2026-01-30-polarization-in-photolithography-vector-imaging/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 30, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/30/2026-01-24-jones-matrix-polarization-calculus/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/30/2026-01-30-super-resolution-imaging-principles-and-applications/" title="突破物理视界：超分辨成像的第一性原理、数学重构与前沿应用">
+                        <span class="hidden-mobile">突破物理视界：超分辨成像的第一性原理、数学重构与前沿应用</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/30/2026-01-30-polarization-in-photolithography-vector-imaging/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
