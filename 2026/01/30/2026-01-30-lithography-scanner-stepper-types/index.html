@@ -28,8 +28,11 @@
 <meta property="og:site_name" content="明明如月">
 <meta property="og:description" content="从几微米的老式芯片到 3nm 的尖端制程，光刻机是如何一步步进化的？本文将深入解析 Stepper 与 Scanner 的机械原理区别，并盘点从汞灯到 EUV 的全系列主流机型。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103032.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103150.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103424.png">
 <meta property="article:published_time" content="2026-01-30T10:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-30T14:50:07.227Z">
+<meta property="article:modified_time" content="2026-01-30T14:51:24.302Z">
 <meta property="article:author" content="Sunfove">
 <meta property="article:tag" content="ASML">
 <meta property="article:tag" content="光刻机">
@@ -37,6 +40,7 @@
 <meta property="article:tag" content="硬核科普">
 <meta property="article:tag" content="芯片制造">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103032.png">
   
   
   
@@ -309,8 +313,10 @@
                 <p>在半导体制造的数百道工序中，<strong>光刻 (Photolithography)</strong> 是最关键、最昂贵、耗时最长的一步。它决定了芯片上晶体管的最小尺寸，也就是我们常说的“制程节点”（如 28nm, 5nm）。</p>
 <p>光刻机的核心任务，就是把掩膜版（Mask）上的电路图，“画”在涂满光刻胶的硅片（Wafer）上。</p>
 <p>今天我们就来了解下光刻机的分类和性能对比。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103032.png" srcset="/img/loading.gif" lazyload></p>
 <hr>
 <h2 id="01-机械原理：Stepper-vs-Scanner"><a href="#01-机械原理：Stepper-vs-Scanner" class="headerlink" title="01. 机械原理：Stepper vs Scanner"></a>01. 机械原理：Stepper vs Scanner</h2><p>在早期光刻和现代光刻中，最大的区别在于“怎么曝光”。这诞生了两个专有名词：<strong>步进式 (Stepper)</strong> 和 <strong>扫描式 (Scanner)</strong>。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103150.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="1-Stepper-Step-and-Repeat"><a href="#1-Stepper-Step-and-Repeat" class="headerlink" title="1. Stepper (Step-and-Repeat)"></a>1. Stepper (Step-and-Repeat)</h3><p>这是早期光刻机的主流方式，中文叫“分步重复光刻机”。</p>
 <ul>
 <li><strong>工作原理</strong>：<br>  想象你在盖章。光源通过掩膜版，<strong>一次性</strong>将整个芯片（Die）或几个芯片的图形曝光到硅片的一个区域（Shot）上。<br>  曝光结束后，工作台移动到下一个位置，停下来，再“盖”一次章。</li>
@@ -335,7 +341,8 @@
 <p><strong>总结</strong>：现在的先进光刻机（如 ASML 的 NXT 和 NXE 系列）全是 <strong>Scanner</strong>。只有在封装 (Packaging) 或 MEMS 等对精度要求不高的领域，还会看到 Stepper 的身影。</p>
 </blockquote>
 <hr>
-<h2 id="02-波长分类：从-UV-到-EUV-的进击"><a href="#02-波长分类：从-UV-到-EUV-的进击" class="headerlink" title="02. 波长分类：从 UV 到 EUV 的进击"></a>02. 波长分类：从 UV 到 EUV 的进击</h2><p>根据瑞利判据 $CD &#x3D; k_1 \frac{\lambda}{NA}$，要缩小芯片尺寸（CD），最直接的方法就是减小光源波长 ($\lambda$)。</p>
+<h2 id="02-波长分类：从-UV-到-EUV-的进击"><a href="#02-波长分类：从-UV-到-EUV-的进击" class="headerlink" title="02. 波长分类：从 UV 到 EUV 的进击"></a>02. 波长分类：从 UV 到 EUV 的进击</h2><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103424.png" srcset="/img/loading.gif" lazyload></p>
+<p>根据瑞利判据 $CD &#x3D; k_1 \frac{\lambda}{NA}$，要缩小芯片尺寸（CD），最直接的方法就是减小光源波长 ($\lambda$)。</p>
 <p>光刻机的发展史，就是一部波长缩短史。</p>
 <h3 id="第一阶段：汞灯时代-g-line-i-line"><a href="#第一阶段：汞灯时代-g-line-i-line" class="headerlink" title="第一阶段：汞灯时代 (g-line, i-line)"></a>第一阶段：汞灯时代 (g-line, i-line)</h3><p>早期的光刻机使用高压汞灯作为光源。</p>
 <ul>
