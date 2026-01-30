@@ -13,11 +13,15 @@ excerpt: 从几微米的老式芯片到 3nm 的尖端制程，光刻机是如何
 
 今天我们就来了解下光刻机的分类和性能对比。
 
+![](https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103032.png)
+
 ---
 
 ## 01. 机械原理：Stepper vs Scanner
 
 在早期光刻和现代光刻中，最大的区别在于“怎么曝光”。这诞生了两个专有名词：**步进式 (Stepper)** 和 **扫描式 (Scanner)**。
+
+![](https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103150.png)
 
 ### 1. Stepper (Step-and-Repeat)
 这是早期光刻机的主流方式，中文叫“分步重复光刻机”。
@@ -45,9 +49,12 @@ excerpt: 从几微米的老式芯片到 3nm 的尖端制程，光刻机是如何
 
 > **总结**：现在的先进光刻机（如 ASML 的 NXT 和 NXE 系列）全是 **Scanner**。只有在封装 (Packaging) 或 MEMS 等对精度要求不高的领域，还会看到 Stepper 的身影。
 
+
 ---
 
 ## 02. 波长分类：从 UV 到 EUV 的进击
+
+![](https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260130_103424.png)
 
 根据瑞利判据 $CD = k_1 \frac{\lambda}{NA}$，要缩小芯片尺寸（CD），最直接的方法就是减小光源波长 ($\lambda$)。
 
@@ -83,7 +90,6 @@ excerpt: 从几微米的老式芯片到 3nm 的尖端制程，光刻机是如何
 * **代表机型**：
     * **ASML**: TWINSCAN XT:1460, XT:1700
     * **Nikon**: NSR-S308
-
 
 
 #### 3. ArF Immersion (193i) - 浸没式光刻
@@ -148,7 +154,6 @@ excerpt: 从几微米的老式芯片到 3nm 的尖端制程，光刻机是如何
 
 
 ## 04. 汇总表：参数与典型机型
-
 
 
 这张表涵盖了从老式到最尖端的主流机型，包含 ASML，Nikon 和 Canon 的对应产品。
