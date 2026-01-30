@@ -1,3 +1,13 @@
+---
+title: 琼斯矩阵与片站变换
+date: 2026-01-30 13:25:22
+tags: [偏振, 琼斯矩阵]
+categories: [光学]
+description: 
+mathjax: true
+---
+
+
 
 当我们谈论光时，通过肉眼最直观的感受往往是**强度 (Intensity)** 和 **颜色 (Frequency)**。然而，光作为电磁波，还拥有一个更为隐秘却至关重要的自由度——**偏振 (Polarization)**。
 
