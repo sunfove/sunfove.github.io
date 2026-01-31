@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="面向光学工程师的进阶指南。基于耦合模理论（CMT）推导光纤布拉格光栅的反射谱特性，深入探讨切趾技术、色散管理及光纤激光器腔体设计。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践">
+<meta property="og:url" content="https://sunfove.xyz/2026/02/01/2026-02-01-bragg-grating-physics-and-applications/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="面向光学工程师的进阶指南。基于耦合模理论（CMT）推导光纤布拉格光栅的反射谱特性，深入探讨切趾技术、色散管理及光纤激光器腔体设计。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-02-01T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-31T15:32:02.676Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光纤传感">
+<meta property="article:tag" content="光纤光学">
+<meta property="article:tag" content="激光器谐振腔">
+<meta property="article:tag" content="耦合模理论">
+<meta property="article:tag" content="色散补偿">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-01 12:00" pubdate>
+          February 1, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践"><a href="#光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践" class="headerlink" title="光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践"></a>光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践</h1><h2 id="1-引言：波导中的微扰引入"><a href="#1-引言：波导中的微扰引入" class="headerlink" title="1. 引言：波导中的微扰引入"></a>1. 引言：波导中的微扰引入</h2><p>对于光学工程师而言，光纤布拉格光栅（FBG）不仅仅是一个滤光片，它本质上是圆柱波导中的**一维光子带隙（1D Photonic Bandgap）**结构。通过在光纤纤芯引入周期性的介电常数微扰（$\Delta \varepsilon$），我们在波矢空间（k-space）人为制造了一个“禁带”。</p>
+<p>本文将跳过基础概念，直接从波动方程出发，利用耦合模理论解析 FBG 的光谱响应及其在色散管理和极限传感中的物理机制。</p>
+<h2 id="2-理论框架：耦合模方程（Coupled-Mode-Equations）"><a href="#2-理论框架：耦合模方程（Coupled-Mode-Equations）" class="headerlink" title="2. 理论框架：耦合模方程（Coupled Mode Equations）"></a>2. 理论框架：耦合模方程（Coupled Mode Equations）</h2><p>在弱导波近似下，光栅的作用是将前向传输的基模（Forward Fundamental Mode, amplitude $A(z)$）能量耦合到后向传输模（Backward Mode, amplitude $B(z)$）。</p>
+<h3 id="2-1-介电常数的周期性微扰"><a href="#2-1-介电常数的周期性微扰" class="headerlink" title="2.1 介电常数的周期性微扰"></a>2.1 介电常数的周期性微扰</h3><p>光纤纤芯的折射率调制可表示为：<br>$$ n(z) &#x3D; n_{eff} + \overline{\Delta n}(z) + \Delta n(z) \cos\left(\frac{2\pi z}{\Lambda} + \phi(z)\right) $$<br>其中 $\overline{\Delta n}$ 是直流平均折射率变化，$\Delta n(z)$ 是交流调制幅度（决定耦合强度），$\phi(z)$ 是相位啁啾项。</p>
+<h3 id="2-2-耦合模方程推导"><a href="#2-2-耦合模方程推导" class="headerlink" title="2.2 耦合模方程推导"></a>2.2 耦合模方程推导</h3><p>根据麦克斯韦方程组，引入微扰极化项，通过正交归一化条件，可导出描述 $A(z)$ 和 $B(z)$ 演化的微分方程组：</p>
+<p>$$ \frac{dA}{dz} &#x3D; -i\kappa B e^{i2\delta z} - \alpha A $$<br>$$ \frac{dB}{dz} &#x3D; i\kappa^* A e^{-i2\delta z} + \alpha B $$</p>
+<p>其中关键参数定义如下：</p>
+<ul>
+<li><strong>$\kappa$（交流耦合系数）：</strong> $\kappa &#x3D; \frac{\pi \Delta n}{\lambda} \eta$，表征单位长度的反射能力，$\eta$ 为模场重叠积分因子。</li>
+<li><strong>$\delta$（失谐量 Detuning）：</strong> $\delta &#x3D; \beta - \frac{\pi}{\Lambda} &#x3D; 2\pi n_{eff} \left( \frac{1}{\lambda} - \frac{1}{\lambda_B} \right)$。它描述了当前波长与布拉格中心波长 $\lambda_B$ 的偏离程度。</li>
+</ul>
+<h3 id="2-3-反射率的解析解"><a href="#2-3-反射率的解析解" class="headerlink" title="2.3 反射率的解析解"></a>2.3 反射率的解析解</h3><p>对于均匀光栅（$\kappa$ 为常数，无啁啾），解上述方程组可得反射率 $R$：</p>
+<p>$$ R(\lambda, L) &#x3D; \left| \frac{B(0)}{A(0)} \right|^2 &#x3D; \frac{\sinh^2(\sqrt{\kappa^2 - \delta^2}L)}{\cosh^2(\sqrt{\kappa^2 - \delta^2}L) - \frac{\delta^2}{\kappa^2}} $$</p>
+<p>在中心波长处（$\delta &#x3D; 0$），公式简化为工程中最常用的近似：<br>$$ R_{max} &#x3D; \tanh^2(\kappa L) $$</p>
+<blockquote>
+<p><strong>工程推论：</strong> 要获得高反射率（$R&gt;99.9%$），必须提高 $\kappa L$ 乘积。对于短光栅（如激光器腔镜），需要极高的 $\Delta n$（强光敏光纤或载氢处理）；对于长光栅，则需保证刻写的均匀性。</p>
+</blockquote>
+<h2 id="3-旁瓣抑制与切趾技术（Apodization）"><a href="#3-旁瓣抑制与切趾技术（Apodization）" class="headerlink" title="3. 旁瓣抑制与切趾技术（Apodization）"></a>3. 旁瓣抑制与切趾技术（Apodization）</h2><p>从傅里叶变换的角度看，有限长度 $L$ 的均匀光栅，其空间域是矩形窗函数（Rectangular Window），因此其频域响应必然伴随着Sinc函数的振荡，即<strong>旁瓣（Side-lobes）</strong>。</p>
+<p>在密集波分复用（DWDM）系统中，旁瓣会导致信道串扰。为了消除旁瓣，必须对耦合系数 $\kappa(z)$ 进行<strong>切趾（Apodization）</strong>，即让折射率调制深度在光栅两端平滑衰减至零（如高斯分布或余弦平方分布）。</p>
+<p>$$ \Delta n(z) &#x3D; \Delta n_{max} \exp\left(-\frac{4 \ln 2 \cdot z^2}{FWHM^2}\right) $$</p>
+<p>切趾的代价是有效光栅长度缩短，导致反射谱的主峰展宽（FWHM 增加）。这是工程设计中必须权衡的带宽-串扰博弈。</p>
+<h2 id="4-色散管理：啁啾光栅（Chirped-FBG）"><a href="#4-色散管理：啁啾光栅（Chirped-FBG）" class="headerlink" title="4. 色散管理：啁啾光栅（Chirped FBG）"></a>4. 色散管理：啁啾光栅（Chirped FBG）</h2><p>当光栅周期 $\Lambda(z)$ 沿轴向线性变化时，不同波长的光满足布拉格条件的物理位置 $z_{Bragg}$ 不同。</p>
+<p>$$ \lambda_B(z) &#x3D; 2 n_{eff} \Lambda(z) $$</p>
+<p>短波长在光栅近端反射，长波长在光栅远端反射。这引入了与频率相关的<strong>群时延（Group Delay, $\tau_g$）</strong>：</p>
+<p>$$ \tau_g(\lambda) &#x3D; \frac{2 n_{eff} z(\lambda)}{c} $$</p>
+<p>其斜率 $D &#x3D; \frac{d\tau_g}{d\lambda}$ 即为色散量（ps&#x2F;nm）。</p>
+<ul>
+<li><strong>应用场景：</strong> 在高速光通信（&gt;10Gb&#x2F;s）中，通过设计特定的 $\Lambda(z)$ 分布，使 CFBG 的色散正好与传输光纤（SMF-28）的色散符号相反、大小相等，实现全光链路的色散补偿。</li>
+</ul>
+<h2 id="5-高阶传感模型：张量与交叉敏感"><a href="#5-高阶传感模型：张量与交叉敏感" class="headerlink" title="5. 高阶传感模型：张量与交叉敏感"></a>5. 高阶传感模型：张量与交叉敏感</h2><p>在传感应用中，简单的线性公式往往不足以描述复杂工况。我们需要引入<strong>光弹效应张量（Photo-elastic Tensor）</strong>。</p>
+<h3 id="5-1-应变光效应的严格表述"><a href="#5-1-应变光效应的严格表述" class="headerlink" title="5.1 应变光效应的严格表述"></a>5.1 应变光效应的严格表述</h3><p>轴向应变 $\epsilon_z$ 不仅改变光栅周期，还通过泊松效应改变光纤截面尺寸和折射率分布。波长漂移的精确表达为：</p>
+<p>$$ \frac{\Delta \lambda_B}{\lambda_B} &#x3D; \epsilon_z - \frac{n_{eff}^2}{2} [p_{12} - \nu(p_{11} + p_{12})] \epsilon_z $$</p>
+<p>其中 $p_{ij}$ 为石英玻璃的弹光系数分量，$\nu$ 为泊松比。通常，有效弹光系数 $P_e \approx 0.22$，综合灵敏度系数 $1 - P_e \approx 0.78$。</p>
+<h3 id="5-2-温度与应变的解耦"><a href="#5-2-温度与应变的解耦" class="headerlink" title="5.2 温度与应变的解耦"></a>5.2 温度与应变的解耦</h3><p>由于温度和应变都会导致 $\Delta \lambda_B$，在实际工程（如航空复合材料监测）中必须解耦。常用的方法是构建传输矩阵：</p>
+<p>$$ \begin{bmatrix} \Delta \lambda_1 \ \Delta \lambda_2 \end{bmatrix} &#x3D; \begin{bmatrix} K_{\epsilon 1} &amp; K_{T 1} \ K_{\epsilon 2} &amp; K_{T 2} \end{bmatrix} \begin{bmatrix} \epsilon \ \Delta T \end{bmatrix} $$</p>
+<p>通过引入第二个参考光栅（仅感温不感应变）或利用双折射效应（测量 PANDA 光纤的两个偏振模的差分漂移），求解上述矩阵的逆矩阵即可实现解耦。</p>
+<h2 id="6-光纤激光器中的谐振腔设计"><a href="#6-光纤激光器中的谐振腔设计" class="headerlink" title="6. 光纤激光器中的谐振腔设计"></a>6. 光纤激光器中的谐振腔设计</h2><p>在高功率光纤激光器（Ytterbium-doped Fiber Laser）中，FBG 充当了全反镜（HR）和输出耦合镜（OC）。</p>
+<ul>
+<li><strong>线宽控制：</strong> HR 光栅通常设计为高反射率（&gt;99%）、宽带宽（1-2nm），以覆盖增益谱；OC 光栅设计为低反射率（5-10%）、窄带宽，以选模并压窄输出线宽。</li>
+<li><strong>受激拉曼散射（SRS）抑制：</strong> 在 kW 级激光器中，为了抑制 SRS，OC 光栅的设计波长和带宽必须严格匹配，确保能量集中在基频光，并通过大模场面积（LMA）光纤光栅降低功率密度。</li>
+</ul>
+<h2 id="7-结语"><a href="#7-结语" class="headerlink" title="7. 结语"></a>7. 结语</h2><p>从耦合模方程的解析解到非均匀光栅的数值模拟（Transfer Matrix Method），布拉格光栅的设计已经进入了高度数学化和定制化的阶段。</p>
+<p>未来的挑战在于极端环境下的材料改性（如飞秒激光刻写的 Type-II 光栅耐受 1000°C 高温）以及在集成光路（PIC）波导上实现复杂的片上滤波器。对于光学工程师而言，理解 $\kappa$ 与 $\Lambda(z)$ 的相空间演化，是掌握这把“光之尺”的关键。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E9%80%9A%E4%BF%A1/" class="category-chain-item">光通信</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%85%89%E9%80%9A%E4%BF%A1/%E5%85%88%E8%BF%9B%E5%85%89%E5%AD%90%E5%AD%A6/" class="category-chain-item">先进光子学</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E7%BA%A4%E5%85%89%E5%AD%A6/" class="print-no-link">#光纤光学</a>
+      
+        <a href="/tags/%E8%80%A6%E5%90%88%E6%A8%A1%E7%90%86%E8%AE%BA/" class="print-no-link">#耦合模理论</a>
+      
+        <a href="/tags/%E8%89%B2%E6%95%A3%E8%A1%A5%E5%81%BF/" class="print-no-link">#色散补偿</a>
+      
+        <a href="/tags/%E5%85%89%E7%BA%A4%E4%BC%A0%E6%84%9F/" class="print-no-link">#光纤传感</a>
+      
+        <a href="/tags/%E6%BF%80%E5%85%89%E5%99%A8%E8%B0%90%E6%8C%AF%E8%85%94/" class="print-no-link">#激光器谐振腔</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践</div>
+      <div>https://sunfove.xyz/2026/02/01/2026-02-01-bragg-grating-physics-and-applications/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 1, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/31/2026-01-31-holographic-lithography-principles-and-applications/" title="光的编织术：全息曝光（干涉光刻）的物理底层与应用边界">
+                        <span class="hidden-mobile">光的编织术：全息曝光（干涉光刻）的物理底层与应用边界</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/02/01/2026-02-01-bragg-grating-physics-and-applications/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
