@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文从光谱功率分布出发，推导 CIE 色坐标系统的数学构建，深入探讨色彩不均匀度（Color Non-uniformity）的计算原理，并提供完整的 MATLAB 实现代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度解析：色坐标的物理本质与色彩不均匀度的 MATLAB 算法实现">
+<meta property="og:url" content="https://sunfove.xyz/2026/02/03/2026-02-03-understanding-chromaticity-coordinates-and-color-uniformity/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文从光谱功率分布出发，推导 CIE 色坐标系统的数学构建，深入探讨色彩不均匀度（Color Non-uniformity）的计算原理，并提供完整的 MATLAB 实现代码。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-02-03T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-03T14:36:38.146Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Color Science">
+<meta property="article:tag" content="MATLAB">
+<meta property="article:tag" content="Optics">
+<meta property="article:tag" content="VESA Standard">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>深度解析：色坐标的物理本质与色彩不均匀度的 MATLAB 算法实现 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">深度解析：色坐标的物理本质与色彩不均匀度的 MATLAB 算法实现</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-03 10:00" pubdate>
+          February 3, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深度解析：色坐标的物理本质与色彩不均匀度的 MATLAB 算法实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="引言：从物理光子到心理感知"><a href="#引言：从物理光子到心理感知" class="headerlink" title="引言：从物理光子到心理感知"></a>引言：从物理光子到心理感知</h2><p>在显示技术（Display Technology）与固态照明（SSL）领域，我们面临的一个核心哲学与工程问题是：<strong>如何用数字量化主观的色彩感知？</strong></p>
+<p>光本质上是电磁波，由光谱功率分布（Spectral Power Distribution, SPD）描述。然而，人类并非光谱仪。我们的视觉系统通过视网膜上的三种视锥细胞（L, M, S）将无限维度的光谱信息“压缩”为三维信号。</p>
+<p>本文将解析这一压缩过程如何诞生了“色坐标”，并进一步探讨如何利用数学工具量化显示设备的缺陷——<strong>色彩不均匀度</strong>。</p>
+<hr>
+<h2 id="一、-色坐标的第一性原理"><a href="#一、-色坐标的第一性原理" class="headerlink" title="一、 色坐标的第一性原理"></a>一、 色坐标的第一性原理</h2><h3 id="1-1-三刺激值：感知的基石"><a href="#1-1-三刺激值：感知的基石" class="headerlink" title="1.1 三刺激值：感知的基石"></a>1.1 三刺激值：感知的基石</h3><p>1931年，国际照明委员会（CIE）基于大量配色实验，定义了标准观察者函数 $\bar{x}(\lambda), \bar{y}(\lambda), \bar{z}(\lambda)$。对于任意光源的光谱 $P(\lambda)$，其三刺激值 $X, Y, Z$ 由下式给出：</p>
+<p>$$<br>\begin{cases}<br>X &#x3D; k \int_{380}^{780} P(\lambda) \bar{x}(\lambda) d\lambda \<br>Y &#x3D; k \int_{380}^{780} P(\lambda) \bar{y}(\lambda) d\lambda \<br>Z &#x3D; k \int_{380}^{780} P(\lambda) \bar{z}(\lambda) d\lambda<br>\end{cases}<br>$$</p>
+<p>这里，物理世界的光谱能量通过积分变换，映射到了心理物理学的 $XYZ$ 空间。</p>
+<h3 id="1-2-降维与投影：从-CIE-1931-xy-到-CIE-1976-u’v’"><a href="#1-2-降维与投影：从-CIE-1931-xy-到-CIE-1976-u’v’" class="headerlink" title="1.2 降维与投影：从 CIE 1931 xy 到 CIE 1976 u’v’"></a>1.2 降维与投影：从 CIE 1931 xy 到 CIE 1976 u’v’</h3><p>为了将“色度”（Chromaticity）与“亮度”（Luminance, $Y$）分离，我们在 $X+Y+Z&#x3D;1$ 的平面上进行投影，得到了经典的 <strong>CIE 1931 xy 色坐标</strong>：</p>
+<p>$$x &#x3D; \frac{X}{X+Y+Z}, \quad y &#x3D; \frac{Y}{X+Y+Z}$$</p>
+<p>!</p>
+<p>然而，CIE 1931 存在一个著名的拓扑缺陷：<strong>视觉感知的不均匀性</strong>。在图中绿色区域移动 $0.01$ 的距离，人眼可能察觉不到变化；而在蓝色区域移动同样的距离，色差却极其明显。这由麦克亚当椭圆（MacAdam Ellipses）所证实。</p>
+<p>为了解决此问题，工业界引入了 <strong>CIE 1976 UCS (Uniform Chromaticity Scale)</strong> 系统。通过射影变换，将 $xy$ 空间拉伸为更符合人眼感知的 $u’v’$ 空间：</p>
+<p>$$<br>\begin{align}<br>u’ &amp;&#x3D; \frac{4X}{X + 15Y + 3Z} &#x3D; \frac{4x}{-2x + 12y + 3} \<br>v’ &amp;&#x3D; \frac{9Y}{X + 15Y + 3Z} &#x3D; \frac{9y}{-2x + 12y + 3}<br>\end{align}<br>$$</p>
+<p><strong>关键点：</strong> 在计算色彩不均匀度时，必须使用 $u’v’$ 坐标系统，而非 $xy$ 系统，否则计算出的“距离”无法真实反映人眼的差异感受。</p>
+<hr>
+<h2 id="二、-色彩不均匀度的定义与计算"><a href="#二、-色彩不均匀度的定义与计算" class="headerlink" title="二、 色彩不均匀度的定义与计算"></a>二、 色彩不均匀度的定义与计算</h2><p>色彩不均匀度（Color Non-uniformity）通常指显示面板或照明阵列在不同空间位置上的色度漂移量。</p>
+<h3 id="2-1-欧几里得距离-Delta-u’v’"><a href="#2-1-欧几里得距离-Delta-u’v’" class="headerlink" title="2.1 欧几里得距离 ($\Delta u’v’$)"></a>2.1 欧几里得距离 ($\Delta u’v’$)</h3><p>这是最基础且最通用的度量方式。假设面板中心点的色坐标为 $(u’_c, v’_c)$，任意测试点 $i$ 的色坐标为 $(u’_i, v’_i)$，则该点的色偏差为：</p>
+<p>$$ \Delta u’v’_i &#x3D; \sqrt{(u’_i - u’_c)^2 + (v’_i - v’_c)^2} $$</p>
+<h3 id="2-2-VESA-FPDM-标准"><a href="#2-2-VESA-FPDM-标准" class="headerlink" title="2.2 VESA FPDM 标准"></a>2.2 VESA FPDM 标准</h3><p>在平板显示测量标准（FPDM）中，通常采用 9 点法或 13 点法。色彩不均匀度通常定义为所有采样点相对于参考点（通常是中心点或平均值）的最大色差：</p>
+<p>$$ NonUniformity &#x3D; \max_{i} (\Delta u’v’_i) $$</p>
+<p>对于高阶应用，我们还需要考量 <strong>JND (Just Noticeable Difference)</strong>，通常 $\Delta u’v’ &lt; 0.004$ 被认为是人眼可接受的商业标准，而专业级显示器要求 $\Delta u’v’ &lt; 0.002$。</p>
+<hr>
+<h2 id="三、-MATLAB-代码实现"><a href="#三、-MATLAB-代码实现" class="headerlink" title="三、 MATLAB 代码实现"></a>三、 MATLAB 代码实现</h2><p>以下 MATLAB 代码模拟了一个 9 点测量的场景。它实现了从 $XYZ$ 到 $u’v’$ 的转换，计算色彩不均匀度，并可视化结果。</p>
+<h3 id="3-1-核心算法脚本"><a href="#3-1-核心算法脚本" class="headerlink" title="3.1 核心算法脚本"></a>3.1 核心算法脚本</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">color_uniformity_analysis</span><span class="hljs-params">()</span></span><br>    <span class="hljs-comment">% color_uniformity_analysis</span><br>    <span class="hljs-comment">% 模拟显示面板的色彩不均匀度计算 (CIE 1976 u&#x27;v&#x27; Space)</span><br>    <span class="hljs-comment">%</span><br>    <span class="hljs-comment">% Output: </span><br>    <span class="hljs-comment">%   Visualizes the chromaticity diagram and sample points.</span><br>    <span class="hljs-comment">%   Prints the max delta u&#x27;v&#x27;.</span><br>    <br>    clc; clear; close all;<br><br>    <span class="hljs-comment">%% 1. 定义模拟数据 (Simulated Measurement Data)</span><br>    <span class="hljs-comment">% 假设这是从 Minolta CA-410 或类似仪器读取的 9 个点的 XYZ 数据</span><br>    <span class="hljs-comment">% 数据格式: [X, Y, Z]</span><br>    <span class="hljs-comment">% 模拟一个稍微偏蓝且不均匀的屏幕</span><br>    measurements_XYZ = [<br>        <span class="hljs-number">95.0</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">108.0</span>;  <span class="hljs-comment">% Point 1 (Top-Left)</span><br>        <span class="hljs-number">96.2</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">109.5</span>;  <span class="hljs-comment">% Point 2 (Top-Center)</span><br>        <span class="hljs-number">94.8</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">107.8</span>;  <span class="hljs-comment">% Point 3 (Top-Right)</span><br>        <span class="hljs-number">95.5</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">108.2</span>;  <span class="hljs-comment">% Point 4 (Mid-Left)</span><br>        <span class="hljs-number">96.0</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">108.9</span>;  <span class="hljs-comment">% Point 5 (Center - Reference)</span><br>        <span class="hljs-number">95.3</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">107.5</span>;  <span class="hljs-comment">% Point 6 (Mid-Right)</span><br>        <span class="hljs-number">94.5</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">110.0</span>;  <span class="hljs-comment">% Point 7 (Bottom-Left)</span><br>        <span class="hljs-number">95.8</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">109.2</span>;  <span class="hljs-comment">% Point 8 (Bottom-Center)</span><br>        <span class="hljs-number">95.1</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">108.5</span>   <span class="hljs-comment">% Point 9 (Bottom-Right)</span><br>    ];<br><br>    <span class="hljs-comment">%% 2. 坐标转换: XYZ -&gt; u&#x27;v&#x27;</span><br>    <span class="hljs-comment">% 调用内部函数进行转换</span><br>    uv_coords = xyz2uv(measurements_XYZ);<br>    <br>    u_prime = uv_coords(:, <span class="hljs-number">1</span>);<br>    v_prime = uv_coords(:, <span class="hljs-number">2</span>);<br><br>    <span class="hljs-comment">%% 3. 计算色彩不均匀度 (Calculation)</span><br>    <span class="hljs-comment">% 策略: 计算所有点相对于中心点 (Point 5) 的欧氏距离</span><br>    center_idx = <span class="hljs-number">5</span>; <br>    ref_u = u_prime(center_idx);<br>    ref_v = v_prime(center_idx);<br>    <br>    <span class="hljs-comment">% 初始化距离数组</span><br>    num_points = <span class="hljs-built_in">size</span>(measurements_XYZ, <span class="hljs-number">1</span>);<br>    delta_uv = <span class="hljs-built_in">zeros</span>(num_points, <span class="hljs-number">1</span>);<br>    <br>    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:num_points<br>        du = u_prime(<span class="hljs-built_in">i</span>) - ref_u;<br>        dv = v_prime(<span class="hljs-built_in">i</span>) - ref_v;<br>        delta_uv(<span class="hljs-built_in">i</span>) = <span class="hljs-built_in">sqrt</span>(du^<span class="hljs-number">2</span> + dv^<span class="hljs-number">2</span>);<br>    <span class="hljs-keyword">end</span><br>    <br>    [max_delta, max_idx] = <span class="hljs-built_in">max</span>(delta_uv);<br>    mean_delta = <span class="hljs-built_in">mean</span>(delta_uv);<br><br>    <span class="hljs-comment">%% 4. 结果输出</span><br>    fprintf(<span class="hljs-string">&#x27;=== 色彩不均匀度分析报告 ===\n&#x27;</span>);<br>    fprintf(<span class="hljs-string">&#x27;参考点 (Center): u&#x27;&#x27;=%.4f, v&#x27;&#x27;=%.4f\n&#x27;</span>, ref_u, ref_v);<br>    fprintf(<span class="hljs-string">&#x27;最大色差 (Max Delta u&#x27;&#x27;v&#x27;&#x27;): %.5f (at Point %d)\n&#x27;</span>, max_delta, max_idx);<br>    fprintf(<span class="hljs-string">&#x27;平均色差 (Mean Delta u&#x27;&#x27;v&#x27;&#x27;): %.5f\n&#x27;</span>, mean_delta);<br>    <br>    <span class="hljs-keyword">if</span> max_delta &gt; <span class="hljs-number">0.004</span><br>        fprintf(<span class="hljs-string">&#x27;判定结果: Fail (超过一般人眼识别阈值 0.004)\n&#x27;</span>);<br>    <span class="hljs-keyword">else</span><br>        fprintf(<span class="hljs-string">&#x27;判定结果: Pass\n&#x27;</span>);<br>    <span class="hljs-keyword">end</span><br><br>    <span class="hljs-comment">%% 5. 可视化 (Visualization)</span><br>    <span class="hljs-built_in">figure</span>(<span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>, <span class="hljs-string">&#x27;Color Uniformity Plot&#x27;</span>);<br>    <span class="hljs-built_in">hold</span> on; grid on; axis equal;<br>    <br>    <span class="hljs-comment">% 绘制 CIE 1976 图的局部范围 (为了看清细微差别，我们放大显示)</span><br>    padding = <span class="hljs-number">0.01</span>;<br>    xlim([<span class="hljs-built_in">min</span>(u_prime)-padding, <span class="hljs-built_in">max</span>(u_prime)+padding]);<br>    ylim([<span class="hljs-built_in">min</span>(v_prime)-padding, <span class="hljs-built_in">max</span>(v_prime)+padding]);<br>    <br>    <span class="hljs-comment">% 绘制散点</span><br>    <span class="hljs-built_in">scatter</span>(u_prime, v_prime, <span class="hljs-number">100</span>, delta_uv, <span class="hljs-string">&#x27;filled&#x27;</span>, <span class="hljs-string">&#x27;MarkerEdgeColor&#x27;</span>, <span class="hljs-string">&#x27;k&#x27;</span>);<br>    colormap(<span class="hljs-string">&#x27;jet&#x27;</span>);<br>    c = colorbar;<br>    c.Label.String = <span class="hljs-string">&#x27;\Delta u&#x27;&#x27;v&#x27;&#x27; from Center&#x27;</span>;<br>    <br>    <span class="hljs-comment">% 标记中心点</span><br>    <span class="hljs-built_in">plot</span>(ref_u, ref_v, <span class="hljs-string">&#x27;r+&#x27;</span>, <span class="hljs-string">&#x27;MarkerSize&#x27;</span>, <span class="hljs-number">15</span>, <span class="hljs-string">&#x27;LineWidth&#x27;</span>, <span class="hljs-number">2</span>);<br>    text(ref_u, ref_v, <span class="hljs-string">&#x27;  Center&#x27;</span>, <span class="hljs-string">&#x27;FontSize&#x27;</span>, <span class="hljs-number">10</span>);<br>    <br>    <span class="hljs-comment">% 标记最差点</span><br>    text(u_prime(max_idx), v_prime(max_idx), sprintf(<span class="hljs-string">&#x27;  Max Diff: %.4f&#x27;</span>, max_delta), ...<br>        <span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;red&#x27;</span>, <span class="hljs-string">&#x27;FontWeight&#x27;</span>, <span class="hljs-string">&#x27;bold&#x27;</span>);<br><br>    title(<span class="hljs-string">&#x27;Panel Color Uniformity (CIE 1976 u&#x27;&#x27;v&#x27;&#x27;)&#x27;</span>);<br>    xlabel(<span class="hljs-string">&#x27;u&#x27;&#x27;&#x27;</span>);<br>    ylabel(<span class="hljs-string">&#x27;v&#x27;&#x27;&#x27;</span>);<br>    <br>    <span class="hljs-built_in">hold</span> off;<br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">uv</span> = <span class="hljs-title">xyz2uv</span><span class="hljs-params">(XYZ)</span></span><br>    <span class="hljs-comment">% xyz2uv Converts XYZ tristimulus values to CIE 1976 u&#x27;v&#x27; coordinates.</span><br>    <span class="hljs-comment">% formula:</span><br>    <span class="hljs-comment">% u&#x27; = 4X / (X + 15Y + 3Z)</span><br>    <span class="hljs-comment">% v&#x27; = 9Y / (X + 15Y + 3Z)</span><br>    <br>    X = XYZ(:, <span class="hljs-number">1</span>);<br>    Y = XYZ(:, <span class="hljs-number">2</span>);<br>    Z = XYZ(:, <span class="hljs-number">3</span>);<br>    <br>    denominator = X + <span class="hljs-number">15</span>*Y + <span class="hljs-number">3</span>*Z;<br>    <br>    u = (<span class="hljs-number">4</span> * X) ./ denominator;<br>    v = (<span class="hljs-number">9</span> * Y) ./ denominator;<br>    <br>    uv = [u, v];<br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-2-代码解析"><a href="#3-2-代码解析" class="headerlink" title="3.2 代码解析"></a>3.2 代码解析</h3><ol>
+<li><strong>数据输入与结构化</strong>：代码首先模拟了 9 个测试点的 XYZ 三刺激值。在实际生产线中，这些数据通常通过 API 直接从色度计（Colorimeter）读取。</li>
+<li><strong>非线性变换</strong>：<code>xyz2uv</code> 函数严格遵循 CIE 1976 公式。注意这里的矩阵运算采用了向量化处理（Vectorization），这是 MATLAB 高效运算的核心。</li>
+<li><strong>度量逻辑</strong>：我们选择了“中心点”作为 Reference。在某些严格的汽车或医疗显示标准中，可能会计算任意两点间的最大差值（Max Pairwise Difference）。</li>
+<li><strong>可视化</strong>：由于色彩不均匀度通常是微小量（$10^{-3}$ 数量级），直接画在全色域图上会挤成一点。因此代码自动调整了坐标轴范围（Zoom-in），并用颜色映射（Heatmap）来直观展示偏差程度。</li>
+</ol>
+<hr>
+<h2 id="四、-深入讨论：数值背后的工业意义"><a href="#四、-深入讨论：数值背后的工业意义" class="headerlink" title="四、 深入讨论：数值背后的工业意义"></a>四、 深入讨论：数值背后的工业意义</h2><h3 id="4-1-为什么-Delta-u’v’-优于-Delta-xy-？"><a href="#4-1-为什么-Delta-u’v’-优于-Delta-xy-？" class="headerlink" title="4.1 为什么 $\Delta u’v’$ 优于 $\Delta xy$？"></a>4.1 为什么 $\Delta u’v’$ 优于 $\Delta xy$？</h3><p>虽然 $\Delta xy$ 计算简单，但它不具备<strong>感知相关性</strong>。在 $xy$ 图中，绿色区域的大距离位移可能人眼无法察觉，而蓝色区域的微小位移却显而易见。工业界若使用 $\Delta xy$ 作为良率标准，会导致“假阳性”或“假阴性”判定，直接造成经济损失。</p>
+<h3 id="4-2-Murmura-与-Just-Noticeable-Difference-JND"><a href="#4-2-Murmura-与-Just-Noticeable-Difference-JND" class="headerlink" title="4.2 Murmura 与 Just Noticeable Difference (JND)"></a>4.2 Murmura 与 Just Noticeable Difference (JND)</h3><p>虽然 $\Delta u’v’$ 是目前的黄金标准，但学术界正在转向更高级的度量，如 $\Delta E_{00}$ (CIEDE2000)。这需要将数据进一步转换到 $L^*a^<em>b^</em>$ 空间。然而，由于 $\Delta u’v’$ 计算的高效性和直观性，它依然是面板厂（Panel Maker）与品牌厂（OEM）之间签署规格书（Spec）的首选语言。</p>
+<hr>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>色坐标不仅是数学游戏，它是连接物理光学与人类感知的桥梁。通过 MATLAB 我们可以精确地模拟这一过程，将抽象的“不均匀”转化为可控的工程指标。</p>
+<p>希望这篇文章能帮你建立起对色彩度量的数理直觉。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Engineering/" class="category-chain-item">Engineering</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Engineering/Colorimetry/" class="category-chain-item">Colorimetry</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
+      
+        <a href="/tags/Algorithm/" class="print-no-link">#Algorithm</a>
+      
+        <a href="/tags/MATLAB/" class="print-no-link">#MATLAB</a>
+      
+        <a href="/tags/Color-Science/" class="print-no-link">#Color Science</a>
+      
+        <a href="/tags/VESA-Standard/" class="print-no-link">#VESA Standard</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度解析：色坐标的物理本质与色彩不均匀度的 MATLAB 算法实现</div>
+      <div>https://sunfove.xyz/2026/02/03/2026-02-03-understanding-chromaticity-coordinates-and-color-uniformity/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 3, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/02/03/2026-02-03-quantifying-color-from-spectrum-to-perception/" title="感知的量化：色彩度量学原理与不均匀性（Mura）计算的数学基础">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">感知的量化：色彩度量学原理与不均匀性（Mura）计算的数学基础</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/02/02/2026-02-02-daily-english/" title="🌍 Daily English: The Alchemy of Ideas: How TED Talks Forge New Perspectives | 2026-02-02">
+                        <span class="hidden-mobile">🌍 Daily English: The Alchemy of Ideas: How TED Talks Forge New Perspectives | 2026-02-02</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/02/03/2026-02-03-understanding-chromaticity-coordinates-and-color-uniformity/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

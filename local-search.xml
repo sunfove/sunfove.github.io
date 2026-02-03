@@ -4,6 +4,89 @@
   
   
   <entry>
+    <title>2026-02-03-color-coordinates-and-non-uniformity-analysis</title>
+    <link href="/2026/02/03/2026-02-03-color-coordinates-and-non-uniformity-analysis/"/>
+    <url>/2026/02/03/2026-02-03-color-coordinates-and-non-uniformity-analysis/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>感知的量化：色彩度量学原理与不均匀性（Mura）计算的数学基础</title>
+    <link href="/2026/02/03/2026-02-03-quantifying-color-from-spectrum-to-perception/"/>
+    <url>/2026/02/03/2026-02-03-quantifying-color-from-spectrum-to-perception/</url>
+    
+    <content type="html"><![CDATA[<p>色彩，本质上并非物质的固有属性，而是一种 <strong>心理物理学（Psychophysics）</strong> 现象。它是光波（物理输入）与人类视觉系统（生理接收）相互作用后，在大脑皮层产生的感知（心理输出）。</p><p>对于工程师和科学家而言，主观的“红”或“蓝”是无法用于制造标准化的。我们需要一把尺子，将这种主观感知映射到客观的向量空间中。本文将从麦克斯韦电磁理论出发，推导色彩量化的数学模型，并最终解决一个实际工程问题：如何计算一个平面上的色彩不均匀性（Color Non-uniformity）。</p><hr><h2 id="第一部分：从光子到神经信号（物理与生理基础）"><a href="#第一部分：从光子到神经信号（物理与生理基础）" class="headerlink" title="第一部分：从光子到神经信号（物理与生理基础）"></a>第一部分：从光子到神经信号（物理与生理基础）</h2><p>要量化色彩，首先必须量化光。光是电磁波，其物理特性由 <strong>光谱功率分布（Spectral Power Distribution, SPD）</strong> 描述。</p><h3 id="1-1-光谱功率分布-S-lambda"><a href="#1-1-光谱功率分布-S-lambda" class="headerlink" title="1.1 光谱功率分布 $S(\lambda)$"></a>1.1 光谱功率分布 $S(\lambda)$</h3><p>任意光源的物理属性可以由一个函数 $S(\lambda)$ 表示，其中 $\lambda$ 是波长（单位通常为nm），$S$ 是该波长下的辐射功率（单位 $W&#x2F;m^2&#x2F;nm$）。可见光范围通常定义为 380nm 到 780nm。</p><h3 id="1-2-人眼的线性积分器模型：从无限维到三维的坍缩"><a href="#1-2-人眼的线性积分器模型：从无限维到三维的坍缩" class="headerlink" title="1.2 人眼的线性积分器模型：从无限维到三维的坍缩"></a>1.2 人眼的线性积分器模型：从无限维到三维的坍缩</h3><p>人类对色彩的感知始于视网膜上的光感受器。根据杨-赫姆霍兹（Young-Helmholtz）的三色视学说，正常人眼视网膜上镶嵌着三种类型的视锥细胞（Cones）。尽管在通俗语境中常被称为“红、绿、蓝”感光细胞，但在学术上，根据其光谱响应峰值的位置，更严谨地将其命名为 <strong>长波（L-Cones, ~560nm）</strong>、<strong>中波（M-Cones, ~530nm）</strong> 和 <strong>短波（S-Cones, ~420nm）</strong> 受体。</p><p>从信号处理的第一性原理来看，人眼本质上是一个<strong>低通滤波后的线性积分器</strong>。物理世界中的光，其光谱功率分布（SPD）$S(\lambda)$ 是一个定义在连续波长域上的函数，理论上属于无限维的希尔伯特空间（Hilbert Space）。然而，视觉系统通过积分运算，将这个无限维的物理信息强行“投影”到了一个三维的欧几里得空间中。</p><p>设三种视锥细胞的光谱灵敏度函数分别为 $l(\lambda), m(\lambda), s(\lambda)$，则物理光谱转化为神经刺激值 $(L, M, S)$ 的过程如下：</p><p>$$<br>\begin{align}<br>L &amp;&#x3D; \int_{\lambda_{min}}^{\lambda_{max}} S(\lambda) l(\lambda) d\lambda \<br>M &amp;&#x3D; \int_{\lambda_{min}}^{\lambda_{max}} S(\lambda) m(\lambda) d\lambda \<br>S &amp;&#x3D; \int_{\lambda_{min}}^{\lambda_{max}} S(\lambda) s(\lambda) d\lambda<br>\end{align}<br>$$</p><p>这个积分过程揭示了一个深刻的数学事实：<strong>这是一场巨大的信息丢失（Lossy Compression）</strong>。我们将拥有无数自由度的光谱曲线 $S(\lambda)$ 压缩成了仅有三个自由度的向量。</p><p>正因为这种维度的剧烈坍缩（从 $\infty$ 到 3），导致了色彩科学中最核心、也是最神奇的现象——<strong>同色异谱（Metamerism）</strong>。这是一个典型的线性代数中的“多对一映射”（Many-to-One Mapping）问题。</p><p>由于我们只有三个积分约束方程，却有无数种可能的 $S(\lambda)$ 函数形状，数学上必然存在无穷多组完全不同的光谱分布 $S_1(\lambda)$ 和 $S_2(\lambda)$，使得它们在上述积分运算后得到完全相同的 $(L, M, S)$ 向量：</p><p>$$<br>\int S_1(\lambda) \mathbf{c}(\lambda) d\lambda &#x3D; \int S_2(\lambda) \mathbf{c}(\lambda) d\lambda \quad (\text{其中 } \mathbf{c} \in {l, m, s})<br>$$</p><p>这意味着，对于人眼而言，只要最终的三刺激值相等，物理上截然不同的光就是“同一种颜色”。<strong>这是现代显示技术的物理基石</strong>：我们不需要在屏幕像素中重建真实太阳的连续光谱来显示“黄色”，我们只需要混合适当比例的红光（R）和绿光（G），就能构造出一个在积分结果上等效的刺激向量，从而欺骗大脑产生完全一致的色彩感知。</p><hr><h2 id="第二部分：CIE-1931-XYZ——构建标准观察者"><a href="#第二部分：CIE-1931-XYZ——构建标准观察者" class="headerlink" title="第二部分：CIE 1931 XYZ——构建标准观察者"></a>第二部分：CIE 1931 XYZ——构建标准观察者</h2><p>LMS空间虽然生理上正确，但由于缺乏标准化且存在负值（在颜色匹配实验中出现），CIE（国际照明委员会）在1931年引入了线性变换，构建了<strong>CIE XYZ 色彩空间</strong>。</p><h3 id="2-1-颜色匹配函数（Color-Matching-Functions）"><a href="#2-1-颜色匹配函数（Color-Matching-Functions）" class="headerlink" title="2.1 颜色匹配函数（Color Matching Functions）"></a>2.1 颜色匹配函数（Color Matching Functions）</h3><p>CIE 定义了三个标准的颜色匹配函数 $\bar{x}(\lambda), \bar{y}(\lambda), \bar{z}(\lambda)$。其中 $\bar{y}(\lambda)$ 被特意设计为与人眼的明视觉光谱光视效率函数 $V(\lambda)$ 一致，代表亮度感知。</p><p>三刺激值（Tristimulus Values） $X, Y, Z$ 的计算公式为：</p><p>$$<br>X &#x3D; k \int_{380}^{780} S(\lambda) \bar{x}(\lambda) d\lambda<br>$$</p><p>$$<br>Y &#x3D; k \int_{380}^{780} S(\lambda) \bar{y}(\lambda) d\lambda<br>$$</p><p>$$<br>Z &#x3D; k \int_{380}^{780} S(\lambda) \bar{z}(\lambda) d\lambda<br>$$</p><p>其中 $k$ 是归一化常数。对于物体色，通常取 $k &#x3D; 100 &#x2F; \int S_{ref}(\lambda)\bar{y}(\lambda)d\lambda$，其中 $S_{ref}$ 是参考光源的光谱。</p><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260203_093631.png"></p><h3 id="2-2-色度坐标与马蹄图"><a href="#2-2-色度坐标与马蹄图" class="headerlink" title="2.2 色度坐标与马蹄图"></a>2.2 色度坐标与马蹄图</h3><p>由于 $Y$ 代表亮度，为了分离出色度（Chromaticity）信息，我们进行归一化：</p><p>$$<br>x &#x3D; \frac{X}{X+Y+Z}, \quad y &#x3D; \frac{Y}{X+Y+Z}<br>$$</p><p>这构成了著名的 CIE 1931 色度图（马蹄图）。任何物理上存在的颜色都落在这个马蹄形区域内。</p><hr><h2 id="第三部分：感知均匀性与-CIELAB-空间"><a href="#第三部分：感知均匀性与-CIELAB-空间" class="headerlink" title="第三部分：感知均匀性与 CIELAB 空间"></a>第三部分：感知均匀性与 CIELAB 空间</h2><p>CIE 1931 XYZ 空间最大的问题是<strong>感知不均匀性</strong>。在色度图上的不同区域，相同几何距离（Euclidean Distance）所代表的人眼感知色差是巨大的。例如，在绿色区域移动 0.1 的距离可能人眼难以察觉，但在蓝色区域移动 0.1 则是巨大的颜色变化。</p><p>麦克亚当（MacAdam）通过实验绘制了<strong>麦克亚当椭圆</strong>，直观地展示了这种不均匀性。为了解决这个问题，我们需要对 XYZ 空间进行<strong>非线性变换</strong>，使其接近“感知均匀”。这就是 *<em>CIELAB ($L^<em>a^<em>b^</em>$)</em></em> 空间。</p><h3 id="3-1-XYZ-到-Lab-的非线性变换"><a href="#3-1-XYZ-到-Lab-的非线性变换" class="headerlink" title="3.1 XYZ 到 Lab 的非线性变换"></a>3.1 XYZ 到 Lab 的非线性变换</h3><p>CIELAB 旨在使得空间中的欧几里得距离与人眼的感知色差成正比。其核心是引入了立方根函数来模拟人眼对亮度的非线性响应（韦伯-费希纳定律）。</p><p>定义参考白点为 $(X_n, Y_n, Z_n)$，则：</p><p>$$<br>L^* &#x3D; 116 f(Y&#x2F;Y_n) - 16<br>$$</p><p>$$<br>a^* &#x3D; 500 [f(X&#x2F;X_n) - f(Y&#x2F;Y_n)]<br>$$</p><p>$$<br>b^* &#x3D; 200 [f(Y&#x2F;Y_n) - f(Z&#x2F;Z_n)]<br>$$</p><p>其中函数 $f(t)$ 定义为：</p><p>$$<br>f(t) &#x3D; \begin{cases}<br>t^{1&#x2F;3} &amp; \text{if } t &gt; (\frac{6}{29})^3 \<br>\frac{1}{3}(\frac{29}{6})^2 t + \frac{4}{29} &amp; \text{otherwise}<br>\end{cases}<br>$$</p><ul><li>$L^*$：亮度（0黑 - 100白）。</li><li>$a^*$：红-绿轴（正红负绿）。</li><li>$b^*$：黄-蓝轴（正黄负蓝）。</li></ul><hr><h2 id="第四部分：色差公式-Delta-E-——-差异的度量"><a href="#第四部分：色差公式-Delta-E-——-差异的度量" class="headerlink" title="第四部分：色差公式 ($\Delta E$) —— 差异的度量"></a>第四部分：色差公式 ($\Delta E$) —— 差异的度量</h2><p>一旦我们在均匀色彩空间中拥有了坐标，计算两个颜色样本之间的差异（色差）就变成了计算空间中两点间的距离。</p><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260203_102448.png"></p><h3 id="4-1-Delta-E-ab-CIE76"><a href="#4-1-Delta-E-ab-CIE76" class="headerlink" title="4.1 $\Delta E^*_{ab}$ (CIE76)"></a>4.1 $\Delta E^*_{ab}$ (CIE76)</h3><p>这是最基础的色差公式，即 Lab 空间中的欧几里得距离：</p><p>$$<br>\Delta E^<em>_{ab} &#x3D; \sqrt{(\Delta L^</em>)^2 + (\Delta a^<em>)^2 + (\Delta b^</em>)^2}<br>$$</p><p>通常认为 $\Delta E^*_{ab} \approx 2.3$ 是人眼的<strong>恰可察觉差（JND, Just Noticeable Difference）</strong>，但在严格的工业应用中，$\Delta E &lt; 1.0$ 通常被视为优秀。</p><h3 id="4-2-进阶：-Delta-E-00-CIEDE2000"><a href="#4-2-进阶：-Delta-E-00-CIEDE2000" class="headerlink" title="4.2 进阶：$\Delta E_{00}$ (CIEDE2000)"></a>4.2 进阶：$\Delta E_{00}$ (CIEDE2000)</h3><p>虽然 Lab 空间比 XYZ 均匀，但仍不完美。特别是在高饱和度区域和蓝色区域，简单的欧几里得距离仍不能完美反映人眼感受。$\Delta E_{00}$ 引入了极为复杂的加权函数（$S_L, S_C, S_H$）和旋转项（$R_T$）来修正这些偏差。它是目前最精确的色差公式，但也最难计算。</p><hr><h2 id="第五部分：色彩不均匀性（Uniformity）的计算方法"><a href="#第五部分：色彩不均匀性（Uniformity）的计算方法" class="headerlink" title="第五部分：色彩不均匀性（Uniformity）的计算方法"></a>第五部分：色彩不均匀性（Uniformity）的计算方法</h2><p>在显示器制造（LCD, OLED, Micro-LED）或照明工程中，<strong>不均匀性（Non-uniformity）</strong>，常被称为 <strong>Mura</strong>，是一个关键质量指标。</p><p>不均匀性分为两类：<strong>亮度不均匀性</strong>和<strong>色度不均匀性</strong>。</p><h3 id="5-1-采样策略"><a href="#5-1-采样策略" class="headerlink" title="5.1 采样策略"></a>5.1 采样策略</h3><p>首先，必须定义空间采样点。工业标准（如 VESA FPDM 或 IDMS）通常建议使用 9点、13点或 25点阵列覆盖显示区域。</p><p>设采样点集合为 $P &#x3D; {p_1, p_2, …, p_N}$，每个点 $p_i$ 测量得到的数据为 $(L^<em>_i, a^</em>_i, b^*_i)$ 或 $(Y_i, x_i, y_i)$。</p><h3 id="5-2-亮度不均匀性计算"><a href="#5-2-亮度不均匀性计算" class="headerlink" title="5.2 亮度不均匀性计算"></a>5.2 亮度不均匀性计算</h3><p>亮度通常只关注 $Y$ 值（或 $L_v$，单位 $cd&#x2F;m^2$）。</p><p>最常用的度量是<strong>最大亮度偏差率</strong>：</p><p>$$<br>Uniformity_{Lum} &#x3D; 1 - \frac{L_{min}}{L_{max}}<br>$$</p><p>或者根据 ANSI 标准使用百分比表示：</p><p>$$<br>ANSI\ Uniformity &#x3D; \frac{L_{min}}{L_{max}} \times 100%<br>$$</p><p>其中 $L_{min}$ 和 $L_{max}$ 是所有采样点中的最小和最大亮度值。</p><h3 id="5-3-色彩不均匀性计算"><a href="#5-3-色彩不均匀性计算" class="headerlink" title="5.3 色彩不均匀性计算"></a>5.3 色彩不均匀性计算</h3><p>色彩不均匀性比亮度更复杂，因为它涉及色度漂移。常用的计算方法是<strong>最大色差法</strong>。</p><h4 id="方法-A：相对于中心点的偏差-Delta-E-center"><a href="#方法-A：相对于中心点的偏差-Delta-E-center" class="headerlink" title="方法 A：相对于中心点的偏差 ($\Delta E_{center}$)"></a>方法 A：相对于中心点的偏差 ($\Delta E_{center}$)</h4><p>这是最严格的方法。计算所有点相对于屏幕中心点 $p_{center}$ 的色差。</p><p>$$<br>\Delta E_i &#x3D; \sqrt{(L^<em>_i - L^</em>_{center})^2 + (a^<em>_i - a^</em>_{center})^2 + (b^<em>_i - b^</em>_{center})^2}<br>$$</p><p>$$<br>NonUniformity_{color} &#x3D; \max_{i \in P} (\Delta E_i)<br>$$</p><h4 id="方法-B：最大成对偏差-Delta-E-max-pair"><a href="#方法-B：最大成对偏差-Delta-E-max-pair" class="headerlink" title="方法 B：最大成对偏差 ($\Delta E_{max-pair}$)"></a>方法 B：最大成对偏差 ($\Delta E_{max-pair}$)</h4><p>计算网格中任意两点之间的最大色差。这代表了屏幕上可能出现的最糟糕的颜色差异。</p><p>$$<br>NonUniformity_{global} &#x3D; \max_{i,j} \left( \sqrt{(L^<em>_i - L^</em>_j)^2 + (a^<em>_i - a^</em>_j)^2 + (b^<em>_i - b^</em>_j)^2} \right)<br>$$</p><h4 id="方法-C：-Delta-u’v’-均匀性"><a href="#方法-C：-Delta-u’v’-均匀性" class="headerlink" title="方法 C：$\Delta u’v’$ 均匀性"></a>方法 C：$\Delta u’v’$ 均匀性</h4><p>对于某些应用，我们只关心色度（Colorimetry）而不关心亮度。此时应使用 CIE 1976 UCS 图 ($(u’, v’)$) 中的距离。</p><p>$$<br>\Delta C_i &#x3D; \sqrt{(u’<em>i - u’</em>{center})^2 + (v’<em>i - v’</em>{center})^2}<br>$$</p><p>通常要求 $\Delta u’v’ &lt; 0.005$ 或更严格。</p><hr><h2 id="第六部分：算法实现示例（MATLAB）"><a href="#第六部分：算法实现示例（MATLAB）" class="headerlink" title="第六部分：算法实现示例（MATLAB）"></a>第六部分：算法实现示例（MATLAB）</h2><p>在工程实践中，单纯的数值列表往往难以直观反映人眼对屏幕整体均匀性的感受。我们需要将计算结果映射回二维色彩空间，结合色度图来分析 Mura 的分布特征。</p><p>以下代码（基于 MATLAB Image Processing Toolbox）实现了从 XYZ 数据到 $\Delta E$ 和 $\Delta u’v’$ 的完整计算流程，并采用了一种“多维可视化”策略：<strong>空间位置</strong>代表色度坐标，<strong>点的大小与颜色</strong>代表色差幅度。</p><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[results]</span> = <span class="hljs-title">analyze_color_uniformity_advanced</span><span class="hljs-params">(xyz_data)</span></span><br>    <span class="hljs-comment">% 输入: xyz_data (N x 3 矩阵, 列分别为 X, Y, Z)</span><br>    <span class="hljs-comment">% 假设第一行为中心参考点</span><br>    <br>    <span class="hljs-comment">% 1. 提取基础分量并计算 u&#x27;, v&#x27;</span><br>    X = xyz_data(:, <span class="hljs-number">1</span>); Y = xyz_data(:, <span class="hljs-number">2</span>); Z = xyz_data(:, <span class="hljs-number">3</span>);<br>    denom = X + <span class="hljs-number">15</span>*Y + <span class="hljs-number">3</span>*Z;<br>    u_prime = <span class="hljs-number">4</span>*X ./ denom;<br>    v_prime = <span class="hljs-number">9</span>*Y ./ denom;<br>    <br>    <span class="hljs-comment">% 2. 计算色差与色偏移</span><br>    ref_u = u_prime(<span class="hljs-number">1</span>); ref_v = v_prime(<span class="hljs-number">1</span>);<br>    duv = <span class="hljs-built_in">sqrt</span>((u_prime - ref_u).^<span class="hljs-number">2</span> + (v_prime - ref_v).^<span class="hljs-number">2</span>);<br>    <br>    <span class="hljs-comment">% 计算 CIELAB (D65)</span><br>    lab_data = xyz2lab(xyz_data, <span class="hljs-string">&#x27;WhitePoint&#x27;</span>, [<span class="hljs-number">95.047</span>, <span class="hljs-number">100.000</span>, <span class="hljs-number">108.883</span>]);<br>    dE = <span class="hljs-built_in">sqrt</span>(sum((lab_data - lab_data(<span class="hljs-number">1</span>,:)).^<span class="hljs-number">2</span>, <span class="hljs-number">2</span>));<br>    <br>    <span class="hljs-comment">% 3. 可视化绘制</span><br>    <span class="hljs-built_in">figure</span>(<span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;Position&#x27;</span>, [<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">800</span>, <span class="hljs-number">600</span>]);<br>    <span class="hljs-built_in">hold</span> on;<br>    <br>    <span class="hljs-comment">% 绘制底图（局部聚焦模式）</span><br>    <span class="hljs-keyword">try</span><br>        plotChromaticity(<span class="hljs-string">&#x27;ColorSpace&#x27;</span>, <span class="hljs-string">&#x27;uv&#x27;</span>); <br>    <span class="hljs-keyword">catch</span><br>        <span class="hljs-comment">% 若无工具箱，绘制简易光谱轨迹边界（略）</span><br>    <span class="hljs-keyword">end</span><br>    <br>    <span class="hljs-comment">% 绘制采样点 - 使用较大的 Marker 和透明度边缘以便区分</span><br>    <span class="hljs-built_in">scatter</span>(u_prime, v_prime, <span class="hljs-number">120</span>, dE, <span class="hljs-string">&#x27;filled&#x27;</span>, <span class="hljs-string">&#x27;MarkerEdgeColor&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;LineWidth&#x27;</span>, <span class="hljs-number">1.5</span>);<br>    <br>    <span class="hljs-comment">% 强化参考点显示</span><br>    <span class="hljs-built_in">plot</span>(ref_u, ref_v, <span class="hljs-string">&#x27;rp&#x27;</span>, <span class="hljs-string">&#x27;MarkerSize&#x27;</span>, <span class="hljs-number">18</span>, <span class="hljs-string">&#x27;MarkerFaceColor&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>);<br>    text(ref_u, ref_v, <span class="hljs-string">&#x27;  Reference Center&#x27;</span>, <span class="hljs-string">&#x27;FontSize&#x27;</span>, <span class="hljs-number">12</span>, <span class="hljs-string">&#x27;FontWeight&#x27;</span>, <span class="hljs-string">&#x27;bold&#x27;</span>, <span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>);<br>    <br>    <span class="hljs-comment">% --- 核心优化：动态调整视口，拉开视觉距离 ---</span><br>    padding = <span class="hljs-number">0.05</span>; <span class="hljs-comment">% 增加 5% 的边缘留白</span><br>    <span class="hljs-comment">% u_range = [min(u_prime)-padding, max(u_prime)+padding];</span><br>    <span class="hljs-comment">% v_range = [min(v_prime)-padding, max(v_prime)+padding];</span><br>    <span class="hljs-comment">% axis([u_range v_range]); </span><br>    <br>    <span class="hljs-comment">% 辅助修饰</span><br>    colormap(jet);<br>    cb = colorbar;<br>    ylabel(cb, <span class="hljs-string">&#x27;Perceptual Difference \Delta E&#x27;</span>);<br>    xlabel(<span class="hljs-string">&#x27;u&#x27;&#x27; (Green-Red)&#x27;</span>); ylabel(<span class="hljs-string">&#x27;v&#x27;&#x27; (Blue-Yellow)&#x27;</span>);<br>    title([<span class="hljs-string">&#x27;Color Mura Distribution (Max \Delta u&#x27;&#x27;v&#x27;&#x27; = &#x27;</span>, num2str(<span class="hljs-built_in">max</span>(duv), <span class="hljs-string">&#x27;%.4f&#x27;</span>), <span class="hljs-string">&#x27;)&#x27;</span>]);<br>    grid on; box on;<br><span class="hljs-keyword">end</span><br><br><span class="hljs-comment">% --- 仿真测试：构造“拉开距离”的数据 ---</span><br><span class="hljs-comment">% 模拟不同方位的色偏点，确保在坐标系中呈现发散状</span><br>test_xyz = [<br>    <span class="hljs-number">95.04</span>, <span class="hljs-number">100.00</span>, <span class="hljs-number">108.88</span>; <span class="hljs-comment">% 1. 中心参考点 (White)</span><br>    <span class="hljs-number">105.0</span>, <span class="hljs-number">100.00</span>, <span class="hljs-number">80.00</span>;  <span class="hljs-comment">% 2. 显著偏黄/绿</span><br>    <span class="hljs-number">85.00</span>, <span class="hljs-number">100.00</span>, <span class="hljs-number">130.0</span>;  <span class="hljs-comment">% 3. 显著偏蓝/紫</span><br>    <span class="hljs-number">110.0</span>, <span class="hljs-number">95.00</span>,  <span class="hljs-number">100.0</span>;  <span class="hljs-comment">% 4. 显著偏红</span><br>    <span class="hljs-number">80.00</span>, <span class="hljs-number">105.0</span>,  <span class="hljs-number">95.00</span>   <span class="hljs-comment">% 5. 显著偏青</span><br>];<br><br>analyze_color_uniformity_advanced(test_xyz);<br></code></pre></td></tr></table></figure><p>运行结果如图<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260203_101351.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Engineering &amp; Technology</category>
+      
+      <category>Optics</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Physics</tag>
+      
+      <tag>Mathematics</tag>
+      
+      <tag>Colorimetry</tag>
+      
+      <tag>Image Processing</tag>
+      
+      <tag>Optical Engineering</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>深度解析：色坐标的物理本质与色彩不均匀度的 MATLAB 算法实现</title>
+    <link href="/2026/02/03/2026-02-03-understanding-chromaticity-coordinates-and-color-uniformity/"/>
+    <url>/2026/02/03/2026-02-03-understanding-chromaticity-coordinates-and-color-uniformity/</url>
+    
+    <content type="html"><![CDATA[<h2 id="引言：从物理光子到心理感知"><a href="#引言：从物理光子到心理感知" class="headerlink" title="引言：从物理光子到心理感知"></a>引言：从物理光子到心理感知</h2><p>在显示技术（Display Technology）与固态照明（SSL）领域，我们面临的一个核心哲学与工程问题是：<strong>如何用数字量化主观的色彩感知？</strong></p><p>光本质上是电磁波，由光谱功率分布（Spectral Power Distribution, SPD）描述。然而，人类并非光谱仪。我们的视觉系统通过视网膜上的三种视锥细胞（L, M, S）将无限维度的光谱信息“压缩”为三维信号。</p><p>本文将解析这一压缩过程如何诞生了“色坐标”，并进一步探讨如何利用数学工具量化显示设备的缺陷——<strong>色彩不均匀度</strong>。</p><hr><h2 id="一、-色坐标的第一性原理"><a href="#一、-色坐标的第一性原理" class="headerlink" title="一、 色坐标的第一性原理"></a>一、 色坐标的第一性原理</h2><h3 id="1-1-三刺激值：感知的基石"><a href="#1-1-三刺激值：感知的基石" class="headerlink" title="1.1 三刺激值：感知的基石"></a>1.1 三刺激值：感知的基石</h3><p>1931年，国际照明委员会（CIE）基于大量配色实验，定义了标准观察者函数 $\bar{x}(\lambda), \bar{y}(\lambda), \bar{z}(\lambda)$。对于任意光源的光谱 $P(\lambda)$，其三刺激值 $X, Y, Z$ 由下式给出：</p><p>$$<br>\begin{cases}<br>X &#x3D; k \int_{380}^{780} P(\lambda) \bar{x}(\lambda) d\lambda \<br>Y &#x3D; k \int_{380}^{780} P(\lambda) \bar{y}(\lambda) d\lambda \<br>Z &#x3D; k \int_{380}^{780} P(\lambda) \bar{z}(\lambda) d\lambda<br>\end{cases}<br>$$</p><p>这里，物理世界的光谱能量通过积分变换，映射到了心理物理学的 $XYZ$ 空间。</p><h3 id="1-2-降维与投影：从-CIE-1931-xy-到-CIE-1976-u’v’"><a href="#1-2-降维与投影：从-CIE-1931-xy-到-CIE-1976-u’v’" class="headerlink" title="1.2 降维与投影：从 CIE 1931 xy 到 CIE 1976 u’v’"></a>1.2 降维与投影：从 CIE 1931 xy 到 CIE 1976 u’v’</h3><p>为了将“色度”（Chromaticity）与“亮度”（Luminance, $Y$）分离，我们在 $X+Y+Z&#x3D;1$ 的平面上进行投影，得到了经典的 <strong>CIE 1931 xy 色坐标</strong>：</p><p>$$x &#x3D; \frac{X}{X+Y+Z}, \quad y &#x3D; \frac{Y}{X+Y+Z}$$</p><p>!</p><p>然而，CIE 1931 存在一个著名的拓扑缺陷：<strong>视觉感知的不均匀性</strong>。在图中绿色区域移动 $0.01$ 的距离，人眼可能察觉不到变化；而在蓝色区域移动同样的距离，色差却极其明显。这由麦克亚当椭圆（MacAdam Ellipses）所证实。</p><p>为了解决此问题，工业界引入了 <strong>CIE 1976 UCS (Uniform Chromaticity Scale)</strong> 系统。通过射影变换，将 $xy$ 空间拉伸为更符合人眼感知的 $u’v’$ 空间：</p><p>$$<br>\begin{align}<br>u’ &amp;&#x3D; \frac{4X}{X + 15Y + 3Z} &#x3D; \frac{4x}{-2x + 12y + 3} \<br>v’ &amp;&#x3D; \frac{9Y}{X + 15Y + 3Z} &#x3D; \frac{9y}{-2x + 12y + 3}<br>\end{align}<br>$$</p><p><strong>关键点：</strong> 在计算色彩不均匀度时，必须使用 $u’v’$ 坐标系统，而非 $xy$ 系统，否则计算出的“距离”无法真实反映人眼的差异感受。</p><hr><h2 id="二、-色彩不均匀度的定义与计算"><a href="#二、-色彩不均匀度的定义与计算" class="headerlink" title="二、 色彩不均匀度的定义与计算"></a>二、 色彩不均匀度的定义与计算</h2><p>色彩不均匀度（Color Non-uniformity）通常指显示面板或照明阵列在不同空间位置上的色度漂移量。</p><h3 id="2-1-欧几里得距离-Delta-u’v’"><a href="#2-1-欧几里得距离-Delta-u’v’" class="headerlink" title="2.1 欧几里得距离 ($\Delta u’v’$)"></a>2.1 欧几里得距离 ($\Delta u’v’$)</h3><p>这是最基础且最通用的度量方式。假设面板中心点的色坐标为 $(u’_c, v’_c)$，任意测试点 $i$ 的色坐标为 $(u’_i, v’_i)$，则该点的色偏差为：</p><p>$$ \Delta u’v’_i &#x3D; \sqrt{(u’_i - u’_c)^2 + (v’_i - v’_c)^2} $$</p><h3 id="2-2-VESA-FPDM-标准"><a href="#2-2-VESA-FPDM-标准" class="headerlink" title="2.2 VESA FPDM 标准"></a>2.2 VESA FPDM 标准</h3><p>在平板显示测量标准（FPDM）中，通常采用 9 点法或 13 点法。色彩不均匀度通常定义为所有采样点相对于参考点（通常是中心点或平均值）的最大色差：</p><p>$$ NonUniformity &#x3D; \max_{i} (\Delta u’v’_i) $$</p><p>对于高阶应用，我们还需要考量 <strong>JND (Just Noticeable Difference)</strong>，通常 $\Delta u’v’ &lt; 0.004$ 被认为是人眼可接受的商业标准，而专业级显示器要求 $\Delta u’v’ &lt; 0.002$。</p><hr><h2 id="三、-MATLAB-代码实现"><a href="#三、-MATLAB-代码实现" class="headerlink" title="三、 MATLAB 代码实现"></a>三、 MATLAB 代码实现</h2><p>以下 MATLAB 代码模拟了一个 9 点测量的场景。它实现了从 $XYZ$ 到 $u’v’$ 的转换，计算色彩不均匀度，并可视化结果。</p><h3 id="3-1-核心算法脚本"><a href="#3-1-核心算法脚本" class="headerlink" title="3.1 核心算法脚本"></a>3.1 核心算法脚本</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">color_uniformity_analysis</span><span class="hljs-params">()</span></span><br>    <span class="hljs-comment">% color_uniformity_analysis</span><br>    <span class="hljs-comment">% 模拟显示面板的色彩不均匀度计算 (CIE 1976 u&#x27;v&#x27; Space)</span><br>    <span class="hljs-comment">%</span><br>    <span class="hljs-comment">% Output: </span><br>    <span class="hljs-comment">%   Visualizes the chromaticity diagram and sample points.</span><br>    <span class="hljs-comment">%   Prints the max delta u&#x27;v&#x27;.</span><br>    <br>    clc; clear; close all;<br><br>    <span class="hljs-comment">%% 1. 定义模拟数据 (Simulated Measurement Data)</span><br>    <span class="hljs-comment">% 假设这是从 Minolta CA-410 或类似仪器读取的 9 个点的 XYZ 数据</span><br>    <span class="hljs-comment">% 数据格式: [X, Y, Z]</span><br>    <span class="hljs-comment">% 模拟一个稍微偏蓝且不均匀的屏幕</span><br>    measurements_XYZ = [<br>        <span class="hljs-number">95.0</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">108.0</span>;  <span class="hljs-comment">% Point 1 (Top-Left)</span><br>        <span class="hljs-number">96.2</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">109.5</span>;  <span class="hljs-comment">% Point 2 (Top-Center)</span><br>        <span class="hljs-number">94.8</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">107.8</span>;  <span class="hljs-comment">% Point 3 (Top-Right)</span><br>        <span class="hljs-number">95.5</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">108.2</span>;  <span class="hljs-comment">% Point 4 (Mid-Left)</span><br>        <span class="hljs-number">96.0</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">108.9</span>;  <span class="hljs-comment">% Point 5 (Center - Reference)</span><br>        <span class="hljs-number">95.3</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">107.5</span>;  <span class="hljs-comment">% Point 6 (Mid-Right)</span><br>        <span class="hljs-number">94.5</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">110.0</span>;  <span class="hljs-comment">% Point 7 (Bottom-Left)</span><br>        <span class="hljs-number">95.8</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">109.2</span>;  <span class="hljs-comment">% Point 8 (Bottom-Center)</span><br>        <span class="hljs-number">95.1</span>, <span class="hljs-number">100.0</span>, <span class="hljs-number">108.5</span>   <span class="hljs-comment">% Point 9 (Bottom-Right)</span><br>    ];<br><br>    <span class="hljs-comment">%% 2. 坐标转换: XYZ -&gt; u&#x27;v&#x27;</span><br>    <span class="hljs-comment">% 调用内部函数进行转换</span><br>    uv_coords = xyz2uv(measurements_XYZ);<br>    <br>    u_prime = uv_coords(:, <span class="hljs-number">1</span>);<br>    v_prime = uv_coords(:, <span class="hljs-number">2</span>);<br><br>    <span class="hljs-comment">%% 3. 计算色彩不均匀度 (Calculation)</span><br>    <span class="hljs-comment">% 策略: 计算所有点相对于中心点 (Point 5) 的欧氏距离</span><br>    center_idx = <span class="hljs-number">5</span>; <br>    ref_u = u_prime(center_idx);<br>    ref_v = v_prime(center_idx);<br>    <br>    <span class="hljs-comment">% 初始化距离数组</span><br>    num_points = <span class="hljs-built_in">size</span>(measurements_XYZ, <span class="hljs-number">1</span>);<br>    delta_uv = <span class="hljs-built_in">zeros</span>(num_points, <span class="hljs-number">1</span>);<br>    <br>    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:num_points<br>        du = u_prime(<span class="hljs-built_in">i</span>) - ref_u;<br>        dv = v_prime(<span class="hljs-built_in">i</span>) - ref_v;<br>        delta_uv(<span class="hljs-built_in">i</span>) = <span class="hljs-built_in">sqrt</span>(du^<span class="hljs-number">2</span> + dv^<span class="hljs-number">2</span>);<br>    <span class="hljs-keyword">end</span><br>    <br>    [max_delta, max_idx] = <span class="hljs-built_in">max</span>(delta_uv);<br>    mean_delta = <span class="hljs-built_in">mean</span>(delta_uv);<br><br>    <span class="hljs-comment">%% 4. 结果输出</span><br>    fprintf(<span class="hljs-string">&#x27;=== 色彩不均匀度分析报告 ===\n&#x27;</span>);<br>    fprintf(<span class="hljs-string">&#x27;参考点 (Center): u&#x27;&#x27;=%.4f, v&#x27;&#x27;=%.4f\n&#x27;</span>, ref_u, ref_v);<br>    fprintf(<span class="hljs-string">&#x27;最大色差 (Max Delta u&#x27;&#x27;v&#x27;&#x27;): %.5f (at Point %d)\n&#x27;</span>, max_delta, max_idx);<br>    fprintf(<span class="hljs-string">&#x27;平均色差 (Mean Delta u&#x27;&#x27;v&#x27;&#x27;): %.5f\n&#x27;</span>, mean_delta);<br>    <br>    <span class="hljs-keyword">if</span> max_delta &gt; <span class="hljs-number">0.004</span><br>        fprintf(<span class="hljs-string">&#x27;判定结果: Fail (超过一般人眼识别阈值 0.004)\n&#x27;</span>);<br>    <span class="hljs-keyword">else</span><br>        fprintf(<span class="hljs-string">&#x27;判定结果: Pass\n&#x27;</span>);<br>    <span class="hljs-keyword">end</span><br><br>    <span class="hljs-comment">%% 5. 可视化 (Visualization)</span><br>    <span class="hljs-built_in">figure</span>(<span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;Name&#x27;</span>, <span class="hljs-string">&#x27;Color Uniformity Plot&#x27;</span>);<br>    <span class="hljs-built_in">hold</span> on; grid on; axis equal;<br>    <br>    <span class="hljs-comment">% 绘制 CIE 1976 图的局部范围 (为了看清细微差别，我们放大显示)</span><br>    padding = <span class="hljs-number">0.01</span>;<br>    xlim([<span class="hljs-built_in">min</span>(u_prime)-padding, <span class="hljs-built_in">max</span>(u_prime)+padding]);<br>    ylim([<span class="hljs-built_in">min</span>(v_prime)-padding, <span class="hljs-built_in">max</span>(v_prime)+padding]);<br>    <br>    <span class="hljs-comment">% 绘制散点</span><br>    <span class="hljs-built_in">scatter</span>(u_prime, v_prime, <span class="hljs-number">100</span>, delta_uv, <span class="hljs-string">&#x27;filled&#x27;</span>, <span class="hljs-string">&#x27;MarkerEdgeColor&#x27;</span>, <span class="hljs-string">&#x27;k&#x27;</span>);<br>    colormap(<span class="hljs-string">&#x27;jet&#x27;</span>);<br>    c = colorbar;<br>    c.Label.String = <span class="hljs-string">&#x27;\Delta u&#x27;&#x27;v&#x27;&#x27; from Center&#x27;</span>;<br>    <br>    <span class="hljs-comment">% 标记中心点</span><br>    <span class="hljs-built_in">plot</span>(ref_u, ref_v, <span class="hljs-string">&#x27;r+&#x27;</span>, <span class="hljs-string">&#x27;MarkerSize&#x27;</span>, <span class="hljs-number">15</span>, <span class="hljs-string">&#x27;LineWidth&#x27;</span>, <span class="hljs-number">2</span>);<br>    text(ref_u, ref_v, <span class="hljs-string">&#x27;  Center&#x27;</span>, <span class="hljs-string">&#x27;FontSize&#x27;</span>, <span class="hljs-number">10</span>);<br>    <br>    <span class="hljs-comment">% 标记最差点</span><br>    text(u_prime(max_idx), v_prime(max_idx), sprintf(<span class="hljs-string">&#x27;  Max Diff: %.4f&#x27;</span>, max_delta), ...<br>        <span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;red&#x27;</span>, <span class="hljs-string">&#x27;FontWeight&#x27;</span>, <span class="hljs-string">&#x27;bold&#x27;</span>);<br><br>    title(<span class="hljs-string">&#x27;Panel Color Uniformity (CIE 1976 u&#x27;&#x27;v&#x27;&#x27;)&#x27;</span>);<br>    xlabel(<span class="hljs-string">&#x27;u&#x27;&#x27;&#x27;</span>);<br>    ylabel(<span class="hljs-string">&#x27;v&#x27;&#x27;&#x27;</span>);<br>    <br>    <span class="hljs-built_in">hold</span> off;<br><span class="hljs-keyword">end</span><br><br><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">uv</span> = <span class="hljs-title">xyz2uv</span><span class="hljs-params">(XYZ)</span></span><br>    <span class="hljs-comment">% xyz2uv Converts XYZ tristimulus values to CIE 1976 u&#x27;v&#x27; coordinates.</span><br>    <span class="hljs-comment">% formula:</span><br>    <span class="hljs-comment">% u&#x27; = 4X / (X + 15Y + 3Z)</span><br>    <span class="hljs-comment">% v&#x27; = 9Y / (X + 15Y + 3Z)</span><br>    <br>    X = XYZ(:, <span class="hljs-number">1</span>);<br>    Y = XYZ(:, <span class="hljs-number">2</span>);<br>    Z = XYZ(:, <span class="hljs-number">3</span>);<br>    <br>    denominator = X + <span class="hljs-number">15</span>*Y + <span class="hljs-number">3</span>*Z;<br>    <br>    u = (<span class="hljs-number">4</span> * X) ./ denominator;<br>    v = (<span class="hljs-number">9</span> * Y) ./ denominator;<br>    <br>    uv = [u, v];<br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure><h3 id="3-2-代码解析"><a href="#3-2-代码解析" class="headerlink" title="3.2 代码解析"></a>3.2 代码解析</h3><ol><li><strong>数据输入与结构化</strong>：代码首先模拟了 9 个测试点的 XYZ 三刺激值。在实际生产线中，这些数据通常通过 API 直接从色度计（Colorimeter）读取。</li><li><strong>非线性变换</strong>：<code>xyz2uv</code> 函数严格遵循 CIE 1976 公式。注意这里的矩阵运算采用了向量化处理（Vectorization），这是 MATLAB 高效运算的核心。</li><li><strong>度量逻辑</strong>：我们选择了“中心点”作为 Reference。在某些严格的汽车或医疗显示标准中，可能会计算任意两点间的最大差值（Max Pairwise Difference）。</li><li><strong>可视化</strong>：由于色彩不均匀度通常是微小量（$10^{-3}$ 数量级），直接画在全色域图上会挤成一点。因此代码自动调整了坐标轴范围（Zoom-in），并用颜色映射（Heatmap）来直观展示偏差程度。</li></ol><hr><h2 id="四、-深入讨论：数值背后的工业意义"><a href="#四、-深入讨论：数值背后的工业意义" class="headerlink" title="四、 深入讨论：数值背后的工业意义"></a>四、 深入讨论：数值背后的工业意义</h2><h3 id="4-1-为什么-Delta-u’v’-优于-Delta-xy-？"><a href="#4-1-为什么-Delta-u’v’-优于-Delta-xy-？" class="headerlink" title="4.1 为什么 $\Delta u’v’$ 优于 $\Delta xy$？"></a>4.1 为什么 $\Delta u’v’$ 优于 $\Delta xy$？</h3><p>虽然 $\Delta xy$ 计算简单，但它不具备<strong>感知相关性</strong>。在 $xy$ 图中，绿色区域的大距离位移可能人眼无法察觉，而蓝色区域的微小位移却显而易见。工业界若使用 $\Delta xy$ 作为良率标准，会导致“假阳性”或“假阴性”判定，直接造成经济损失。</p><h3 id="4-2-Murmura-与-Just-Noticeable-Difference-JND"><a href="#4-2-Murmura-与-Just-Noticeable-Difference-JND" class="headerlink" title="4.2 Murmura 与 Just Noticeable Difference (JND)"></a>4.2 Murmura 与 Just Noticeable Difference (JND)</h3><p>虽然 $\Delta u’v’$ 是目前的黄金标准，但学术界正在转向更高级的度量，如 $\Delta E_{00}$ (CIEDE2000)。这需要将数据进一步转换到 $L^*a^<em>b^</em>$ 空间。然而，由于 $\Delta u’v’$ 计算的高效性和直观性，它依然是面板厂（Panel Maker）与品牌厂（OEM）之间签署规格书（Spec）的首选语言。</p><hr><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>色坐标不仅是数学游戏，它是连接物理光学与人类感知的桥梁。通过 MATLAB 我们可以精确地模拟这一过程，将抽象的“不均匀”转化为可控的工程指标。</p><p>希望这篇文章能帮你建立起对色彩度量的数理直觉。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Engineering</category>
+      
+      <category>Colorimetry</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Optics</tag>
+      
+      <tag>Algorithm</tag>
+      
+      <tag>MATLAB</tag>
+      
+      <tag>Color Science</tag>
+      
+      <tag>VESA Standard</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>🌍 Daily English: The Alchemy of Ideas: How TED Talks Forge New Perspectives | 2026-02-02</title>
     <link href="/2026/02/02/2026-02-02-daily-english/"/>
     <url>/2026/02/02/2026-02-02-daily-english/</url>
@@ -253,11 +336,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -480,11 +563,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -672,11 +755,11 @@
       
       <tag>English</tag>
       
-      <tag>Nature &amp; Wildlife Documentary</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -734,11 +817,11 @@
       
       <tag>English</tag>
       
-      <tag>Nature &amp; Wildlife Documentary</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -1278,11 +1361,11 @@
       
       <tag>English</tag>
       
-      <tag>Nature &amp; Wildlife Documentary</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -1480,11 +1563,11 @@
       
       <tag>English</tag>
       
-      <tag>Nature &amp; Wildlife Documentary</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -1748,9 +1831,9 @@
     
     <tags>
       
-      <tag>量子力学</tag>
-      
       <tag>激光物理</tag>
+      
+      <tag>量子力学</tag>
       
       <tag>光电子学</tag>
       
@@ -1932,11 +2015,11 @@
       
       <tag>English</tag>
       
-      <tag>Nature &amp; Wildlife Documentary</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -2101,11 +2184,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -2254,6 +2337,8 @@
     
     <tags>
       
+      <tag>STED</tag>
+      
       <tag>超表面</tag>
       
       <tag>超分辨率</tag>
@@ -2265,8 +2350,6 @@
       <tag>超振荡</tag>
       
       <tag>远场成像</tag>
-      
-      <tag>STED</tag>
       
     </tags>
     
@@ -2293,11 +2376,11 @@
     
     <tags>
       
-      <tag>STED</tag>
-      
       <tag>光学原理</tag>
       
       <tag>衍射极限</tag>
+      
+      <tag>STED</tag>
       
       <tag>SMLM</tag>
       
@@ -2367,11 +2450,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -2670,11 +2753,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -2833,9 +2916,9 @@
     
     <tags>
       
-      <tag>傅里叶变换</tag>
-      
       <tag>数学基础</tag>
+      
+      <tag>傅里叶变换</tag>
       
       <tag>泛函分析</tag>
       
@@ -2901,11 +2984,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -3070,11 +3153,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -3334,9 +3417,9 @@
       
       <tag>黄金</tag>
       
-      <tag>A股</tag>
-      
       <tag>美债</tag>
+      
+      <tag>A股</tag>
       
     </tags>
     
@@ -3400,11 +3483,11 @@
       
       <tag>黄金</tag>
       
+      <tag>A股</tag>
+      
       <tag>资产配置</tag>
       
       <tag>美元</tag>
-      
-      <tag>A股</tag>
       
     </tags>
     
@@ -3499,11 +3582,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -3567,11 +3650,11 @@
       
       <tag>English</tag>
       
-      <tag>Nature &amp; Wildlife Documentary</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -3798,11 +3881,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
@@ -3860,11 +3943,11 @@
       
       <tag>English</tag>
       
-      <tag>Nature &amp; Wildlife Documentary</tag>
-      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
+      
+      <tag>Nature &amp; Wildlife Documentary</tag>
       
     </tags>
     
@@ -3891,11 +3974,11 @@
       
       <tag>English</tag>
       
+      <tag>Optics &amp; Metasurfaces Technology</tag>
+      
       <tag>Vocabulary</tag>
       
       <tag>Reading</tag>
-      
-      <tag>Optics &amp; Metasurfaces Technology</tag>
       
     </tags>
     
