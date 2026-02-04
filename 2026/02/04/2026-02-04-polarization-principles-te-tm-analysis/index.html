@@ -1,0 +1,1004 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文从第一性原理出发，基于麦克斯韦方程组推导电磁波的偏振特性，详解琼斯矢量与常见偏振态，并从微观偶极子模型深度对比 TE 与 TM 模式在界面反射与波导中的物理机制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="电磁波的矢量灵魂：从偏振原理到 TE&#x2F;TM 模的深度物理剖析">
+<meta property="og:url" content="https://sunfove.xyz/2026/02/04/2026-02-04-polarization-principles-te-tm-analysis/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文从第一性原理出发，基于麦克斯韦方程组推导电磁波的偏振特性，详解琼斯矢量与常见偏振态，并从微观偶极子模型深度对比 TE 与 TM 模式在界面反射与波导中的物理机制。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102533.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260204_093336.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260204_093358.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260204_095659.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260204_101656.png">
+<meta property="article:published_time" content="2026-02-04T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-04T15:00:13.650Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="偏振">
+<meta property="article:tag" content="光学">
+<meta property="article:tag" content="波导理论">
+<meta property="article:tag" content="电磁学">
+<meta property="article:tag" content="麦克斯韦方程组">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102533.png">
+  
+  
+  
+  <title>电磁波的矢量灵魂：从偏振原理到 TE/TM 模的深度物理剖析 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">电磁波的矢量灵魂：从偏振原理到 TE/TM 模的深度物理剖析</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-04 12:00" pubdate>
+          February 4, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">电磁波的矢量灵魂：从偏振原理到 TE/TM 模的深度物理剖析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>在初等光学的学习中，我们往往关注光的强度（Intensity）、频率（Frequency）和相位（Phase），却容易忽视光的第四个核心属性——<strong>偏振（Polarization）</strong>。</p>
+<p>偏振是电磁波作为<strong>矢量波（Vector Wave）</strong> 的直接体现。如果说频率决定了光的颜色，相位决定了干涉条纹的位置，那么偏振则描述了电磁场在空间中舞动的“姿态”。从液晶显示屏（LCD）的显像原理，到量子密钥分发中的光子自旋态，偏振无处不在。</p>
+<p>本文将从偏振的原理出发，对TE和TM偏振的区别给出详细解释。</p>
+<hr>
+<h2 id="2-理论基石：麦克斯韦方程组与横波本质"><a href="#2-理论基石：麦克斯韦方程组与横波本质" class="headerlink" title="2. 理论基石：麦克斯韦方程组与横波本质"></a>2. 理论基石：麦克斯韦方程组与横波本质</h2><h3 id="2-1-波动方程"><a href="#2-1-波动方程" class="headerlink" title="2.1 波动方程"></a>2.1 波动方程</h3><p>一切电磁现象的起点皆为麦克斯韦方程组。在无源（$\rho&#x3D;0, \mathbf{J}&#x3D;0$）、线性、各向同性的均匀介质中，麦克斯韦方程组形式如下：</p>
+<p>(1)  <strong>高斯定律</strong>：$\nabla \cdot \mathbf{E} &#x3D; 0$<br>(2)  <strong>高斯磁定律</strong>：$\nabla \cdot \mathbf{B} &#x3D; 0$<br>(3) <strong>法拉第定律</strong>：$\nabla \times \mathbf{E} &#x3D; -\frac{\partial \mathbf{B}}{\partial t}$<br>(4)  <strong>安培-麦克斯韦定律</strong>：$\nabla \times \mathbf{B} &#x3D; \mu\epsilon \frac{\partial \mathbf{E}}{\partial t}$</p>
+<p>为了探究波的传播特性，我们对式 (3) 取旋度，并利用矢量恒等式 $\nabla \times (\nabla \times \mathbf{A}) &#x3D; \nabla(\nabla \cdot \mathbf{A}) - \nabla^2 \mathbf{A}$ 以及式 (1)，得到电场的矢量波动方程：</p>
+<p>$$ \nabla^2 \mathbf{E} - \mu\epsilon \frac{\partial^2 \mathbf{E}}{\partial t^2} &#x3D; 0 $$</p>
+<p>对于沿 $z$ 轴传播的平面单色波，其解具有如下形式：</p>
+<p>$$ \mathbf{E}(\mathbf{r}, t) &#x3D; \mathbf{E}_0 e^{i(kz - \omega t)} $$</p>
+<h3 id="2-2-为什么光是横波？"><a href="#2-2-为什么光是横波？" class="headerlink" title="2.2 为什么光是横波？"></a>2.2 为什么光是横波？</h3><p>将上述解代入高斯定律 $\nabla \cdot \mathbf{E} &#x3D; 0$，我们可以得到：</p>
+<p>$$ \nabla \cdot \mathbf{E} &#x3D; \frac{\partial E_x}{\partial x} + \frac{\partial E_y}{\partial y} + \frac{\partial E_z}{\partial z} &#x3D; i k E_z &#x3D; 0 $$</p>
+<p>由于 $k \neq 0$，必然导出 $E_z &#x3D; 0$。这表明电场矢量 $\mathbf{E}$ 必须垂直于传播方向 $\mathbf{k}$（即 $z$ 轴方向）。这一数学约束从根本上定义了电磁波的<strong>横波（Transverse Wave）</strong> 性质，也正是偏振现象存在的物理前提——只有横波才有偏振，纵波（如声波）无所谓偏振方向。</p>
+<hr>
+<h2 id="3-偏振态的演化与数学描述"><a href="#3-偏振态的演化与数学描述" class="headerlink" title="3. 偏振态的演化与数学描述"></a>3. 偏振态的演化与数学描述</h2><p>由于 $\mathbf{E}$ 被限制在 $xy$ 平面内，我们可以将其分解为两个正交分量。这两个分量的<strong>振幅比</strong>和<strong>相对相位差</strong>决定了具体的偏振态。</p>
+<p>设电场矢量为：</p>
+<p>$$ \mathbf{E}(z,t) &#x3D; \hat{x} E_{0x} e^{i(kz - \omega t)} + \hat{y} E_{0y} e^{i(kz - \omega t + \delta)} $$</p>
+<p>其中 $\delta &#x3D; \phi_y - \phi_x$ 是两个分量间的相位差。</p>
+<h3 id="3-1-线偏振-Linear-Polarization"><a href="#3-1-线偏振-Linear-Polarization" class="headerlink" title="3.1 线偏振 (Linear Polarization)"></a>3.1 线偏振 (Linear Polarization)</h3><p>当相位差 $\delta &#x3D; m\pi$ ($m&#x3D;0, \pm 1, \pm 2…$) 时，两个分量同相或反相振动。此时合成矢量在 $xy$ 平面上的轨迹是一条直线。</p>
+<p>$$ \frac{E_y}{E_x} &#x3D; (-1)^m \frac{E_{0y}}{E_{0x}} &#x3D; \text{Constant} $$</p>
+<p>这是最简单的偏振态，也是大多数激光器的输出模式。</p>
+<h3 id="3-2-圆偏振-Circular-Polarization"><a href="#3-2-圆偏振-Circular-Polarization" class="headerlink" title="3.2 圆偏振 (Circular Polarization)"></a>3.2 圆偏振 (Circular Polarization)</h3><p>当满足两个严格条件：</p>
+<ol>
+<li>振幅相等：$E_{0x} &#x3D; E_{0y} &#x3D; E_0$</li>
+<li>相位差为 $\pi&#x2F;2$ 的奇数倍：$\delta &#x3D; \pm \pi&#x2F;2$</li>
+</ol>
+<p>此时，电场矢量的大小保持不变 $|\mathbf{E}| &#x3D; E_0$，但方向随时间以角频率 $\omega$ 旋转。</p>
+<ul>
+<li><strong>右旋圆偏振 (RCP)</strong>：通常定义为面向波源观察，电场顺时针旋转。</li>
+<li><strong>左旋圆偏振 (LCP)</strong>：电场逆时针旋转。</li>
+</ul>
+<p>在复数域中，圆偏振可以优雅地表示为基矢量 $\hat{x} \pm i\hat{y}$。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260124_102533.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-3-椭圆偏振-Elliptical-Polarization"><a href="#3-3-椭圆偏振-Elliptical-Polarization" class="headerlink" title="3.3 椭圆偏振 (Elliptical Polarization)"></a>3.3 椭圆偏振 (Elliptical Polarization)</h3><p>这是偏振的最一般形态。当振幅不等或相位差不是 $\pi&#x2F;2$ 的整数倍时，电场矢量的端点轨迹是一个椭圆。从数学上讲，线偏振和圆偏振只是椭圆偏振的退化特例。</p>
+<h3 id="3-4-琼斯矢量-Jones-Vector"><a href="#3-4-琼斯矢量-Jones-Vector" class="headerlink" title="3.4 琼斯矢量 (Jones Vector)"></a>3.4 琼斯矢量 (Jones Vector)</h3><p>为了在计算中更方便地处理偏振，物理学引入了琼斯矢量 $\mathbf{J}$。对于沿 $z$ 轴传播的波，去掉时空因子，仅保留振幅和相位信息：</p>
+<p>$$ \mathbf{J} &#x3D; \begin{pmatrix} E_{0x} \ E_{0y} e^{i\delta} \end{pmatrix} $$</p>
+<ul>
+<li><strong>水平线偏振</strong>：$\begin{pmatrix} 1 \ 0 \end{pmatrix}$</li>
+<li><strong>右旋圆偏振</strong>：$\frac{1}{\sqrt{2}} \begin{pmatrix} 1 \ -i \end{pmatrix}$</li>
+</ul>
+<p>琼斯微积分（Jones Calculus）通过矩阵运算，极大地简化了光通过偏振片、波片等器件的计算过程。</p>
+<p>更多有关琼斯矢量的描述，可以查看另一片文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Q044xqbqDujPaUrMa5iKLA">琼斯矩阵与偏振变换
+</a></p>
+<hr>
+<h2 id="4-TE-模与-TM-模"><a href="#4-TE-模与-TM-模" class="headerlink" title="4. TE 模与 TM 模"></a>4. TE 模与 TM 模</h2><p>当电磁波从一种介质入射到另一种介质的界面时，简单的 $x, y$ 分解不再适用。我们需要根据<strong>入射面（Plane of Incidence）</strong>——由入射波矢 $\mathbf{k}_i$ 和界面法线 $\mathbf{n}$ 构成的平面——来重新定义坐标系。</p>
+<p>这就是 <strong>TE（Transverse Electric）</strong> 和 <strong>TM（Transverse Magnetic）</strong> 模式登场的时刻。</p>
+<h3 id="4-1-几何基准：定义“入射面”-The-Plane-of-Incidence"><a href="#4-1-几何基准：定义“入射面”-The-Plane-of-Incidence" class="headerlink" title="4.1 几何基准：定义“入射面” (The Plane of Incidence)"></a>4.1 几何基准：定义“入射面” (The Plane of Incidence)</h3><p>在讨论界面光学时，我们首先必须建立一个局部坐标系。对于任何投射到界面上的光波，都存在一个唯一的参考平面，称为<strong>入射面</strong>。</p>
+<ul>
+<li><strong>定义</strong>：由入射波的波矢 $\mathbf{k}_i$（传播方向）与界面法线 $\mathbf{n}$ 共同确定的平面。</li>
+<li><strong>物理意义</strong>：它是破坏空间旋转对称性的基准。有了入射面，我们才能定义什么是“平行”，什么是“垂直”。</li>
+</ul>
+<hr>
+<h3 id="4-2-TE-模式-s-偏振"><a href="#4-2-TE-模式-s-偏振" class="headerlink" title="4.2 TE 模式 &#x2F; s-偏振"></a>4.2 TE 模式 &#x2F; s-偏振</h3><p><strong>TE</strong> 和 <strong>s-偏振</strong> 描述的是同一种物理状态，只是命名视角不同。</p>
+<h4 id="1-TE-Transverse-Electric，横电模"><a href="#1-TE-Transverse-Electric，横电模" class="headerlink" title="1. TE (Transverse Electric，横电模)"></a>1. TE (Transverse Electric，横电模)</h4><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260204_093336.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>物理定义</strong>：电场矢量 $\mathbf{E}$ 或偏振方向完全垂直于<strong>入射面</strong>。</li>
+<li><strong>矢量特征</strong>：由于电场垂直于入射面，而入射面包含法线，这意味着电场矢量 $\mathbf{E}$ 必定<strong>平行于</strong>介质的分界面。</li>
+<li><strong>磁场方向</strong>：根据右手定则（$\mathbf{E} \times \mathbf{H} \parallel \mathbf{k}$），若电场垂直于入射面，则磁场矢量 $\mathbf{H}$ 必然位于<strong>入射面内</strong>。</li>
+</ul>
+<h4 id="2-s-偏振-s-polarization"><a href="#2-s-偏振-s-polarization" class="headerlink" title="2. s-偏振 (s-polarization)"></a>2. s-偏振 (s-polarization)</h4><ul>
+<li><strong>词源</strong>：源自德语单词 <strong>“senkrecht”</strong>，意为“垂直的”。</li>
+</ul>
+<hr>
+<h3 id="4-3-TM-模式-p-偏振"><a href="#4-3-TM-模式-p-偏振" class="headerlink" title="4.3 TM 模式 &#x2F; p-偏振"></a>4.3 TM 模式 &#x2F; p-偏振</h3><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260204_093358.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>TM</strong> 和 <strong>p-偏振</strong> 对应另一种正交状态。</p>
+<h4 id="1-TM-Transverse-Magnetic，横磁模"><a href="#1-TM-Transverse-Magnetic，横磁模" class="headerlink" title="1. TM (Transverse Magnetic，横磁模)"></a>1. TM (Transverse Magnetic，横磁模)</h4><ul>
+<li><strong>物理定义</strong>：磁场矢量 $\mathbf{H}$ 完全垂直于<strong>入射面</strong>。</li>
+<li><strong>矢量特征</strong>：由于电磁波的正交性，如果磁场垂直于入射面，那么电场矢量 $\mathbf{E}$ 或偏振方向必然位于<strong>入射面内</strong>。</li>
+<li><strong>关键推论</strong>：因为 $\mathbf{E}$ 在入射面内，它不再单纯平行于界面。$\mathbf{E}$ 矢量可以分解为两个分量：一个垂直于界面（$E_{\perp}$），一个平行于界面（$E_{\parallel}$）。正是这个垂直于界面的电场分量，使得 TM 波能够驱动表面电荷，从而激发表面等离激元（SPP）或产生布儒斯特角效应。</li>
+</ul>
+<h4 id="2-p-偏振-p-polarization"><a href="#2-p-偏振-p-polarization" class="headerlink" title="2. p-偏振 (p-polarization)"></a>2. p-偏振 (p-polarization)</h4><ul>
+<li><strong>词源</strong>：源自德语单词 <strong>“parallel”</strong>，意为“平行的”。</li>
+<li><strong>含义</strong>：电场矢量 $\mathbf{E}$ 与<strong>入射面</strong>平行。</li>
+</ul>
+<hr>
+<h3 id="4-4-总结对比表"><a href="#4-4-总结对比表" class="headerlink" title="4.4 总结对比表"></a>4.4 总结对比表</h3><table>
+<thead>
+<tr>
+<th align="left">特性维度</th>
+<th align="left">TE &#x2F; s-偏振</th>
+<th align="left">TM &#x2F; p-偏振</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>全称</strong></td>
+<td align="left">Transverse Electric &#x2F; senkrecht</td>
+<td align="left">Transverse Magnetic &#x2F; parallel</td>
+</tr>
+<tr>
+<td align="left"><strong>电场 $\mathbf{E}$</strong></td>
+<td align="left"><strong>垂直</strong>于入射面 (平行于界面)</td>
+<td align="left"><strong>平行</strong>于入射面 (躺在平面内)</td>
+</tr>
+<tr>
+<td align="left"><strong>磁场 $\mathbf{H}$</strong></td>
+<td align="left">平行于入射面</td>
+<td align="left">垂直于入射面</td>
+</tr>
+<tr>
+<td align="left"><strong>几何直觉</strong></td>
+<td align="left">$\mathbf{E}$ 刺破纸面 (Dots&#x2F;Crosses)</td>
+<td align="left">$\mathbf{E}$ 在纸面内画箭头 (Arrows)</td>
+</tr>
+<tr>
+<td align="left"><strong>物理后果</strong></td>
+<td align="left">在界面处无垂直电场分量，无法激发 SPP</td>
+<td align="left">存在垂直电场分量，可激发表面波</td>
+</tr>
+<tr>
+<td align="left"><strong>反射特性</strong></td>
+<td align="left">反射率随角度单调增加</td>
+<td align="left">存在<strong>布儒斯特角</strong> (反射率为0)</td>
+</tr>
+</tbody></table>
+<h3 id="4-5-实际案例1：菲涅耳方程-Fresnel-Equations-的差异"><a href="#4-5-实际案例1：菲涅耳方程-Fresnel-Equations-的差异" class="headerlink" title="4.5 实际案例1：菲涅耳方程 (Fresnel Equations) 的差异"></a>4.5 实际案例1：菲涅耳方程 (Fresnel Equations) 的差异</h3><p>利用电磁场边界条件（$\mathbf{E}$ 的切向分量连续，$\mathbf{H}$ 的切向分量连续），我们可以推导出反射系数 $r$ 和透射系数 $t$。这里展示反射系数的差异，这是理解两者行为不同的关键：</p>
+<p><strong>TE 模反射系数 $r_s$</strong>:<br>$$ r_s &#x3D; \frac{n_1 \cos \theta_i - n_2 \cos \theta_t}{n_1 \cos \theta_i + n_2 \cos \theta_t} $$</p>
+<p><strong>TM 模反射系数 $r_p$</strong>:<br>$$ r_p &#x3D; \frac{n_2 \cos \theta_i - n_1 \cos \theta_t}{n_2 \cos \theta_i + n_1 \cos \theta_t} $$</p>
+<h3 id="4-6-实际案例2：布儒斯特角-Brewster’s-Angle-的物理本质"><a href="#4-6-实际案例2：布儒斯特角-Brewster’s-Angle-的物理本质" class="headerlink" title="4.6 实际案例2：布儒斯特角 (Brewster’s Angle) 的物理本质"></a>4.6 实际案例2：布儒斯特角 (Brewster’s Angle) 的物理本质</h3><p>仔细观察上述公式，你会发现一个惊人的差异：</p>
+<ul>
+<li>对于 <strong>TE 模</strong>，只要 $n_1 \neq n_2$，分子 $n_1 \cos \theta_i - n_2 \cos \theta_t$ 永远不会为零（除了掠射角）。也就是说，TE 光总是会被反射。</li>
+<li>对于 <strong>TM 模</strong>，存在一个特定的角度 $\theta_B$，使得分子为零，即 $r_p &#x3D; 0$。这就是<strong>布儒斯特角</strong>。</li>
+</ul>
+<p>$$ \tan \theta_B &#x3D; \frac{n_2}{n_1} $$</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260204_095659.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="5-波导中的-TE-与-TM：被束缚的光"><a href="#5-波导中的-TE-与-TM：被束缚的光" class="headerlink" title="5. 波导中的 TE 与 TM：被束缚的光"></a>5. 波导中的 TE 与 TM：被束缚的光</h2><p>在光纤或金属波导中，光不再是自由传播的平面波，而是被限制在有限空间内的本征模（Eigenmodes）。这里的 TE 和 TM 有了更严格的定义。</p>
+<h3 id="5-1-矩形波导分析"><a href="#5-1-矩形波导分析" class="headerlink" title="5.1 矩形波导分析"></a>5.1 矩形波导分析</h3><p>在传播方向为 $z$ 的波导中：</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260204_101656.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>TE 模</strong>：$E_z &#x3D; 0$。纵向没有电场分量，只有磁场分量 $H_z$。</li>
+<li><strong>TM 模</strong>：$H_z &#x3D; 0$。纵向没有磁场分量，只有电场分量 $E_z$。</li>
+</ul>
+<p>求解亥姆霍兹方程并应用金属边界条件（$E_{tangential} &#x3D; 0$），我们会发现不同的模式对应不同的截止频率（Cutoff Frequency）：</p>
+<p>$$ f_{c, mn} &#x3D; \frac{1}{2\sqrt{\mu\epsilon}} \sqrt{\left(\frac{m}{a}\right)^2 + \left(\frac{n}{b}\right)^2} $$</p>
+<p>有趣的是，对于矩形波导，最低阶模式通常是 $TE_{10}$ 模。</p>
+<h3 id="5-2-TE偏振和TE模式有什么区别？"><a href="#5-2-TE偏振和TE模式有什么区别？" class="headerlink" title="5.2 TE偏振和TE模式有什么区别？"></a>5.2 TE偏振和TE模式有什么区别？</h3><p>在偏振光学与波导光学中，TE 和 TM 这两个术语经常让人困惑。关键在于理解：<strong>虽然物理根源相同，但定义的参照系完全不同。</strong></p>
+<ul>
+<li><p><strong>界面光学 (Polarization)</strong>：参照物是<strong>入射面 (Plane of Incidence)</strong>。</p>
+<ul>
+<li><strong>TE (s-pol)</strong>：电场 $\mathbf{E}$ 垂直于入射面。</li>
+<li><strong>TM (p-pol)</strong>：磁场 $\mathbf{H}$ 垂直于入射面。</li>
+<li><em>这里的“Transverse”指的是横截于入射面。</em></li>
+</ul>
+</li>
+<li><p><strong>波导理论 (Modes)</strong>：参照物是<strong>传播轴 (Propagation Axis, $z$-axis)</strong>。</p>
+<ul>
+<li><strong>TE 模</strong>：传播方向上无电场分量 ($E_z &#x3D; 0$)。</li>
+<li><strong>TM 模</strong>：传播方向上无磁场分量 ($H_z &#x3D; 0$)。</li>
+<li><em>这里的“Transverse”指的是横截于波的宏观传播方向。</em></li>
+</ul>
+</li>
+</ul>
+<h4 id="核心差异总结表"><a href="#核心差异总结表" class="headerlink" title="核心差异总结表"></a>核心差异总结表</h4><table>
+<thead>
+<tr>
+<th align="left">比较维度</th>
+<th align="left">界面偏振 (Interface Polarization)</th>
+<th align="left">波导模式 (Waveguide Modes)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>定义基准</strong></td>
+<td align="left">相对于<strong>入射面</strong></td>
+<td align="left">相对于<strong>传播轴 ($z$)</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>纵向分量</strong></td>
+<td align="left">视为局部平面波，通常忽略</td>
+<td align="left"><strong>关键特征</strong>：TM 模必有 $E_z$，TE 模必有 $H_z$</td>
+</tr>
+<tr>
+<td align="left"><strong>TEM 模</strong></td>
+<td align="left">自由空间光波皆为 TEM</td>
+<td align="left">矩形波导<strong>不存在</strong> TEM 模，仅存在于多导体系统（如同轴线）</td>
+</tr>
+<tr>
+<td align="left"><strong>存在条件</strong></td>
+<td align="left">任何频率、任何角度皆可分解</td>
+<td align="left">只有满足<strong>截止频率 ($f &gt; f_c$)</strong> 的离散本征态才能存在</td>
+</tr>
+<tr>
+<td align="left"><strong>能量流向</strong></td>
+<td align="left">沿 $\mathbf{k}$ 矢量方向</td>
+<td align="left">沿 $z$ 轴螺旋前进 (群速度 &lt; 光速)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>一句话总结</strong>：波导里的 TE&#x2F;TM 模，就是界面上的 TE&#x2F;TM 偏振光被“困”在两面墙之间来回反弹的宏观表现。</p>
+</blockquote>
+<h3 id="5-2-TEM-模的特殊性"><a href="#5-2-TEM-模的特殊性" class="headerlink" title="5.2 TEM 模的特殊性"></a>5.2 TEM 模的特殊性</h3><p>有一种特殊的模式叫 <strong>TEM（Transverse Electromagnetic）</strong>，即 $E_z &#x3D; 0$ 且 $H_z &#x3D; 0$。<br>根据数学推导，TEM 模只能存在于<strong>多导体</strong>系统（如同轴电缆）中。在单导体空心波导中，TEM 模无法存在。这是由拉普拉斯方程在单连通域内的唯一性定理决定的：如果边界电势为常数，内部电势必为常数，导致电场为零。</p>
+<hr>
+<h2 id="6-总结与工程启示"><a href="#6-总结与工程启示" class="headerlink" title="6. 总结与工程启示"></a>6. 总结与工程启示</h2><p>通过对 TE 和 TM 的深入对比，我们可以得出具有极高工程价值的结论：</p>
+<table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">TE 模 (s-pol)</th>
+<th align="left">TM 模 (p-pol)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>电场方向</strong></td>
+<td align="left">垂直入射面</td>
+<td align="left">平行入射面</td>
+</tr>
+<tr>
+<td align="left"><strong>布儒斯特角</strong></td>
+<td align="left">不存在 (总有反射)</td>
+<td align="left"><strong>存在</strong> (反射可为零)</td>
+</tr>
+<tr>
+<td align="left"><strong>表面等离激元 (SPP)</strong></td>
+<td align="left">无法激发</td>
+<td align="left"><strong>可以激发</strong> (利用 $E_z$ 分量)</td>
+</tr>
+<tr>
+<td align="left"><strong>波导截止频率</strong></td>
+<td align="left">通常较低 (如 $TE_{10}$)</td>
+<td align="left">通常较高</td>
+</tr>
+<tr>
+<td align="left"><strong>相位跃变</strong></td>
+<td align="left">全反射时相位移动不同</td>
+<td align="left">全反射时相位移动不同</td>
+</tr>
+</tbody></table>
+<p><strong>工程应用场景：</strong></p>
+<ol>
+<li><strong>摄影滤镜</strong>：利用布儒斯特角原理，偏振镜可以滤除水面或玻璃面的反射光（这些反射光主要是 TE 分量，透射的是 TM 分量，滤镜阻挡 TE 即可）。</li>
+<li><strong>激光器窗口</strong>：激光管的窗口通常被切成布儒斯特角，以使得 TM 模无损通过，从而强制激光器输出纯线偏振光。</li>
+<li><strong>生物传感</strong>：表面等离激元共振（SPR）传感器必须使用 TM 光激发，因为只有 TM 光具备垂直于金属表面的电场分量，能引起表面电荷密度的波动。</li>
+</ol>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6/" class="category-chain-item">技术深度</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6/%E7%89%A9%E7%90%86%E5%8E%9F%E7%90%86/" class="category-chain-item">物理原理</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6/" class="print-no-link">#光学</a>
+      
+        <a href="/tags/%E5%81%8F%E6%8C%AF/" class="print-no-link">#偏振</a>
+      
+        <a href="/tags/%E7%94%B5%E7%A3%81%E5%AD%A6/" class="print-no-link">#电磁学</a>
+      
+        <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B%E7%BB%84/" class="print-no-link">#麦克斯韦方程组</a>
+      
+        <a href="/tags/%E6%B3%A2%E5%AF%BC%E7%90%86%E8%AE%BA/" class="print-no-link">#波导理论</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>电磁波的矢量灵魂：从偏振原理到 TE/TM 模的深度物理剖析</div>
+      <div>https://sunfove.xyz/2026/02/04/2026-02-04-polarization-principles-te-tm-analysis/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 4, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/02/03/2026-02-03-color-coordinates-and-non-uniformity-analysis/" title="2026-02-03-color-coordinates-and-non-uniformity-analysis">
+                        <span class="hidden-mobile">2026-02-03-color-coordinates-and-non-uniformity-analysis</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/02/04/2026-02-04-polarization-principles-te-tm-analysis/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
