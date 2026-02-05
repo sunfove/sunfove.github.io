@@ -1,0 +1,853 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="这是一个困扰了费曼、康德等无数智者的谜题。本文将剥离直觉的干扰，从坐标系变换的数学本质和人类认知的心理投射两个维度，彻底拆解“左右反转”的真相。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度解析：为什么镜子反转“左右”而非“上下”？——从几何拓扑到认知心理的第一性原理">
+<meta property="og:url" content="https://sunfove.xyz/2026/02/05/2026-02-05-the-mirror-symmetry-paradox/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="这是一个困扰了费曼、康德等无数智者的谜题。本文将剥离直觉的干扰，从坐标系变换的数学本质和人类认知的心理投射两个维度，彻底拆解“左右反转”的真相。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260205_102722.png">
+<meta property="article:published_time" content="2026-02-05T13:30:00.000Z">
+<meta property="article:modified_time" content="2026-02-05T15:04:49.882Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光学">
+<meta property="article:tag" content="拓扑学">
+<meta property="article:tag" content="物理学">
+<meta property="article:tag" content="第一性原理">
+<meta property="article:tag" content="认知心理学">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260205_102722.png">
+  
+  
+  
+  <title>深度解析：为什么镜子反转“左右”而非“上下”？——从几何拓扑到认知心理的第一性原理 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">深度解析：为什么镜子反转“左右”而非“上下”？——从几何拓扑到认知心理的第一性原理</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-05 13:30" pubdate>
+          February 5, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深度解析：为什么镜子反转“左右”而非“上下”？——从几何拓扑到认知心理的第一性原理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="引言：直觉的欺骗"><a href="#引言：直觉的欺骗" class="headerlink" title="引言：直觉的欺骗"></a>引言：直觉的欺骗</h2><p>当你站在镜子前，举起右手，你会说：“看，镜子里的人举起了左手。” 这里的描述符合你的直觉吗 —— 镜子产生了左右反转。</p>
+<p>但请暂停一秒，做一个思想实验：如果你现在侧躺在地板上照镜子，你还觉着镜子中的自己发生了左右反转么，还是说上下反转了？</p>
+<p>等你看完这篇文章，再回头想一下，当你举起右手的时候，镜子中举起来的真的是左手么？<br>或者下面两个图，哪个才是真实的呢？<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260205_102722.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="1-物理本质：镜子从未反转“左右”"><a href="#1-物理本质：镜子从未反转“左右”" class="headerlink" title="1. 物理本质：镜子从未反转“左右”"></a>1. 物理本质：镜子从未反转“左右”</h2><p>首先，我们需要确立一个极其重要的物理事实：<strong>在严格的欧几里得几何意义上，镜子既没有反转左右，也没有反转上下。</strong></p>
+<h3 id="1-1-坐标系定义的真相"><a href="#1-1-坐标系定义的真相" class="headerlink" title="1.1 坐标系定义的真相"></a>1.1 坐标系定义的真相</h3><p>让我们建立一个三维笛卡尔坐标系来描述你和镜子的关系：</p>
+<ul>
+<li><strong>$x$ 轴</strong>：水平方向（你的左手到右手）。</li>
+<li><strong>$y$ 轴</strong>：垂直方向（你的脚到头）。</li>
+<li><strong>$z$ 轴</strong>：深度方向（从你的胸口指向镜子）。</li>
+</ul>
+<p>当光子从你的身体发射，撞击镜面并反射回来时，根据光的反射定律，镜面成像执行的是一个非常简单的线性变换。</p>
+<p>对于空间中任意一点 $P(x, y, z)$，其镜像点 $P’$ 的坐标为：</p>
+<p>$$<br>P’(x, y, z) &#x3D; (x, y, -z)<br>$$</p>
+<p>请注意观察这个方程：</p>
+<ol>
+<li><strong>$x$（左右）数值没有变。</strong> 你的右手依然在镜像的右边（相对于镜框而言）。</li>
+<li><strong>$y$（上下）数值没有变。</strong> 你的头依然在镜像的上边。</li>
+<li><strong>唯有 $z$（前后）数值变成了相反数 $-z$。</strong></li>
+</ol>
+<p><strong>结论一：</strong> 物理学告诉我们，镜子真正反转的，是 <strong>“前后”</strong>（Front-to-Back） ，即沿法线方向的深度。</p>
+<hr>
+<h2 id="2-认知心理：是谁定义了“左右”？"><a href="#2-认知心理：是谁定义了“左右”？" class="headerlink" title="2. 认知心理：是谁定义了“左右”？"></a>2. 认知心理：是谁定义了“左右”？</h2><p>既然物理上只发生了前后反转，为什么我们的大脑会坚定地报告“左右反转”了？</p>
+<p>这涉及到了<strong>参照系（Frame of Reference）</strong> 和<strong>心理旋转（Mental Rotation）</strong> 的机制。</p>
+<h3 id="2-1-镜像映射的心理模型"><a href="#2-1-镜像映射的心理模型" class="headerlink" title="2.1 镜像映射的心理模型"></a>2.1 镜像映射的心理模型</h3><p>当我们看镜子时，我们不仅是在看一个光斑，我们是在看一个 <strong>“拟人化”的对象</strong> 。为了理解镜子里的那个“人”，大脑会自动尝试将“我”的身体映射到“他”的身体上。</p>
+<p>要让你的身体与镜子里的影像重合，你需要做一个刚体运动（Rigid Body Motion）。这里有两种主要的旋转路径：</p>
+<ol>
+<li><p><strong>路径 A：绕垂直轴（Y轴）旋转 180 度。</strong><br>这就像你转身面对身后的人一样。</p>
+<ul>
+<li>结果：你的头还在上，脚还在下。但是，原本的“右”转到了现在的“左”。</li>
+<li><strong>大脑判定：</strong> 上下正常，左右反转。</li>
+</ul>
+</li>
+<li><p><strong>路径 B：绕水平轴（X轴）旋转 180 度。</strong><br>这就像你做了一个空翻，头朝下脚朝上。</p>
+<ul>
+<li>结果：你的左右手位置没变，但是头到了下面。</li>
+<li><strong>大脑判定：</strong> 左右正常，上下反转。</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-2-深度解析：大脑的“重力锚定”与坐标系权重"><a href="#2-2-深度解析：大脑的“重力锚定”与坐标系权重" class="headerlink" title="2.2 深度解析：大脑的“重力锚定”与坐标系权重"></a>2.2 深度解析：大脑的“重力锚定”与坐标系权重</h3><p>为什么我们的大脑会毫不犹豫地选择“路径 A（水平旋转）”而忽略“路径 B（垂直翻转）”？这并非随机选择，而是由生物学构造和物理环境共同决定的<strong>认知算法偏好</strong>。</p>
+<h4 id="A-生物学的各向异性-Biological-Anisotropy"><a href="#A-生物学的各向异性-Biological-Anisotropy" class="headerlink" title="A. 生物学的各向异性 (Biological Anisotropy)"></a>A. 生物学的各向异性 (Biological Anisotropy)</h4><p>人类的身体结构在三个维度上具有显著的差异，这种差异导致了大脑处理空间信息时的“权重”不同：</p>
+<ol>
+<li><strong>上下维度（Y轴）</strong>：<strong>极度不对称</strong>。头和脚的功能、形态完全不同，且不可互换。</li>
+<li><strong>前后维度（Z轴）</strong>：<strong>极度不对称</strong>。感知器官（眼、鼻）集中在前方，运动通常向前，背部处于感知盲区。</li>
+<li><strong>左右维度（X轴）</strong>：<strong>高度对称（Bilateral Symmetry）</strong>。左手与右手、左耳与右耳，在外观几何上几乎是无法区分的镜像。</li>
+</ol>
+<p>当大脑试图将“自我”映射到“镜像”上时，它遵循 <strong>“特征匹配最大化”原则</strong> ：</p>
+<ul>
+<li>如果我们尝试想象自己<strong>倒立</strong>（上下反转），头会对准脚，脚会对准头——这会导致严重的<strong>特征不匹配</strong>。</li>
+<li>如果我们想象自己<strong>转身</strong>（左右交换），头依然对准头，脚依然对准脚——<strong>特征完美匹配</strong>，唯一的代价仅仅是左右手的位置定义互换。</li>
+</ul>
+<p>由于左右具有高度对称性，大脑很容易“原谅”左右的互换，从而接受了“转身”这个心理模型。</p>
+<h4 id="B-“他人假设”-The-“Other-Person”-Hypothesis"><a href="#B-“他人假设”-The-“Other-Person”-Hypothesis" class="headerlink" title="B. “他人假设” (The “Other Person” Hypothesis)"></a>B. “他人假设” (The “Other Person” Hypothesis)</h4><p>认知心理学认为，当我们观察镜子时，大脑的某些区域将其处理为 <strong>“面对面的另一个人”</strong> 。</p>
+<p>在人类几百万年的社会交往经验中，我们见过无数次别人**水平转身（Turn around）<strong>面对我们，但几乎从未见过别人</strong>垂直翻转（Flip vertically）**面对我们（除非在极其罕见的杂技表演中）。</p>
+<p>因此，大脑自动调用了最常见的<strong>社会交互模板</strong>：</p>
+<blockquote>
+<p><em>“这是一个转过身来面对我的人。”</em></p>
+</blockquote>
+<p>既然他转过身了，那么根据几何逻辑，他的左手自然应该在我的右边。这就是为什么你会强烈地感觉到“左右反转”——因为你下意识地套用了“两个人面对面”的交互逻辑。</p>
+<p>现在你在回头想想最开始提到的两个现象</p>
+<ol>
+<li><p>那镜子中惠东的是你的左手么，你动一动试试呢？</p>
+</li>
+<li><p>你从站立的情况下照镜子，到躺下面对镜子照镜子，你还觉着是左右反转了么？</p>
+</li>
+</ol>
+<hr>
+<h2 id="3-拓扑学视角：手性（Chirality）与宇称"><a href="#3-拓扑学视角：手性（Chirality）与宇称" class="headerlink" title="3. 拓扑学视角：手性（Chirality）与宇称"></a>3. 拓扑学视角：手性（Chirality）与宇称</h2><p>如果我们深入到数学和量子物理的层面，镜面反射触及了一个更深刻的概念：<strong>手性</strong>。</p>
+<p>在三维空间中，存在一种性质叫做“手性”，即一个物体无法通过单纯的旋转与它的镜像重合。</p>
+<h3 id="3-1-无法重合的手套"><a href="#3-1-无法重合的手套" class="headerlink" title="3.1 无法重合的手套"></a>3.1 无法重合的手套</h3><p>试想一只右手手套。无论你在三维空间中如何旋转它，它永远无法变成一只左手手套。</p>
+<ul>
+<li>右手坐标系 $(x, y, z)$</li>
+<li>左手坐标系 $(x, y, -z)$</li>
+</ul>
+<p>这意味着发生了一次<strong>拓扑翻转</strong>。这种翻转在三维空间内部是无法通过连续旋转实现的（除非你进入四维空间）。</p>
+<p>这解释了为什么镜像里的文字是反的。不是因为镜子把字“左右颠倒”了，而是因为文字本身是二维平面的非对称图案，当你把纸面对着镜子时，<strong>是你自己把纸翻转了 180 度</strong>（通常是绕垂直轴）。</p>
+<h3 id="3-2-思想实验：透明胶片"><a href="#3-2-思想实验：透明胶片" class="headerlink" title="3.2 思想实验：透明胶片"></a>3.2 思想实验：透明胶片</h3><p>为了验证这一点，请做一个实验：</p>
+<ol>
+<li>在一个透明胶片上写下 “F”。</li>
+<li>举起胶片，正对着镜子。</li>
+<li>透过胶片看镜子。</li>
+</ol>
+<p>你会发现，<strong>镜子里的 “F” 和你手里的 “F” 方向完全一致，根本没有反转！</strong></p>
+<p>为什么？因为这次你不需要为了让镜子“看”到字而把胶片翻个面。这就铁证如山地表明：平常我们看到的文字反转，是因为我们为了让不透明的纸面对着镜子，<strong>手动执行了一次旋转操作</strong>，而镜子忠实地呈现了这个背面的像。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E7%A7%91%E6%99%AE/" class="category-chain-item">深度科普</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E7%A7%91%E6%99%AE/%E7%A7%91%E5%AD%A6%E6%80%9D%E7%BB%B4/" class="category-chain-item">科学思维</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6/" class="print-no-link">#光学</a>
+      
+        <a href="/tags/%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%86/" class="print-no-link">#第一性原理</a>
+      
+        <a href="/tags/%E7%89%A9%E7%90%86%E5%AD%A6/" class="print-no-link">#物理学</a>
+      
+        <a href="/tags/%E6%8B%93%E6%89%91%E5%AD%A6/" class="print-no-link">#拓扑学</a>
+      
+        <a href="/tags/%E8%AE%A4%E7%9F%A5%E5%BF%83%E7%90%86%E5%AD%A6/" class="print-no-link">#认知心理学</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度解析：为什么镜子反转“左右”而非“上下”？——从几何拓扑到认知心理的第一性原理</div>
+      <div>https://sunfove.xyz/2026/02/05/2026-02-05-the-mirror-symmetry-paradox/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 5, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/02/04/2026-02-04-daily-english/" title="🌍 Daily English: Beyond the Postcard: How Deep Cultural Immersion Transforms the Global Traveler | 2026-02-04">
+                        <span class="hidden-mobile">🌍 Daily English: Beyond the Postcard: How Deep Cultural Immersion Transforms the Global Traveler | 2026-02-04</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/02/05/2026-02-05-the-mirror-symmetry-paradox/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
