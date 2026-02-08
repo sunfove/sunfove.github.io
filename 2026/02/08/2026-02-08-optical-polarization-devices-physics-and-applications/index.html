@@ -1,0 +1,972 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文从麦克斯韦方程组出发，深入探讨光的偏振本质，通过第一性原理剖析偏振片、波片、棱镜及旋光器件的工作机制，结合琼斯矩阵（Jones Calculus）进行数学建模，并详述其在量子计算、光通信及精密测量中的核心应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度解析：光学偏振器件的物理本源与前沿应用">
+<meta property="og:url" content="https://sunfove.xyz/2026/02/08/2026-02-08-optical-polarization-devices-physics-and-applications/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文从麦克斯韦方程组出发，深入探讨光的偏振本质，通过第一性原理剖析偏振片、波片、棱镜及旋光器件的工作机制，结合琼斯矩阵（Jones Calculus）进行数学建模，并详述其在量子计算、光通信及精密测量中的核心应用。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_090952.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_090405.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_091459.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_091747.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_100648.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_100618.png">
+<meta property="article:published_time" content="2026-02-08T04:54:56.000Z">
+<meta property="article:modified_time" content="2026-02-08T14:34:54.451Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Engineering">
+<meta property="article:tag" content="Optics">
+<meta property="article:tag" content="Photonics">
+<meta property="article:tag" content="Physics">
+<meta property="article:tag" content="Polarization">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_090952.png">
+  
+  
+  
+  <title>深度解析：光学偏振器件的物理本源与前沿应用 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">深度解析：光学偏振器件的物理本源与前沿应用</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-08 04:54" pubdate>
+          February 8, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          46 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">深度解析：光学偏振器件的物理本源与前沿应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>摘要</strong>：偏振（Polarization）是横波区别于纵波的最根本特征，也是光作为电磁波矢量性质的直接体现。从17世纪惠更斯发现方解石的双折射现象，到现代量子光学中的光子自旋态操控，偏振器件始终是光学系统的“逻辑门”。本文将摒弃浅层的现象描述，从各向异性介质中的电动力学出发，推导各类偏振器件的物理机制，并探讨其在现代光子学中的极限应用。</p>
+</blockquote>
+<hr>
+<h2 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h2><p>光，作为电磁波，其本质由麦克斯韦方程组（Maxwell’s Equations）描述。在各向同性（Isotropic）的真空中，电场矢量 $\mathbf{E}$ 与磁场矢量 $\mathbf{B}$ 垂直于传播方向 $\mathbf{k}$，且在垂直平面内具有旋转对称性。然而，当我们引入“偏振”这一概念时，实际上是在讨论这种旋转对称性的破缺。</p>
+<p>从自由度（Degree of Freedom）的角度来看，偏振赋予了光子除了频率、动量之外的额外信息载体——自旋角动量（Spin Angular Momentum, SAM）。理解偏振器件，本质上就是理解物质如何通过其微观结构（如晶格排列、分子取向）与光的电场矢量发生各向异性的相互作用。</p>
+<hr>
+<h2 id="2-理论基石：麦克斯韦方程与琼斯矩阵"><a href="#2-理论基石：麦克斯韦方程与琼斯矩阵" class="headerlink" title="2. 理论基石：麦克斯韦方程与琼斯矩阵"></a>2. 理论基石：麦克斯韦方程与琼斯矩阵</h2><p>在进入具体器件分析前，我们必须建立数学描述体系。</p>
+<h3 id="2-1-平面波的矢量描述"><a href="#2-1-平面波的矢量描述" class="headerlink" title="2.1 平面波的矢量描述"></a>2.1 平面波的矢量描述</h3><p>对于沿 $z$ 轴传播的单色平面波，其电场矢量可表示为：</p>
+<p>$$\mathbf{E}(z, t) &#x3D; \begin{pmatrix} E_x \ E_y \end{pmatrix} e^{i(kz - \omega t)}$$</p>
+<p>其中 $E_x$ 和 $E_y$ 是复振幅，包含振幅和相位信息。两者之间的相位差 $\delta &#x3D; \phi_y - \phi_x$ 决定了偏振态：</p>
+<ul>
+<li>$\delta &#x3D; 0$ 或 $\pi$：线偏振（Linear Polarization）。</li>
+<li>$\delta &#x3D; \pm \pi&#x2F;2$ 且 $|E_x| &#x3D; |E_y|$：圆偏振（Circular Polarization）。</li>
+<li>其他情况：椭圆偏振（Elliptical Polarization）。</li>
+</ul>
+<h3 id="2-2-琼斯矩阵（Jones-Calculus）"><a href="#2-2-琼斯矩阵（Jones-Calculus）" class="headerlink" title="2.2 琼斯矩阵（Jones Calculus）"></a>2.2 琼斯矩阵（Jones Calculus）</h3><p>为了定量描述器件对光的作用，我们引入琼斯向量和琼斯矩阵。一个光学系统 $J$ 对入射光 $\mathbf{E}_{in}$ 的变换为：</p>
+<p>$$\mathbf{E}<em>{out} &#x3D; \mathbf{J} \cdot \mathbf{E}</em>{in} &#x3D; \begin{pmatrix} j_{xx} &amp; j_{xy} \ j_{yx} &amp; j_{yy} \end{pmatrix} \begin{pmatrix} E_{x} \ E_{y} \end{pmatrix}$$</p>
+<p>这一线性代数工具将物理过程抽象为矩阵运算，是分析级联偏振系统的核心工具。</p>
+<hr>
+<h2 id="3-吸收型偏振器：电子的阻尼振荡"><a href="#3-吸收型偏振器：电子的阻尼振荡" class="headerlink" title="3. 吸收型偏振器：电子的阻尼振荡"></a>3. 吸收型偏振器：电子的阻尼振荡</h2><p>最基础的偏振控制是只允许特定方向的电场通过，阻挡与之垂直的分量。这通常通过<strong>二向色性（Dichroism）</strong> 实现。</p>
+<h3 id="3-1-金属线栅偏振器（Wire-Grid-Polarizer-WGP）：亚波长光学的胜利"><a href="#3-1-金属线栅偏振器（Wire-Grid-Polarizer-WGP）：亚波长光学的胜利" class="headerlink" title="3.1 金属线栅偏振器（Wire Grid Polarizer, WGP）：亚波长光学的胜利"></a>3.1 金属线栅偏振器（Wire Grid Polarizer, WGP）：亚波长光学的胜利</h3><p>金属线栅偏振器不仅仅是微波屏蔽效应的简单延伸，它是<strong>亚波长光学（Sub-wavelength Optics）<strong>与</strong>超材料（Metamaterials）</strong> 概念的早期雏形。其核心在于通过人工结构的几何各向异性，在宏观上合成出天然材料难以具备的极端双折射特性。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_090952.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="3-1-1-微观动力学：自由电子与受限电子的博弈"><a href="#3-1-1-微观动力学：自由电子与受限电子的博弈" class="headerlink" title="3.1.1 微观动力学：自由电子与受限电子的博弈"></a>3.1.1 微观动力学：自由电子与受限电子的博弈</h4><p>要理解WGP，必须从金属中电子的微观运动出发。假设入射光波长为 $\lambda$，金属光栅的周期为 $p$，且满足 $p \ll \lambda$（通常要求 $p &lt; \lambda&#x2F;3$ 甚至更小）。此时，光波无法“分辨”出单根导线，而是感受到一种平均化的各向异性介质。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_090405.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li><p><strong>平行偏振态（TE Polarization, $\mathbf{E} \parallel \text{wires}$）：自由振荡与反向辐射</strong><br>当电场矢量平行于金属线方向时，金属内的自由电子受到洛伦兹力驱动。由于导线在纵向上是连续的，电子的平均自由程（Mean Free Path）远小于导线长度，电子可以像在体金属（Bulk Metal）中一样进行长距离的<strong>自由振荡</strong>。<br>根据经典电动力学，这些振荡的电子流构成了表面电流 $\mathbf{J}$。这个感应电流会辐射出一个与入射场<strong>相位相反、振幅几乎相等</strong>的电磁波（由于金属的高电导率）。</p>
+<ul>
+<li><strong>向前传播方向</strong>：辐射波与入射波发生相消干涉（Destructive Interference），导致透射光强几乎为零。</li>
+<li><strong>向后传播方向</strong>：辐射波形成反射波。<br><strong>结论</strong>：对于平行光，WGP表现为一面<strong>金属镜</strong>。</li>
+</ul>
+</li>
+<li><p><strong>垂直偏振态（TM Polarization, $\mathbf{E} \perp \text{wires}$）：退极化场与介质化</strong><br>当电场矢量垂直于金属线时，电子试图跟随电场运动，但立即撞击到纳米线的边界。由于导线宽度极窄（通常仅几十纳米），电子在边界处堆积，形成了一个强大的静电场——<strong>退极化场（Depolarization Field）</strong>。<br>这个由边界电荷产生的退极化场 $\mathbf{E}<em>{dep}$ 方向与外加电场 $\mathbf{E}</em>{ext}$ 相反，极大地抵消了驱动力。电子被“锁定”在极小的区域内无法自由流动。<br>此时，电子的运动不再表现为宏观电流，而是类似于电介质中的偶极子振荡。金属不再像金属，而更像是一种低折射率的电介质。<br><strong>结论</strong>：对于垂直光，WGP表现为<strong>透明介质</strong>。</p>
+</li>
+</ol>
+<h4 id="3-1-2-数学模型：有效介质理论（EMT）"><a href="#3-1-2-数学模型：有效介质理论（EMT）" class="headerlink" title="3.1.2 数学模型：有效介质理论（EMT）"></a>3.1.2 数学模型：有效介质理论（EMT）</h4><p>为了定量描述这种各向异性，我们可以使用零阶有效介质理论。假设光栅由金属（填充因子 $f$，介电常数 $\epsilon_m$）和空气&#x2F;基底间隙（介电常数 $\epsilon_d$）组成。</p>
+<p>由于 $\epsilon_m$ 在可见光及红外波段通常是复数且实部为大的负值（如 $\epsilon_{Ag} \approx -16 + 0.5i$ @ 600nm），这导致了极端的各向异性：</p>
+<ul>
+<li><p><strong>对于平行分量（Ordinary Permittivity）</strong>：<br>  介电常数遵循算术平均：<br>  $$\epsilon_{\parallel} &#x3D; f \epsilon_m + (1-f) \epsilon_d$$<br>  由于 $\epsilon_m$ 的实部是巨大的负数，导致 $\epsilon_{\parallel}$ 也是大的负数。根据折射率 $n &#x3D; \sqrt{\epsilon}$，$\epsilon_{\parallel} &lt; 0$ 意味着折射率是纯虚数，光波在介质中是指前衰减的（Evanescent），表现为<strong>强反射和吸收</strong>。</p>
+</li>
+<li><p><strong>对于垂直分量（Extraordinary Permittivity）</strong>：<br>  介电常数遵循谐波平均（类似于串联电容）：<br>  $$\frac{1}{\epsilon_{\perp}} &#x3D; \frac{f}{\epsilon_m} + \frac{1-f}{\epsilon_d}$$<br>  $$\Rightarrow \epsilon_{\perp} &#x3D; \frac{\epsilon_m \epsilon_d}{f \epsilon_d + (1-f) \epsilon_m}$$<br>  有趣的是，当 $|\epsilon_m| \gg \epsilon_d$ 时（良导体条件），分母中的 $(1-f)\epsilon_m$ 主导，式子近似为 $\epsilon_{\perp} \approx \epsilon_d &#x2F; (1-f)$。<br>  这是一个<strong>正实数</strong>！意味着 $\epsilon_{\perp}$ 代表一种透明的、折射率略高于空气的介质，光波可以<strong>低损耗透过</strong>。</p>
+</li>
+</ul>
+<h4 id="3-1-3-工程挑战与现代应用"><a href="#3-1-3-工程挑战与现代应用" class="headerlink" title="3.1.3 工程挑战与现代应用"></a>3.1.3 工程挑战与现代应用</h4><p>传统的WGP受限于光刻精度，长期局限于红外波段。但随着<strong>纳米压印（Nanoimprint Lithography）</strong> 和<strong>电子束曝光（EBL）</strong> 技术的发展，现代可见光WGP的周期已达到 100nm-150nm 量级。</p>
+<ul>
+<li><p><strong>相比传统棱镜的优势</strong>：</p>
+<ol>
+<li><strong>平面化与紧凑性</strong>：厚度仅为微米级，易于集成到像元级偏振相机（On-chip Polarization Sensor）中。</li>
+<li><strong>大视场角（AOI）</strong>：与依赖全反射角的格兰棱镜不同，WGP在宽入射角下仍能保持较好的消光比。</li>
+<li><strong>耐热性</strong>：全无机结构（铝&#x2F;玻璃）使其能承受投影仪光源产生的高温，而聚合物偏振片会烧毁。</li>
+</ol>
+</li>
+<li><p><strong>局限性</strong>：<br>  <strong>瑞利共振（Rayleigh Resonance）</strong>：当入射波长 $\lambda$ 接近光栅周期 $p$ 时（即不再满足 $p \ll \lambda$），EMT理论失效，光栅进入衍射区，透过率和消光比会发生剧烈波动。因此，制造工艺的极限直接决定了WGP的最短工作波长。</p>
+</li>
+</ul>
+<h3 id="3-2-聚合物偏振片（Polaroid）"><a href="#3-2-聚合物偏振片（Polaroid）" class="headerlink" title="3.2 聚合物偏振片（Polaroid）"></a>3.2 聚合物偏振片（Polaroid）</h3><p>由 Edwin Land 发明的偏振片利用了拉伸的聚乙烯醇（PVA）链吸附碘分子的结构。碘链形成了导电的长链分子。其物理机制与金属线栅完全一致：沿长链方向的导电性导致该方向电场分量被吸收（转化为焦耳热），而垂直方向透射。</p>
+<hr>
+<h2 id="4-双折射器件：晶格的各向异性"><a href="#4-双折射器件：晶格的各向异性" class="headerlink" title="4. 双折射器件：晶格的各向异性"></a>4. 双折射器件：晶格的各向异性</h2><p>吸收型偏振器虽然廉价，但抗损伤阈值低且存在吸收损耗。高能激光和精密光学更倾向于使用基于<strong>双折射（Birefringence）</strong> 的晶体器件。</p>
+<h3 id="4-1-双折射的微观起源"><a href="#4-1-双折射的微观起源" class="headerlink" title="4.1 双折射的微观起源"></a>4.1 双折射的微观起源</h3><p>在各向异性晶体（如方解石、YVO4、α-BBO）中，晶格结构的非对称性导致电子在不同方向上的“弹簧系数”（恢复力常数）不同。这意味着介电常数 $\epsilon$ 不再是一个标量，而是一个二阶张量 $\boldsymbol{\epsilon}$。</p>
+<p>根据 $\mathbf{D} &#x3D; \boldsymbol{\epsilon} \mathbf{E}$，电位移矢量 $\mathbf{D}$ 与电场 $\mathbf{E}$ 方向通常不重合。这导致光在晶体中传播时，存在两个特征折射率：</p>
+<ul>
+<li><strong>o光（Ordinary ray）</strong>：遵循折射定律，折射率为 $n_o$。</li>
+<li><strong>e光（Extraordinary ray）</strong>：不遵循标准折射定律，折射率随角度变化，介于 $n_o$ 和 $n_e$ 之间。</li>
+</ul>
+<h3 id="4-2-格兰-泰勒棱镜（Glan-Taylor-Prism）"><a href="#4-2-格兰-泰勒棱镜（Glan-Taylor-Prism）" class="headerlink" title="4.2 格兰-泰勒棱镜（Glan-Taylor Prism）"></a>4.2 格兰-泰勒棱镜（Glan-Taylor Prism）</h3><p>作为高功率激光系统中的“黄金标准”，格兰-泰勒棱镜以其极高的消光比（Extinction Ratio, 通常可达 $10^5:1$ 甚至 $10^6:1$）和卓越的抗损伤阈值而著称。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_091459.png" srcset="/img/loading.gif" lazyload alt="Glan-Taylor Prism Diagram"></p>
+<p><em>图：格兰-泰勒棱镜的光路示意图，注意中间的空气隙（Air Gap）</em></p>
+<ul>
+<li><p><strong>几何结构与材料</strong>：<br>  该器件由两个直角方解石棱镜组成，并未像普通透镜那样胶合在一起，而是通过精密机械装配保持微小的<strong>空气隙（Air Gap）</strong>。棱镜的切割角度经过精确计算，光轴通常垂直于传播方向（如图中 $\updownarrow$ 所示）。</p>
+</li>
+<li><p><strong>物理原理：全反射（TIR）的选择性过滤</strong><br>  其核心机制在于利用双折射晶体中 o光 和 e光 巨大的折射率差异，构建一个只允许一种光通过的“全反射陷阱”。<br>  假设光束入射到中间的方解石&#x2F;空气界面。对于波长 590nm 的光，方解石的折射率为：<br>  $$n_o \approx 1.658, \quad n_e \approx 1.486$$<br>  由于空气的折射率 $n_{air} \approx 1.0$，根据全反射公式 $\theta_c &#x3D; \arcsin(n_{air}&#x2F;n_{crystal})$，我们可以计算出两个临界角：</p>
+<ul>
+<li><strong>o光临界角</strong>：$\theta_{c,o} &#x3D; \arcsin(1&#x2F;1.658) \approx 37.0^\circ$</li>
+<li><strong>e光临界角</strong>：$\theta_{c,e} &#x3D; \arcsin(1&#x2F;1.486) \approx 42.3^\circ$</li>
+</ul>
+<p>  <strong>工作窗口</strong>：通过切割棱镜，使内部光线在空气隙界面的入射角 $\theta$ 落在两者之间（例如设计为 $39^\circ$）：<br>  $$\theta_{c,o} &lt; \theta &lt; \theta_{c,e}$$<br>  在此条件下：</p>
+<ol>
+<li><strong>o光</strong>（垂直于光轴）：满足全反射条件（$\theta &gt; \theta_{c,o}$），在界面处发生 100% 全反射，随后被棱镜侧面的黑色吸光涂层吸收或导出。</li>
+<li><strong>e光</strong>（平行于光轴）：不满足全反射条件（$\theta &lt; \theta_{c,e}$），顺利透过空气隙进入第二个棱镜。</li>
+</ol>
+</li>
+<li><p><strong>工程设计亮点</strong>：</p>
+<ul>
+<li><strong>空气隙 vs. 胶合层</strong>：这是它与格兰-汤普森（Glan-Thompson）棱镜的最大区别。胶合棱镜使用的光学胶在高能激光（如脉冲激光）照射下会吸收能量导致发热、变黑甚至燃烧。<strong>空气隙结构消除了这一弱点</strong>，使其能承受极高的激光功率密度（&gt; $500 \text{ MW&#x2F;cm}^2$）。</li>
+<li><strong>布儒斯特角优化</strong>：为了减少 e光 在空气隙界面的反射损耗（菲涅尔反射），棱镜的切割角通常接近 e光 的布儒斯特角（Brewster Angle）。这使得 e光 能够以接近 100% 的透过率穿过空气层，保证了极高的透过效率。</li>
+</ul>
+</li>
+<li><p><strong>局限性</strong>：<br>  由于全反射的角宽限制（$\Delta \theta &#x3D; \theta_{c,e} - \theta_{c,o}$ 仅有约 $5^\circ$），格兰-泰勒棱镜的**视场角（Field of View）**相对较窄，且具有非对称性。入射光必须准直较好，否则边缘光线会因角度偏差而无法正确分离。</p>
+</li>
+</ul>
+<h3 id="4-3-沃拉斯顿棱镜（Wollaston-Prism）"><a href="#4-3-沃拉斯顿棱镜（Wollaston-Prism）" class="headerlink" title="4.3 沃拉斯顿棱镜（Wollaston Prism）"></a>4.3 沃拉斯顿棱镜（Wollaston Prism）</h3><p>沃拉斯顿棱镜是一种极其经典的偏振分束器，它利用双折射材料的折射率突变，将非偏振光高效率地分离为两束振动方向互相垂直的线偏振光。与格兰棱镜不同，它保留了两束光，且两束光呈对称的偏折角出射。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_091747.png" srcset="/img/loading.gif" lazyload><br><em>图：沃拉斯顿棱镜的光路示意图（以方解石 $n_o &gt; n_e$ 为例）</em></p>
+<ul>
+<li><p><strong>几何结构</strong>：<br>  由两个直角楔形棱镜（通常为方解石或石英）胶合而成。关键在于<strong>光轴的排布</strong>：</p>
+<ul>
+<li><strong>前棱镜</strong>：光轴与入射面平行（图中为竖直方向）。</li>
+<li><strong>后棱镜</strong>：光轴也与入射面平行，但<strong>与前棱镜的光轴旋转了 90°</strong>（图中为垂直纸面方向）。</li>
+</ul>
+</li>
+<li><p><strong>物理机制：相对论性的“身份互换”</strong><br>  沃拉斯顿棱镜的工作原理本质上是一场关于参照系的变换游戏。光在穿越两块晶体的界面时，其偏振方向保持不变，但相对于晶体晶格的“身份”发生了翻转。</p>
+<ol>
+<li><p><strong>入射阶段（无分离）</strong>：<br>光垂直入射第一块晶体。此时，垂直偏振分量（$\perp$ 光轴）被定义为 <strong>o光</strong>（折射率 $n_o$），水平偏振分量（$\parallel$ 光轴）被定义为 <strong>e光</strong>（折射率 $n_e$）。由于是垂直入射，根据斯涅尔定律，两者传播方向未发生改变，只是相速度不同。</p>
+</li>
+<li><p><strong>界面突变（关键步骤）</strong>：<br>当光束到达胶合界面进入第二块晶体时，晶体的光轴旋转了 90°。</p>
+<ul>
+<li><strong>原 o光（垂直偏振）</strong>：现在的振动方向与新光轴平行，因此瞬间“变身”为 <strong>e光</strong>。其感受到的折射率从 $n_o$ 突变为 $n_e$。</li>
+<li><strong>原 e光（水平偏振）</strong>：现在的振动方向与新光轴垂直，因此瞬间“变身”为 <strong>o光</strong>。其感受到的折射率从 $n_e$ 突变为 $n_o$。</li>
+</ul>
+</li>
+<li><p><strong>双向折射分离</strong>：<br>根据斯涅尔定律，折射率的改变导致光线在倾斜界面处发生偏折（以方解石 $n_o &gt; n_e$ 为例）：</p>
+<ul>
+<li><strong>光束 1 ($n_o \to n_e$)</strong>：从光密介质进入光疏介质，光速加快，折射光线<strong>远离法线</strong>偏折。</li>
+<li><strong>光束 2 ($n_e \to n_o$)</strong>：从光疏介质进入光密介质，光速减慢，折射光线<strong>靠近法线</strong>偏折。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>结果与应用</strong>：<br>  这种相反的折射行为使得两束正交偏振光以大致对称的角度分开。其分离角 $\theta_s$ 可近似表示为：<br>  $$\theta_s \approx 2 |n_e - n_o| \tan \alpha$$<br>  其中 $\alpha$ 为楔角。这种器件常用于微分干涉差显微镜（DIC）以及偏振成像系统中。</p>
+</li>
+</ul>
+<hr>
+<h2 id="5-相位延迟器件：波片（Waveplates）"><a href="#5-相位延迟器件：波片（Waveplates）" class="headerlink" title="5. 相位延迟器件：波片（Waveplates）"></a>5. 相位延迟器件：波片（Waveplates）</h2><p>波片不改变光的强度，只改变正交偏振分量之间的相位差。</p>
+<h3 id="5-1-物理机制"><a href="#5-1-物理机制" class="headerlink" title="5.1 物理机制"></a>5.1 物理机制</h3><p>当线偏振光射入双折射晶体（如石英、云母），且偏振方向与晶体光轴成一定角度（通常45°）时，光分解为快轴（Fast Axis,折射率小）和慢轴（Slow Axis, 折射率大）分量。</p>
+<h4 id="5-1-1-矢量分解与折射率差异"><a href="#5-1-1-矢量分解与折射率差异" class="headerlink" title="5.1.1 矢量分解与折射率差异"></a>5.1.1 矢量分解与折射率差异</h4><p>假设一块单轴晶体（如石英），其光轴平行于表面。我们在晶体平面上定义两个正交的主轴：</p>
+<ul>
+<li><strong>快轴（Fast Axis, $n_f$）</strong>：折射率较小，光在该方向传播速度快（$v_f &#x3D; c&#x2F;n_f$）。</li>
+<li><strong>慢轴（Slow Axis, $n_s$）</strong>：折射率较大，光在该方向传播速度慢（$v_s &#x3D; c&#x2F;n_s$）。</li>
+</ul>
+<p>当一束线偏振光垂直入射，且其偏振方向与快轴夹角为 $\theta$ 时，入射电场 $\mathbf{E}<em>{in}$ 被强制投影到这两个轴上：<br>$$\mathbf{E}</em>{in} &#x3D; E_0 \cos\theta \cdot \hat{\mathbf{e}}_f + E_0 \sin\theta \cdot \hat{\mathbf{e}}_s$$</p>
+<p>这就是关键所在：<strong>晶体并不直接传输原始的偏振矢量，而是分别独立地传输这两个分量。</strong></p>
+<h4 id="5-1-2-相位差（Retardation）的积累推导"><a href="#5-1-2-相位差（Retardation）的积累推导" class="headerlink" title="5.1.2 相位差（Retardation）的积累推导"></a>5.1.2 相位差（Retardation）的积累推导</h4><p>两个分量在晶体中独立传播。由于相速度不同，它们在穿过厚度为 $d$ 的晶体时，积累的光程（Optical Path Length, OPL）也不同：</p>
+<ul>
+<li>快轴分量光程：$L_f &#x3D; n_f d$</li>
+<li>慢轴分量光程：$L_s &#x3D; n_s d$</li>
+</ul>
+<p>两者的<strong>光程差</strong>为 $\Delta L &#x3D; (n_s - n_f) d$。</p>
+<p>为了将光程差转化为相位差 $\Gamma$（即慢轴分量比快轴分量“滞后”了多少相位），我们将光程差乘以真空波数 $k_0 &#x3D; 2\pi&#x2F;\lambda$：</p>
+<p>$$\Gamma &#x3D; k_0 \Delta L &#x3D; \frac{2\pi}{\lambda} (n_s - n_f) d$$</p>
+<h4 id="5-1-3-为什么通常选择-45°？"><a href="#5-1-3-为什么通常选择-45°？" class="headerlink" title="5.1.3 为什么通常选择 45°？"></a>5.1.3 为什么通常选择 45°？</h4><p>公式中的 $\theta$ 决定了两个分量的振幅比例。</p>
+<ul>
+<li>若 $\theta &#x3D; 0^\circ$ 或 $90^\circ$：光只沿着一个轴传播，$\Gamma$ 失去意义，偏振态不改变。</li>
+<li>若 $\theta &#x3D; 45^\circ$：此时 $\cos(45^\circ) &#x3D; \sin(45^\circ) &#x3D; 1&#x2F;\sqrt{2}$。快轴和慢轴分量获得<strong>相等的振幅</strong>。这是实现从线偏振到圆偏振转换（对于 $\lambda&#x2F;4$ 波片）的必要条件。如果振幅不等，合成的将是椭圆偏振而非圆偏振。</li>
+</ul>
+<p>最终，出射光 $\mathbf{E}<em>{out}$ 是这两个带有新相位关系的矢量之和：<br>$$\mathbf{E}</em>{out} \propto \hat{\mathbf{e}}_f + e^{i\Gamma} \hat{\mathbf{e}}_s$$<br>正是这一项 $e^{i\Gamma}$，决定了出射光是线偏振、圆偏振还是椭圆偏振。</p>
+<h3 id="5-2-常见类型"><a href="#5-2-常见类型" class="headerlink" title="5.2 常见类型"></a>5.2 常见类型</h3><ol>
+<li><strong>半波片（Half-Wave Plate, HWP）</strong>：<ul>
+<li>$\Gamma &#x3D; \pi$。</li>
+<li><strong>功能</strong>：旋转线偏振光的方向。若入射偏振方向与快轴夹角为 $\theta$，出射光偏振方向转过 $2\theta$。</li>
+<li><strong>琼斯矩阵</strong>（快轴沿水平方向）：<br>  $$\mathbf{J}_{\lambda&#x2F;2} &#x3D; \begin{pmatrix} -i &amp; 0 \ 0 &amp; i \end{pmatrix} &#x3D; e^{-i\pi&#x2F;2} \begin{pmatrix} 1 &amp; 0 \ 0 &amp; -1 \end{pmatrix}$$</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_100648.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="2">
+<li><strong>四分之一波片（Quarter-Wave Plate, QWP）</strong>：<ul>
+<li>$\Gamma &#x3D; \pi&#x2F;2$。</li>
+<li><strong>功能</strong>：实现线偏振与圆&#x2F;椭圆偏振的互转。</li>
+<li><strong>琼斯矩阵</strong>：<br>  $$\mathbf{J}_{\lambda&#x2F;4} &#x3D; e^{-i\pi&#x2F;4} \begin{pmatrix} 1 &amp; 0 \ 0 &amp; i \end{pmatrix}$$</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260208_100618.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="5-3-零级波片-vs-多级波片"><a href="#5-3-零级波片-vs-多级波片" class="headerlink" title="5.3 零级波片 vs. 多级波片"></a>5.3 零级波片 vs. 多级波片</h3><ul>
+<li><strong>多级波片</strong>：实际相位差为 $2m\pi + \Gamma$。厚度大，易加工，但对波长和温度极其敏感（色散严重）。</li>
+<li><strong>零级波片</strong>：实际相位差即为 $\Gamma$。通常由两块光轴正交、厚度微差的波片胶合而成（Compound Zero-Order）。带宽宽，稳定性高，是高精度实验的首选。</li>
+</ul>
+<p>Edmund上面有个写的比较好的波片原理的解释，感兴趣的可以去这里看在<br><a target="_blank" rel="noopener" href="https://www.edmundoptics.cn/knowledge-center/application-notes/optics/understanding-waveplates/">了解波片和延迟器</a></p>
+<hr>
+<h2 id="6-旋光器件与非互易性：法拉第隔离器"><a href="#6-旋光器件与非互易性：法拉第隔离器" class="headerlink" title="6. 旋光器件与非互易性：法拉第隔离器"></a>6. 旋光器件与非互易性：法拉第隔离器</h2><p>前述器件多基于线性双折射，具有互易性（光路可逆）。而在光通信和激光系统中，我们常需要“光二极管”——光隔离器。</p>
+<h3 id="6-1-法拉第效应（Faraday-Effect）"><a href="#6-1-法拉第效应（Faraday-Effect）" class="headerlink" title="6.1 法拉第效应（Faraday Effect）"></a>6.1 法拉第效应（Faraday Effect）</h3><p>这是一种磁致旋光效应。当线偏振光通过施加了纵向磁场 $\mathbf{B}$ 的介质时，其偏振面会发生旋转。旋转角 $\beta$ 为：</p>
+<p>$$\beta &#x3D; V B L$$</p>
+<p>其中 $V$ 是费尔德常数（Verdet Constant），$L$ 是介质长度。</p>
+<p><strong>核心特征</strong>：非互易性。无论光是正向传播还是反向传播，偏振旋转的方向是相对于磁场定义的，而不是相对于波矢量。这意味着光往返一次，旋转角会累加（$2\beta$），而不是抵消。</p>
+<h3 id="6-2-光隔离器的工作原理"><a href="#6-2-光隔离器的工作原理" class="headerlink" title="6.2 光隔离器的工作原理"></a>6.2 光隔离器的工作原理</h3><p>一个标准的光隔离器包含三个部分：</p>
+<ol>
+<li><strong>输入偏振器</strong>（起偏器，如垂直方向）。</li>
+<li><strong>法拉第旋光器</strong>（设计为旋转 45°）。</li>
+<li><strong>输出偏振器</strong>（检偏器，方向为 45°）。</li>
+</ol>
+<ul>
+<li><strong>正向</strong>：垂直偏振光 $\to$ 旋转 45° $\to$ 通过输出偏振器。</li>
+<li><strong>反向</strong>：45° 反向光进入旋光器 $\to$ 再次沿同一方向旋转 45°（变成 90°，即水平方向） $\to$ 遇到垂直方向的输入偏振器 $\to$ <strong>被阻断</strong>。</li>
+</ul>
+<p>这在保护高功率激光器免受回光损伤中起着至关重要的作用。</p>
+<hr>
+<h2 id="7-前沿应用案例分析"><a href="#7-前沿应用案例分析" class="headerlink" title="7. 前沿应用案例分析"></a>7. 前沿应用案例分析</h2><h3 id="7-1-量子计算与量子密钥分发（QKD）"><a href="#7-1-量子计算与量子密钥分发（QKD）" class="headerlink" title="7.1 量子计算与量子密钥分发（QKD）"></a>7.1 量子计算与量子密钥分发（QKD）</h3><p>在BB84协议中，信息的编码依赖于光子的偏振态（如水平&#x2F;垂直作为一组基，+45°&#x2F;-45°作为另一组基）。</p>
+<ul>
+<li><strong>电光调制器（EOM）</strong>：利用普克尔斯效应（Pockels Effect），通过电压快速改变晶体的双折射率，从而在纳秒量级动态调制光子的偏振态（量子比特）。这里对波片的相位延迟精度要求极高，通常需要主动温度控制。</li>
+</ul>
+<h3 id="7-2-偏振复用光通信（PDM-QPSK）"><a href="#7-2-偏振复用光通信（PDM-QPSK）" class="headerlink" title="7.2 偏振复用光通信（PDM-QPSK）"></a>7.2 偏振复用光通信（PDM-QPSK）</h3><p>现代相干光通信利用光的偏振正交性，在同一光纤中传输两路独立信号（PDM，Polarization Division Multiplexing），使容量翻倍。</p>
+<ul>
+<li>**偏振分束器（PBS）**在此处作为相干接收机的前端，将混合信号分离。随后的数字信号处理（DSP）算法会补偿光纤中的偏振模色散（PMD）。</li>
+</ul>
+<h3 id="7-3-超表面（Metasurfaces）偏振器件"><a href="#7-3-超表面（Metasurfaces）偏振器件" class="headerlink" title="7.3 超表面（Metasurfaces）偏振器件"></a>7.3 超表面（Metasurfaces）偏振器件</h3><p>传统器件受限于材料厚度和体积。基于亚波长微纳结构的超表面，可以通过设计各向异性的“超原子”（Meta-atoms），在亚波长尺度上对光的偏振、相位和振幅进行任意调控。</p>
+<ul>
+<li><strong>应用</strong>：超薄平面透镜、全息显示、矢量光束产生（如径向偏振光、角向偏振光）。</li>
+</ul>
+<hr>
+<h2 id="8-结论与展望"><a href="#8-结论与展望" class="headerlink" title="8. 结论与展望"></a>8. 结论与展望</h2><p>从巴塞林纳斯（Bartholinus）发现冰洲石的双折射至今，偏振光学已经从单纯的现象观察发展为现代光子学的基石。<br>理解偏振器件，不仅是掌握格兰棱镜或波片的使用，更是理解光作为矢量波与物质微观结构相互作用的深层物理。</p>
+<p>随着纳米加工技术的发展，未来的偏振器件将不再局限于块状晶体，而是向集成化、薄膜化、动态可调化方向演进。超表面与液晶技术的结合，甚至允许我们在像素级别动态重构光的偏振态，这将彻底改变显示技术、全息成像以及光子神经网络的面貌。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Applied-Physics/" class="category-chain-item">Applied Physics</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Applied-Physics/Optical-Engineering/" class="category-chain-item">Optical Engineering</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
+      
+        <a href="/tags/Physics/" class="print-no-link">#Physics</a>
+      
+        <a href="/tags/Engineering/" class="print-no-link">#Engineering</a>
+      
+        <a href="/tags/Polarization/" class="print-no-link">#Polarization</a>
+      
+        <a href="/tags/Photonics/" class="print-no-link">#Photonics</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>深度解析：光学偏振器件的物理本源与前沿应用</div>
+      <div>https://sunfove.xyz/2026/02/08/2026-02-08-optical-polarization-devices-physics-and-applications/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 8, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/02/07/2026-02-07-daily-english/" title="🌍 Daily English: The Mind&#39;s Architecture: How Cognitive Psychology Illuminates Mental Well-being | 2026-02-07">
+                        <span class="hidden-mobile">🌍 Daily English: The Mind&#39;s Architecture: How Cognitive Psychology Illuminates Mental Well-being | 2026-02-07</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/02/08/2026-02-08-optical-polarization-devices-physics-and-applications/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
