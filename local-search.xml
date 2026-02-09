@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>2026-02-09-fiber-bragg-grating-principles-applications</title>
+    <link href="/2026/02/09/2026-02-09-fiber-bragg-grating-principles-applications/"/>
+    <url>/2026/02/09/2026-02-09-fiber-bragg-grating-principles-applications/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>光子学的精密分束：深入解析达曼光栅 (Dammann Grating) 的物理原理与数学设计</title>
     <link href="/2026/02/09/2026-02-09-dammann-grating-principles-and-design/"/>
     <url>/2026/02/09/2026-02-09-dammann-grating-principles-and-design/</url>
@@ -94,9 +107,9 @@
       
       <tag>Engineering</tag>
       
-      <tag>Polarization</tag>
-      
       <tag>Photonics</tag>
+      
+      <tag>Polarization</tag>
       
     </tags>
     
@@ -1056,9 +1069,9 @@
       
       <tag>物理光学</tag>
       
-      <tag>量子力学</tag>
-      
       <tag>麦克斯韦方程</tag>
+      
+      <tag>量子力学</tag>
       
       <tag>集成光路</tag>
       
@@ -2211,39 +2224,6 @@
   
   
   <entry>
-    <title>从混沌到有序：深度解析自发辐射与受激辐射的物理本源</title>
-    <link href="/2026/01/18/2026-01-18-spontaneous-vs-stimulated-emission/"/>
-    <url>/2026/01/18/2026-01-18-spontaneous-vs-stimulated-emission/</url>
-    
-    <content type="html"><![CDATA[<p>在微观世界中，光与物质的相互作用构成了现代光电子学的基石。无论是照亮黑夜的 LED 灯，还是承载互联网流量的光纤激光器，它们的本质区别都可以追溯到两种截然不同的物理过程：<strong>自发辐射 (Spontaneous Emission)</strong> 与 <strong>受激辐射 (Stimulated Emission)</strong>。</p><p>本文将剥开宏观现象的外衣，从量子力学的底层原理出发，探讨这两种辐射机制的物理图像。</p><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_083748.png"></h2><h2 id="01-自发辐射：量子的随机舞蹈"><a href="#01-自发辐射：量子的随机舞蹈" class="headerlink" title="01. 自发辐射：量子的随机舞蹈"></a>01. 自发辐射：量子的随机舞蹈</h2><h3 id="物理原理"><a href="#物理原理" class="headerlink" title="物理原理"></a>物理原理</h3><p>在热平衡状态下，电子倾向于待在能量最低的<strong>基态 (Ground State, $E_1$)</strong>。如果我们通过加热或通电给原子注入能量，电子会被激发到高能级的<strong>激发态 (Excited State, $E_2$)</strong>。</p><p>然而，激发态是不稳定的（就像把球放在山顶）。电子在激发态停留极短的时间（纳秒级）后，会“自发”地跌落回基态。为了遵守能量守恒，电子释放出的能量差会转化光子发射出去：</p><p>$$h\nu &#x3D; E_2 - E_1$$</p><h3 id="关键特征：无序-Incoherent"><a href="#关键特征：无序-Incoherent" class="headerlink" title="关键特征：无序 (Incoherent)"></a>关键特征：无序 (Incoherent)</h3><p>自发辐射的核心关键词是<strong>随机</strong>。</p><ol><li><strong>时间随机</strong>：每个原子何时发光是完全独立的。</li><li><strong>方向随机</strong>：光子可能向四面八方任何一个方向飞去。</li><li><strong>相位随机</strong>：发出的光波之间没有固定的相位关系。</li><li><strong>光谱较宽</strong>：由于能级展宽等因素，发出的光通常包含一定的波长范围。</li></ol><h3 id="典型应用：LED-与荧光灯"><a href="#典型应用：LED-与荧光灯" class="headerlink" title="典型应用：LED 与荧光灯"></a>典型应用：LED 与荧光灯</h3><p>自发辐射产生的是<strong>非相干光 (Incoherent Light)</strong>。</p><ul><li><strong>LED (发光二极管)</strong>：电子与空穴在 PN 结复合，自发释放光子。</li><li><strong>荧光灯</strong>：汞原子受激后自发辐射紫外线，激发荧光粉发光。</li><li><strong>阳光</strong>：太阳的热辐射本质上也是无数原子自发辐射的集合。</li></ul><hr><h2 id="02-受激辐射：光子的完美克隆"><a href="#02-受激辐射：光子的完美克隆" class="headerlink" title="02. 受激辐射：光子的完美克隆"></a>02. 受激辐射：光子的完美克隆</h2><h3 id="物理原理-1"><a href="#物理原理-1" class="headerlink" title="物理原理"></a>物理原理</h3><p>1917 年，爱因斯坦在推导普朗克辐射公式时预言：除了自发辐射，还存在另一种过程。</p><p>如果一个处于激发态 ($E_2$) 的原子，恰好遇到一个<strong>外来光子</strong>，而这个外来光子的能量 ($h\nu$) 正好等于能级差 ($E_2 - E_1$)。此时，这个外来光子会“诱导”或“刺激”电子立刻跃迁回基态。</p><p>奇迹发生了：电子在跃迁时会释放一个新的光子。<strong>这个新光子与外来光子一模一样</strong>。</p><h3 id="关键特征：相干-Coherent"><a href="#关键特征：相干-Coherent" class="headerlink" title="关键特征：相干 (Coherent)"></a>关键特征：相干 (Coherent)</h3><p>受激辐射的核心关键词是<strong>克隆</strong>。新产生的光子与诱导光子具有完全相同的：</p><ol><li><strong>频率</strong> (颜色)</li><li><strong>相位</strong> (步调一致)</li><li><strong>偏振方向</strong></li><li><strong>传播方向</strong></li></ol><p>这就是<strong>光放大 (Light Amplification)</strong> 的基础：一个光子进来，两个一模一样的光子出去。这就是 LASER (Light Amplification by Stimulated Emission of Radiation) 名字的由来。</p><hr><h2 id="03-核心难点：粒子数反转-Population-Inversion"><a href="#03-核心难点：粒子数反转-Population-Inversion" class="headerlink" title="03. 核心难点：粒子数反转 (Population Inversion)"></a>03. 核心难点：粒子数反转 (Population Inversion)</h2><p>既然受激辐射这么厉害，为什么我们在自然界中很少见到激光？</p><p>因为在热平衡状态下，粒子遵循<strong>玻尔兹曼分布</strong>：低能级的粒子数 $N_1$ 远多于高能级的粒子数 $N_2$。<br>$$N_2 &#x3D; N_1 e^{-(E_2-E_1)&#x2F;kT}$$</p><p>这意味着，外来光子进入物质后，更容易遇到基态原子被<strong>吸收 (Absorption)</strong>，而不是遇到激发态原子产生<strong>受激辐射</strong>。光会被吸收殆尽，而不是被放大。</p><p>要实现激光，必须打破热平衡，人为地使 $N_2 &gt; N_1$。这种违背自然分布的状态被称为<strong>粒子数反转</strong>。</p><ul><li><strong>泵浦 (Pumping)</strong>：利用强光或电流，强行把大量电子“搬运”到高能级。</li><li><strong>亚稳态 (Metastable State)</strong>：选择特殊的材料，其激发态寿命较长，能让电子在上面“攒”一会儿，从而实现高能级粒子数积累。</li></ul><hr><h2 id="04-应用对比"><a href="#04-应用对比" class="headerlink" title="04. 应用对比"></a>04. 应用对比</h2><table><thead><tr><th align="left">特性</th><th align="left">自发辐射 (Spontaneous)</th><th align="left">受激辐射 (Stimulated)</th></tr></thead><tbody><tr><td align="left"><strong>物理本质</strong></td><td align="left">随机衰变</td><td align="left">诱导跃迁</td></tr><tr><td align="left"><strong>光子关系</strong></td><td align="left">互不相干，各自为战</td><td align="left">完全相干，步调一致</td></tr><tr><td align="left"><strong>方向性</strong></td><td align="left">$4\pi$ 立体角发散</td><td align="left">高度定向</td></tr><tr><td align="left"><strong>典型器件</strong></td><td align="left">LED, 灯泡, 荧光灯</td><td align="left">激光器 (VCSEL, EEL), 光放大器 (EDFA)</td></tr><tr><td align="left"><strong>主要应用</strong></td><td align="left">照明, 显示屏, 指示灯</td><td align="left">光纤通信, 激光切割, 激光雷达, 面容识别</td></tr></tbody></table><h3 id="深度应用案例"><a href="#深度应用案例" class="headerlink" title="深度应用案例"></a>深度应用案例</h3><ol><li><p><strong>光纤放大器 (EDFA)</strong>：<br>在海底光缆中，信号传输衰减了怎么办？我们不需要把光转成电再转回光。利用<strong>受激辐射</strong>原理，让微弱的信号光（种子光子）通过处于粒子数反转状态的铒离子光纤，信号光瞬间被“克隆”放大千倍，继续传输。</p></li><li><p><strong>VCSEL (垂直腔面发射激光器)</strong>：<br>利用两面高反射率的 DBR 反射镜构成谐振腔。光子在腔内来回振荡，不断引发<strong>受激辐射</strong>，形成雪崩式放大，最终通过受激辐射产生极高纯度、极低发散角的激光束，用于手机 FaceID 扫描。</p></li></ol><hr><h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><ul><li><strong>自发辐射</strong>是自然的喧嚣，它带来了普世的光明，温暖而杂乱。</li><li><strong>受激辐射</strong>是人工的秩序，它带来了极致的能量密度与信息载体，精准而强大。</li></ul><p>从 LED 到激光，人类对光的掌控史，本质上就是从利用“随机的自发辐射”进化到驾驭“有序的受激辐射”的历史。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>硬核物理</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>量子力学</tag>
-      
-      <tag>激光物理</tag>
-      
-      <tag>光电子学</tag>
-      
-      <tag>LED</tag>
-      
-      <tag>VCSEL</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>方格中的混沌与秩序：用线性代数思想构建 2048 游戏引擎</title>
     <link href="/2026/01/18/2026-01-19-building-2048-with-matrix-logic/"/>
     <url>/2026/01/18/2026-01-19-building-2048-with-matrix-logic/</url>
@@ -2271,6 +2251,39 @@
       <tag>Linear Algebra</tag>
       
       <tag>Algorithms</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>从混沌到有序：深度解析自发辐射与受激辐射的物理本源</title>
+    <link href="/2026/01/18/2026-01-18-spontaneous-vs-stimulated-emission/"/>
+    <url>/2026/01/18/2026-01-18-spontaneous-vs-stimulated-emission/</url>
+    
+    <content type="html"><![CDATA[<p>在微观世界中，光与物质的相互作用构成了现代光电子学的基石。无论是照亮黑夜的 LED 灯，还是承载互联网流量的光纤激光器，它们的本质区别都可以追溯到两种截然不同的物理过程：<strong>自发辐射 (Spontaneous Emission)</strong> 与 <strong>受激辐射 (Stimulated Emission)</strong>。</p><p>本文将剥开宏观现象的外衣，从量子力学的底层原理出发，探讨这两种辐射机制的物理图像。</p><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_083748.png"></h2><h2 id="01-自发辐射：量子的随机舞蹈"><a href="#01-自发辐射：量子的随机舞蹈" class="headerlink" title="01. 自发辐射：量子的随机舞蹈"></a>01. 自发辐射：量子的随机舞蹈</h2><h3 id="物理原理"><a href="#物理原理" class="headerlink" title="物理原理"></a>物理原理</h3><p>在热平衡状态下，电子倾向于待在能量最低的<strong>基态 (Ground State, $E_1$)</strong>。如果我们通过加热或通电给原子注入能量，电子会被激发到高能级的<strong>激发态 (Excited State, $E_2$)</strong>。</p><p>然而，激发态是不稳定的（就像把球放在山顶）。电子在激发态停留极短的时间（纳秒级）后，会“自发”地跌落回基态。为了遵守能量守恒，电子释放出的能量差会转化光子发射出去：</p><p>$$h\nu &#x3D; E_2 - E_1$$</p><h3 id="关键特征：无序-Incoherent"><a href="#关键特征：无序-Incoherent" class="headerlink" title="关键特征：无序 (Incoherent)"></a>关键特征：无序 (Incoherent)</h3><p>自发辐射的核心关键词是<strong>随机</strong>。</p><ol><li><strong>时间随机</strong>：每个原子何时发光是完全独立的。</li><li><strong>方向随机</strong>：光子可能向四面八方任何一个方向飞去。</li><li><strong>相位随机</strong>：发出的光波之间没有固定的相位关系。</li><li><strong>光谱较宽</strong>：由于能级展宽等因素，发出的光通常包含一定的波长范围。</li></ol><h3 id="典型应用：LED-与荧光灯"><a href="#典型应用：LED-与荧光灯" class="headerlink" title="典型应用：LED 与荧光灯"></a>典型应用：LED 与荧光灯</h3><p>自发辐射产生的是<strong>非相干光 (Incoherent Light)</strong>。</p><ul><li><strong>LED (发光二极管)</strong>：电子与空穴在 PN 结复合，自发释放光子。</li><li><strong>荧光灯</strong>：汞原子受激后自发辐射紫外线，激发荧光粉发光。</li><li><strong>阳光</strong>：太阳的热辐射本质上也是无数原子自发辐射的集合。</li></ul><hr><h2 id="02-受激辐射：光子的完美克隆"><a href="#02-受激辐射：光子的完美克隆" class="headerlink" title="02. 受激辐射：光子的完美克隆"></a>02. 受激辐射：光子的完美克隆</h2><h3 id="物理原理-1"><a href="#物理原理-1" class="headerlink" title="物理原理"></a>物理原理</h3><p>1917 年，爱因斯坦在推导普朗克辐射公式时预言：除了自发辐射，还存在另一种过程。</p><p>如果一个处于激发态 ($E_2$) 的原子，恰好遇到一个<strong>外来光子</strong>，而这个外来光子的能量 ($h\nu$) 正好等于能级差 ($E_2 - E_1$)。此时，这个外来光子会“诱导”或“刺激”电子立刻跃迁回基态。</p><p>奇迹发生了：电子在跃迁时会释放一个新的光子。<strong>这个新光子与外来光子一模一样</strong>。</p><h3 id="关键特征：相干-Coherent"><a href="#关键特征：相干-Coherent" class="headerlink" title="关键特征：相干 (Coherent)"></a>关键特征：相干 (Coherent)</h3><p>受激辐射的核心关键词是<strong>克隆</strong>。新产生的光子与诱导光子具有完全相同的：</p><ol><li><strong>频率</strong> (颜色)</li><li><strong>相位</strong> (步调一致)</li><li><strong>偏振方向</strong></li><li><strong>传播方向</strong></li></ol><p>这就是<strong>光放大 (Light Amplification)</strong> 的基础：一个光子进来，两个一模一样的光子出去。这就是 LASER (Light Amplification by Stimulated Emission of Radiation) 名字的由来。</p><hr><h2 id="03-核心难点：粒子数反转-Population-Inversion"><a href="#03-核心难点：粒子数反转-Population-Inversion" class="headerlink" title="03. 核心难点：粒子数反转 (Population Inversion)"></a>03. 核心难点：粒子数反转 (Population Inversion)</h2><p>既然受激辐射这么厉害，为什么我们在自然界中很少见到激光？</p><p>因为在热平衡状态下，粒子遵循<strong>玻尔兹曼分布</strong>：低能级的粒子数 $N_1$ 远多于高能级的粒子数 $N_2$。<br>$$N_2 &#x3D; N_1 e^{-(E_2-E_1)&#x2F;kT}$$</p><p>这意味着，外来光子进入物质后，更容易遇到基态原子被<strong>吸收 (Absorption)</strong>，而不是遇到激发态原子产生<strong>受激辐射</strong>。光会被吸收殆尽，而不是被放大。</p><p>要实现激光，必须打破热平衡，人为地使 $N_2 &gt; N_1$。这种违背自然分布的状态被称为<strong>粒子数反转</strong>。</p><ul><li><strong>泵浦 (Pumping)</strong>：利用强光或电流，强行把大量电子“搬运”到高能级。</li><li><strong>亚稳态 (Metastable State)</strong>：选择特殊的材料，其激发态寿命较长，能让电子在上面“攒”一会儿，从而实现高能级粒子数积累。</li></ul><hr><h2 id="04-应用对比"><a href="#04-应用对比" class="headerlink" title="04. 应用对比"></a>04. 应用对比</h2><table><thead><tr><th align="left">特性</th><th align="left">自发辐射 (Spontaneous)</th><th align="left">受激辐射 (Stimulated)</th></tr></thead><tbody><tr><td align="left"><strong>物理本质</strong></td><td align="left">随机衰变</td><td align="left">诱导跃迁</td></tr><tr><td align="left"><strong>光子关系</strong></td><td align="left">互不相干，各自为战</td><td align="left">完全相干，步调一致</td></tr><tr><td align="left"><strong>方向性</strong></td><td align="left">$4\pi$ 立体角发散</td><td align="left">高度定向</td></tr><tr><td align="left"><strong>典型器件</strong></td><td align="left">LED, 灯泡, 荧光灯</td><td align="left">激光器 (VCSEL, EEL), 光放大器 (EDFA)</td></tr><tr><td align="left"><strong>主要应用</strong></td><td align="left">照明, 显示屏, 指示灯</td><td align="left">光纤通信, 激光切割, 激光雷达, 面容识别</td></tr></tbody></table><h3 id="深度应用案例"><a href="#深度应用案例" class="headerlink" title="深度应用案例"></a>深度应用案例</h3><ol><li><p><strong>光纤放大器 (EDFA)</strong>：<br>在海底光缆中，信号传输衰减了怎么办？我们不需要把光转成电再转回光。利用<strong>受激辐射</strong>原理，让微弱的信号光（种子光子）通过处于粒子数反转状态的铒离子光纤，信号光瞬间被“克隆”放大千倍，继续传输。</p></li><li><p><strong>VCSEL (垂直腔面发射激光器)</strong>：<br>利用两面高反射率的 DBR 反射镜构成谐振腔。光子在腔内来回振荡，不断引发<strong>受激辐射</strong>，形成雪崩式放大，最终通过受激辐射产生极高纯度、极低发散角的激光束，用于手机 FaceID 扫描。</p></li></ol><hr><h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><ul><li><strong>自发辐射</strong>是自然的喧嚣，它带来了普世的光明，温暖而杂乱。</li><li><strong>受激辐射</strong>是人工的秩序，它带来了极致的能量密度与信息载体，精准而强大。</li></ul><p>从 LED 到激光，人类对光的掌控史，本质上就是从利用“随机的自发辐射”进化到驾驭“有序的受激辐射”的历史。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>硬核物理</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>激光物理</tag>
+      
+      <tag>量子力学</tag>
+      
+      <tag>光电子学</tag>
+      
+      <tag>LED</tag>
+      
+      <tag>VCSEL</tag>
       
     </tags>
     
@@ -2337,6 +2350,33 @@
   
   
   <entry>
+    <title>Python 面向对象编程：从过程式思维到对象模型</title>
+    <link href="/2026/01/18/2026-01-18-python-oop-complete/"/>
+    <url>/2026/01/18/2026-01-18-python-oop-complete/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、引言：为什么你迟早要面对面向对象"><a href="#一、引言：为什么你迟早要面对面向对象" class="headerlink" title="一、引言：为什么你迟早要面对面向对象"></a>一、引言：为什么你迟早要面对面向对象</h2><p>很多人在学习 Python 时，会产生一个疑问：</p><blockquote><p>Python 明明可以不用类，为什么还要学面向对象？</p></blockquote><p>这是一个<strong>非常合理的问题</strong>。</p><p>在脚本、小工具、一次性任务中，过程式编程确实更加直接、高效。但当代码开始具备以下特征时，问题就会逐渐显现：</p><ul><li>代码文件越来越多</li><li>同一类数据被反复传递给不同函数</li><li>修改一个功能，牵一发动全身</li><li>很难用“自然语言”描述代码结构</li></ul><p>这些问题，并不是因为你“写得不好”，<br>而是<strong>过程式模型本身不擅长表达复杂系统</strong>。</p><p>面向对象编程，正是为了解决这一类问题而诞生的。</p><hr><h2 id="二、回顾过程式编程的局限"><a href="#二、回顾过程式编程的局限" class="headerlink" title="二、回顾过程式编程的局限"></a>二、回顾过程式编程的局限</h2><p>我们先看一个典型的过程式示例：银行账户系统。</p><pre><code class="hljs">balance = 1000def deposit(balance, amount):    return balance + amountdef withdraw(balance, amount):    if amount &gt; balance:        raise ValueError(&quot;Insufficient funds&quot;)    return balance - amount</code></pre><p>这个模型的特点是：</p><ul><li>数据（balance）是“裸露”的</li><li>函数通过参数间接操作数据</li><li>状态的一致性完全依赖调用者的自律</li></ul><p>当系统中只有一个账户时，这样的代码尚可接受；<br>但当账户数量增加时，你很快会遇到问题：</p><ul><li>如何区分不同账户？</li><li>如何保证每个账户的状态不被错误修改？</li><li>如何为不同类型账户增加不同规则？</li></ul><p>此时，代码结构会迅速变得混乱。</p><hr><h2 id="三、对象思维：把“事物”作为第一公民"><a href="#三、对象思维：把“事物”作为第一公民" class="headerlink" title="三、对象思维：把“事物”作为第一公民"></a>三、对象思维：把“事物”作为第一公民</h2><p>面向对象的核心思想可以总结为一句话：</p><p><strong>程序不再围绕“函数”，而是围绕“对象”展开。</strong></p><p>对象具备三个关键特征：</p><ol><li><strong>状态（State）</strong>：对象当前持有的数据</li><li><strong>行为（Behavior）</strong>：对象可以执行的操作</li><li><strong>身份（Identity）</strong>：对象彼此独立、互不干扰</li></ol><p>在现实世界中，我们天然以对象的方式思考问题：</p><ul><li>一个“账户”有余额</li><li>一个“账户”可以存钱、取钱</li><li>不同账户彼此独立</li></ul><p>面向对象只是把这种思维方式映射到了代码中。</p><hr><h2 id="四、类：对象的设计图纸"><a href="#四、类：对象的设计图纸" class="headerlink" title="四、类：对象的设计图纸"></a>四、类：对象的设计图纸</h2><p>在 Python 中，类用于描述一类对象的共同特征。</p><pre><code class="hljs">class BankAccount:    def __init__(self, balance):        self.balance = balance    def deposit(self, amount):        self.balance += amount    def withdraw(self, amount):        if amount &gt; self.balance:            raise ValueError(&quot;Insufficient funds&quot;)        self.balance -= amount</code></pre><p>这里有几个关键点需要理解：</p><ul><li><code>__init__</code> 是对象的初始化方法</li><li><code>self</code> 代表当前对象本身</li><li>每个方法的第一个参数必须是 <code>self</code></li></ul><p>创建对象时：</p><pre><code class="hljs">account_a = BankAccount(1000)account_b = BankAccount(500)</code></pre><p>两个对象共享<strong>行为定义</strong>，但拥有<strong>完全独立的状态</strong>。</p><hr><h2 id="五、封装：控制复杂度的第一道防线"><a href="#五、封装：控制复杂度的第一道防线" class="headerlink" title="五、封装：控制复杂度的第一道防线"></a>五、封装：控制复杂度的第一道防线</h2><p>封装（Encapsulation）的本质不是“隐藏”，<br>而是<strong>建立清晰、可控的访问边界</strong>。</p><p>改进账户模型：</p><pre><code class="hljs">class BankAccount:    def __init__(self, balance):        self._balance = balance    def deposit(self, amount):        if amount &lt;= 0:            raise ValueError(&quot;Invalid amount&quot;)        self._balance += amount    def withdraw(self, amount):        if amount &gt; self._balance:            raise ValueError(&quot;Insufficient funds&quot;)        self._balance -= amount    def get_balance(self):        return self._balance</code></pre><p>通过封装：</p><ul><li>对象自己负责维护合法状态</li><li>外部代码不能随意破坏内部数据</li><li>错误更早暴露，调试成本更低</li></ul><hr><h2 id="六、继承：表达“是什么”，而不是“像什么”"><a href="#六、继承：表达“是什么”，而不是“像什么”" class="headerlink" title="六、继承：表达“是什么”，而不是“像什么”"></a>六、继承：表达“是什么”，而不是“像什么”</h2><p>继承用于描述<strong>本质上的从属关系</strong>。</p><pre><code class="hljs">class SavingsAccount(BankAccount):    def add_interest(self, rate):        self._balance *= (1 + rate)</code></pre><p>这里的语义是：</p><blockquote><p>储蓄账户 <strong>是一种</strong> 银行账户</p></blockquote><p>继承的价值在于：</p><ul><li>复用成熟、稳定的行为</li><li>在保持一致接口的前提下扩展功能</li><li>构建清晰的类型层级结构</li></ul><p>但需要强调的是：</p><p><strong>继承是强约束关系，应谨慎使用。</strong></p><hr><h2 id="七、多态：面向对象真正的威力所在"><a href="#七、多态：面向对象真正的威力所在" class="headerlink" title="七、多态：面向对象真正的威力所在"></a>七、多态：面向对象真正的威力所在</h2><p>多态并不依赖复杂语法，而是一种设计原则：</p><blockquote><p><strong>面向接口编程，而不是面向具体实现。</strong></p></blockquote><p>示例：</p><pre><code class="hljs">def process_account(account):    account.deposit(100)</code></pre><p>只要传入的对象具备 <code>deposit</code> 方法，这段代码就可以正常工作。</p><p>这带来的好处是：</p><ul><li>函数无需关心对象的具体类型</li><li>新类型可以无缝接入现有系统</li><li>系统对变化更加“免疫”</li></ul><p>这正是大型系统可扩展性的关键。</p><hr><h2 id="八、何时不该使用面向对象"><a href="#八、何时不该使用面向对象" class="headerlink" title="八、何时不该使用面向对象"></a>八、何时不该使用面向对象</h2><p>面向对象并非银弹。</p><p>以下场景中，过程式或函数式更合适：</p><ul><li>简单数据处理脚本</li><li>明确的数学计算流程</li><li>一次性工具代码</li></ul><p>成熟的工程师，追求的不是“全用 OOP”，<br>而是<strong>在合适的地方使用合适的抽象层级</strong>。</p><hr><h2 id="九、结语：面向对象是一种建模能力"><a href="#九、结语：面向对象是一种建模能力" class="headerlink" title="九、结语：面向对象是一种建模能力"></a>九、结语：面向对象是一种建模能力</h2><p>学习面向对象编程，真正的收获并不是：</p><ul><li>学会 <code>class</code></li><li>学会 <code>self</code></li><li>学会继承语法</li></ul><p>而是学会：</p><blockquote><p><strong>如何把现实世界的问题，映射成稳定、可演化的软件结构。</strong></p></blockquote><p>当你的系统开始“自然地长成一棵树”，<br>而不是一团纠缠的函数调用时，<br>你就真正掌握了面向对象的价值。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Python</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Python</tag>
+      
+      <tag>OOP</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>光电共封装（CPO）：突破算力互连瓶颈的关键架构</title>
     <link href="/2026/01/18/2026-01-18-cpo/"/>
     <url>/2026/01/18/2026-01-18-cpo/</url>
@@ -2358,33 +2398,6 @@
       <tag>Optical Interconnect</tag>
       
       <tag>Silicon Photonics</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Python 面向对象编程：从过程式思维到对象模型</title>
-    <link href="/2026/01/18/2026-01-18-python-oop-complete/"/>
-    <url>/2026/01/18/2026-01-18-python-oop-complete/</url>
-    
-    <content type="html"><![CDATA[<h2 id="一、引言：为什么你迟早要面对面向对象"><a href="#一、引言：为什么你迟早要面对面向对象" class="headerlink" title="一、引言：为什么你迟早要面对面向对象"></a>一、引言：为什么你迟早要面对面向对象</h2><p>很多人在学习 Python 时，会产生一个疑问：</p><blockquote><p>Python 明明可以不用类，为什么还要学面向对象？</p></blockquote><p>这是一个<strong>非常合理的问题</strong>。</p><p>在脚本、小工具、一次性任务中，过程式编程确实更加直接、高效。但当代码开始具备以下特征时，问题就会逐渐显现：</p><ul><li>代码文件越来越多</li><li>同一类数据被反复传递给不同函数</li><li>修改一个功能，牵一发动全身</li><li>很难用“自然语言”描述代码结构</li></ul><p>这些问题，并不是因为你“写得不好”，<br>而是<strong>过程式模型本身不擅长表达复杂系统</strong>。</p><p>面向对象编程，正是为了解决这一类问题而诞生的。</p><hr><h2 id="二、回顾过程式编程的局限"><a href="#二、回顾过程式编程的局限" class="headerlink" title="二、回顾过程式编程的局限"></a>二、回顾过程式编程的局限</h2><p>我们先看一个典型的过程式示例：银行账户系统。</p><pre><code class="hljs">balance = 1000def deposit(balance, amount):    return balance + amountdef withdraw(balance, amount):    if amount &gt; balance:        raise ValueError(&quot;Insufficient funds&quot;)    return balance - amount</code></pre><p>这个模型的特点是：</p><ul><li>数据（balance）是“裸露”的</li><li>函数通过参数间接操作数据</li><li>状态的一致性完全依赖调用者的自律</li></ul><p>当系统中只有一个账户时，这样的代码尚可接受；<br>但当账户数量增加时，你很快会遇到问题：</p><ul><li>如何区分不同账户？</li><li>如何保证每个账户的状态不被错误修改？</li><li>如何为不同类型账户增加不同规则？</li></ul><p>此时，代码结构会迅速变得混乱。</p><hr><h2 id="三、对象思维：把“事物”作为第一公民"><a href="#三、对象思维：把“事物”作为第一公民" class="headerlink" title="三、对象思维：把“事物”作为第一公民"></a>三、对象思维：把“事物”作为第一公民</h2><p>面向对象的核心思想可以总结为一句话：</p><p><strong>程序不再围绕“函数”，而是围绕“对象”展开。</strong></p><p>对象具备三个关键特征：</p><ol><li><strong>状态（State）</strong>：对象当前持有的数据</li><li><strong>行为（Behavior）</strong>：对象可以执行的操作</li><li><strong>身份（Identity）</strong>：对象彼此独立、互不干扰</li></ol><p>在现实世界中，我们天然以对象的方式思考问题：</p><ul><li>一个“账户”有余额</li><li>一个“账户”可以存钱、取钱</li><li>不同账户彼此独立</li></ul><p>面向对象只是把这种思维方式映射到了代码中。</p><hr><h2 id="四、类：对象的设计图纸"><a href="#四、类：对象的设计图纸" class="headerlink" title="四、类：对象的设计图纸"></a>四、类：对象的设计图纸</h2><p>在 Python 中，类用于描述一类对象的共同特征。</p><pre><code class="hljs">class BankAccount:    def __init__(self, balance):        self.balance = balance    def deposit(self, amount):        self.balance += amount    def withdraw(self, amount):        if amount &gt; self.balance:            raise ValueError(&quot;Insufficient funds&quot;)        self.balance -= amount</code></pre><p>这里有几个关键点需要理解：</p><ul><li><code>__init__</code> 是对象的初始化方法</li><li><code>self</code> 代表当前对象本身</li><li>每个方法的第一个参数必须是 <code>self</code></li></ul><p>创建对象时：</p><pre><code class="hljs">account_a = BankAccount(1000)account_b = BankAccount(500)</code></pre><p>两个对象共享<strong>行为定义</strong>，但拥有<strong>完全独立的状态</strong>。</p><hr><h2 id="五、封装：控制复杂度的第一道防线"><a href="#五、封装：控制复杂度的第一道防线" class="headerlink" title="五、封装：控制复杂度的第一道防线"></a>五、封装：控制复杂度的第一道防线</h2><p>封装（Encapsulation）的本质不是“隐藏”，<br>而是<strong>建立清晰、可控的访问边界</strong>。</p><p>改进账户模型：</p><pre><code class="hljs">class BankAccount:    def __init__(self, balance):        self._balance = balance    def deposit(self, amount):        if amount &lt;= 0:            raise ValueError(&quot;Invalid amount&quot;)        self._balance += amount    def withdraw(self, amount):        if amount &gt; self._balance:            raise ValueError(&quot;Insufficient funds&quot;)        self._balance -= amount    def get_balance(self):        return self._balance</code></pre><p>通过封装：</p><ul><li>对象自己负责维护合法状态</li><li>外部代码不能随意破坏内部数据</li><li>错误更早暴露，调试成本更低</li></ul><hr><h2 id="六、继承：表达“是什么”，而不是“像什么”"><a href="#六、继承：表达“是什么”，而不是“像什么”" class="headerlink" title="六、继承：表达“是什么”，而不是“像什么”"></a>六、继承：表达“是什么”，而不是“像什么”</h2><p>继承用于描述<strong>本质上的从属关系</strong>。</p><pre><code class="hljs">class SavingsAccount(BankAccount):    def add_interest(self, rate):        self._balance *= (1 + rate)</code></pre><p>这里的语义是：</p><blockquote><p>储蓄账户 <strong>是一种</strong> 银行账户</p></blockquote><p>继承的价值在于：</p><ul><li>复用成熟、稳定的行为</li><li>在保持一致接口的前提下扩展功能</li><li>构建清晰的类型层级结构</li></ul><p>但需要强调的是：</p><p><strong>继承是强约束关系，应谨慎使用。</strong></p><hr><h2 id="七、多态：面向对象真正的威力所在"><a href="#七、多态：面向对象真正的威力所在" class="headerlink" title="七、多态：面向对象真正的威力所在"></a>七、多态：面向对象真正的威力所在</h2><p>多态并不依赖复杂语法，而是一种设计原则：</p><blockquote><p><strong>面向接口编程，而不是面向具体实现。</strong></p></blockquote><p>示例：</p><pre><code class="hljs">def process_account(account):    account.deposit(100)</code></pre><p>只要传入的对象具备 <code>deposit</code> 方法，这段代码就可以正常工作。</p><p>这带来的好处是：</p><ul><li>函数无需关心对象的具体类型</li><li>新类型可以无缝接入现有系统</li><li>系统对变化更加“免疫”</li></ul><p>这正是大型系统可扩展性的关键。</p><hr><h2 id="八、何时不该使用面向对象"><a href="#八、何时不该使用面向对象" class="headerlink" title="八、何时不该使用面向对象"></a>八、何时不该使用面向对象</h2><p>面向对象并非银弹。</p><p>以下场景中，过程式或函数式更合适：</p><ul><li>简单数据处理脚本</li><li>明确的数学计算流程</li><li>一次性工具代码</li></ul><p>成熟的工程师，追求的不是“全用 OOP”，<br>而是<strong>在合适的地方使用合适的抽象层级</strong>。</p><hr><h2 id="九、结语：面向对象是一种建模能力"><a href="#九、结语：面向对象是一种建模能力" class="headerlink" title="九、结语：面向对象是一种建模能力"></a>九、结语：面向对象是一种建模能力</h2><p>学习面向对象编程，真正的收获并不是：</p><ul><li>学会 <code>class</code></li><li>学会 <code>self</code></li><li>学会继承语法</li></ul><p>而是学会：</p><blockquote><p><strong>如何把现实世界的问题，映射成稳定、可演化的软件结构。</strong></p></blockquote><p>当你的系统开始“自然地长成一棵树”，<br>而不是一团纠缠的函数调用时，<br>你就真正掌握了面向对象的价值。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>Python</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>Python</tag>
-      
-      <tag>OOP</tag>
       
     </tags>
     
@@ -3017,13 +3030,13 @@
     
     <tags>
       
+      <tag>坐标变换</tag>
+      
       <tag>数学</tag>
       
       <tag>几何</tag>
       
       <tag>Python</tag>
-      
-      <tag>坐标变换</tag>
       
       <tag>算法</tag>
       
@@ -3252,13 +3265,13 @@
       
       <tag>电动力学</tag>
       
-      <tag>物理史</tag>
+      <tag>矢量分析</tag>
       
       <tag>麦克斯韦方程</tag>
       
-      <tag>位移电流</tag>
+      <tag>物理史</tag>
       
-      <tag>矢量分析</tag>
+      <tag>位移电流</tag>
       
     </tags>
     
@@ -3615,7 +3628,7 @@
     
     <tags>
       
-      <tag>光学设计</tag>
+      <tag>波动方程</tag>
       
       <tag>激光物理</tag>
       
@@ -3623,7 +3636,7 @@
       
       <tag>傍轴近似</tag>
       
-      <tag>波动方程</tag>
+      <tag>光学设计</tag>
       
     </tags>
     
@@ -3648,17 +3661,17 @@
     
     <tags>
       
-      <tag>波动方程</tag>
-      
-      <tag>麦克斯韦方程</tag>
+      <tag>数学物理方法</tag>
       
       <tag>矢量分析</tag>
       
-      <tag>数学物理方法</tag>
-      
-      <tag>坐标变换</tag>
+      <tag>麦克斯韦方程</tag>
       
       <tag>拉普拉斯算子</tag>
+      
+      <tag>波动方程</tag>
+      
+      <tag>坐标变换</tag>
       
     </tags>
     
@@ -3685,11 +3698,11 @@
       
       <tag>光学设计</tag>
       
-      <tag>物理公式</tag>
-      
       <tag>摄影光学</tag>
       
       <tag>显微镜</tag>
+      
+      <tag>物理公式</tag>
       
     </tags>
     
@@ -3811,11 +3824,11 @@
       
       <tag>光学设计</tag>
       
+      <tag>物理公式</tag>
+      
       <tag>辐射度学</tag>
       
       <tag>光度学</tag>
-      
-      <tag>物理公式</tag>
       
     </tags>
     
@@ -3844,15 +3857,15 @@
       
       <tag>投资</tag>
       
-      <tag>宏观经济</tag>
-      
       <tag>投资逻辑</tag>
+      
+      <tag>宏观经济</tag>
       
       <tag>黄金</tag>
       
-      <tag>A股</tag>
-      
       <tag>美债</tag>
+      
+      <tag>A股</tag>
       
     </tags>
     
@@ -3916,11 +3929,11 @@
       
       <tag>黄金</tag>
       
+      <tag>A股</tag>
+      
       <tag>资产配置</tag>
       
       <tag>美元</tag>
-      
-      <tag>A股</tag>
       
     </tags>
     
