@@ -21,26 +21,27 @@
   <meta name="author" content="Sunfove">
   <meta name="keywords" content="">
   
-    <meta name="description" content="为什么说我们的耳朵是天然的傅里叶变换器？为什么单缝衍射的光斑是 Sinc 函数？本文从欧拉公式出发，揭示傅里叶变换如何将时空信号拆解为频率的乐章，并探讨其在光学与量子力学中的深层对应。">
+    <meta name="description" content="🖼️ Part 1: Daily Quote  “Kitchen steam blurs the window, painting warmth on the cold glass.” 厨房的蒸汽晕染了窗，在寒冷的玻璃上画下温暖。   🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key words selected from today">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一维傅里叶变换 (1D-FT) 的数学本质与物理哲学">
-<meta property="og:url" content="https://sunfove.xyz/2026/01/10/2026-01-10-fourier-transform-1d-principle/index.html">
+<meta property="og:title" content="🌍 Daily English: Beyond Borders: How Cultural Immersion Transforms the Modern Traveler | 2026-02-15">
+<meta property="og:url" content="https://sunfove.xyz/2026/02/15/2026-02-15-daily-english/index.html">
 <meta property="og:site_name" content="明明如月">
-<meta property="og:description" content="为什么说我们的耳朵是天然的傅里叶变换器？为什么单缝衍射的光斑是 Sinc 函数？本文从欧拉公式出发，揭示傅里叶变换如何将时空信号拆解为频率的乐章，并探讨其在光学与量子力学中的深层对应。">
+<meta property="og:description" content="🖼️ Part 1: Daily Quote  “Kitchen steam blurs the window, painting warmth on the cold glass.” 厨房的蒸汽晕染了窗，在寒冷的玻璃上画下温暖。   🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key words selected from today">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-01-10T21:00:00.000Z">
-<meta property="article:modified_time" content="2026-02-15T16:24:12.301Z">
+<meta property="og:image" content="https://staticedu-wps-cache.iciba.com/image/b2e512429af583fa452ae29a55aecdfa.png">
+<meta property="article:published_time" content="2026-02-15T16:22:44.000Z">
+<meta property="article:modified_time" content="2026-02-15T16:24:12.310Z">
 <meta property="article:author" content="Sunfove">
-<meta property="article:tag" content="信号处理">
-<meta property="article:tag" content="傅里叶变换">
-<meta property="article:tag" content="数学物理方法">
-<meta property="article:tag" content="波动光学">
-<meta property="article:tag" content="频域分析">
+<meta property="article:tag" content="English">
+<meta property="article:tag" content="Global Travel &amp; Cultural Exploration">
+<meta property="article:tag" content="Reading">
+<meta property="article:tag" content="Vocabulary">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://staticedu-wps-cache.iciba.com/image/b2e512429af583fa452ae29a55aecdfa.png">
   
   
   
-  <title>一维傅里叶变换 (1D-FT) 的数学本质与物理哲学 - 明明如月</title>
+  <title>🌍 Daily English: Beyond Borders: How Cultural Immersion Transforms the Modern Traveler | 2026-02-15 - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">一维傅里叶变换 (1D-FT) 的数学本质与物理哲学</span>
+            <span id="subtitle">🌍 Daily English: Beyond Borders: How Cultural Immersion Transforms the Modern Traveler | 2026-02-15</span>
           
         </div>
 
@@ -241,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-10 21:00" pubdate>
-          January 10, 2026 pm
+        <time datetime="2026-02-15 16:22" pubdate>
+          February 15, 2026 pm
         </time>
       </span>
     
@@ -253,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k words
+          251 words
         
       </span>
     
@@ -264,7 +265,7 @@
         
         
         
-          12 mins
+          3 mins
         
       </span>
     
@@ -301,86 +302,103 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">一维傅里叶变换 (1D-FT) 的数学本质与物理哲学</h1>
+            <h1 id="seo-header">🌍 Daily English: Beyond Borders: How Cultural Immersion Transforms the Modern Traveler | 2026-02-15</h1>
             
             
               <div class="markdown-body">
                 
-                <p>如果说牛顿把世界看作是<strong>颗粒</strong>的（F&#x3D;ma），那么傅里叶（Joseph Fourier）则把世界看作是<strong>波动</strong>的。</p>
-<p>在他的眼里，无论多么复杂的曲线、多么混乱的噪声、多么离奇的信号，本质上都是由无数个简单、纯净的正弦波叠加而成的。</p>
-<p><strong>傅里叶变换 (Fourier Transform, FT)</strong>，就是那个将混沌的时空信号，拆解为井然有序的频率谱线的“数学棱镜”。对于光学工程师而言，它更是连接“光瞳面”与“焦平面”的神奇通道。</p>
+                <h2 id="🖼️-Part-1-Daily-Quote"><a href="#🖼️-Part-1-Daily-Quote" class="headerlink" title="🖼️ Part 1: Daily Quote"></a>🖼️ Part 1: Daily Quote</h2><p><img src="https://staticedu-wps-cache.iciba.com/image/b2e512429af583fa452ae29a55aecdfa.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p><strong>“Kitchen steam blurs the window, painting warmth on the cold glass.”</strong></p>
+<p>厨房的蒸汽晕染了窗，在寒冷的玻璃上画下温暖。</p>
+</blockquote>
 <hr>
-<h2 id="01-直觉：从时域到频域的跃迁"><a href="#01-直觉：从时域到频域的跃迁" class="headerlink" title="01. 直觉：从时域到频域的跃迁"></a>01. 直觉：从时域到频域的跃迁</h2><p>想象你在听一段交响乐。</p>
+<h2 id="🔑-Part-2-Vocabulary-Builder-10-Words"><a href="#🔑-Part-2-Vocabulary-Builder-10-Words" class="headerlink" title="🔑 Part 2: Vocabulary Builder (10 Words)"></a>🔑 Part 2: Vocabulary Builder (10 Words)</h2><p>Here are 10 key words selected from today’s reading on <strong>Global Travel &amp; Cultural Exploration</strong>:</p>
 <ul>
-<li><strong>时域 (Time Domain)</strong>：你看到的是示波器上那根疯狂跳动的电压曲线。它是所有乐器声音的混合，你很难从中直接看出此时钢琴弹了哪个键。</li>
-<li><strong>频域 (Frequency Domain)</strong>：这是你耳朵做的事情。你听到了“一个低音 C，加上一个高音 E”。你的大脑自动把混合的声波拆解成了不同的<strong>音调（频率）</strong>。</li>
-</ul>
-<p><strong>傅里叶变换的核心任务</strong>：<br>将一个关于<strong>时间</strong>（或空间）的函数 $f(t)$，映射为一个关于<strong>频率</strong>的函数 $F(\omega)$。</p>
-<p>[Image of time domain vs frequency domain signal]</p>
-<hr>
-<h2 id="02-数学心脏：欧拉公式与正交性"><a href="#02-数学心脏：欧拉公式与正交性" class="headerlink" title="02. 数学心脏：欧拉公式与正交性"></a>02. 数学心脏：欧拉公式与正交性</h2><p>傅里叶变换的定义式虽然看着吓人，但其实只有两部分：</p>
-<p>$$<br>F(\omega) &#x3D; \int_{-\infty}^{\infty} f(t) e^{-i\omega t} dt<br>$$</p>
-<p>我们要拆解这个公式的灵魂：</p>
-<h3 id="1-缠绕机器：-e-i-omega-t"><a href="#1-缠绕机器：-e-i-omega-t" class="headerlink" title="1. 缠绕机器：$e^{-i\omega t}$"></a>1. 缠绕机器：$e^{-i\omega t}$</h3><p>根据欧拉公式 $e^{-ix} &#x3D; \cos x - i\sin x$，复指数代表了一个在复平面单位圆上<strong>匀速旋转的向量</strong>。<br>乘以 $e^{-i\omega t}$，相当于把你的信号 $f(t)$ 缠绕在这个旋转的圆柱上。</p>
-<h3 id="2-重心检测：积分-int"><a href="#2-重心检测：积分-int" class="headerlink" title="2. 重心检测：积分 $\int$"></a>2. 重心检测：积分 $\int$</h3><p>积分的本质是求和（求平均）。</p>
+<li><p><strong>sojourn</strong> <code>//ˈsɒdʒən//</code></p>
 <ul>
-<li>如果你选的旋转频率 $\omega$ 恰好等于信号里的某个频率，信号就会在圆的某一边“堆积”，导致重心偏离原点，积分值巨大。</li>
-<li>如果你选的频率 $\omega$ 与信号无关，信号就会均匀地乱绕在圆上，正负抵消，重心在原点，积分值为 0。</li>
-</ul>
-<h3 id="3-正交性-Orthogonality"><a href="#3-正交性-Orthogonality" class="headerlink" title="3. 正交性 (Orthogonality)"></a>3. 正交性 (Orthogonality)</h3><p>这才是最硬核的解释：<strong>傅里叶变换本质上是向量的点积。</strong><br>我们在问：<strong>“原始信号 $f(t)$ 和频率为 $\omega$ 的正弦波有多像？”</strong></p>
-<ul>
-<li>这就像在三维空间中，我们把向量 $\vec{v}$ 投影到 X 轴、Y 轴、Z 轴上一样。</li>
-<li>在这里，无数个不同频率的 $e^{i\omega t}$ 就是<strong>函数空间里的坐标轴（基底）</strong>。</li>
-</ul>
-<hr>
-<h2 id="03-物理应用：从光学到不确定性原理"><a href="#03-物理应用：从光学到不确定性原理" class="headerlink" title="03. 物理应用：从光学到不确定性原理"></a>03. 物理应用：从光学到不确定性原理</h2><p>理解了数学，我们来看它是如何统治物理世界的。</p>
-<h3 id="1-光学：夫琅禾费衍射-Fraunhofer-Diffraction"><a href="#1-光学：夫琅禾费衍射-Fraunhofer-Diffraction" class="headerlink" title="1. 光学：夫琅禾费衍射 (Fraunhofer Diffraction)"></a>1. 光学：夫琅禾费衍射 (Fraunhofer Diffraction)</h3><p>这是光学工程师最浪漫的公式。<br><strong>远场衍射图样，就是孔径函数的二维傅里叶变换。</strong></p>
-<ul>
-<li><p><strong>单缝衍射</strong>：</p>
-<ul>
-<li>孔径是一个<strong>矩形函数 (Rect Function)</strong>（宽为 $a$）。</li>
-<li>它的傅里叶变换是什么？是 <strong>Sinc 函数</strong> ($\frac{\sin x}{x}$)。</li>
-<li>所以，光穿过单缝后，屏幕上会出现明暗相间的条纹，中心最亮，两边衰减。</li>
+<li>🇺🇸 A temporary stay in a place, especially while traveling.</li>
+<li>🇨🇳 旅居，逗留</li>
+<li>📝 <em>Her three-month sojourn in Kyoto allowed her to experience the subtle beauty of Japanese tea ceremonies.</em></li>
 </ul>
 </li>
-<li><p><strong>圆形光阑</strong>：</p>
+<li><p><strong>peregrination</strong> <code>//ˌperəɡrɪˈneɪʃn//</code></p>
 <ul>
-<li>孔径是圆柱函数。</li>
-<li>傅里叶变换是 <strong>艾里斑 (Airy Disk)</strong>（贝塞尔形式）。</li>
-<li>这就是为什么望远镜和显微镜有分辨率极限——你永远无法把光聚焦成无限小的点，因为它总是带着傅里叶变换的“尾巴”。</li>
+<li>🇺🇸 A long journey, especially one made on foot.</li>
+<li>🇨🇳 长途旅行，徒步旅行</li>
+<li>📝 <em>His peregrination across the Silk Road revealed ancient trade routes that shaped civilizations.</em></li>
+</ul>
+</li>
+<li><p><strong>vernacular</strong> <code>//vəˈnækjələ(r)//</code></p>
+<ul>
+<li>🇺🇸 The language or dialect spoken by the ordinary people in a particular country or region.</li>
+<li>🇨🇳 方言，本地话</li>
+<li>📝 <em>Learning the local vernacular in Naples helped him connect with residents beyond tourist hotspots.</em></li>
+</ul>
+</li>
+<li><p><strong>ethnography</strong> <code>//eθˈnɒɡrəfi//</code></p>
+<ul>
+<li>🇺🇸 The scientific description of the customs of individual peoples and cultures.</li>
+<li>🇨🇳 民族志，人种志</li>
+<li>📝 <em>Her travel journal included detailed ethnography of indigenous rituals in the Amazon rainforest.</em></li>
+</ul>
+</li>
+<li><p><strong>cosmopolitan</strong> <code>//ˌkɒzməˈpɒlɪtən//</code></p>
+<ul>
+<li>🇺🇸 Familiar with and at ease in many different countries and cultures.</li>
+<li>🇨🇳 世界性的，见多识广的</li>
+<li>📝 <em>Singapore’s cosmopolitan atmosphere blends Chinese, Malay, Indian, and Western influences seamlessly.</em></li>
+</ul>
+</li>
+<li><p><strong>serendipity</strong> <code>//ˌserənˈdɪpəti//</code></p>
+<ul>
+<li>🇺🇸 The occurrence of events by chance in a happy or beneficial way.</li>
+<li>🇨🇳 机缘巧合，意外发现</li>
+<li>📝 <em>Travel often involves serendipity, like stumbling upon a hidden temple while lost in Bangkok.</em></li>
+</ul>
+</li>
+<li><p><strong>acculturation</strong> <code>//əˌkʌltʃəˈreɪʃn//</code></p>
+<ul>
+<li>🇺🇸 The process of cultural change and psychological change that results following meeting between cultures.</li>
+<li>🇨🇳 文化适应，同化</li>
+<li>📝 <em>Living abroad requires acculturation, as travelers adapt to new social norms and values.</em></li>
+</ul>
+</li>
+<li><p><strong>peripatetic</strong> <code>//ˌperɪpəˈtetɪk//</code></p>
+<ul>
+<li>🇺🇸 Traveling from place to place, especially working or based in various places for short periods.</li>
+<li>🇨🇳 巡回的，漫游的</li>
+<li>📝 <em>His peripatetic lifestyle as a documentary filmmaker took him to over fifty countries.</em></li>
+</ul>
+</li>
+<li><p><strong>syncretism</strong> <code>//ˈsɪŋkrətɪzəm//</code></p>
+<ul>
+<li>🇺🇸 The amalgamation or attempted amalgamation of different religions, cultures, or schools of thought.</li>
+<li>🇨🇳 融合，汇合</li>
+<li>📝 <em>The architecture in Istanbul displays syncretism, combining Byzantine, Ottoman, and modern elements.</em></li>
+</ul>
+</li>
+<li><p><strong>wanderlust</strong> <code>//ˈwɒndəlʌst//</code></p>
+<ul>
+<li>🇺🇸 A strong desire to travel and explore the world.</li>
+<li>🇨🇳 旅行癖，漫游欲</li>
+<li>📝 <em>Her wanderlust drove her to quit her job and embark on a year-long journey across continents.</em></li>
 </ul>
 </li>
 </ul>
-<h3 id="2-信号处理：滤波-Filtering"><a href="#2-信号处理：滤波-Filtering" class="headerlink" title="2. 信号处理：滤波 (Filtering)"></a>2. 信号处理：滤波 (Filtering)</h3><p>为什么你在电话里听到的声音和真人不同？因为通信系统切掉了高频。</p>
-<ul>
-<li><strong>低通滤波器</strong>：在频域把高频部分（$F(\omega)$ 在 $\omega$ 很大时）强制归零，再做<strong>逆傅里叶变换</strong>回到时域。</li>
-<li>结果：噪点（高频抖动）消失了，边缘也变模糊了。</li>
-</ul>
-<h3 id="3-量子力学：海森堡不确定性原理"><a href="#3-量子力学：海森堡不确定性原理" class="headerlink" title="3. 量子力学：海森堡不确定性原理"></a>3. 量子力学：海森堡不确定性原理</h3><p>这其实是一个纯数学结论。</p>
-<ul>
-<li><strong>短脉冲</strong>：时域上 $f(t)$ 很窄（位置确定）。</li>
-<li><strong>宽频谱</strong>：频域上 $F(\omega)$ 就会很宽（动量不确定）。</li>
-<li><strong>长波</strong>：时域上 $f(t)$ 延绵不绝（位置不确定）。</li>
-<li><strong>窄频谱</strong>：频域上 $F(\omega)$ 是一根针（动量非常确定）。</li>
-</ul>
-<p>你无法同时让一个函数在时域和频域都变得无限窄。这就是 $\Delta x \Delta p \ge \frac{\hbar}{2}$ 的数学根源。</p>
 <hr>
-<h2 id="04-改变世界的算法：FFT"><a href="#04-改变世界的算法：FFT" class="headerlink" title="04. 改变世界的算法：FFT"></a>04. 改变世界的算法：FFT</h2><p>如果按照定义式硬算，离散傅里叶变换 (DFT) 的计算复杂度是 $O(N^2)$。当数据量 $N$ 很大时，计算机也跑不动。</p>
-<p>1965 年，库利 (Cooley) 和图基 (Tukey) 重新发现了<strong>快速傅里叶变换 (FFT)</strong>。<br>它利用了 $e^{-i\omega t}$ 的周期性和对称性，采用“分治法”，将复杂度降到了 $O(N \log N)$。</p>
-<ul>
-<li>对于 100 万个数据点：<ul>
-<li>DFT 需要 $10^{12}$ 次运算。</li>
-<li>FFT 只需要 $10^7$ 次运算。</li>
-<li><strong>快了 10 万倍！</strong></li>
-</ul>
-</li>
-</ul>
-<p>没有 FFT，就没有现代的 4G&#x2F;5G 通信、MP3 压缩、JPEG 图片，也没有实时的雷达信号处理。</p>
+<h2 id="📖-Part-3-Deep-Reading"><a href="#📖-Part-3-Deep-Reading" class="headerlink" title="📖 Part 3: Deep Reading"></a>📖 Part 3: Deep Reading</h2><h3 id="Beyond-Borders-How-Cultural-Immersion-Transforms-the-Modern-Traveler"><a href="#Beyond-Borders-How-Cultural-Immersion-Transforms-the-Modern-Traveler" class="headerlink" title="Beyond Borders: How Cultural Immersion Transforms the Modern Traveler"></a>Beyond Borders: How Cultural Immersion Transforms the Modern Traveler</h3><p>In an era where globalization has made distant lands accessible with a few clicks, the essence of travel has evolved from mere sightseeing to profound cultural exploration. The modern traveler no longer seeks just picturesque landscapes or iconic landmarks; instead, there is a growing hunger for authentic experiences that foster genuine connections with local communities. This shift represents a deeper understanding that true exploration lies not in crossing geographical boundaries, but in bridging cultural divides.</p>
+<p>Cultural immersion, when approached with sensitivity and respect, can be a transformative force. It involves more than sampling exotic cuisines or learning basic phrases; it requires engaging with traditions, understanding historical contexts, and appreciating diverse worldviews. For instance, participating in a traditional Maori haka in New Zealand or attending a Sufi whirling ceremony in Turkey offers insights into spiritual practices that textbooks cannot convey. Such encounters challenge preconceived notions and cultivate empathy, turning tourists into temporary residents who contribute to and learn from the places they visit.</p>
+<p>However, this pursuit of authenticity must be balanced with ethical considerations. The rise of ‘overtourism’ in destinations like Venice or Machu Picchu highlights the delicate tension between cultural exchange and preservation. Responsible travelers now prioritize sustainable practices, supporting local economies and minimizing environmental footprints. By choosing homestays over chain hotels or purchasing handicrafts directly from artisans, they ensure that their journeys benefit rather than exploit host communities.</p>
+<p>Ultimately, global travel as cultural exploration is a reciprocal process. It enriches both the visitor and the visited, fostering mutual respect and global citizenship. In a world often divided by politics and ideology, these personal connections serve as subtle yet powerful reminders of our shared humanity. The memories forged—whether through a shared meal in a Moroccan riad or a heartfelt conversation in a Tokyo izakaya—become threads in the intricate tapestry of human experience, proving that to travel is to grow.</p>
 <hr>
-<h2 id="05-结语"><a href="#05-结语" class="headerlink" title="05. 结语"></a>05. 结语</h2><p>傅里叶变换告诉我们，<strong>世界是叠加的</strong>。</p>
-<p>看似杂乱无章的股市曲线，可能只是几个简单的经济周期的叠加；看似平淡无奇的一束白光，其实包含了彩虹的所有颜色。</p>
-<p>当我们学会用“频率”的眼睛看世界，我们就不再被表象的混乱所迷惑，而是看到了底层那个永恒振荡的和谐宇宙。</p>
+<h3 id="💡-Language-Highlights"><a href="#💡-Language-Highlights" class="headerlink" title="💡 Language Highlights"></a>💡 Language Highlights</h3><ol>
+<li><strong>Complex Sentence Structure (Parallelism)</strong>: ‘It involves more than sampling exotic cuisines or learning basic phrases; it requires engaging with traditions, understanding historical contexts, and appreciating diverse worldviews.’ - This sentence uses parallel structure with gerunds (‘sampling,’ ‘learning,’ ‘engaging,’ ‘understanding,’ ‘appreciating’) to create rhythm and emphasize the multifaceted nature of cultural immersion.</li>
+<li><strong>Idiom</strong>: ‘bridge cultural divides’ - This idiom metaphorically refers to overcoming differences between cultures, suggesting travel as a means to connect and understand rather than separate.</li>
+<li><strong>Complex Sentence Structure (Subordination)</strong>: ‘In a world often divided by politics and ideology, these personal connections serve as subtle yet powerful reminders of our shared humanity.’ - This sentence begins with a prepositional phrase setting the context (‘In a world…’), followed by a main clause with descriptive adjectives (‘subtle yet powerful’), using subordination to add depth and contrast.</li>
+</ol>
 <hr>
+<p><em>(Content generated by DeepSeek AI; Quote source: Iciba)</em></p>
 
                 
               </div>
@@ -399,7 +417,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  <a href="/categories/English-Learning/" class="category-chain-item">English Learning</a>
   
   
 
@@ -414,15 +432,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%B0%E5%AD%A6%E7%89%A9%E7%90%86%E6%96%B9%E6%B3%95/" class="print-no-link">#数学物理方法</a>
+        <a href="/tags/English/" class="print-no-link">#English</a>
       
-        <a href="/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/" class="print-no-link">#傅里叶变换</a>
+        <a href="/tags/Vocabulary/" class="print-no-link">#Vocabulary</a>
       
-        <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="print-no-link">#信号处理</a>
+        <a href="/tags/Reading/" class="print-no-link">#Reading</a>
       
-        <a href="/tags/%E6%B3%A2%E5%8A%A8%E5%85%89%E5%AD%A6/" class="print-no-link">#波动光学</a>
-      
-        <a href="/tags/%E9%A2%91%E5%9F%9F%E5%88%86%E6%9E%90/" class="print-no-link">#频域分析</a>
+        <a href="/tags/Global-Travel-Cultural-Exploration/" class="print-no-link">#Global Travel & Cultural Exploration</a>
       
     </div>
   
@@ -434,8 +450,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>一维傅里叶变换 (1D-FT) 的数学本质与物理哲学</div>
-      <div>https://sunfove.xyz/2026/01/10/2026-01-10-fourier-transform-1d-principle/</div>
+      <div>🌍 Daily English: Beyond Borders: How Cultural Immersion Transforms the Modern Traveler | 2026-02-15</div>
+      <div>https://sunfove.xyz/2026/02/15/2026-02-15-daily-english/</div>
     </div>
     <div class="license-meta">
       
@@ -447,7 +463,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 10, 2026</div>
+          <div>February 15, 2026</div>
         </div>
       
       
@@ -479,18 +495,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/10/2026-01-10-mathematical-fourier-transform/" title="上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/10/2026-01-10-daily-english/" title="🌍 Daily English: Beyond the Lens: How Metasurfaces Are Redefining the Future of Optics | 2026-01-10">
-                        <span class="hidden-mobile">🌍 Daily English: Beyond the Lens: How Metasurfaces Are Redefining the Future of Optics | 2026-01-10</span>
+                      <a href="/2026/02/14/2026-02-14-daily-english/" title="🌍 Daily English: The Alchemy of Ideas: How TED Talks Transform Knowledge into Action | 2026-02-14">
+                        <span class="hidden-mobile">🌍 Daily English: The Alchemy of Ideas: How TED Talks Transform Knowledge into Action | 2026-02-14</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -505,7 +515,7 @@
   
     <article id="comments" lazyload>
       
-  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/10/2026-01-10-fourier-transform-1d-principle/'></div>
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/02/15/2026-02-15-daily-english/'></div>
   <script type="text/javascript">
     Fluid.utils.loadComments('#SOHUCS', function() {
       Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
