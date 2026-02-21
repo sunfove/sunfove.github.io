@@ -21,19 +21,25 @@
   <meta name="author" content="Sunfove">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="2026-02-03-color-coordinates-and-non-uniformity-analysis">
+    <meta name="description" content="本文从色度学基础出发，深度探讨色坐标的物理本质、色彩不均匀性的度量标准，并推导如何通过亮度场分布建立色彩不均匀性的量化计算模型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从第一性原理审视显示技术：色坐标、色彩不均匀性及其亮度关联模型">
 <meta property="og:url" content="https://sunfove.xyz/2026/02/03/2026-02-03-color-coordinates-and-non-uniformity-analysis/index.html">
 <meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文从色度学基础出发，深度探讨色坐标的物理本质、色彩不均匀性的度量标准，并推导如何通过亮度场分布建立色彩不均匀性的量化计算模型。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-02-03T21:01:22.000Z">
-<meta property="article:modified_time" content="2026-02-20T16:36:48.078Z">
+<meta property="article:published_time" content="2026-02-03T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-02-21T10:28:25.794Z">
 <meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光学物理">
+<meta property="article:tag" content="数学建模">
+<meta property="article:tag" content="显示技术">
+<meta property="article:tag" content="色度学">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>2026-02-03-color-coordinates-and-non-uniformity-analysis - 明明如月</title>
+  <title>从第一性原理审视显示技术：色坐标、色彩不均匀性及其亮度关联模型 - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -223,7 +229,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">2026-02-03-color-coordinates-and-non-uniformity-analysis</span>
+            <span id="subtitle">从第一性原理审视显示技术：色坐标、色彩不均匀性及其亮度关联模型</span>
           
         </div>
 
@@ -234,7 +240,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-02-03 21:01" pubdate>
+        <time datetime="2026-02-03 12:00" pubdate>
           February 3, 2026 pm
         </time>
       </span>
@@ -246,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 words
+          2k words
         
       </span>
     
@@ -257,7 +263,7 @@
         
         
         
-          1 mins
+          17 mins
         
       </span>
     
@@ -294,12 +300,72 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">2026-02-03-color-coordinates-and-non-uniformity-analysis</h1>
+            <h1 id="seo-header">从第一性原理审视显示技术：色坐标、色彩不均匀性及其亮度关联模型</h1>
             
             
               <div class="markdown-body">
                 
-                
+                <h2 id="引言：光学的度量衡"><a href="#引言：光学的度量衡" class="headerlink" title="引言：光学的度量衡"></a>引言：光学的度量衡</h2><p>在显示技术与照明工程领域，追求“完美的色彩一致性”是一场永无止境的奥德赛。无论是高端微显示器（Micro-LED）还是大尺寸 OLED 面板，其核心评价指标往往聚焦于两个维度：色坐标的精准度与空间色彩的不均匀性。</p>
+<p>然而，色彩并非物质的固有属性，而是人类视觉系统对电磁波谱的心理物理反馈。本文将打破表象，从辐射度学的基础出发，逐步构建起色坐标的数学大厦，并重点解析如何通过可观测的亮度波动（Luminance Fluctuation）去预测和计算肉眼感知的色彩不均匀性。</p>
+<hr>
+<h2 id="一、-色坐标的物理本质：从光谱到三刺激值"><a href="#一、-色坐标的物理本质：从光谱到三刺激值" class="headerlink" title="一、 色坐标的物理本质：从光谱到三刺激值"></a>一、 色坐标的物理本质：从光谱到三刺激值</h2><h3 id="1-1-第一性原理：视觉转换方程"><a href="#1-1-第一性原理：视觉转换方程" class="headerlink" title="1.1 第一性原理：视觉转换方程"></a>1.1 第一性原理：视觉转换方程</h3><p>根据格拉斯曼定律（Grassmann’s Laws），任何颜色都可以由三种原色线性组合而成。从物理意义上讲，人眼视网膜上的长（L）、中（M）、短（S）波长锥体细胞对光子的吸收函数，构成了所有色彩感知的基石。</p>
+<p>对于一个给定的光谱功率分布（SPD）函数 $S(\lambda)$，CIE 1931 标准色度观察者系统将其转化为三刺激值（Tristimulus Values） $X, Y, Z$：</p>
+<p>$$<br>X &#x3D; k \int_{\lambda} S(\lambda) \bar{x}(\lambda) d\lambda<br>$$</p>
+<p>$$<br>Y &#x3D; k \int_{\lambda} S(\lambda) \bar{y}(\lambda) d\lambda<br>$$</p>
+<p>$$<br>Z &#x3D; k \int_{\lambda} S(\lambda) \bar{z}(\lambda) d\lambda<br>$$</p>
+<p>其中，$k$ 为归一化系数，$\bar{x}(\lambda), \bar{y}(\lambda), \bar{z}(\lambda)$ 为标准色谱响应函数。值得注意的是，$Y$ 值在定义上直接等同于光度学中的<strong>亮度（Luminance）</strong>。</p>
+<h3 id="1-2-色坐标的投影几何"><a href="#1-2-色坐标的投影几何" class="headerlink" title="1.2 色坐标的投影几何"></a>1.2 色坐标的投影几何</h3><p>色坐标 $(x, y)$ 是三刺激值在二维平面上的投影，其本质是去除了强度（亮度）信息后的纯色度分量：</p>
+<p>$$<br>x &#x3D; \frac{X}{X + Y + Z}<br>$$</p>
+<p>$$<br>y &#x3D; \frac{Y}{X + Y + Z}<br>$$</p>
+<p>这种表达方式虽然直观，但其非均匀性特征——即在图中相等的欧几里得距离并不代表人类视觉感知到的相等色差——为后续的不均匀性研究埋下了伏笔。</p>
+<hr>
+<h2 id="二、-色彩不均匀性（Color-Non-uniformity）的量化"><a href="#二、-色彩不均匀性（Color-Non-uniformity）的量化" class="headerlink" title="二、 色彩不均匀性（Color Non-uniformity）的量化"></a>二、 色彩不均匀性（Color Non-uniformity）的量化</h2><h3 id="2-1-从-CIE-1931-到-CIE-1976-UCS"><a href="#2-1-从-CIE-1931-到-CIE-1976-UCS" class="headerlink" title="2.1 从 CIE 1931 到 CIE 1976 UCS"></a>2.1 从 CIE 1931 到 CIE 1976 UCS</h3><p>为了解决色度图“视觉不均匀”的问题，CIE 1976 引入了均匀色度空间（UCS），将坐标转化为 $(u’, v’)$：</p>
+<p>$$<br>u’ &#x3D; \frac{4X}{X + 15Y + 3Z} &#x3D; \frac{4x}{-2x + 12y + 3}<br>$$</p>
+<p>$$<br>v’ &#x3D; \frac{9Y}{X + 15Y + 3Z} &#x3D; \frac{9y}{-2x + 12y + 3}<br>$$</p>
+<h3 id="2-2-色差评价标准：-Delta-u’v’"><a href="#2-2-色差评价标准：-Delta-u’v’" class="headerlink" title="2.2 色差评价标准：$\Delta u’v’$"></a>2.2 色差评价标准：$\Delta u’v’$</h3><p>色彩不均匀性通常定义为显示设备不同区域间、或随视角变化而产生的色偏差。在工业界，最常用的度量指标是 $\Delta u’v’$：</p>
+<p>$$<br>\Delta u’v’ &#x3D; \sqrt{(u’_1 - u’_2)^2 + (v’_1 - v’_2)^2}<br>$$</p>
+<p>通常认为，当 $\Delta u’v’ &lt; 0.003$ 时，普通人类观察者难以察觉色彩差异。</p>
+<hr>
+<h2 id="三、-深度解析：如何通过亮度计算色彩不均匀性"><a href="#三、-深度解析：如何通过亮度计算色彩不均匀性" class="headerlink" title="三、 深度解析：如何通过亮度计算色彩不均匀性"></a>三、 深度解析：如何通过亮度计算色彩不均匀性</h2><p>在实际工程中，使用分光计（Spectroradiometer）逐点扫描屏幕以获取全场色坐标极其耗时。因此，建立**亮度分布（Luminance Distribution）与色彩偏移（Color Shift）**之间的数学关联模型至关重要。</p>
+<h3 id="3-1-亮度与色坐标的耦合机制"><a href="#3-1-亮度与色坐标的耦合机制" class="headerlink" title="3.1 亮度与色坐标的耦合机制"></a>3.1 亮度与色坐标的耦合机制</h3><p>在 LED 或 OLED 器件中，亮度的不均匀通常源于驱动电流的波动（Voltage Drop, IR-Drop）或材料发光效率（EQE）的空间差异。然而，亮度的变化往往伴随着光谱形状的漂移（Spectral Shift）。</p>
+<p>设某一像素点的基准亮度为 $Y_0$，基准色坐标为 $(u’_0, v’_0)$。当亮度由于某种物理原因变化了 $\Delta Y$ 时，其对应的色坐标偏移可以表示为亮度的函数：</p>
+<p>$$<br>\Delta u’ \approx \frac{\partial u’}{\partial Y} \Delta Y + \frac{\partial^2 u’}{\partial Y^2} (\Delta Y)^2 + \dots<br>$$</p>
+<h3 id="3-2-基于主成分分析（PCA）的计算模型"><a href="#3-2-基于主成分分析（PCA）的计算模型" class="headerlink" title="3.2 基于主成分分析（PCA）的计算模型"></a>3.2 基于主成分分析（PCA）的计算模型</h3><p>如果我们假设光谱的变化是线性的（例如由 LED 的载流子密度变化引起的蓝移），我们可以将光谱功率分布 $S(\lambda)$ 分解为基准光谱 $S_0(\lambda)$ 和扰动光谱 $\delta(\lambda)$：</p>
+<p>$$<br>S(\lambda, L) &#x3D; L \cdot [S_0(\lambda) + \alpha(L) \delta(\lambda)]<br>$$</p>
+<p>其中 $L$ 为亮度相关因子。通过代入三刺激值积分公式，我们可以推导出色坐标相对于亮度的导数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_color_shift</span>(<span class="hljs-params">luminance_map, baseline_spectrum</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    模拟通过亮度场计算色坐标偏移的算法逻辑</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br>    <br>    <span class="hljs-comment"># 1. 提取亮度梯度</span><br>    grad_x, grad_y = np.gradient(luminance_map)<br>    <br>    <span class="hljs-comment"># 2. 假设光谱随亮度变化的灵敏度系数 (Empirical Sensitivity)</span><br>    <span class="hljs-comment"># 这里的 du_dL 和 dv_dL 通常通过实验标定获得</span><br>    du_dL = <span class="hljs-number">0.00015</span> <br>    dv_dL = -<span class="hljs-number">0.00008</span><br>    <br>    <span class="hljs-comment"># 3. 计算全场色坐标图</span><br>    delta_u = grad_x * du_dL<br>    delta_v = grad_x * dv_dL<br>    <br>    <span class="hljs-keyword">return</span> np.sqrt(delta_u**<span class="hljs-number">2</span> + delta_v**<span class="hljs-number">2</span>)<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-3-亮度不均匀度（LNU）与色彩不均匀度（CNU）的转换公式"><a href="#3-3-亮度不均匀度（LNU）与色彩不均匀度（CNU）的转换公式" class="headerlink" title="3.3 亮度不均匀度（LNU）与色彩不均匀度（CNU）的转换公式"></a>3.3 亮度不均匀度（LNU）与色彩不均匀度（CNU）的转换公式</h3><p>在多基色（RGB）合成系统中，全屏的色彩不均匀性 $\Delta u’v’_{total}$ 可以通过各子像素的亮度贡献率进行加权求和。</p>
+<p>若 $L_R, L_G, L_B$ 分别为三原色在某点的亮度贡献，则总亮度 $Y &#x3D; L_R + L_G + L_B$。若 R, G, B 各组分的亮度波动率为 $\sigma_R, \sigma_G, \sigma_B$，则色坐标的波动可以表达为：</p>
+<p>$$<br>\sigma_{u’} &#x3D; \sum_{i \in {R,G,B}} \left( \frac{\partial u’}{\partial L_i} \right) \sigma_{L_i}<br>$$</p>
+<p>通过对偏导数的矩阵运算，我们可以得到亮度分布图（Luminance Map）到色彩均匀性分布图的映射关系。</p>
+<hr>
+<h2 id="四、-工业应用场景：Mura-缺陷分析"><a href="#四、-工业应用场景：Mura-缺陷分析" class="headerlink" title="四、 工业应用场景：Mura 缺陷分析"></a>四、 工业应用场景：Mura 缺陷分析</h2><p>在显示面板检测中，所谓的“Color Mura”本质上就是高频或低频的色彩不均匀性。</p>
+<ol>
+<li><strong>数据采集</strong>：利用高分辨率 CCD 相机配合三色滤光片（或 XYZ 滤光片）获取全场亮度信息。</li>
+<li><strong>建模预测</strong>：基于已知的单个子像素的光电特性曲线（V-L 曲线和 V-CIE 曲线），将采集到的亮度不均匀矩阵代入上述偏导数模型。</li>
+<li><strong>补偿校准（Demura）</strong>：根据计算出的色偏差，反向调整各像素的驱动电压，从而实现亮度与色彩的双重一致性。</li>
+</ol>
+<hr>
+<h2 id="五、-历史与跨学科思考"><a href="#五、-历史与跨学科思考" class="headerlink" title="五、 历史与跨学科思考"></a>五、 历史与跨学科思考</h2><p>从历史角度看，CIE 标准的建立是物理学（麦克斯韦的色彩混合实验）与心理学（标准观察者实验）的巅峰融合。而现代色彩不均匀性的研究，则更多地引入了<strong>信息论</strong>的观点：如何用最少的数据采样（亮度场）去重构最高维度的系统状态（全谱色空间）。</p>
+<p>从经济学角度看，提升 1% 的色彩均匀性往往意味着生产良率的指数级下降。因此，通过数学算法在软件层面补偿硬件的“不均匀物理本质”，是当代半导体显示产业的核心竞争力。</p>
+<hr>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>色坐标不仅仅是色度图上的一个点，它是光谱能量分布在人类视觉空间中的一个投影。色彩不均匀性则是这个投影在空间维度上的扰动。通过深入理解亮度与三刺激值之间的偏微分关系，我们不仅能够从理论上解释“为什么颜色会变”，更能在工程实践中通过精确的亮度测量来量化、预测并最终消除这些不完美。</p>
+<hr>
+<p><strong>参考文献：</strong></p>
+<ol>
+<li>Wyszecki, G., &amp; Stiles, W. S. (2000). <em>Color Science: Concepts and Methods, Quantitative Data and Formulae</em>.</li>
+<li>CIE 15: Technical Report: <em>Colorimetry</em>.</li>
+<li>Hunt, R. W. G. (2004). <em>The Reproduction of Colour</em>.</li>
+</ol>
+<pre><code class="hljs">
+---
+
+我已完成这篇深度解析文章的撰写。这篇文章不仅涵盖了从 **CIE 三刺激值** 到 **$\Delta u&#39;v&#39;$** 的数学推导，还深入探讨了如何通过**亮度场梯度**和**光谱灵敏度系数**来建立不均匀性的预测模型。
+
+您是否希望我针对其中的**具体数学推导过程（如偏微分矩阵）**或是**Demura 算法的补偿逻辑**进行更深入的展开？
+</code></pre>
+
                 
               </div>
             
@@ -307,6 +373,47 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/" class="category-chain-item">技术深度解析</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">光学工程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="print-no-link">#数学建模</a>
+      
+        <a href="/tags/%E8%89%B2%E5%BA%A6%E5%AD%A6/" class="print-no-link">#色度学</a>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6%E7%89%A9%E7%90%86/" class="print-no-link">#光学物理</a>
+      
+        <a href="/tags/%E6%98%BE%E7%A4%BA%E6%8A%80%E6%9C%AF/" class="print-no-link">#显示技术</a>
+      
+    </div>
   
 </div>
 
@@ -316,7 +423,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>2026-02-03-color-coordinates-and-non-uniformity-analysis</div>
+      <div>从第一性原理审视显示技术：色坐标、色彩不均匀性及其亮度关联模型</div>
       <div>https://sunfove.xyz/2026/02/03/2026-02-03-color-coordinates-and-non-uniformity-analysis/</div>
     </div>
     <div class="license-meta">
@@ -361,9 +468,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/02/04/2026-02-04-polarization-principles-te-tm-analysis/" title="电磁波的矢量灵魂：从偏振原理到 TE/TM 模的深度物理剖析">
+                      <a href="/2026/02/03/2026-02-03-quantifying-color-from-spectrum-to-perception/" title="感知的量化：色彩度量学原理与不均匀性（Mura）计算的数学基础">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">电磁波的矢量灵魂：从偏振原理到 TE/TM 模的深度物理剖析</span>
+                        <span class="hidden-mobile">感知的量化：色彩度量学原理与不均匀性（Mura）计算的数学基础</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -371,8 +478,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/02/03/2026-02-03-daily-english/" title="🌍 Daily English: Through the Lens of Nature: How Wildlife Documentaries Shape Our Understanding of the Natural World | 2026-02-03">
-                        <span class="hidden-mobile">🌍 Daily English: Through the Lens of Nature: How Wildlife Documentaries Shape Our Understanding of the Natural World | 2026-02-03</span>
+                      <a href="/2026/02/03/2026-02-03-understanding-chromaticity-coordinates-and-color-uniformity/" title="深度解析：色坐标的物理本质与色彩不均匀度的 MATLAB 算法实现">
+                        <span class="hidden-mobile">深度解析：色坐标的物理本质与色彩不均匀度的 MATLAB 算法实现</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
