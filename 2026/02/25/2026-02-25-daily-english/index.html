@@ -21,26 +21,27 @@
   <meta name="author" content="Sunfove">
   <meta name="keywords" content="">
   
-    <meta name="description" content="为什么傅里叶变换长成那个样子？本文抛弃物理直觉，纯粹从线性代数中的“内积”与“正交分解”出发，推导这个公式的必然性。你会发现，它不过是无穷维空间中的向量投影罢了。">
+    <meta name="description" content="🖼️ Part 1: Daily Quote  “What we achieve inwardly will change outer reality.” 我们内在的成就会改变外在的现实。   🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key words selected from today’s reading on Persona">
 <meta property="og:type" content="article">
-<meta property="og:title" content="上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式">
-<meta property="og:url" content="https://sunfove.xyz/2026/01/10/2026-01-10-mathematical-fourier-transform/index.html">
+<meta property="og:title" content="🌍 Daily English: The Continuous Journey: Navigating Personal Growth in Modern Careers | 2026-02-25">
+<meta property="og:url" content="https://sunfove.xyz/2026/02/25/2026-02-25-daily-english/index.html">
 <meta property="og:site_name" content="明明如月">
-<meta property="og:description" content="为什么傅里叶变换长成那个样子？本文抛弃物理直觉，纯粹从线性代数中的“内积”与“正交分解”出发，推导这个公式的必然性。你会发现，它不过是无穷维空间中的向量投影罢了。">
+<meta property="og:description" content="🖼️ Part 1: Daily Quote  “What we achieve inwardly will change outer reality.” 我们内在的成就会改变外在的现实。   🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key words selected from today’s reading on Persona">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-01-10T22:30:00.000Z">
-<meta property="article:modified_time" content="2026-02-25T17:05:07.519Z">
+<meta property="og:image" content="https://staticedu-wps-cache.iciba.com/image/3e67bcd334707474f32219068c2b5ab2.png">
+<meta property="article:published_time" content="2026-02-25T17:03:17.000Z">
+<meta property="article:modified_time" content="2026-02-25T17:05:07.529Z">
 <meta property="article:author" content="Sunfove">
-<meta property="article:tag" content="傅里叶变换">
-<meta property="article:tag" content="数学基础">
-<meta property="article:tag" content="正交基">
-<meta property="article:tag" content="泛函分析">
-<meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="English">
+<meta property="article:tag" content="Personal Growth &amp; Career Development">
+<meta property="article:tag" content="Reading">
+<meta property="article:tag" content="Vocabulary">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://staticedu-wps-cache.iciba.com/image/3e67bcd334707474f32219068c2b5ab2.png">
   
   
   
-  <title>上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式 - 明明如月</title>
+  <title>🌍 Daily English: The Continuous Journey: Navigating Personal Growth in Modern Careers | 2026-02-25 - 明明如月</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式</span>
+            <span id="subtitle">🌍 Daily English: The Continuous Journey: Navigating Personal Growth in Modern Careers | 2026-02-25</span>
           
         </div>
 
@@ -241,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-10 22:30" pubdate>
-          January 10, 2026 pm
+        <time datetime="2026-02-25 17:03" pubdate>
+          February 25, 2026 pm
         </time>
       </span>
     
@@ -253,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k words
+          239 words
         
       </span>
     
@@ -264,7 +265,7 @@
         
         
         
-          10 mins
+          2 mins
         
       </span>
     
@@ -301,59 +302,107 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式</h1>
+            <h1 id="seo-header">🌍 Daily English: The Continuous Journey: Navigating Personal Growth in Modern Careers | 2026-02-25</h1>
             
             
               <div class="markdown-body">
                 
-                <p>在上一篇文章中，我们用“频率的缠绕”这种物理直觉解释了傅里叶变换。今天，我们换一副眼镜，戴上<strong>线性代数</strong>的透镜，重新审视那个著名的公式：</p>
-<p>$$<br>F(\omega) &#x3D; \int_{-\infty}^{\infty} f(t) e^{-i\omega t} dt<br>$$</p>
-<p>为什么是积分？为什么是 $e^{-i\omega t}$？为什么有负号？<br>所有的答案都隐藏在两个数学概念中：<strong>内积 (Inner Product)</strong> 和 <strong>正交基 (Orthogonal Basis)</strong>。</p>
+                <h2 id="🖼️-Part-1-Daily-Quote"><a href="#🖼️-Part-1-Daily-Quote" class="headerlink" title="🖼️ Part 1: Daily Quote"></a>🖼️ Part 1: Daily Quote</h2><p><img src="https://staticedu-wps-cache.iciba.com/image/3e67bcd334707474f32219068c2b5ab2.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p><strong>“What we achieve inwardly will change outer reality.”</strong></p>
+<p>我们内在的成就会改变外在的现实。</p>
+</blockquote>
 <hr>
-<h2 id="01-核心思想：函数即向量"><a href="#01-核心思想：函数即向量" class="headerlink" title="01. 核心思想：函数即向量"></a>01. 核心思想：函数即向量</h2><p>在高中，我们处理的是二维、三维向量 $\vec{v} &#x3D; (3, 4)$。<br>在大学数学中，我们将概念推广：<strong>函数也是向量</strong>。</p>
+<h2 id="🔑-Part-2-Vocabulary-Builder-10-Words"><a href="#🔑-Part-2-Vocabulary-Builder-10-Words" class="headerlink" title="🔑 Part 2: Vocabulary Builder (10 Words)"></a>🔑 Part 2: Vocabulary Builder (10 Words)</h2><p>Here are 10 key words selected from today’s reading on <strong>Personal Growth &amp; Career Development</strong>:</p>
 <ul>
-<li>向量 $\vec{v}$ 是有限维空间的一个点。</li>
-<li>函数 $f(t)$ 是<strong>无穷维空间</strong>（希尔伯特空间）的一个点。</li>
-</ul>
-<p>如果我们把 $f(t)$ 看作一个向量，那么 $t$ 的每一个取值，就是这个向量的一个“分量”。因为 $t$ 是连续的，所以这个向量有无穷多个分量。</p>
-<hr>
-<h2 id="02-投影的艺术：从点积到积分"><a href="#02-投影的艺术：从点积到积分" class="headerlink" title="02. 投影的艺术：从点积到积分"></a>02. 投影的艺术：从点积到积分</h2><h3 id="向量的点积"><a href="#向量的点积" class="headerlink" title="向量的点积"></a>向量的点积</h3><p>在欧几里得空间中，如何计算一个向量 $\vec{a}$ 在另一个单位向量 $\vec{b}$ 上的投影（分量大小）？用<strong>点积</strong>：<br>$$<br>\text{投影} &#x3D; \vec{a} \cdot \vec{b} &#x3D; \sum_{i} a_i b_i<br>$$</p>
-<h3 id="函数的内积"><a href="#函数的内积" class="headerlink" title="函数的内积"></a>函数的内积</h3><p>将求和 $\sum$ 推广到连续域，就是积分 $\int$。对于复数函数，内积定义为：<br>$$<br>\langle f, g \rangle &#x3D; \int_{-\infty}^{\infty} f(t) \overline{g(t)} dt<br>$$<br><em>(注意：对于复数向量，第二个元素必须取*<em>共轭</em></em> $\overline{g(t)}$，这是为了保证长度定义 $\langle f, f \rangle$ 是实数)*</p>
-<h3 id="傅里叶变换的真面目"><a href="#傅里叶变换的真面目" class="headerlink" title="傅里叶变换的真面目"></a>傅里叶变换的真面目</h3><p>现在回头看公式：<br>$$<br>F(\omega) &#x3D; \int_{-\infty}^{\infty} f(t) \cdot e^{-i\omega t} dt<br>$$<br>根据欧拉公式，$e^{-i\omega t}$ 正是 $e^{i\omega t}$ 的复共轭！<br>所以，傅里叶变换本质上就是<strong>计算函数 $f(t)$ 与基函数 $e^{i\omega t}$ 的内积</strong>：</p>
-<p>$$<br>F(\omega) &#x3D; \langle f(t), e^{i\omega t} \rangle<br>$$</p>
-<p><strong>结论</strong>：$F(\omega)$ 仅仅是一个数值（系数），它代表了 $f(t)$ 这个巨大向量，在 $e^{i\omega t}$ 这个基向量方向上的<strong>投影分量</strong>。</p>
-<p>[Image of vector projection analogy for Fourier transform]</p>
-<hr>
-<h2 id="03-为什么选-e-i-omega-t-？正交性的奇迹"><a href="#03-为什么选-e-i-omega-t-？正交性的奇迹" class="headerlink" title="03. 为什么选 $e^{i\omega t}$？正交性的奇迹"></a>03. 为什么选 $e^{i\omega t}$？正交性的奇迹</h2><p>既然要分解信号，我们为什么偏偏选 $e^{i\omega t}$ （正弦&#x2F;余弦波）做基底？为什么不选方波或三角波？</p>
-<p>因为它们是<strong>正交</strong>的。</p>
-<p>在向量空间中，正交基（如 X 轴和 Y 轴）最好用，因为它们互不干扰。<br>对于函数系 ${e^{i\omega t}}$，我们可以证明（在一定区间内）：<br>$$<br>\int_{0}^{T} e^{i m \omega_0 t} \cdot \overline{e^{i n \omega_0 t}} dt &#x3D; \begin{cases} T, &amp; m&#x3D;n \ 0, &amp; m \neq n \end{cases}<br>$$</p>
+<li><p><strong>resilience</strong> <code>//rɪˈzɪliəns//</code></p>
 <ul>
-<li><strong>$m \neq n$ 时</strong>：内积为 0。这意味着不同频率的波是<strong>完全无关</strong>的。</li>
-<li><strong>$m &#x3D; n$ 时</strong>：内积不为 0。</li>
+<li>🇺🇸 The capacity to recover quickly from difficulties; toughness.</li>
+<li>🇨🇳 韧性，恢复力</li>
+<li>📝 <em>Developing resilience is crucial for navigating career setbacks and maintaining motivation.</em></li>
 </ul>
-<p>正是因为这种完美的<strong>正交性 (Orthogonality)</strong>，我们可以把任意信号 $f(t)$ 唯一地分解成这些波的线性组合，而不用担心系数之间纠缠不清。</p>
-<hr>
-<h2 id="04-逆变换：坐标系的重构"><a href="#04-逆变换：坐标系的重构" class="headerlink" title="04. 逆变换：坐标系的重构"></a>04. 逆变换：坐标系的重构</h2><p>既然 $F(\omega)$ 只是一个个坐标系数，那么要把信号还原回来，只需要把这些系数乘以对应的基向量，然后加起来：</p>
-<p>$$<br>f(t) &#x3D; \frac{1}{2\pi} \int_{-\infty}^{\infty} F(\omega) e^{i\omega t} d\omega<br>$$</p>
+</li>
+<li><p><strong>proactive</strong> <code>//proʊˈæktɪv//</code></p>
 <ul>
-<li><strong>$F(\omega)$</strong>：系数（在这个频率上由多少份量）。</li>
-<li><strong>$e^{i\omega t}$</strong>：基向量（这个频率原本的样子）。</li>
-<li><strong>$\int \dots d\omega$</strong>：广义的求和（把所有频率成分拼回去）。</li>
+<li>🇺🇸 Creating or controlling a situation by causing something to happen rather than responding to it after it has happened.</li>
+<li>🇨🇳 积极主动的</li>
+<li>📝 <em>Proactive professionals anticipate challenges and take initiative to address them before they escalate.</em></li>
 </ul>
-<p><em>(注：前面的 $\frac{1}{2\pi}$ 是归一化系数，取决于你对正变换的定义，目的是为了保持能量守恒，即帕塞瓦尔定理)</em></p>
+</li>
+<li><p><strong>mentorship</strong> <code>//ˈmentɔːrʃɪp//</code></p>
+<ul>
+<li>🇺🇸 Guidance provided by a mentor, especially an experienced person in a company or educational institution.</li>
+<li>🇨🇳 导师指导</li>
+<li>📝 <em>Seeking mentorship can accelerate your career development by providing valuable insights and networking opportunities.</em></li>
+</ul>
+</li>
+<li><p><strong>upskill</strong> <code>//ˈʌpskɪl//</code></p>
+<ul>
+<li>🇺🇸 To teach (an employee) additional skills; to acquire new skills.</li>
+<li>🇨🇳 提升技能</li>
+<li>📝 <em>In today’s rapidly changing job market, continuous upskilling is essential for remaining competitive.</em></li>
+</ul>
+</li>
+<li><p><strong>self-actualization</strong> <code>//ˌself ˌæktʃuələˈzeɪʃn//</code></p>
+<ul>
+<li>🇺🇸 The realization or fulfillment of one’s talents and potentialities, especially considered as a drive or need present in everyone.</li>
+<li>🇨🇳 自我实现</li>
+<li>📝 <em>Career satisfaction often correlates with achieving self-actualization through meaningful work.</em></li>
+</ul>
+</li>
+<li><p><strong>networking</strong> <code>//ˈnetwɜːrkɪŋ//</code></p>
+<ul>
+<li>🇺🇸 Interacting with others to exchange information and develop professional or social contacts.</li>
+<li>🇨🇳 人际网络建立</li>
+<li>📝 <em>Effective networking can open doors to unexpected career opportunities and collaborations.</em></li>
+</ul>
+</li>
+<li><p><strong>pivot</strong> <code>//ˈpɪvət//</code></p>
+<ul>
+<li>🇺🇸 To change direction or strategy significantly, especially in business or career.</li>
+<li>🇨🇳 转向，调整方向</li>
+<li>📝 <em>Many successful entrepreneurs have had to pivot their business models based on market feedback.</em></li>
+</ul>
+</li>
+<li><p><strong>emotional intelligence</strong> <code>//ɪˈmoʊʃənl ɪnˈtelɪdʒəns//</code></p>
+<ul>
+<li>🇺🇸 The capacity to be aware of, control, and express one’s emotions, and to handle interpersonal relationships judiciously and empathetically.</li>
+<li>🇨🇳 情商</li>
+<li>📝 <em>Emotional intelligence is increasingly recognized as equally important as technical skills for leadership positions.</em></li>
+</ul>
+</li>
+<li><p><strong>benchmarking</strong> <code>//ˈbentʃmɑːrkɪŋ//</code></p>
+<ul>
+<li>🇺🇸 The process of comparing one’s business processes and performance metrics to industry bests or best practices from other companies.</li>
+<li>🇨🇳 基准测试，对标分析</li>
+<li>📝 <em>Regular benchmarking against industry leaders helps organizations identify areas for improvement and innovation.</em></li>
+</ul>
+</li>
+<li><p><strong>synergy</strong> <code>//ˈsɪnərdʒi//</code></p>
+<ul>
+<li>🇺🇸 The interaction or cooperation of two or more organizations, substances, or other agents to produce a combined effect greater than the sum of their separate effects.</li>
+<li>🇨🇳 协同效应</li>
+<li>📝 <em>The synergy between different departments created innovative solutions that neither could have developed independently.</em></li>
+</ul>
+</li>
+</ul>
 <hr>
-<h2 id="05-所谓的“负频率”是什么？"><a href="#05-所谓的“负频率”是什么？" class="headerlink" title="05. 所谓的“负频率”是什么？"></a>05. 所谓的“负频率”是什么？</h2><p>数学表达式中，积分区间是 $(-\infty, +\infty)$，这意味着 $\omega$ 可以取负值。<br>物理上频率怎么可能是负的？</p>
-<p>这纯粹是数学表达的需要。<br>$$<br>e^{i\omega t} &#x3D; \cos(\omega t) + i\sin(\omega t)<br>$$<br>为了凑出一个实数的 $\cos(\omega t)$，我们需要正负频率的对消：<br>$$<br>\cos(\omega t) &#x3D; \frac{e^{i\omega t} + e^{-i\omega t}}{2}<br>$$<br>所以，数学上的<strong>负频率</strong>，实际上是复平面上<strong>反向旋转</strong>的分量。它们与正频率分量共轭叠加，才构成了我们在示波器上看到的实数信号。</p>
+<h2 id="📖-Part-3-Deep-Reading"><a href="#📖-Part-3-Deep-Reading" class="headerlink" title="📖 Part 3: Deep Reading"></a>📖 Part 3: Deep Reading</h2><h3 id="The-Continuous-Journey-Navigating-Personal-Growth-in-Modern-Careers"><a href="#The-Continuous-Journey-Navigating-Personal-Growth-in-Modern-Careers" class="headerlink" title="The Continuous Journey: Navigating Personal Growth in Modern Careers"></a>The Continuous Journey: Navigating Personal Growth in Modern Careers</h3><p>In an era defined by rapid technological advancement and shifting economic landscapes, the traditional linear career path has become increasingly obsolete. Today’s professionals face a dynamic environment where personal growth and career development are inextricably linked in a continuous, non-linear journey. This evolution demands not just technical proficiency, but a holistic approach to professional development that encompasses emotional intelligence, adaptability, and lifelong learning.</p>
+<p>The modern workplace rewards those who embrace a growth mindset—the belief that abilities can be developed through dedication and hard work. This psychological framework transforms challenges from threats to opportunities for development. Professionals who cultivate resilience can navigate setbacks not as failures, but as valuable learning experiences that contribute to their long-term development. The most successful individuals understand that career advancement is rarely a straight trajectory; rather, it resembles a mosaic of experiences, each contributing unique skills and perspectives.</p>
+<p>Strategic networking has emerged as a critical component of career development, yet its true value extends beyond mere transactional connections. Meaningful professional relationships provide mentorship opportunities, industry insights, and collaborative possibilities that can catalyze unexpected career pivots. The digital age has transformed networking from occasional conferences to continuous engagement through professional platforms and virtual communities, creating unprecedented access to global expertise.</p>
+<p>Continuous upskilling represents another fundamental shift in professional development. As artificial intelligence and automation reshape industries, the half-life of technical skills continues to decrease. Professionals must therefore adopt a proactive approach to learning, regularly assessing emerging trends and acquiring relevant competencies. This requires not just formal education, but micro-learning opportunities, cross-functional projects, and deliberate practice in new domains.</p>
+<p>Ultimately, the intersection of personal growth and career development represents a paradigm shift from viewing work as merely a means of livelihood to understanding it as a vehicle for self-actualization. Organizations that recognize this connection foster environments where employees can align their personal values with professional contributions, creating powerful synergy between individual fulfillment and organizational success. The future belongs to those who approach their careers not as destinations to reach, but as journeys of continuous discovery and reinvention.</p>
 <hr>
-<h2 id="06-总结"><a href="#06-总结" class="headerlink" title="06. 总结"></a>06. 总结</h2><p>从数学角度看，傅里叶变换并没有什么魔法，它只是<strong>无穷维空间中的线性代数</strong>。</p>
-<ol>
-<li><strong>函数</strong>就是<strong>向量</strong>。</li>
-<li><strong>傅里叶变换</strong>就是<strong>求内积</strong>（计算投影坐标）。</li>
-<li><strong>$e^{i\omega t}$</strong> 就是<strong>正交基</strong>（坐标轴）。</li>
-<li><strong>积分</strong>就是<strong>求和</strong>。</li>
+<h3 id="💡-Language-Highlights"><a href="#💡-Language-Highlights" class="headerlink" title="💡 Language Highlights"></a>💡 Language Highlights</h3><ol>
+<li><p>Complex Sentence Structure: ‘This evolution demands not just technical proficiency, but a holistic approach to professional development that encompasses emotional intelligence, adaptability, and lifelong learning.’ - This sentence uses parallel structure (‘not just…but’) and a relative clause (‘that encompasses…’) to create a sophisticated comparison while adding descriptive detail.</p>
+</li>
+<li><p>Idiom: ‘straight trajectory’ - This expression metaphorically describes a direct, uninterrupted path, contrasting with the non-linear reality of modern careers. It creates visual imagery while conveying the concept of predictable progression.</p>
+</li>
+<li><p>Complex Sentence Structure: ‘Professionals who cultivate resilience can navigate setbacks not as failures, but as valuable learning experiences that contribute to their long-term development.’ - This sentence employs a relative clause (‘who cultivate resilience’), comparative structure (‘not as…but as’), and another relative clause (‘that contribute…’) to build a nuanced argument about perspective and growth.</p>
+</li>
 </ol>
-<p>当你理解了这一点，你就不再只是在套公式，而是在脑海中看到一个函数向量，被优雅地投影到了频率的坐标系中。</p>
 <hr>
+<p><em>(Content generated by DeepSeek AI; Quote source: Iciba)</em></p>
 
                 
               </div>
@@ -372,7 +421,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  <a href="/categories/English-Learning/" class="category-chain-item">English Learning</a>
   
   
 
@@ -387,15 +436,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/" class="print-no-link">#数学基础</a>
+        <a href="/tags/English/" class="print-no-link">#English</a>
       
-        <a href="/tags/%E6%B3%9B%E5%87%BD%E5%88%86%E6%9E%90/" class="print-no-link">#泛函分析</a>
+        <a href="/tags/Vocabulary/" class="print-no-link">#Vocabulary</a>
       
-        <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="print-no-link">#线性代数</a>
+        <a href="/tags/Reading/" class="print-no-link">#Reading</a>
       
-        <a href="/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/" class="print-no-link">#傅里叶变换</a>
-      
-        <a href="/tags/%E6%AD%A3%E4%BA%A4%E5%9F%BA/" class="print-no-link">#正交基</a>
+        <a href="/tags/Personal-Growth-Career-Development/" class="print-no-link">#Personal Growth & Career Development</a>
       
     </div>
   
@@ -407,8 +454,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>上帝的乐谱：从线性代数视角重构傅里叶变换 (FT) 的数学表达式</div>
-      <div>https://sunfove.xyz/2026/01/10/2026-01-10-mathematical-fourier-transform/</div>
+      <div>🌍 Daily English: The Continuous Journey: Navigating Personal Growth in Modern Careers | 2026-02-25</div>
+      <div>https://sunfove.xyz/2026/02/25/2026-02-25-daily-english/</div>
     </div>
     <div class="license-meta">
       
@@ -420,7 +467,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>January 10, 2026</div>
+          <div>February 25, 2026</div>
         </div>
       
       
@@ -452,18 +499,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/10/2026-01-09-probability-theory-basics/" title="上帝的骰子：概率论核心概念、分布与极限定理的直觉图解">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">上帝的骰子：概率论核心概念、分布与极限定理的直觉图解</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/10/2026-01-10-fourier-transform-1d-principle/" title="一维傅里叶变换 (1D-FT) 的数学本质与物理哲学">
-                        <span class="hidden-mobile">一维傅里叶变换 (1D-FT) 的数学本质与物理哲学</span>
+                      <a href="/2026/02/24/2026-02-24-daily-english/" title="🌍 Daily English: The Alchemy of Ambition: Transforming Personal Growth into Career Capital | 2026-02-24">
+                        <span class="hidden-mobile">🌍 Daily English: The Alchemy of Ambition: Transforming Personal Growth into Career Capital | 2026-02-24</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -478,7 +519,7 @@
   
     <article id="comments" lazyload>
       
-  <div id="SOHUCS" sid='https://sunfove.xyz/2026/01/10/2026-01-10-mathematical-fourier-transform/'></div>
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/02/25/2026-02-25-daily-english/'></div>
   <script type="text/javascript">
     Fluid.utils.loadComments('#SOHUCS', function() {
       Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
