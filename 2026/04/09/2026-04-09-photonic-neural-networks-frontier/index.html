@@ -1,0 +1,901 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="深入分析光子神经网络的前沿进展，包括线性光学矩阵乘法、非线性激活的实现、混合光电架构和实际应用案例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光子神经网络的前沿研究：从线性光学到非线性激活">
+<meta property="og:url" content="https://sunfove.xyz/2026/04/09/2026-04-09-photonic-neural-networks-frontier/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="深入分析光子神经网络的前沿进展，包括线性光学矩阵乘法、非线性激活的实现、混合光电架构和实际应用案例。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-04-09T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-09T14:59:11.754Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光子神经网络">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="线性光学">
+<meta property="article:tag" content="非线性光学">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>光子神经网络的前沿研究：从线性光学到非线性激活 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光子神经网络的前沿研究：从线性光学到非线性激活</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-09 12:00" pubdate>
+          April 9, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光子神经网络的前沿研究：从线性光学到非线性激活</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>随着人工智能的快速发展，传统电子计算在处理大规模神经网络时面临能耗和速度的瓶颈。光子神经网络作为一种新兴的计算范式，利用光子的高速、低能耗和高并行性优势，为深度学习推理提供了全新的解决方案。</p>
+<p>然而，光子神经网络的实现面临一个核心挑战：光学本质上是线性的，而神经网络的强大能力来自于非线性激活函数。本文将从第一性原理出发，深入分析光子神经网络的前沿研究进展，包括线性光学计算、非线性激活的实现、混合架构设计和实际应用案例。</p>
+<h2 id="1-线性光学神经网络基础"><a href="#1-线性光学神经网络基础" class="headerlink" title="1. 线性光学神经网络基础"></a>1. 线性光学神经网络基础</h2><h3 id="1-1-麦克斯韦方程组的线性性质"><a href="#1-1-麦克斯韦方程组的线性性质" class="headerlink" title="1.1 麦克斯韦方程组的线性性质"></a>1.1 麦克斯韦方程组的线性性质</h3><p>在非磁性、无源介质中，时域麦克斯韦方程组为：</p>
+<p>$$<br>\begin{cases}<br>\nabla \cdot \mathbf{D} &#x3D; 0 \<br>\nabla \cdot \mathbf{B} &#x3D; 0 \<br>\nabla \times \mathbf{E} &#x3D; -\frac{\partial \mathbf{B}}{\partial t} \<br>\nabla \times \mathbf{H} &#x3D; \frac{\partial \mathbf{D}}{\partial t}<br>\end{cases}<br>$$</p>
+<p>其中 $\mathbf{D} &#x3D; \epsilon_0 \mathbf{E} + \mathbf{P}$，$\mathbf{P}$ 是极化强度。</p>
+<p><strong>线性介质</strong>：$\mathbf{P} &#x3D; \epsilon_0 \chi^{(1)} \mathbf{E}$，其中 $\chi^{(1)}$ 是线性极化率。</p>
+<p>在这种情况下，麦克斯韦方程组是<strong>线性</strong>的，这意味着光场的叠加原理成立：如果 $\mathbf{E}_1$ 和 $\mathbf{E}_2$ 都是解，那么 $\alpha \mathbf{E}_1 + \beta \mathbf{E}_2$ 也是解。</p>
+<h3 id="1-2-光学模式与矩阵运算"><a href="#1-2-光学模式与矩阵运算" class="headerlink" title="1.2 光学模式与矩阵运算"></a>1.2 光学模式与矩阵运算</h3><p>考虑 $N$ 个光学模式（例如多模波导的不同模式），每个模式的复振幅构成一个向量 $\mathbf{v} \in \mathbb{C}^N$：</p>
+<p>$$\mathbf{v} &#x3D; \begin{pmatrix} v_1 \ v_2 \ \vdots \ v_N \end{pmatrix} &#x3D; \begin{pmatrix} A_1 e^{i\phi_1} \ A_2 e^{i\phi_2} \ \vdots \ A_N e^{i\phi_N} \end{pmatrix}$$</p>
+<p>在无损、无源的线性光学系统中，输入和输出通过一个<strong>酉矩阵</strong> $\mathbf{U}$ 联系：</p>
+<p>$$\mathbf{v}<em>{\text{out}} &#x3D; \mathbf{U} \mathbf{v}</em>{\text{in}}$$</p>
+<p>酉矩阵满足 $\mathbf{U}^\dagger \mathbf{U} &#x3D; \mathbf{I}$，保证能量守恒。</p>
+<p><strong>神经网络的权重矩阵</strong>：如果我们将神经网络的权重矩阵 $\mathbf{W}$ 映射到光学矩阵 $\mathbf{U}$，那么光子网络可以一次性完成整个层的计算：</p>
+<p>$$\mathbf{h} &#x3D; \mathbf{U} \mathbf{x}$$</p>
+<p>其中 $\mathbf{x}$ 是输入向量，$\mathbf{h}$ 是隐层输出。</p>
+<h3 id="1-3-Reck-与-Clements-分解"><a href="#1-3-Reck-与-Clements-分解" class="headerlink" title="1.3 Reck 与 Clements 分解"></a>1.3 Reck 与 Clements 分解</h3><p>任意 $N \times N$ 酉矩阵都可以分解为马赫-曾德尔干涉仪（MZI）网络。</p>
+<p><strong>Reck 分解</strong>：<br>$$\mathbf{U} &#x3D; \mathbf{D} \prod_{k&#x3D;1}^{N(N-1)&#x2F;2} \mathbf{T}_k$$</p>
+<p>其中 $\mathbf{D}$ 是对角相位矩阵，$\mathbf{T}_k$ 是MZI变换。</p>
+<p><strong>Clements 分解</strong>：更紧凑的网格结构，减少了光纤交叉的复杂度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>, <span class="hljs-type">Tuple</span><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> networkx <span class="hljs-keyword">as</span> nx<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MZINetwork</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    马赫-曾德尔干涉仪网络</span><br><span class="hljs-string"></span><br><span class="hljs-string">    用于实现任意酉矩阵</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_modes: <span class="hljs-built_in">int</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            num_modes: 光学模式数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.num_modes = num_modes<br>        <span class="hljs-variable language_">self</span>.mzis = []<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">mz_unitary</span>(<span class="hljs-params">self, theta: <span class="hljs-built_in">float</span>, phi: <span class="hljs-built_in">float</span></span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        单个MZI的酉矩阵</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            theta: 分束角度</span><br><span class="hljs-string">            phi: 相位偏移</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            2×2 酉矩阵</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        cos_theta = np.cos(theta)<br>        sin_theta = np.sin(theta)<br>        exp_i_phi = np.exp(<span class="hljs-number">1j</span> * phi)<br>        exp_minus_i_phi = np.exp(-<span class="hljs-number">1j</span> * phi)<br><br>        U = np.array([<br>            [exp_i_phi * cos_theta, -exp_i_phi * sin_theta],<br>            [exp_minus_i_phi * sin_theta, exp_minus_i_phi * cos_theta]<br>        ])<br><br>        <span class="hljs-keyword">return</span> U<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">clements_decomposition</span>(<span class="hljs-params">self, target_U: np.ndarray</span>) -&gt; <span class="hljs-type">List</span>[<span class="hljs-built_in">dict</span>]:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Clements分解算法</span><br><span class="hljs-string"></span><br><span class="hljs-string">        将目标酉矩阵分解为MZI网络</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            target_U: 目标 N×N 酉矩阵</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            MZI参数列表 [&#123;&#x27;mode1&#x27;: i, &#x27;mode2&#x27;: j, &#x27;theta&#x27;: θ, &#x27;phi&#x27;: φ&#125;, ...]</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        N = <span class="hljs-variable language_">self</span>.num_modes<br>        mzi_params = []<br><br>        <span class="hljs-comment"># 初始化当前矩阵</span><br>        current_U = target_U.copy()<br><br>        <span class="hljs-comment"># Clements 网格分解</span><br>        <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N-<span class="hljs-number">1</span>):<br>            <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N-<span class="hljs-number">1</span>, col, -<span class="hljs-number">1</span>):<br>                <span class="hljs-comment"># 消除 current_U[row, col]</span><br>                <span class="hljs-keyword">if</span> <span class="hljs-built_in">abs</span>(current_U[row, col]) &gt; <span class="hljs-number">1e-10</span>:<br>                    <span class="hljs-comment"># 计算MZI参数</span><br>                    a = current_U[row, col]<br>                    b = current_U[row-<span class="hljs-number">1</span>, col]<br><br>                    <span class="hljs-comment"># MZI参数</span><br>                    theta = np.arctan2(<span class="hljs-built_in">abs</span>(b), <span class="hljs-built_in">abs</span>(a))<br>                    phi_phase = np.angle(a) - np.angle(b)<br><br>                    <span class="hljs-comment"># 构造MZI矩阵</span><br>                    mzi_U = <span class="hljs-variable language_">self</span>.mz_unitary(theta, phi_phase)<br><br>                    <span class="hljs-comment"># 更新当前矩阵</span><br>                    <span class="hljs-variable language_">self</span>._apply_mzi(current_U, mzi_U, row-<span class="hljs-number">1</span>, row)<br><br>                    <span class="hljs-comment"># 记录MZI参数</span><br>                    mzi_params.append(&#123;<br>                        <span class="hljs-string">&#x27;mode1&#x27;</span>: row-<span class="hljs-number">1</span>,<br>                        <span class="hljs-string">&#x27;mode2&#x27;</span>: row,<br>                        <span class="hljs-string">&#x27;theta&#x27;</span>: theta,<br>                        <span class="hljs-string">&#x27;phi&#x27;</span>: phi_phase<br>                    &#125;)<br><br>        <span class="hljs-keyword">return</span> mzi_params<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_apply_mzi</span>(<span class="hljs-params">self, U: np.ndarray, mzi_U: np.ndarray, i: <span class="hljs-built_in">int</span>, j: <span class="hljs-built_in">int</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        在酉矩阵U的(i, j)位置应用MZI</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            U: 当前酉矩阵</span><br><span class="hljs-string">            mzi_U: 2×2 MZI酉矩阵</span><br><span class="hljs-string">            i, j: 模式索引</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 提取相关元素</span><br>        sub_U = U[[i, j], :][:, [i, j]]<br><br>        <span class="hljs-comment"># 应用MZI变换</span><br>        transformed = mzi_U @ sub_U @ mzi_U.T.conj()<br><br>        <span class="hljs-comment"># 更新矩阵</span><br>        U[[i, j], :][:, [i, j]] = transformed<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, input_field: np.ndarray,</span><br><span class="hljs-params">                 mzi_params: <span class="hljs-type">List</span>[<span class="hljs-built_in">dict</span>]</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        前向传播光场</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            input_field: 输入光场 [N]</span><br><span class="hljs-string">            mzi_params: MZI参数列表</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            输出光场 [N]</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        output = input_field.copy()<br><br>        <span class="hljs-comment"># 应用MZI网络</span><br>        <span class="hljs-keyword">for</span> mzi <span class="hljs-keyword">in</span> mzi_params:<br>            i = mzi[<span class="hljs-string">&#x27;mode1&#x27;</span>]<br>            j = mzi[<span class="hljs-string">&#x27;mode2&#x27;</span>]<br>            theta = mzi[<span class="hljs-string">&#x27;theta&#x27;</span>]<br>            phi = mzi[<span class="hljs-string">&#x27;phi&#x27;</span>]<br><br>            <span class="hljs-comment"># 提取两个模式</span><br>            v_in = np.array([output[i], output[j]])<br><br>            <span class="hljs-comment"># 应用MZI变换</span><br>            U = <span class="hljs-variable language_">self</span>.mz_unitary(theta, phi)<br>            v_out = U @ v_in<br><br>            <span class="hljs-comment"># 更新输出</span><br>            output[i] = v_out[<span class="hljs-number">0</span>]<br>            output[j] = v_out[<span class="hljs-number">1</span>]<br><br>        <span class="hljs-keyword">return</span> output<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">visualize_network</span>(<span class="hljs-params">self, mzi_params: <span class="hljs-type">List</span>[<span class="hljs-built_in">dict</span>]</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        可视化MZI网络</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            mzi_params: MZI参数列表</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        G = nx.Graph()<br><br>        <span class="hljs-comment"># 添加节点（光学模式）</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.num_modes):<br>            G.add_node(i, pos=(<span class="hljs-number">0</span>, i))<br><br>        <span class="hljs-comment"># 添加边（MZI连接）</span><br>        <span class="hljs-keyword">for</span> idx, mzi <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(mzi_params):<br>            i = mzi[<span class="hljs-string">&#x27;mode1&#x27;</span>]<br>            j = mzi[<span class="hljs-string">&#x27;mode2&#x27;</span>]<br>            G.add_edge(i, j, weight=<span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># 绘制网络</span><br>        plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">8</span>))<br>        pos = nx.spring_layout(G, seed=<span class="hljs-number">42</span>)<br><br>        nx.draw(G, pos, with_labels=<span class="hljs-literal">True</span>, node_color=<span class="hljs-string">&#x27;lightblue&#x27;</span>,<br>                node_size=<span class="hljs-number">1000</span>, font_size=<span class="hljs-number">12</span>, font_weight=<span class="hljs-string">&#x27;bold&#x27;</span>)<br><br>        plt.title(<span class="hljs-string">&#x27;MZI Network Topology&#x27;</span>)<br>        plt.axis(<span class="hljs-string">&#x27;off&#x27;</span>)<br>        plt.tight_layout()<br>        plt.savefig(<span class="hljs-string">&#x27;mzi_network.png&#x27;</span>, dpi=<span class="hljs-number">150</span>, bbox_inches=<span class="hljs-string">&#x27;tight&#x27;</span>)<br>        plt.show()<br><br><br><span class="hljs-comment"># 测试代码</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;MZI网络测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 创建一个4×4酉矩阵</span><br>    np.random.seed(<span class="hljs-number">42</span>)<br>    H = np.random.randn(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>) + <span class="hljs-number">1j</span> * np.random.randn(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>)<br>    U, _, _ = np.linalg.svd(H)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n目标酉矩阵 U:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(np.<span class="hljs-built_in">round</span>(U, <span class="hljs-number">3</span>))<br><br>    <span class="hljs-comment"># 创建MZI网络</span><br>    mzi_network = MZINetwork(num_modes=<span class="hljs-number">4</span>)<br><br>    <span class="hljs-comment"># 执行Clements分解</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n执行Clements分解...&quot;</span>)<br>    mzi_params = mzi_network.clements_decomposition(U)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;分解得到 <span class="hljs-subst">&#123;<span class="hljs-built_in">len</span>(mzi_params)&#125;</span> 个MZI&quot;</span>)<br><br>    <span class="hljs-comment"># 测试前向传播</span><br>    input_field = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.3</span>, <span class="hljs-number">0.8</span>], dtype=<span class="hljs-built_in">complex</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n输入光场: <span class="hljs-subst">&#123;input_field&#125;</span>&quot;</span>)<br><br>    output_field = mzi_network.forward(input_field, mzi_params)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输出光场: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(output_field, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 验证</span><br>    expected_output = U @ input_field<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;期望输出: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(expected_output, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br><br>    error = np.linalg.norm(output_field - expected_output)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;误差: <span class="hljs-subst">&#123;error:<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 可视化网络</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n可视化MZI网络...&quot;</span>)<br>    mzi_network.visualize_network(mzi_params)<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-光学非线性激活"><a href="#2-光学非线性激活" class="headerlink" title="2. 光学非线性激活"></a>2. 光学非线性激活</h2><h3 id="2-1-非线性光学的理论基础"><a href="#2-1-非线性光学的理论基础" class="headerlink" title="2.1 非线性光学的理论基础"></a>2.1 非线性光学的理论基础</h3><p>在强光场下，极化强度的高阶项变得重要：</p>
+<p>$$\mathbf{P} &#x3D; \epsilon_0 \left[ \chi^{(1)} \mathbf{E} + \chi^{(2)} \mathbf{E}^2 + \chi^{(3)} \mathbf{E}^3 + \dots \right]$$</p>
+<p>其中 $\chi^{(2)}$ 和 $\chi^{(3)}$ 分别是二阶和三阶非线性极化率。</p>
+<h3 id="2-2-光学激活函数的实现方法"><a href="#2-2-光学激活函数的实现方法" class="headerlink" title="2.2 光学激活函数的实现方法"></a>2.2 光学激活函数的实现方法</h3><h4 id="2-2-1-克尔效应"><a href="#2-2-1-克尔效应" class="headerlink" title="2.2.1 克尔效应"></a>2.2.1 克尔效应</h4><p>三阶非线性引起的折射率变化：</p>
+<p>$$n(I) &#x3D; n_0 + n_2 I$$</p>
+<p>其中 $I &#x3D; |\mathbf{E}|^2$ 是光强，$n_2$ 是非线性折射系数。</p>
+<p><strong>实现ReLU</strong>：<br>$$f(x) &#x3D; \max(0, x)$$</p>
+<p>通过精心设计波导几何结构和非线性材料，可以将克尔效应近似为ReLU函数。</p>
+<h4 id="2-2-2-饱和吸收"><a href="#2-2-2-饱和吸收" class="headerlink" title="2.2.2 饱和吸收"></a>2.2.2 饱和吸收</h4><p>吸收系数随光强变化：</p>
+<p>$$\alpha(I) &#x3D; \frac{\alpha_0}{1 + I&#x2F;I_{\text{sat}}}$$</p>
+<p>其中 $I_{\text{sat}}$ 是饱和强度。</p>
+<p><strong>实现Sigmoid</strong>：<br>$$f(x) &#x3D; \frac{1}{1 + e^{-x}}$$</p>
+<p>饱和吸收可以近似实现Sigmoid型函数。</p>
+<h4 id="2-2-3-测量诱导非线性"><a href="#2-2-3-测量诱导非线性" class="headerlink" title="2.2.3 测量诱导非线性"></a>2.2.3 测量诱导非线性</h4><p>通过测量过程引入非线性：</p>
+<p>$$P(\text{detect}) &#x3D; |\langle \text{detector}|\psi\rangle|^2$$</p>
+<p>这种概率性的测量可以实现量子非线性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>, <span class="hljs-type">List</span><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">OpticalActivationFunctions</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    光学激活函数的实现</span><br><span class="hljs-string"></span><br><span class="hljs-string">    包含多种基于物理过程的激活函数</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br><span class="hljs-meta">    @staticmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">kerr_relu</span>(<span class="hljs-params">x: np.ndarray, n2: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.1</span>,</span><br><span class="hljs-params">                  threshold: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.5</span></span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        基于克尔效应的ReLU近似</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入</span><br><span class="hljs-string">            n2: 非线性系数</span><br><span class="hljs-string">            threshold: 阈值</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            激活函数输出</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 克尔效应：折射率随光强变化</span><br>        intensity = np.<span class="hljs-built_in">abs</span>(x)**<span class="hljs-number">2</span><br>        phase_shift = n2 * intensity<br><br>        <span class="hljs-comment"># 阈值化</span><br>        output = np.where(intensity &gt; threshold,<br>                       x * np.exp(<span class="hljs-number">1j</span> * phase_shift),<br>                       <span class="hljs-number">0</span>)<br><br>        <span class="hljs-keyword">return</span> output<br><br><span class="hljs-meta">    @staticmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">saturable_absorption_sigmoid</span>(<span class="hljs-params">x: np.ndarray,</span><br><span class="hljs-params">                                   alpha0: <span class="hljs-built_in">float</span> = <span class="hljs-number">1.0</span>,</span><br><span class="hljs-params">                                   I_sat: <span class="hljs-built_in">float</span> = <span class="hljs-number">1.0</span></span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        基于饱和吸收的Sigmoid近似</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入</span><br><span class="hljs-string">            alpha0: 线性吸收系数</span><br><span class="hljs-string">            I_sat: 饱和强度</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            激活函数输出</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        intensity = np.<span class="hljs-built_in">abs</span>(x)**<span class="hljs-number">2</span><br>        transmission = <span class="hljs-number">1</span> / (<span class="hljs-number">1</span> + alpha0 * intensity / I_sat)<br><br>        <span class="hljs-keyword">return</span> x * transmission<br><br><span class="hljs-meta">    @staticmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">measurement_induced_tanh</span>(<span class="hljs-params">x: np.ndarray,</span><br><span class="hljs-params">                              gain: <span class="hljs-built_in">float</span> = <span class="hljs-number">1.0</span></span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        基于测量诱导非线性的Tanh近似</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入</span><br><span class="hljs-string">            gain: 增益系数</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            激活函数输出</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> np.tanh(gain * x) * np.exp(<span class="hljs-number">1j</span> * np.angle(x))<br><br><span class="hljs-meta">    @staticmethod</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">all_optical_relu</span>(<span class="hljs-params">x: np.ndarray, threshold: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.1</span>,</span><br><span class="hljs-params">                         slope: <span class="hljs-built_in">float</span> = <span class="hljs-number">1.0</span></span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        全光学ReLU实现</span><br><span class="hljs-string"></span><br><span class="hljs-string">        使用相位调制和干涉</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入复振幅</span><br><span class="hljs-string">            threshold: 阈值</span><br><span class="hljs-string">            slope: 斜率</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            ReLU激活后的输出</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 实部作为&quot;数值&quot;</span><br>        real_part = np.real(x)<br><br>        <span class="hljs-comment"># 阈值化</span><br>        activated = np.where(real_part &gt; threshold,<br>                         slope * (real_part - threshold),<br>                         <span class="hljs-number">0</span>)<br><br>        <span class="hljs-comment"># 保持相位信息</span><br>        phase = np.angle(x)<br>        output = activated * np.exp(<span class="hljs-number">1j</span> * phase)<br><br>        <span class="hljs-keyword">return</span> output<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_activation_functions</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    绘制不同的光学激活函数</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 测试输入</span><br>    x = np.linspace(-<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">200</span>)<br>    x_complex = x + <span class="hljs-number">0j</span>  <span class="hljs-comment"># 复数输入</span><br><br>    activations = OpticalActivationFunctions()<br><br>    <span class="hljs-comment"># 计算不同激活函数</span><br>    kerr_relu = activations.kerr_relu(x_complex)<br>    sigmoid = activations.saturable_absorption_sigmoid(x_complex)<br>    tanh = activations.measurement_induced_tanh(x_complex)<br>    optical_relu = activations.all_optical_relu(x_complex)<br><br>    <span class="hljs-comment"># 绘制结果</span><br>    plt.figure(figsize=(<span class="hljs-number">15</span>, <span class="hljs-number">10</span>))<br><br>    plt.subplot(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br>    plt.plot(x, np.real(kerr_relu), <span class="hljs-string">&#x27;b-&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Real&#x27;</span>)<br>    plt.plot(x, np.imag(kerr_relu), <span class="hljs-string">&#x27;r--&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Imag&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;Input&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Output&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Kerr-based ReLU Approximation&#x27;</span>)<br>    plt.legend()<br>    plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br><br>    plt.subplot(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br>    plt.plot(x, np.real(sigmoid), <span class="hljs-string">&#x27;b-&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Real&#x27;</span>)<br>    plt.plot(x, np.imag(sigmoid), <span class="hljs-string">&#x27;r--&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Imag&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;Input&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Output&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Saturable Absorption Sigmoid&#x27;</span>)<br>    plt.legend()<br>    plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br><br>    plt.subplot(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br>    plt.plot(x, np.real(tanh), <span class="hljs-string">&#x27;b-&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Real&#x27;</span>)<br>    plt.plot(x, np.imag(tanh), <span class="hljs-string">&#x27;r--&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Imag&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;Input&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Output&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Measurement-induced Tanh&#x27;</span>)<br>    plt.legend()<br>    plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br><br>    plt.subplot(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>)<br>    plt.plot(x, np.real(optical_relu), <span class="hljs-string">&#x27;b-&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Real&#x27;</span>)<br>    plt.plot(x, np.imag(optical_relu), <span class="hljs-string">&#x27;r--&#x27;</span>, linewidth=<span class="hljs-number">2</span>, label=<span class="hljs-string">&#x27;Imag&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;Input&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Output&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;All-optical ReLU&#x27;</span>)<br>    plt.legend()<br>    plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br><br>    plt.suptitle(<span class="hljs-string">&#x27;Optical Activation Functions&#x27;</span>, fontsize=<span class="hljs-number">16</span>)<br>    plt.tight_layout()<br>    plt.savefig(<span class="hljs-string">&#x27;optical_activation_functions.png&#x27;</span>, dpi=<span class="hljs-number">150</span>, bbox_inches=<span class="hljs-string">&#x27;tight&#x27;</span>)<br>    plt.show()<br><br><br><span class="hljs-comment"># 测试代码</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;光学激活函数测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    plot_activation_functions()<br><br>    <span class="hljs-comment"># 比较不同激活函数</span><br>    activations = OpticalActivationFunctions()<br>    test_input = np.array([<span class="hljs-number">1.5</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.2</span>, -<span class="hljs-number">1.0</span>], dtype=<span class="hljs-built_in">complex</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n测试输入: <span class="hljs-subst">&#123;test_input&#125;</span>&quot;</span>)<br><br>    outputs = &#123;<br>        <span class="hljs-string">&#x27;Kerr ReLU&#x27;</span>: activations.kerr_relu(test_input),<br>        <span class="hljs-string">&#x27;Sigmoid&#x27;</span>: activations.saturable_absorption_sigmoid(test_input),<br>        <span class="hljs-string">&#x27;Tanh&#x27;</span>: activations.measurement_induced_tanh(test_input),<br>        <span class="hljs-string">&#x27;Optical ReLU&#x27;</span>: activations.all_optical_relu(test_input)<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> name, output <span class="hljs-keyword">in</span> outputs.items():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;name&#125;</span>: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(output, <span class="hljs-number">4</span>)&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-混合光电神经网络"><a href="#3-混合光电神经网络" class="headerlink" title="3. 混合光电神经网络"></a>3. 混合光电神经网络</h2><h3 id="3-1-架构设计"><a href="#3-1-架构设计" class="headerlink" title="3.1 架构设计"></a>3.1 架构设计</h3><p>混合光电神经网络结合了光学和电子的优势：</p>
+<p><strong>光学子系统</strong>：</p>
+<ul>
+<li>线性矩阵乘法</li>
+<li>高速、低能耗</li>
+</ul>
+<p><strong>电子子系统</strong>：</p>
+<ul>
+<li>非线性激活</li>
+<li>高精度控制</li>
+</ul>
+<h3 id="3-2-训练策略"><a href="#3-2-训练策略" class="headerlink" title="3.2 训练策略"></a>3.2 训练策略</h3><p><strong>反向传播的光学实现</strong>：</p>
+<ol>
+<li>前向传播：光学计算</li>
+<li>损失计算：电子计算</li>
+<li>梯度计算：电子计算</li>
+<li>参数更新：光学参数调节</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>, <span class="hljs-type">Tuple</span><br><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HybridOpticalLayer</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    混合光电神经网络层</span><br><span class="hljs-string"></span><br><span class="hljs-string">    光学计算 + 电子非线性</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, in_features: <span class="hljs-built_in">int</span>, out_features: <span class="hljs-built_in">int</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            in_features: 输入特征数</span><br><span class="hljs-string">            out_features: 输出特征数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.in_features = in_features<br>        <span class="hljs-variable language_">self</span>.out_features = out_features<br><br>        <span class="hljs-comment"># 随机初始化光学权重</span><br>        np.random.seed(<span class="hljs-number">42</span>)<br>        <span class="hljs-variable language_">self</span>.optical_weights = np.random.randn(out_features, in_features) + \<br>                              <span class="hljs-number">1j</span> * np.random.randn(out_features, in_features)<br><br>        <span class="hljs-comment"># 归一化为酉矩阵（用于无损光学系统）</span><br>        U, _, Vh = np.linalg.svd(<span class="hljs-variable language_">self</span>.optical_weights)<br>        <span class="hljs-variable language_">self</span>.optical_weights = U @ Vh<br><br>        <span class="hljs-comment"># 电子部分（激活函数）</span><br>        <span class="hljs-variable language_">self</span>.activation = nn.ReLU()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">optical_forward</span>(<span class="hljs-params">self, x: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        光学前向传播（矩阵乘法）</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入向量 [in_features]</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            光学输出 [out_features]</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.optical_weights @ x<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">electronic_forward</span>(<span class="hljs-params">self, x: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        电子前向传播（非线性激活）</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 光学输出 [out_features]</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            激活后的输出 [out_features]</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 将复数转换为实数（取模）</span><br>        real_x = np.<span class="hljs-built_in">abs</span>(x)<br><br>        <span class="hljs-comment"># 转换为PyTorch张量</span><br>        x_tensor = torch.tensor(real_x, dtype=torch.float32)<br><br>        <span class="hljs-comment"># 激活</span><br>        activated = <span class="hljs-variable language_">self</span>.activation(x_tensor)<br><br>        <span class="hljs-keyword">return</span> activated.numpy()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        完整的前向传播</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入向量 [in_features]</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            输出向量 [out_features]</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 光学线性计算</span><br>        optical_output = <span class="hljs-variable language_">self</span>.optical_forward(x)<br><br>        <span class="hljs-comment"># 电子非线性激活</span><br>        final_output = <span class="hljs-variable language_">self</span>.electronic_forward(optical_output)<br><br>        <span class="hljs-keyword">return</span> final_output<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">compute_gradients</span>(<span class="hljs-params">self, x: np.ndarray, loss_grad: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算梯度（简化版本）</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入向量</span><br><span class="hljs-string">            loss_grad: 损失对输出的梯度</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            权重梯度 [out_features, in_features]</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 这里使用数值梯度（实际应用中需要解析梯度）</span><br>        epsilon = <span class="hljs-number">1e-6</span><br><br>        grad = np.zeros_like(<span class="hljs-variable language_">self</span>.optical_weights)<br><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.out_features):<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.in_features):<br>                <span class="hljs-comment"># 扰动权重</span><br>                original_value = <span class="hljs-variable language_">self</span>.optical_weights[i, j]<br><br>                <span class="hljs-comment"># 正向扰动</span><br>                <span class="hljs-variable language_">self</span>.optical_weights[i, j] = original_value + epsilon<br>                output_plus = <span class="hljs-variable language_">self</span>.forward(x)<br><br>                <span class="hljs-comment"># 负向扰动</span><br>                <span class="hljs-variable language_">self</span>.optical_weights[i, j] = original_value - epsilon<br>                output_minus = <span class="hljs-variable language_">self</span>.forward(x)<br><br>                <span class="hljs-comment"># 数值梯度</span><br>                grad[i, j] = np.<span class="hljs-built_in">sum</span>((output_plus - output_minus) *<br>                                   loss_grad) / (<span class="hljs-number">2</span> * epsilon)<br><br>                <span class="hljs-comment"># 恢复原值</span><br>                <span class="hljs-variable language_">self</span>.optical_weights[i, j] = original_value<br><br>        <span class="hljs-keyword">return</span> grad<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">update_weights</span>(<span class="hljs-params">self, grad: np.ndarray, learning_rate: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.01</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        更新光学权重</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            grad: 权重梯度</span><br><span class="hljs-string">            learning_rate: 学习率</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.optical_weights -= learning_rate * grad<br><br>        <span class="hljs-comment"># 确保权重保持为酉矩阵（用于无损系统）</span><br>        U, _, Vh = np.linalg.svd(<span class="hljs-variable language_">self</span>.optical_weights)<br>        <span class="hljs-variable language_">self</span>.optical_weights = U @ Vh<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HybridOpticalNetwork</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    混合光电神经网络</span><br><span class="hljs-string"></span><br><span class="hljs-string">    多个混合层的堆叠</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, layer_sizes: <span class="hljs-type">List</span>[<span class="hljs-built_in">int</span>]</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            layer_sizes: 每层的神经元数量</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.layers = []<br><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(layer_sizes) - <span class="hljs-number">1</span>):<br>            layer = HybridOpticalLayer(layer_sizes[i], layer_sizes[i+<span class="hljs-number">1</span>])<br>            <span class="hljs-variable language_">self</span>.layers.append(layer)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        前向传播</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入向量</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            输出向量</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.layers:<br>            x = layer.forward(x)<br>        <span class="hljs-keyword">return</span> x<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">train_step</span>(<span class="hljs-params">self, x: np.ndarray, target: np.ndarray,</span><br><span class="hljs-params">                   loss_fn: <span class="hljs-type">Callable</span>, learning_rate: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.01</span></span>) -&gt; <span class="hljs-built_in">float</span>:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        单次训练步骤</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            x: 输入向量</span><br><span class="hljs-string">            target: 目标向量</span><br><span class="hljs-string">            loss_fn: 损失函数</span><br><span class="hljs-string">            learning_rate: 学习率</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            损失值</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 前向传播</span><br>        output = <span class="hljs-variable language_">self</span>.forward(x)<br><br>        <span class="hljs-comment"># 计算损失</span><br>        loss = loss_fn(output, target)<br><br>        <span class="hljs-comment"># 反向传播（简化）</span><br>        loss_grad = <span class="hljs-number">2</span> * (output - target) / <span class="hljs-built_in">len</span>(target)  <span class="hljs-comment"># MSE导数</span><br><br>        <span class="hljs-comment"># 逐层更新</span><br>        current_grad = loss_grad.copy()<br>        <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> <span class="hljs-built_in">reversed</span>(<span class="hljs-variable language_">self</span>.layers):<br>            weight_grad = layer.compute_gradients(x, current_grad)<br>            layer.update_weights(weight_grad, learning_rate)<br><br>        <span class="hljs-keyword">return</span> loss<br><br><br><span class="hljs-comment"># 测试代码</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;混合光电神经网络测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 创建网络</span><br>    layer_sizes = [<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>]  <span class="hljs-comment"># 输入4维，输出2维</span><br>    network = HybridOpticalNetwork(layer_sizes)<br><br>    <span class="hljs-comment"># 损失函数</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">mse_loss</span>(<span class="hljs-params">pred, target</span>):<br>        <span class="hljs-keyword">return</span> np.mean((pred - target)**<span class="hljs-number">2</span>)<br><br>    <span class="hljs-comment"># 生成训练数据</span><br>    np.random.seed(<span class="hljs-number">42</span>)<br>    X_train = np.random.randn(<span class="hljs-number">100</span>, <span class="hljs-number">4</span>)<br>    y_train = np.random.randint(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, (<span class="hljs-number">100</span>,))<br><br>    <span class="hljs-comment"># 训练</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n训练网络...&quot;</span>)<br>    losses = []<br><br>    <span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">50</span>):<br>        epoch_loss = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> x, y <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(X_train, y_train):<br>            <span class="hljs-comment"># One-hot编码</span><br>            target = np.zeros(<span class="hljs-number">2</span>)<br>            target[y] = <span class="hljs-number">1</span><br><br>            <span class="hljs-comment"># 训练步骤</span><br>            loss = network.train_step(x, target, mse_loss,<br>                                   learning_rate=<span class="hljs-number">0.001</span>)<br>            epoch_loss += loss<br><br>        avg_loss = epoch_loss / <span class="hljs-built_in">len</span>(X_train)<br>        losses.append(avg_loss)<br><br>        <span class="hljs-keyword">if</span> epoch % <span class="hljs-number">10</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Epoch <span class="hljs-subst">&#123;epoch&#125;</span>: Loss = <span class="hljs-subst">&#123;avg_loss:<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 绘制损失曲线</span><br>    plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>))<br>    plt.plot(losses, <span class="hljs-string">&#x27;b-&#x27;</span>, linewidth=<span class="hljs-number">2</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;Epoch&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Loss&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Training Loss&#x27;</span>)<br>    plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br>    plt.savefig(<span class="hljs-string">&#x27;hybrid_network_training.png&#x27;</span>, dpi=<span class="hljs-number">150</span>, bbox_inches=<span class="hljs-string">&#x27;tight&#x27;</span>)<br>    plt.show()<br><br>    <span class="hljs-comment"># 测试</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n测试网络...&quot;</span>)<br>    test_input = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">0.5</span>, -<span class="hljs-number">0.3</span>, <span class="hljs-number">0.8</span>])<br>    output = network.forward(test_input)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输入: <span class="hljs-subst">&#123;test_input&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输出: <span class="hljs-subst">&#123;output&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;预测类别: <span class="hljs-subst">&#123;np.argmax(output)&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-实际应用案例"><a href="#4-实际应用案例" class="headerlink" title="4. 实际应用案例"></a>4. 实际应用案例</h2><h3 id="4-1-图像识别"><a href="#4-1-图像识别" class="headerlink" title="4.1 图像识别"></a>4.1 图像识别</h3><p>光子神经网络在图像识别任务中展现出巨大潜力：</p>
+<p><strong>MNIST手写数字识别</strong>：</p>
+<ul>
+<li>输入：784像素的28×28图像</li>
+<li>网络架构：多个混合层</li>
+<li>准确率：~95%</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>推理速度：纳秒级（vs 毫秒级）</li>
+<li>能耗：~nJ（vs ~mJ）</li>
+</ul>
+<h3 id="4-2-语音识别"><a href="#4-2-语音识别" class="headerlink" title="4.2 语音识别"></a>4.2 语音识别</h3><p>光学计算加速语音识别的矩阵乘法部分：</p>
+<p><strong>关键词识别</strong>：</p>
+<ul>
+<li>输入：MFCC特征</li>
+<li>网络：RNN + 光学加速器</li>
+<li>实时性：支持实时语音处理</li>
+</ul>
+<h3 id="4-3-自然语言处理"><a href="#4-3-自然语言处理" class="headerlink" title="4.3 自然语言处理"></a>4.3 自然语言处理</h3><p>Transformer模型的注意力机制计算可以映射到光学矩阵乘法：</p>
+<p><strong>机器翻译</strong>：</p>
+<ul>
+<li>注意力矩阵：光学计算</li>
+<li>前馈网络：电子计算</li>
+<li>加速比：10-100倍</li>
+</ul>
+<h2 id="5-技术挑战与发展前景"><a href="#5-技术挑战与发展前景" class="headerlink" title="5. 技术挑战与发展前景"></a>5. 技术挑战与发展前景</h2><h3 id="5-1-技术挑战"><a href="#5-1-技术挑战" class="headerlink" title="5.1 技术挑战"></a>5.1 技术挑战</h3><p><strong>精度问题</strong>：</p>
+<ul>
+<li>光学噪声</li>
+<li>器件非线性</li>
+<li>制造公差</li>
+</ul>
+<p><strong>可编程性</strong>：</p>
+<ul>
+<li>权重固定性</li>
+<li>实时调节困难</li>
+<li>调节范围有限</li>
+</ul>
+<p><strong>集成度</strong>：</p>
+<ul>
+<li>器件尺寸限制</li>
+<li>耦合损耗</li>
+<li>热管理</li>
+</ul>
+<h3 id="5-2-发展方向"><a href="#5-2-发展方向" class="headerlink" title="5.2 发展方向"></a>5.2 发展方向</h3><p><strong>新型材料</strong>：</p>
+<ul>
+<li>二维材料（石墨烯、黑磷）</li>
+<li>超材料</li>
+<li>量子点</li>
+</ul>
+<p><strong>新算法</strong>：</p>
+<ul>
+<li>光学友好算法</li>
+<li>鲁棒学习算法</li>
+<li>自校正算法</li>
+</ul>
+<p><strong>系统集成</strong>：</p>
+<ul>
+<li>硅光子学</li>
+<li>三维集成</li>
+<li>量子光子学</li>
+</ul>
+<h2 id="6-结论"><a href="#6-结论" class="headerlink" title="6. 结论"></a>6. 结论</h2><p>光子神经网络作为新兴的计算范式，在特定应用中展现出巨大潜力：</p>
+<ol>
+<li><strong>物理基础</strong>：线性光学完美支持矩阵乘法运算</li>
+<li><strong>非线性实现</strong>：多种方法实现光学激活函数</li>
+<li><strong>混合架构</strong>：结合光学和电子的优势</li>
+<li><strong>实际应用</strong>：图像识别、语音处理、自然语言处理</li>
+<li><strong>技术挑战</strong>：精度、可编程性、集成度</li>
+</ol>
+<p>随着光学材料、算法设计和系统集成技术的不断进步，光子神经网络有望在人工智能领域发挥越来越重要的作用。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><p>Shen, Y., et al. (2017). “Deep learning with coherent nanophotonic circuits.” Nature Photonics.</p>
+</li>
+<li><p>Miscuglio, M., &amp; Sorger, V. J. (2020). “Photonic tensor cores.” Applied Physics Reviews.</p>
+</li>
+<li><p>Ríos, C., et al. (2019). “Integrated photonic neural networks.” Nature Communications.</p>
+</li>
+<li><p>Miller, D. A. B. (2017). “Attojoule optoelectronics for low-energy data communication.” Journal of Lightwave Technology.</p>
+</li>
+<li><p>Harris, N. C., et al. (2021). “Quantum transport simulations in a programmable nanophotonic processor.” Nature Photonics.</p>
+</li>
+</ol>
+<hr>
+<p><strong>⚠️ 版权与免责声明 (Copyright &amp; Disclaimer):</strong></p>
+<p>本文为非商业性的学术与技术分享，旨在促进光子神经网络领域的技术交流。文中部分辅助理解的配图来源于公开网络检索，未能逐一联系原作者获取正式授权。图片版权均归属原作者或对应学术期刊、机构所有。</p>
+<p>在此郑重声明：若原图权利人对本文的引用存在任何异议，或认为构成了未经授权的使用，请随时通过博客后台留言或邮件与本人联系。我将在收到通知后第一时间全力配合，进行版权信息的补充标明或立即执行删除处理。由衷感谢每一位科研工作者对科学知识开放传播的包容与贡献！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%90%E8%AE%A1%E7%AE%97/" class="category-chain-item">光子计算</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%90%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="print-no-link">#光子神经网络</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%80%A7%E5%85%89%E5%AD%A6/" class="print-no-link">#线性光学</a>
+      
+        <a href="/tags/%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%85%89%E5%AD%A6/" class="print-no-link">#非线性光学</a>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光子神经网络的前沿研究：从线性光学到非线性激活</div>
+      <div>https://sunfove.xyz/2026/04/09/2026-04-09-photonic-neural-networks-frontier/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 9, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/09/2026-04-09-adaptive-optics-algorithms/" title="自适应光学的算法实现：从波前感知到实时校正">
+                        <span class="hidden-mobile">自适应光学的算法实现：从波前感知到实时校正</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/04/09/2026-04-09-photonic-neural-networks-frontier/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

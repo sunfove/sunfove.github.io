@@ -1,0 +1,862 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="揭示神经网络与物理学之间的深刻数学联系。本文从哈密顿力学出发，推导出梯度下降算法的物理本质，并讨论能量景观、相变等物理概念在深度学习中的应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神经网络与物理学的深刻联系：从哈密顿力学到梯度下降">
+<meta property="og:url" content="https://sunfove.xyz/2026/04/09/2026-04-09-neural-network-physics-connection/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="揭示神经网络与物理学之间的深刻数学联系。本文从哈密顿力学出发，推导出梯度下降算法的物理本质，并讨论能量景观、相变等物理概念在深度学习中的应用。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-04-09T10:30:00.000Z">
+<meta property="article:modified_time" content="2026-04-09T14:59:11.754Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="优化理论">
+<meta property="article:tag" content="哈密顿力学">
+<meta property="article:tag" content="梯度下降">
+<meta property="article:tag" content="神经网络">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>神经网络与物理学的深刻联系：从哈密顿力学到梯度下降 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-09 10:30" pubdate>
+          April 9, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>神经网络的成功往往被归因于”黑盒”的强大学习能力。然而，如果我们剥开深度学习的外衣，会发现其数学结构与经典物理学有着惊人的相似性。</p>
+<p>从能量最小化到梯度下降，从哈密顿动力学到优化轨迹，神经网络训练本质上就是在寻找高维能量景观中的全局最小值。本文将从第一性原理出发，建立神经网络与物理学的严格数学联系。</p>
+<h2 id="1-物理基础：哈密顿力学与最小作用原理"><a href="#1-物理基础：哈密顿力学与最小作用原理" class="headerlink" title="1. 物理基础：哈密顿力学与最小作用原理"></a>1. 物理基础：哈密顿力学与最小作用原理</h2><h3 id="1-1-哈密顿量与能量函数"><a href="#1-1-哈密顿量与能量函数" class="headerlink" title="1.1 哈密顿量与能量函数"></a>1.1 哈密顿量与能量函数</h3><p>在经典力学中，系统的动力学由哈密顿量 $H(\mathbf{q}, \mathbf{p})$ 描述，其中 $\mathbf{q}$ 是广义坐标，$\mathbf{p}$ 是广义动量：</p>
+<p>$$H(\mathbf{q}, \mathbf{p}) &#x3D; T(\mathbf{p}) + V(\mathbf{q})$$</p>
+<p>其中 $T(\mathbf{p})$ 是动能，$V(\mathbf{q})$ 是势能。</p>
+<p>哈密顿方程描述了系统的演化：</p>
+<p>$$<br>\begin{cases}<br>\dot{\mathbf{q}} &#x3D; \frac{\partial H}{\partial \mathbf{p}} \<br>\dot{\mathbf{p}} &#x3D; -\frac{\partial H}{\partial \mathbf{q}}<br>\end{cases}<br>$$</p>
+<h3 id="1-2-最小作用原理"><a href="#1-2-最小作用原理" class="headerlink" title="1.2 最小作用原理"></a>1.2 最小作用原理</h3><p>系统遵循最小作用原理：</p>
+<p>$$\delta \int L(\mathbf{q}, \dot{\mathbf{q}}, t) dt &#x3D; 0$$</p>
+<p>其中拉格朗日量 $L &#x3D; T - V$。</p>
+<p>这个原理告诉我们：<strong>自然界总是选择作用量最小的路径</strong>。</p>
+<h2 id="2-神经网络的能量景观"><a href="#2-神经网络的能量景观" class="headerlink" title="2. 神经网络的能量景观"></a>2. 神经网络的能量景观</h2><h3 id="2-1-损失函数作为势能"><a href="#2-1-损失函数作为势能" class="headerlink" title="2.1 损失函数作为势能"></a>2.1 损失函数作为势能</h3><p>神经网络的训练可以看作是在高维参数空间 $\mathbf{W}$ 中寻找损失函数 $L(\mathbf{W})$ 的最小值：</p>
+<p>$$\mathbf{W}^* &#x3D; \arg\min_{\mathbf{W}} L(\mathbf{W})$$</p>
+<p>这与物理学中寻找势能最小值的过程完全一致！如果我们定义：</p>
+<p>$$V(\mathbf{W}) &#x3D; L(\mathbf{W})$$</p>
+<p>那么神经网络训练就是粒子在势能场 $V(\mathbf{W})$ 中寻找稳定平衡态的过程。</p>
+<h3 id="2-2-梯度下降与牛顿第二定律"><a href="#2-2-梯度下降与牛顿第二定律" class="headerlink" title="2.2 梯度下降与牛顿第二定律"></a>2.2 梯度下降与牛顿第二定律</h3><p><strong>梯度下降（Gradient Descent）</strong>：</p>
+<p>$$\mathbf{W}_{t+1} &#x3D; \mathbf{W}_t - \eta \nabla L(\mathbf{W}_t)$$</p>
+<p>其中 $\eta$ 是学习率。</p>
+<p>这与<strong>过阻尼运动</strong>（overdamped motion）完全对应：</p>
+<p>$$\gamma \dot{\mathbf{W}} &#x3D; -\nabla V(\mathbf{W})$$</p>
+<p>其中 $\gamma$ 是阻尼系数，$\dot{\mathbf{W}} &#x3D; \frac{d\mathbf{W}}{dt}$ 是速度。</p>
+<p>在离散时间步长 $\Delta t$ 下，$\dot{\mathbf{W}} \approx \frac{\mathbf{W}_{t+1} - \mathbf{W}_t}{\Delta t}$，得到：</p>
+<p>$$\gamma \frac{\mathbf{W}_{t+1} - \mathbf{W}_t}{\Delta t} &#x3D; -\nabla V(\mathbf{W}_t)$$</p>
+<p>因此：</p>
+<p>$$\mathbf{W}_{t+1} &#x3D; \mathbf{W}_t - \frac{\eta}{\gamma} \nabla V(\mathbf{W}_t)$$</p>
+<p>其中学习率 $\eta &#x3D; \frac{\Delta t}{\gamma}$。</p>
+<p><strong>结论：梯度下降就是过阻尼粒子在势能场中的运动！</strong></p>
+<h3 id="2-3-动量方法与惯性运动"><a href="#2-3-动量方法与惯性运动" class="headerlink" title="2.3 动量方法与惯性运动"></a>2.3 动量方法与惯性运动</h3><p><strong>SGD with Momentum</strong>：</p>
+<p>$$<br>\begin{cases}<br>\mathbf{v}_{t+1} &#x3D; \beta \mathbf{v}_t - \eta \nabla L(\mathbf{W}<em>t) \<br>\mathbf{W}</em>{t+1} &#x3D; \mathbf{W}<em>t + \mathbf{v}</em>{t+1}<br>\end{cases}<br>$$</p>
+<p>这与<strong>欠阻尼运动</strong>（underdamped motion）完全对应：</p>
+<p>$$m \ddot{\mathbf{W}} + \gamma \dot{\mathbf{W}} &#x3D; -\nabla V(\mathbf{W})$$</p>
+<p>设 $\mathbf{p} &#x3D; m \dot{\mathbf{W}}$ 为动量，$\mathbf{v} &#x3D; \dot{\mathbf{W}}$ 为速度，得到：</p>
+<p>$$<br>\begin{cases}<br>\dot{\mathbf{p}} &#x3D; -\gamma \mathbf{v} - \nabla V(\mathbf{W}) \<br>\dot{\mathbf{W}} &#x3D; \mathbf{v}<br>\end{cases}<br>$$</p>
+<p>在离散化后，这与动量方法的更新公式一一对应：</p>
+<ul>
+<li>$\beta$ 对应惯性系数 $\frac{m}{m + \gamma \Delta t}$</li>
+<li>$\eta$ 对应时间步长 $\Delta t$</li>
+</ul>
+<p><strong>物理意义：动量方法引入了惯性，使粒子能够”冲过”局部极小值！</strong></p>
+<h2 id="3-哈密顿神经网络"><a href="#3-哈密顿神经网络" class="headerlink" title="3. 哈密顿神经网络"></a>3. 哈密顿神经网络</h2><h3 id="3-1-保留能量结构的神经网络"><a href="#3-1-保留能量结构的神经网络" class="headerlink" title="3.1 保留能量结构的神经网络"></a>3.1 保留能量结构的神经网络</h3><p>传统的神经网络训练会”消耗”能量（损失函数单调下降），但许多物理系统的能量是守恒的。为了更好地模拟物理系统，我们需要构造<strong>哈密顿神经网络（Hamiltonian Neural Networks, HNNs）</strong>。</p>
+<h3 id="3-2-哈密顿方程的学习"><a href="#3-2-哈密顿方程的学习" class="headerlink" title="3.2 哈密顿方程的学习"></a>3.2 哈密顿方程的学习</h3><p>给定一组观测数据 $(\mathbf{q}, \mathbf{p})$，我们的目标学习哈密顿量 $H(\mathbf{q}, \mathbf{p})$。</p>
+<p><strong>数据生成</strong>：</p>
+<p>假设真实的哈密顿量为 $H_{\text{true}}(\mathbf{q}, \mathbf{p})$，通过求解哈密顿方程生成轨迹数据。</p>
+<p><strong>网络架构</strong>：</p>
+<p>我们用神经网络 $H_\theta(\mathbf{q}, \mathbf{p})$ 来近似真实哈密顿量。</p>
+<p><strong>损失函数</strong>：</p>
+<p>$$L &#x3D; \frac{1}{N} \sum_{i&#x3D;1}^{N} \left[ \left( \frac{\partial H_\theta}{\partial \mathbf{p}} - \dot{\mathbf{q}} \right)^2 + \left( \frac{\partial H_\theta}{\partial \mathbf{q}} + \dot{\mathbf{p}} \right)^2 \right]$$</p>
+<h3 id="3-3-辛积分器（Symplectic-Integrator）"><a href="#3-3-辛积分器（Symplectic-Integrator）" class="headerlink" title="3.3 辛积分器（Symplectic Integrator）"></a>3.3 辛积分器（Symplectic Integrator）</h3><p>哈密顿系统的一个重要性质是**辛结构（Symplectic Structure）**的保持。传统的欧拉积分器会破坏这一性质，导致能量不守恒。</p>
+<p><strong>Leapfrog积分器</strong>：</p>
+<p>$$<br>\begin{cases}<br>\mathbf{p}<em>{t+1&#x2F;2} &#x3D; \mathbf{p}<em>t - \frac{\Delta t}{2} \nabla</em>{\mathbf{q}} H(\mathbf{q}<em>t, \mathbf{p}</em>{t+1&#x2F;2}) \<br>\mathbf{q}</em>{t+1} &#x3D; \mathbf{q}<em>t + \Delta t \nabla</em>{\mathbf{p}} H(\mathbf{q}<em>{t+1}, \mathbf{p}</em>{t+1&#x2F;2}) \<br>\mathbf{p}<em>{t+1} &#x3D; \mathbf{p}</em>{t+1&#x2F;2} - \frac{\Delta t}{2} \nabla_{\mathbf{q}} H(\mathbf{q}<em>{t+1}, \mathbf{p}</em>{t+1&#x2F;2})<br>\end{cases}<br>$$</p>
+<p>这种积分器保持了辛结构，因此能量长时间守恒。</p>
+<h2 id="4-能量景观与相变"><a href="#4-能量景观与相变" class="headerlink" title="4. 能量景观与相变"></a>4. 能量景观与相变</h2><h3 id="4-1-神经网络的相变理论"><a href="#4-1-神经网络的相变理论" class="headerlink" title="4.1 神经网络的相变理论"></a>4.1 神经网络的相变理论</h3><p>神经网络训练过程中存在类似相变的现象：</p>
+<p><strong>SGD相变</strong>：<br>在训练初期，损失函数快速下降，类似于<strong>一级相变</strong>（如冰熔化）。<br>在训练后期，损失函数缓慢收敛，类似于<strong>二级相变</strong>（如铁磁-顺磁转变）。</p>
+<h3 id="4-2-临界点与鞍点"><a href="#4-2-临界点与鞍点" class="headerlink" title="4.2 临界点与鞍点"></a>4.2 临界点与鞍点</h3><p>高维优化问题中，真正的局部极小值很少，大部分临界点是<strong>鞍点（Saddle Points）</strong>：</p>
+<p>$$\nabla^2 L(\mathbf{W}^*) \text{ 既有正特征值，又有负特征值}$$</p>
+<p>在鞍点附近，沿着某些方向是下降的，沿着其他方向是上升的。</p>
+<p><strong>Hessian 矩阵的谱密度</strong>：</p>
+<p>$$\rho(\lambda) &#x3D; \frac{1}{N} \sum_{i&#x3D;1}^{N} \delta(\lambda - \lambda_i)$$</p>
+<p>其中 $\lambda_i$ 是 Hessian 矩阵的特征值。</p>
+<p>研究发现，在深度神经网络中，Hessian 特征值分布呈现出<strong>三明治结构</strong>：大部分特征值接近零，少数特征值很大。</p>
+<h3 id="4-3-损失曲面的分形结构"><a href="#4-3-损失曲面的分形结构" class="headerlink" title="4.3 损失曲面的分形结构"></a>4.3 损失曲面的分形结构</h3><p>神经网络的损失曲面具有**分形（Fractal）**性质。这意味着在不同尺度上，损失曲面的结构是自相似的。</p>
+<p><strong>盒计数维数</strong>：</p>
+<p>$$D &#x3D; \lim_{\epsilon \to 0} \frac{\log N(\epsilon)}{\log(1&#x2F;\epsilon)}$$</p>
+<p>其中 $N(\epsilon)$ 是用边长为 $\epsilon$ 的盒子覆盖损失曲面所需的盒子数。</p>
+<p>实验表明，神经网络的损失曲面维数 $D$ 介于欧几里得维数和拓扑维数之间。</p>
+<h2 id="5-Python-实现：物理启发的优化算法"><a href="#5-Python-实现：物理启发的优化算法" class="headerlink" title="5. Python 实现：物理启发的优化算法"></a>5. Python 实现：物理启发的优化算法</h2><h3 id="5-1-哈密顿动力学优化器"><a href="#5-1-哈密顿动力学优化器" class="headerlink" title="5.1 哈密顿动力学优化器"></a>5.1 哈密顿动力学优化器</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>, <span class="hljs-type">Tuple</span><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HamiltonianOptimizer</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    基于哈密顿动力学的优化器</span><br><span class="hljs-string"></span><br><span class="hljs-string">    将优化问题转化为粒子在势能场中的运动问题</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, mass: <span class="hljs-built_in">float</span> = <span class="hljs-number">1.0</span>, friction: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.1</span>, dt: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.01</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            mass: 粒子质量</span><br><span class="hljs-string">            friction: 摩擦系数（阻尼）</span><br><span class="hljs-string">            dt: 时间步长</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.mass = mass<br>        <span class="hljs-variable language_">self</span>.friction = friction<br>        <span class="hljs-variable language_">self</span>.dt = dt<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">optimize</span>(<span class="hljs-params">self, loss_fn: <span class="hljs-type">Callable</span>, grad_fn: <span class="hljs-type">Callable</span>, x0: np.ndarray,</span><br><span class="hljs-params">                num_steps: <span class="hljs-built_in">int</span> = <span class="hljs-number">1000</span></span>) -&gt; <span class="hljs-type">Tuple</span>[np.ndarray, <span class="hljs-built_in">list</span>]:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        执行优化</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            loss_fn: 损失函数</span><br><span class="hljs-string">            grad_fn: 梯度函数</span><br><span class="hljs-string">            x0: 初始位置</span><br><span class="hljs-string">            num_steps: 迭代步数</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            优化后的参数，轨迹历史</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        x = x0.copy()<br>        v = np.zeros_like(x)  <span class="hljs-comment"># 初始速度为零</span><br><br>        trajectory = [x.copy()]<br>        loss_history = []<br><br>        <span class="hljs-keyword">for</span> step <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_steps):<br>            <span class="hljs-comment"># 计算势能（损失）和力（负梯度）</span><br>            loss = loss_fn(x)<br>            force = -grad_fn(x)  <span class="hljs-comment"># F = -∇V</span><br><br>            <span class="hljs-comment"># 哈密顿动力学（带阻尼）</span><br>            <span class="hljs-comment"># m * a + γ * v = F</span><br>            <span class="hljs-comment"># a = (F - γ * v) / m</span><br><br>            acceleration = (force - <span class="hljs-variable language_">self</span>.friction * v) / <span class="hljs-variable language_">self</span>.mass<br><br>            <span class="hljs-comment"># 速度更新（半步）</span><br>            v += acceleration * <span class="hljs-variable language_">self</span>.dt<br><br>            <span class="hljs-comment"># 位置更新</span><br>            x += v * <span class="hljs-variable language_">self</span>.dt<br><br>            <span class="hljs-comment"># 记录轨迹</span><br>            trajectory.append(x.copy())<br>            loss_history.append(loss)<br><br>            <span class="hljs-keyword">if</span> step % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Step <span class="hljs-subst">&#123;step&#125;</span>: Loss = <span class="hljs-subst">&#123;loss:<span class="hljs-number">.6</span>f&#125;</span>, |v| = <span class="hljs-subst">&#123;np.linalg.norm(v):<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br>        <span class="hljs-keyword">return</span> x, trajectory, loss_history<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rosenbrock_function</span>(<span class="hljs-params">x: np.ndarray</span>) -&gt; <span class="hljs-built_in">float</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Rosenbrock 函数（香蕉函数）</span><br><span class="hljs-string"></span><br><span class="hljs-string">    f(x, y) = (a - x)^2 + b * (y - x^2)^2</span><br><span class="hljs-string"></span><br><span class="hljs-string">    通常 a = 1, b = 100</span><br><span class="hljs-string">    全局最小值在 (1, 1)，f = 0</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    a = <span class="hljs-number">1.0</span><br>    b = <span class="hljs-number">100.0</span><br>    <span class="hljs-keyword">return</span> (a - x[<span class="hljs-number">0</span>])**<span class="hljs-number">2</span> + b * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)**<span class="hljs-number">2</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rosenbrock_gradient</span>(<span class="hljs-params">x: np.ndarray</span>) -&gt; np.ndarray:<br>    <span class="hljs-string">&quot;&quot;&quot;Rosenbrock 函数的梯度&quot;&quot;&quot;</span><br>    a = <span class="hljs-number">1.0</span><br>    b = <span class="hljs-number">100.0</span><br>    grad = np.zeros_like(x)<br>    grad[<span class="hljs-number">0</span>] = -<span class="hljs-number">2</span> * (a - x[<span class="hljs-number">0</span>]) - <span class="hljs-number">4</span> * b * x[<span class="hljs-number">0</span>] * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)<br>    grad[<span class="hljs-number">1</span>] = <span class="hljs-number">2</span> * b * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)<br>    <span class="hljs-keyword">return</span> grad<br><br><span class="hljs-comment"># 测试代码</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;哈密顿动力学优化器测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 初始点</span><br>    x0 = np.array([-<span class="hljs-number">1.5</span>, <span class="hljs-number">2.0</span>])<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n初始点: <span class="hljs-subst">&#123;x0&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;初始损失: <span class="hljs-subst">&#123;rosenbrock_function(x0):<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 创建优化器</span><br>    optimizer = HamiltonianOptimizer(mass=<span class="hljs-number">1.0</span>, friction=<span class="hljs-number">0.5</span>, dt=<span class="hljs-number">0.01</span>)<br><br>    <span class="hljs-comment"># 执行优化</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n开始优化...&quot;</span>)<br>    x_opt, trajectory, loss_history = optimizer.optimize(<br>        loss_fn=rosenbrock_function,<br>        grad_fn=rosenbrock_gradient,<br>        x0=x0,<br>        num_steps=<span class="hljs-number">2000</span><br>    )<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n优化结果: <span class="hljs-subst">&#123;x_opt&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;最优解: [1.0, 1.0]&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;最终损失: <span class="hljs-subst">&#123;rosenbrock_function(x_opt):<span class="hljs-number">.10</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 绘制损失曲线</span><br>    plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">5</span>))<br><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br>    plt.plot(loss_history)<br>    plt.xlabel(<span class="hljs-string">&#x27;Iteration&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Loss&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Loss vs Iteration&#x27;</span>)<br>    plt.yscale(<span class="hljs-string">&#x27;log&#x27;</span>)<br><br>    <span class="hljs-comment"># 绘制轨迹</span><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br>    trajectory = np.array(trajectory)<br>    plt.plot(trajectory[:, <span class="hljs-number">0</span>], trajectory[:, <span class="hljs-number">1</span>], <span class="hljs-string">&#x27;b-&#x27;</span>, alpha=<span class="hljs-number">0.6</span>, linewidth=<span class="hljs-number">1</span>)<br>    plt.scatter(trajectory[::<span class="hljs-number">100</span>, <span class="hljs-number">0</span>], trajectory[::<span class="hljs-number">100</span>, <span class="hljs-number">1</span>], c=<span class="hljs-string">&#x27;red&#x27;</span>, s=<span class="hljs-number">20</span>)<br>    plt.scatter(x_opt[<span class="hljs-number">0</span>], x_opt[<span class="hljs-number">1</span>], c=<span class="hljs-string">&#x27;green&#x27;</span>, s=<span class="hljs-number">100</span>, marker=<span class="hljs-string">&#x27;*&#x27;</span>, label=<span class="hljs-string">&#x27;Global Min&#x27;</span>)<br><br>    <span class="hljs-comment"># 绘制等高线</span><br>    x1_range = np.linspace(-<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">100</span>)<br>    x2_range = np.linspace(-<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">100</span>)<br>    X1, X2 = np.meshgrid(x1_range, x2_range)<br>    Z = np.zeros_like(X1)<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(X1.shape[<span class="hljs-number">0</span>]):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(X1.shape[<span class="hljs-number">1</span>]):<br>            Z[i, j] = rosenbrock_function(np.array([X1[i, j], X2[i, j]]))<br><br>    plt.contour(X1, X2, Z, levels=<span class="hljs-number">50</span>, alpha=<span class="hljs-number">0.3</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;x&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;y&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Optimization Trajectory on Rosenbrock Function&#x27;</span>)<br>    plt.legend()<br><br>    plt.tight_layout()<br>    plt.savefig(<span class="hljs-string">&#x27;optimization_trajectory.png&#x27;</span>, dpi=<span class="hljs-number">150</span>, bbox_inches=<span class="hljs-string">&#x27;tight&#x27;</span>)<br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-哈密顿神经网络实现"><a href="#5-2-哈密顿神经网络实现" class="headerlink" title="5.2 哈密顿神经网络实现"></a>5.2 哈密顿神经网络实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HamiltonianNetwork</span>(nn.Module):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    哈密顿神经网络</span><br><span class="hljs-string"></span><br><span class="hljs-string">    学习系统的哈密顿量，并使用辛积分器进行时间演化</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, input_dim: <span class="hljs-built_in">int</span>, hidden_dim: <span class="hljs-built_in">int</span> = <span class="hljs-number">256</span></span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        <span class="hljs-variable language_">self</span>.net = nn.Sequential(<br>            nn.Linear(input_dim, hidden_dim),<br>            nn.Tanh(),<br>            nn.Linear(hidden_dim, hidden_dim),<br>            nn.Tanh(),<br>            nn.Linear(hidden_dim, <span class="hljs-number">1</span>)<br>        )<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, q: torch.Tensor, p: torch.Tensor</span>) -&gt; torch.Tensor:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算哈密顿量</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            q: 广义坐标 [batch_size, dim]</span><br><span class="hljs-string">            p: 广义动量 [batch_size, dim]</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            哈密顿量 [batch_size, 1]</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 拼接 q 和 p</span><br>        x = torch.cat([q, p], dim=<span class="hljs-number">1</span>)<br>        H = <span class="hljs-variable language_">self</span>.net(x)<br>        <span class="hljs-keyword">return</span> H<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">derivatives</span>(<span class="hljs-params">self, q: torch.Tensor, p: torch.Tensor</span>) -&gt; <span class="hljs-type">Tuple</span>[torch.Tensor, torch.Tensor]:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        计算哈密顿方程的导数</span><br><span class="hljs-string"></span><br><span class="hljs-string">        dq/dt = ∂H/∂p</span><br><span class="hljs-string">        dp/dt = -∂H/∂q</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            q: 广义坐标 [batch_size, dim]</span><br><span class="hljs-string">            p: 广义动量 [batch_size, dim]</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            dq_dt, dp_dt</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        q.requires_grad_(<span class="hljs-literal">True</span>)<br>        p.requires_grad_(<span class="hljs-literal">True</span>)<br><br>        H = <span class="hljs-variable language_">self</span>.forward(q, p)<br><br>        <span class="hljs-comment"># 计算 ∂H/∂p 和 ∂H/∂q</span><br>        dq_dt = torch.autograd.grad(H.<span class="hljs-built_in">sum</span>(), p, create_graph=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]<br>        dp_dt = -torch.autograd.grad(H.<span class="hljs-built_in">sum</span>(), q, create_graph=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]<br><br>        <span class="hljs-keyword">return</span> dq_dt, dp_dt<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">leapfrog_step</span>(<span class="hljs-params">self, q: torch.Tensor, p: torch.Tensor, dt: <span class="hljs-built_in">float</span>,</span><br><span class="hljs-params">                    num_steps: <span class="hljs-built_in">int</span> = <span class="hljs-number">4</span></span>) -&gt; <span class="hljs-type">Tuple</span>[torch.Tensor, torch.Tensor]:<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Leapfrog 积分器</span><br><span class="hljs-string"></span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            q: 初始广义坐标</span><br><span class="hljs-string">            p: 初始广义动量</span><br><span class="hljs-string">            dt: 时间步长</span><br><span class="hljs-string">            num_steps: 内部 Leapfrog 步数</span><br><span class="hljs-string"></span><br><span class="hljs-string">        返回:</span><br><span class="hljs-string">            更新后的 q, p</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_steps):<br>            <span class="hljs-comment"># 半步更新 p</span><br>            dp = -torch.autograd.grad(<span class="hljs-variable language_">self</span>.forward(q, p).<span class="hljs-built_in">sum</span>(), q, create_graph=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]<br>            p = p + (dt / <span class="hljs-number">2</span>) * dp<br><br>            <span class="hljs-comment"># 整步更新 q</span><br>            dq = torch.autograd.grad(<span class="hljs-variable language_">self</span>.forward(q, p).<span class="hljs-built_in">sum</span>(), p, create_graph=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]<br>            q = q + dt * dq<br><br>            <span class="hljs-comment"># 半步更新 p</span><br>            dp = -torch.autograd.grad(<span class="hljs-variable language_">self</span>.forward(q, p).<span class="hljs-built_in">sum</span>(), q, create_graph=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]<br>            p = p + (dt / <span class="hljs-number">2</span>) * dp<br><br>        <span class="hljs-keyword">return</span> q, p<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">train_hnn</span>(<span class="hljs-params">data: <span class="hljs-type">Tuple</span>[np.ndarray, np.ndarray], epochs: <span class="hljs-built_in">int</span> = <span class="hljs-number">1000</span>,</span><br><span class="hljs-params">              lr: <span class="hljs-built_in">float</span> = <span class="hljs-number">1e-3</span></span>) -&gt; HamiltonianNetwork:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    训练哈密顿神经网络</span><br><span class="hljs-string"></span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        data: (q, p) 训练数据</span><br><span class="hljs-string">        epochs: 训练轮数</span><br><span class="hljs-string">        lr: 学习率</span><br><span class="hljs-string"></span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        训练好的 HNN 模型</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    q_train, p_train = data<br>    q_tensor = torch.tensor(q_train, dtype=torch.float32)<br>    p_tensor = torch.tensor(p_train, dtype=torch.float32)<br><br>    <span class="hljs-comment"># 创建模型</span><br>    model = HamiltonianNetwork(input_dim=q_train.shape[<span class="hljs-number">1</span>] * <span class="hljs-number">2</span>)<br>    optimizer = torch.optim.Adam(model.parameters(), lr=lr)<br><br>    <span class="hljs-comment"># 计算时间导数（需要提供）</span><br>    <span class="hljs-comment"># 这里简化处理，实际需要从数据中计算</span><br><br>    <span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epochs):<br>        optimizer.zero_grad()<br><br>        <span class="hljs-comment"># 计算 dq/dt 和 dp/dt</span><br>        dq_dt_pred, dp_dt_pred = model.derivatives(q_tensor, p_tensor)<br><br>        <span class="hljs-comment"># 损失函数：预测导数与真实导数的差异</span><br>        <span class="hljs-comment"># 这里需要提供真实的导数数据</span><br>        loss = <span class="hljs-number">0.0</span>  <span class="hljs-comment"># 需要根据实际数据计算</span><br><br>        loss.backward()<br>        optimizer.step()<br><br>        <span class="hljs-keyword">if</span> epoch % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Epoch <span class="hljs-subst">&#123;epoch&#125;</span>: Loss = <span class="hljs-subst">&#123;loss.item():<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> model<br><br><br><span class="hljs-comment"># 谐振子示例</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">harmonic_oscillator_data</span>(<span class="hljs-params">num_samples: <span class="hljs-built_in">int</span> = <span class="hljs-number">1000</span>, dt: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.1</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    生成谐振子的训练数据</span><br><span class="hljs-string"></span><br><span class="hljs-string">    H(q, p) = p²/2m + kq²/2</span><br><span class="hljs-string"></span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        num_samples: 样本数</span><br><span class="hljs-string">        dt: 时间步长</span><br><span class="hljs-string"></span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        (q, p, dq/dt, dp/dt) 数据</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    m = <span class="hljs-number">1.0</span>  <span class="hljs-comment"># 质量</span><br>    k = <span class="hljs-number">1.0</span>  <span class="hljs-comment"># 弹簧常数</span><br><br>    <span class="hljs-comment"># 初始条件</span><br>    q0 = np.random.randn(num_samples)<br>    p0 = np.random.randn(num_samples)<br><br>    <span class="hljs-comment"># 计算导数</span><br>    dq_dt = p0 / m<br>    dp_dt = -k * q0<br><br>    <span class="hljs-keyword">return</span> q0, p0, dq_dt, dp_dt<br><br><br><span class="hljs-comment"># 测试代码</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;哈密顿神经网络测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 生成谐振子数据</span><br>    q, p, dq_dt, dp_dt = harmonic_oscillator_data(num_samples=<span class="hljs-number">1000</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n数据形状:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;q: <span class="hljs-subst">&#123;q.shape&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;p: <span class="hljs-subst">&#123;p.shape&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;dq/dt: <span class="hljs-subst">&#123;dq_dt.shape&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;dp/dt: <span class="hljs-subst">&#123;dp_dt.shape&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 可以继续实现完整的训练流程</span><br>    <span class="hljs-comment"># 这里作为演示框架</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="6-相变与临界现象"><a href="#6-相变与临界现象" class="headerlink" title="6. 相变与临界现象"></a>6. 相变与临界现象</h2><h3 id="6-1-神经网络的热力学类比"><a href="#6-1-神经网络的热力学类比" class="headerlink" title="6.1 神经网络的热力学类比"></a>6.1 神经网络的热力学类比</h3><p>我们可以将神经网络训练类比为热力学系统的冷却过程：</p>
+<p><strong>温度</strong>：学习率的倒数 $T \propto 1&#x2F;\eta$<br><strong>熵</strong>：参数分布的熵 $S &#x3D; -\int p(\mathbf{W}) \log p(\mathbf{W}) d\mathbf{W}$<br><strong>自由能</strong>：$F &#x3D; E - TS$，其中 $E$ 是损失函数</p>
+<h3 id="6-2-退火训练"><a href="#6-2-退火训练" class="headerlink" title="6.2 退火训练"></a>6.2 退火训练</h3><p>模拟退火算法模拟了物理系统的退火过程：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">simulated_annealing</span>(<span class="hljs-params">loss_fn: <span class="hljs-type">Callable</span>, grad_fn: <span class="hljs-type">Callable</span>, x0: np.ndarray,</span><br><span class="hljs-params">                       T0: <span class="hljs-built_in">float</span> = <span class="hljs-number">1.0</span>, cooling_rate: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.99</span>,</span><br><span class="hljs-params">                       num_steps: <span class="hljs-built_in">int</span> = <span class="hljs-number">10000</span></span>) -&gt; np.ndarray:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    模拟退火算法</span><br><span class="hljs-string"></span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        loss_fn: 损失函数</span><br><span class="hljs-string">        grad_fn: 梯度函数</span><br><span class="hljs-string">        x0: 初始位置</span><br><span class="hljs-string">        T0: 初始温度</span><br><span class="hljs-string">        cooling_rate: 降温速率</span><br><span class="hljs-string">        num_steps: 迭代步数</span><br><span class="hljs-string"></span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        优化后的参数</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    x = x0.copy()<br>    T = T0<br><br>    <span class="hljs-keyword">for</span> step <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_steps):<br>        <span class="hljs-comment"># 计算当前损失和梯度</span><br>        loss = loss_fn(x)<br>        grad = grad_fn(x)<br><br>        <span class="hljs-comment"># 梯度下降 + 随机扰动</span><br>        delta_x = -grad + np.random.randn(*x.shape) * np.sqrt(T)<br><br>        <span class="hljs-comment"># 尝试新位置</span><br>        x_new = x + delta_x<br>        loss_new = loss_fn(x_new)<br><br>        <span class="hljs-comment"># Metropolis 准则</span><br>        delta_loss = loss_new - loss<br>        <span class="hljs-keyword">if</span> delta_loss &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> np.random.random() &lt; np.exp(-delta_loss / T):<br>            x = x_new<br><br>        <span class="hljs-comment"># 降温</span><br>        T *= cooling_rate<br><br>        <span class="hljs-keyword">if</span> step % <span class="hljs-number">1000</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Step <span class="hljs-subst">&#123;step&#125;</span>: Loss = <span class="hljs-subst">&#123;loss:<span class="hljs-number">.6</span>f&#125;</span>, T = <span class="hljs-subst">&#123;T:<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-结论"><a href="#7-结论" class="headerlink" title="7. 结论"></a>7. 结论</h2><p>神经网络与物理学之间的联系远比我们想象的深刻：</p>
+<ol>
+<li><strong>能量景观对应</strong>：损失函数与势能场的完美对应</li>
+<li><strong>优化动力学对应</strong>：梯度下降是过阻尼运动，动量方法是欠阻尼运动</li>
+<li><strong>守恒定律对应</strong>：哈密顿神经网络保持能量守恒</li>
+<li><strong>相变对应</strong>：神经网络训练过程中的相变现象</li>
+<li><strong>临界现象对应</strong>：Hessian 谱分布与临界指数的关联</li>
+</ol>
+<p>这些联系不仅提供了理解深度学习的新视角，也为设计新的优化算法和神经网络架构提供了物理学的指导。</p>
+<p>随着物理学与深度学习的深度融合，我们有望看到更多基于物理原理的算法创新。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><p>Greydanus, S., et al. (2019). “Hamiltonian Neural Networks.” NeurIPS.</p>
+</li>
+<li><p>Chen, R. T. Q., et al. (2018). “Neural Ordinary Differential Equations.” NeurIPS.</p>
+</li>
+<li><p>Liu, Y., et al. (2021). “Understanding Deep Learning Requires Rethinking Generalization.” ICLR.</p>
+</li>
+<li><p>Sagun, L., et al. (2017). “Exploring Loss Landscapes through Random Walks.” ICLR.</p>
+</li>
+<li><p>Chaudhari, P., &amp; Soatto, S. (2018). “Stochastic Gradient Descent Performs Variational Inference, Converges to Limit Cycles for Deep Networks.” ICLR.</p>
+</li>
+</ol>
+<hr>
+<p><strong>⚠️ 版权与免责声明 (Copyright &amp; Disclaimer):</strong></p>
+<p>本文为非商业性的学术与技术分享，旨在促进神经网络与物理学领域的技术交流。文中部分辅助理解的配图来源于公开网络检索，未能逐一联系原作者获取正式授权。图片版权均归属原作者或对应学术期刊、机构所有。</p>
+<p>在此郑重声明：若原图权利人对本文的引用存在任何异议，或认为构成了未经授权的使用，请随时通过博客后台留言或邮件与本人联系。我将在收到通知后第一时间全力配合，进行版权信息的补充标明或立即执行删除处理。由衷感谢每一位科研工作者对科学知识开放传播的包容与贡献！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="category-chain-item">神经网络</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="print-no-link">#神经网络</a>
+      
+        <a href="/tags/%E5%93%88%E5%AF%86%E9%A1%BF%E5%8A%9B%E5%AD%A6/" class="print-no-link">#哈密顿力学</a>
+      
+        <a href="/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/" class="print-no-link">#梯度下降</a>
+      
+        <a href="/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/" class="print-no-link">#优化理论</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</div>
+      <div>https://sunfove.xyz/2026/04/09/2026-04-09-neural-network-physics-connection/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 9, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/09/2026-04-09-quantum-algorithms-practical-applications/" title="量子算法的实际应用：从理论到工程实现">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">量子算法的实际应用：从理论到工程实现</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/09/2026-04-09-optical-computing-first-principles/" title="光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器">
+                        <span class="hidden-mobile">光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/04/09/2026-04-09-neural-network-physics-connection/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

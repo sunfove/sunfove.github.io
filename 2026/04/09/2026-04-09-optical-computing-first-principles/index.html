@@ -1,0 +1,907 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从第一性原理出发，深入剖析光学计算的物理基础。本文将电磁波的传播与线性代数的矩阵运算建立严格的数学联系，揭示光如何自然地完成指数级加速的矩阵乘法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器">
+<meta property="og:url" content="https://sunfove.xyz/2026/04/09/2026-04-09-optical-computing-first-principles/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="从第一性原理出发，深入剖析光学计算的物理基础。本文将电磁波的传播与线性代数的矩阵运算建立严格的数学联系，揭示光如何自然地完成指数级加速的矩阵乘法。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-04-09T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-09T14:59:11.754Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="信号处理">
+<meta property="article:tag" content="光学计算">
+<meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="麦克斯韦方程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"sunfove.xyz","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-09 10:00" pubdate>
+          April 9, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在传统电子计算的架构中，处理器通过晶体管的开关来执行逻辑运算。每一个乘加运算（Multiply-Accumulate, MAC）都需要经过内存读取、指令解码、ALU计算等多个时钟周期。当面对深度学习动辄数亿参数的矩阵乘法时，这种串行计算模式成了性能瓶颈。</p>
+<p>然而，如果我们回到物理学的本源——麦克斯韦方程组——会发现一个惊人的事实：<strong>电磁波在介质中的传播，本质上就是在进行连续的矩阵乘法运算。</strong></p>
+<p>本文将摒弃现有的光学计算应用综述，从第一性原理出发，用数学的严谨性构建从电磁波传播到矩阵乘法器的完整理论框架。</p>
+<h2 id="1-物理起点：麦克斯韦方程组与波的传播"><a href="#1-物理起点：麦克斯韦方程组与波的传播" class="headerlink" title="1. 物理起点：麦克斯韦方程组与波的传播"></a>1. 物理起点：麦克斯韦方程组与波的传播</h2><h3 id="1-1-麦克斯韦方程组的完整形式"><a href="#1-1-麦克斯韦方程组的完整形式" class="headerlink" title="1.1 麦克斯韦方程组的完整形式"></a>1.1 麦克斯韦方程组的完整形式</h3><p>在真空中，麦克斯韦方程组的微分形式为：</p>
+<p>$$<br>\begin{cases}<br>\nabla \cdot \mathbf{E} &#x3D; \frac{\rho}{\epsilon_0} &amp; \text{(1) 高斯定律}\<br>\nabla \cdot \mathbf{B} &#x3D; 0 &amp; \text{(2) 高斯磁定律}\<br>\nabla \times \mathbf{E} &#x3D; -\frac{\partial \mathbf{B}}{\partial t} &amp; \text{(3) 法拉第定律}\<br>\nabla \times \mathbf{B} &#x3D; \mu_0 \mathbf{J} + \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t} &amp; \text{(4) 安培-麦克斯韦定律}<br>\end{cases}<br>$$</p>
+<p>对于光学计算，我们关注的是无源、无电流的区域（$\rho &#x3D; 0$, $\mathbf{J} &#x3D; 0$）。方程组简化为：</p>
+<p>$$<br>\begin{cases}<br>\nabla \cdot \mathbf{E} &#x3D; 0 \<br>\nabla \cdot \mathbf{B} &#x3D; 0 \<br>\nabla \times \mathbf{E} &#x3D; -\frac{\partial \mathbf{B}}{\partial t} \<br>\nabla \times \mathbf{B} &#x3D; \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t}<br>\end{cases}<br>$$</p>
+<h3 id="1-2-波动方程的推导"><a href="#1-2-波动方程的推导" class="headerlink" title="1.2 波动方程的推导"></a>1.2 波动方程的推导</h3><p>对法拉第定律（3）求旋度：</p>
+<p>$$\nabla \times (\nabla \times \mathbf{E}) &#x3D; -\nabla \times \frac{\partial \mathbf{B}}{\partial t} &#x3D; -\frac{\partial}{\partial t}(\nabla \times \mathbf{B})$$</p>
+<p>代入安培-麦克斯韦定律（4）：</p>
+<p>$$\nabla \times (\nabla \times \mathbf{E}) &#x3D; -\mu_0 \epsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2}$$</p>
+<p>利用矢量恒等式 $\nabla \times (\nabla \times \mathbf{E}) &#x3D; \nabla(\nabla \cdot \mathbf{E}) - \nabla^2 \mathbf{E}$，并注意到 $\nabla \cdot \mathbf{E} &#x3D; 0$，得到：</p>
+<p>$$\nabla^2 \mathbf{E} - \mu_0 \epsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2} &#x3D; 0$$</p>
+<p>这就是著名的<strong>电磁波方程</strong>。令 $c &#x3D; \frac{1}{\sqrt{\mu_0 \epsilon_0}}$（光速），方程简化为：</p>
+<p>$$\nabla^2 \mathbf{E} - \frac{1}{c^2} \frac{\partial^2 \mathbf{E}}{\partial t^2} &#x3D; 0$$</p>
+<p>这个方程告诉我们，电磁波以光速 $c$ 在真空中传播，其解的形式为 $\mathbf{E}(\mathbf{r}, t) &#x3D; \mathbf{E}_0 e^{i(\mathbf{k} \cdot \mathbf{r} - \omega t)}$。</p>
+<h2 id="2-介质中的光传播与折射率"><a href="#2-介质中的光传播与折射率" class="headerlink" title="2. 介质中的光传播与折射率"></a>2. 介质中的光传播与折射率</h2><h3 id="2-1-电介质中的麦克斯韦方程组"><a href="#2-1-电介质中的麦克斯韦方程组" class="headerlink" title="2.1 电介质中的麦克斯韦方程组"></a>2.1 电介质中的麦克斯韦方程组</h3><p>在非磁性、各向同性的电介质中，我们需要引入极化强度 $\mathbf{P}$ 来描述介质对电场的响应。电位移矢量 $\mathbf{D}$ 定义为：</p>
+<p>$$\mathbf{D} &#x3D; \epsilon_0 \mathbf{E} + \mathbf{P} &#x3D; \epsilon \mathbf{E}$$</p>
+<p>其中 $\epsilon &#x3D; \epsilon_0 \epsilon_r$ 是介电常数，$\epsilon_r$ 是相对介电常数。介质的折射率 $n$ 与 $\epsilon_r$ 的关系为：</p>
+<p>$$n &#x3D; \sqrt{\epsilon_r}$$</p>
+<p>在介质中，波速变为 $v &#x3D; \frac{c}{n}$，波动方程修正为：</p>
+<p>$$\nabla^2 \mathbf{E} - \frac{n^2}{c^2} \frac{\partial^2 \mathbf{E}}{\partial t^2} &#x3D; 0$$</p>
+<h3 id="2-2-相位传播与光程差"><a href="#2-2-相位传播与光程差" class="headerlink" title="2.2 相位传播与光程差"></a>2.2 相位传播与光程差</h3><p>考虑沿 $z$ 方向传播的平面波：</p>
+<p>$$\mathbf{E}(z, t) &#x3D; \mathbf{E}_0 e^{i(kz - \omega t)}$$</p>
+<p>其中波数 $k &#x3D; \frac{2\pi n}{\lambda} &#x3D; \frac{n\omega}{c}$。</p>
+<p>当光通过厚度为 $d$、折射率为 $n$ 的介质时，累积的相位为：</p>
+<p>$$\phi &#x3D; kd &#x3D; \frac{2\pi n d}{\lambda}$$</p>
+<p>这个相位延迟在光学计算中至关重要——<strong>它就是我们调节矩阵元素的工具</strong>。</p>
+<h2 id="3-线性光学系统与矩阵表述"><a href="#3-线性光学系统与矩阵表述" class="headerlink" title="3. 线性光学系统与矩阵表述"></a>3. 线性光学系统与矩阵表述</h2><h3 id="3-1-光学模式的离散化"><a href="#3-1-光学模式的离散化" class="headerlink" title="3.1 光学模式的离散化"></a>3.1 光学模式的离散化</h3><p>为了用光学进行计算，我们需要将连续的电磁场离散化为有限个<strong>光学模式（Optical Modes）</strong>。这些模式可以是：</p>
+<ul>
+<li>空间模式（多模波导的不同模式）</li>
+<li>时间模式（时间片）</li>
+<li>偏振模式（TE&#x2F;TM 模式）</li>
+</ul>
+<p>假设我们有 $N$ 个光学模式，每个模式上的复振幅构成一个向量 $\mathbf{v} \in \mathbb{C}^N$：</p>
+<p>$$\mathbf{v} &#x3D; \begin{pmatrix} v_1 \ v_2 \ \vdots \ v_N \end{pmatrix}$$</p>
+<p>其中 $v_i &#x3D; A_i e^{i\phi_i}$ 是第 $i$ 个模式的复振幅，$A_i$ 是振幅，$\phi_i$ 是相位。</p>
+<h3 id="3-2-线性光学器件的矩阵表示"><a href="#3-2-线性光学器件的矩阵表示" class="headerlink" title="3.2 线性光学器件的矩阵表示"></a>3.2 线性光学器件的矩阵表示</h3><p>在<strong>线性、无源、无损</strong>的光学系统中，输入模式和输出模式之间通过一个<strong>酉矩阵</strong> $\mathbf{U}$ 联系：</p>
+<p>$$\mathbf{v}<em>{\text{out}} &#x3D; \mathbf{U} \mathbf{v}</em>{\text{in}}$$</p>
+<p>酉矩阵满足 $\mathbf{U}^\dagger \mathbf{U} &#x3D; \mathbf{I}$，其中 $\dagger$ 表示共轭转置。这个条件保证了能量守恒：</p>
+<p>$$|\mathbf{v}<em>{\text{out}}|^2 &#x3D; |\mathbf{U} \mathbf{v}</em>{\text{in}}|^2 &#x3D; |\mathbf{v}_{\text{in}}|^2$$</p>
+<h3 id="3-3-马赫-曾德尔干涉仪（MZI）作为基本单元"><a href="#3-3-马赫-曾德尔干涉仪（MZI）作为基本单元" class="headerlink" title="3.3 马赫-曾德尔干涉仪（MZI）作为基本单元"></a>3.3 马赫-曾德尔干涉仪（MZI）作为基本单元</h3><p>MZI 是构建任意酉矩阵的基本单元。它由两个分束器和两个相移器组成：</p>
+<p>$$\mathbf{U}_{\text{MZI}}(\theta, \phi) &#x3D; \begin{pmatrix} e^{i\phi} \cos\theta &amp; -e^{i\phi} \sin\theta \ e^{-i\phi} \sin\theta &amp; e^{-i\phi} \cos\theta \end{pmatrix}$$</p>
+<p>其中 $\theta$ 由分束器的分束比控制，$\phi$ 是相移器的相位延迟。</p>
+<h3 id="3-4-Reck-与-Clements-分解定理"><a href="#3-4-Reck-与-Clements-分解定理" class="headerlink" title="3.4 Reck 与 Clements 分解定理"></a>3.4 Reck 与 Clements 分解定理</h3><p>Reck 等人在 1994 年证明了：<strong>任意 $N \times N$ 酉矩阵都可以分解为 $N(N-1)&#x2F;2$ 个 MZI</strong>。</p>
+<p><strong>Reck 分解</strong>：<br>$$\mathbf{U} &#x3D; \prod_{k&#x3D;1}^{N(N-1)&#x2F;2} \mathbf{U}_{\text{MZI}}^{(k)}$$</p>
+<p>Clements 后来提出了更高效的分解，将 MZI 的总数减少到 $N(N-1)&#x2F;2$，同时降低了光纤交叉的复杂度。</p>
+<p>这意味着，<strong>我们可以通过光学网络实现任意复杂的线性变换</strong>！</p>
+<h2 id="4-从酉矩阵到任意矩阵的扩展"><a href="#4-从酉矩阵到任意矩阵的扩展" class="headerlink" title="4. 从酉矩阵到任意矩阵的扩展"></a>4. 从酉矩阵到任意矩阵的扩展</h2><h3 id="4-1-奇异值分解（SVD）与矩阵分解"><a href="#4-1-奇异值分解（SVD）与矩阵分解" class="headerlink" title="4.1 奇异值分解（SVD）与矩阵分解"></a>4.1 奇异值分解（SVD）与矩阵分解</h3><p>神经网络中的权重矩阵 $\mathbf{W} \in \mathbb{R}^{M \times N}$ 通常不是酉矩阵。我们需要找到方法将其分解为光学可实现的形式。</p>
+<p>对 $\mathbf{W}$ 进行奇异值分解：</p>
+<p>$$\mathbf{W} &#x3D; \mathbf{U} \mathbf{\Sigma} \mathbf{V}^\dagger$$</p>
+<p>其中：</p>
+<ul>
+<li>$\mathbf{U} \in \mathbb{C}^{M \times M}$ 是酉矩阵</li>
+<li>$\mathbf{V} \in \mathbb{C}^{N \times N}$ 是酉矩阵</li>
+<li>$\mathbf{\Sigma} \in \mathbb{R}^{M \times N}$ 是对角矩阵，对角元素为奇异值 $\sigma_1, \sigma_2, \dots$</li>
+</ul>
+<h3 id="4-2-光学实现策略"><a href="#4-2-光学实现策略" class="headerlink" title="4.2 光学实现策略"></a>4.2 光学实现策略</h3><p>光学计算通常采用以下两种策略来实现非酉矩阵：</p>
+<p><strong>策略一：放大&#x2F;衰减法</strong><br>在每个模式后插入可变光放大器或衰减器，调节幅度：</p>
+<p>$$\mathbf{W} &#x3D; \mathbf{U} \mathbf{\Sigma} \mathbf{V}^\dagger &#x3D; \text{Amplifiers}(\mathbf{\Sigma}) \cdot \mathbf{U} \cdot \mathbf{V}^\dagger$$</p>
+<p><strong>策略二：编码法</strong><br>将数值编码为光的强度，通过多次测量或并行通道实现。</p>
+<h3 id="4-3-数学推导：强度编码下的矩阵乘法"><a href="#4-3-数学推导：强度编码下的矩阵乘法" class="headerlink" title="4.3 数学推导：强度编码下的矩阵乘法"></a>4.3 数学推导：强度编码下的矩阵乘法</h3><p>假设我们要计算 $\mathbf{y} &#x3D; \mathbf{W} \mathbf{x}$，其中 $\mathbf{W}$ 的元素 $W_{ij} \in [0, 1]$。</p>
+<p><strong>步骤 1：将输入向量编码为光强</strong><br>$$x_i \rightarrow I_{\text{in}, i} &#x3D; x_i \cdot P_{\text{max}}$$</p>
+<p>其中 $P_{\text{max}}$ 是最大光功率。</p>
+<p><strong>步骤 2：通过光学网络</strong><br>光场经过光学网络后，输出为：<br>$$\mathbf{E}<em>{\text{out}} &#x3D; \mathbf{U} \mathbf{E}</em>{\text{in}}$$</p>
+<p><strong>步骤 3：光强检测</strong><br>探测器测量的是光强（振幅的平方）：<br>$$I_{\text{out}, j} &#x3D; |E_{\text{out}, j}|^2 &#x3D; \left|\sum_{i&#x3D;1}^{N} U_{ji} \sqrt{I_{\text{in}, i}} e^{i\phi_i}\right|^2$$</p>
+<p>展开得到：<br>$$I_{\text{out}, j} &#x3D; \sum_{i&#x3D;1}^{N} |U_{ji}|^2 I_{\text{in}, i} + 2\sum_{i&lt;k} \text{Re}[U_{ji} U_{jk}^* \sqrt{I_{\text{in}, i} I_{\text{in}, k}} e^{i(\phi_i - \phi_k)}]$$</p>
+<p>要消除交叉项，我们可以采用<strong>时间复用</strong>或<strong>波长复用</strong>策略。</p>
+<p><strong>时间复用策略</strong>：<br>一次只发射一个模式的光，避免干涉。此时：<br>$$I_{\text{out}, j}^{(i)} &#x3D; |U_{ji}|^2 I_{\text{in}, i}$$</p>
+<p>通过累加得到：<br>$$\sum_{i&#x3D;1}^{N} I_{\text{out}, j}^{(i)} &#x3D; \sum_{i&#x3D;1}^{N} |U_{ji}|^2 I_{\text{in}, i}$$</p>
+<p>如果我们设计光学网络使得 $|U_{ji}|^2 &#x3D; |W_{ji}|$，就实现了矩阵乘法。</p>
+<h2 id="5-Python-实现：光学网络设计与仿真"><a href="#5-Python-实现：光学网络设计与仿真" class="headerlink" title="5. Python 实现：光学网络设计与仿真"></a>5. Python 实现：光学网络设计与仿真</h2><p>为了验证上述理论，我们实现一个简单的光学网络仿真器。</p>
+<h3 id="5-1-基础组件实现"><a href="#5-1-基础组件实现" class="headerlink" title="5.1 基础组件实现"></a>5.1 基础组件实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>, <span class="hljs-type">Tuple</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MachZehnderInterferometer</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    马赫-曾德尔干涉仪（MZI）的基本实现</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        theta (float): 分束比角度（控制振幅）</span><br><span class="hljs-string">        phi (float): 相移角度（控制相位）</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, theta: <span class="hljs-built_in">float</span> = np.pi/<span class="hljs-number">4</span>, phi: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.0</span></span>):<br>        <span class="hljs-variable language_">self</span>.theta = theta<br>        <span class="hljs-variable language_">self</span>.phi = phi<br>        <span class="hljs-variable language_">self</span>.matrix = <span class="hljs-variable language_">self</span>._compute_unitary()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_compute_unitary</span>(<span class="hljs-params">self</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;计算 MZI 的酉矩阵&quot;&quot;&quot;</span><br>        cos_theta = np.cos(<span class="hljs-variable language_">self</span>.theta)<br>        sin_theta = np.sin(<span class="hljs-variable language_">self</span>.theta)<br>        exp_i_phi = np.exp(<span class="hljs-number">1j</span> * <span class="hljs-variable language_">self</span>.phi)<br>        exp_minus_i_phi = np.exp(-<span class="hljs-number">1j</span> * <span class="hljs-variable language_">self</span>.phi)<br>        <br>        U = np.array([<br>            [exp_i_phi * cos_theta, -exp_i_phi * sin_theta],<br>            [exp_minus_i_phi * sin_theta, exp_minus_i_phi * cos_theta]<br>        ], dtype=<span class="hljs-built_in">complex</span>)<br>        <br>        <span class="hljs-keyword">return</span> U<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">set_parameters</span>(<span class="hljs-params">self, theta: <span class="hljs-built_in">float</span>, phi: <span class="hljs-built_in">float</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;更新 MZI 参数&quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.theta = theta<br>        <span class="hljs-variable language_">self</span>.phi = phi<br>        <span class="hljs-variable language_">self</span>.matrix = <span class="hljs-variable language_">self</span>._compute_unitary()<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">OpticalNetwork</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    线性光学网络</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    通过级联多个 MZI 实现任意酉矩阵</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_modes: <span class="hljs-built_in">int</span></span>):<br>        <span class="hljs-variable language_">self</span>.num_modes = num_modes<br>        <span class="hljs-variable language_">self</span>.mzis: <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[MachZehnderInterferometer]] = []<br>        <span class="hljs-variable language_">self</span>._initialize_mzis()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_initialize_mzis</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;初始化 MZI 网络（Clements 架构）&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># Clements 架构：MZI 排列成网格状</span><br>        <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.num_modes):<br>            layer_mzis = []<br>            <span class="hljs-comment"># 每一层放置 N//2 个 MZI</span><br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-variable language_">self</span>.num_modes - <span class="hljs-number">1</span>, <span class="hljs-number">2</span>):<br>                mzi = MachZehnderInterferometer(theta=np.pi/<span class="hljs-number">4</span>, phi=<span class="hljs-number">0.0</span>)<br>                layer_mzis.append((i, i+<span class="hljs-number">1</span>, mzi))<br>            <br>            <span class="hljs-comment"># 奇偶层交错</span><br>            <span class="hljs-keyword">if</span> layer % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>:<br>                layer_mzis = []<br>                <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-variable language_">self</span>.num_modes - <span class="hljs-number">1</span>, <span class="hljs-number">2</span>):<br>                    mzi = MachZehnderInterferometer(theta=np.pi/<span class="hljs-number">4</span>, phi=<span class="hljs-number">0.0</span>)<br>                    layer_mzis.append((i, i+<span class="hljs-number">1</span>, mzi))<br>            <br>            <span class="hljs-variable language_">self</span>.mzis.append(layer_mzis)<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, input_field: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;前向传播光场&quot;&quot;&quot;</span><br>        output = input_field.copy()<br>        <br>        <span class="hljs-keyword">for</span> layer_mzis <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.mzis:<br>            <span class="hljs-comment"># 应用这一层的所有 MZI</span><br>            <span class="hljs-keyword">for</span> (i, j, mzi) <span class="hljs-keyword">in</span> layer_mzis:<br>                <span class="hljs-comment"># 提取两个模式的输入</span><br>                v_in = np.array([output[i], output[j]])<br>                <br>                <span class="hljs-comment"># 应用 MZI 变换</span><br>                v_out = mzi.matrix @ v_in<br>                <br>                <span class="hljs-comment"># 更新输出</span><br>                output[i] = v_out[<span class="hljs-number">0</span>]<br>                output[j] = v_out[<span class="hljs-number">1</span>]<br>        <br>        <span class="hljs-keyword">return</span> output<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_unitary_matrix</span>(<span class="hljs-params">self</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;获取整个光学网络的酉矩阵&quot;&quot;&quot;</span><br>        U = np.eye(<span class="hljs-variable language_">self</span>.num_modes, dtype=<span class="hljs-built_in">complex</span>)<br>        <br>        <span class="hljs-keyword">for</span> layer_mzis <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.mzis:<br>            <span class="hljs-keyword">for</span> (i, j, mzi) <span class="hljs-keyword">in</span> layer_mzis:<br>                <span class="hljs-comment"># 构建 MZI 在全空间中的表示</span><br>                full_U = np.eye(<span class="hljs-variable language_">self</span>.num_modes, dtype=<span class="hljs-built_in">complex</span>)<br>                full_U[i:i+<span class="hljs-number">2</span>, i:i+<span class="hljs-number">2</span>] = mzi.matrix<br>                U = full_U @ U<br>        <br>        <span class="hljs-keyword">return</span> U<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">set_unitary</span>(<span class="hljs-params">self, target_U: np.ndarray</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;设置光学网络实现目标酉矩阵&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 这里简化实现，实际需要更复杂的优化算法</span><br>        <span class="hljs-comment"># 可以使用 Reck 或 Clements 分解算法</span><br>        <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-矩阵分解与参数优化"><a href="#5-2-矩阵分解与参数优化" class="headerlink" title="5.2 矩阵分解与参数优化"></a>5.2 矩阵分解与参数优化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">clements_decomposition</span>(<span class="hljs-params">U_target: np.ndarray</span>) -&gt; <span class="hljs-type">List</span>[<span class="hljs-type">Tuple</span>[<span class="hljs-built_in">int</span>, <span class="hljs-built_in">int</span>, <span class="hljs-built_in">float</span>, <span class="hljs-built_in">float</span>]]:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Clements 分解算法</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    将目标酉矩阵分解为一系列 MZI 参数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        U_target: 目标 N×N 酉矩阵</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        List of (mode1, mode2, theta, phi) 元组</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    N = U_target.shape[<span class="hljs-number">0</span>]<br>    mzis = []<br>    U_current = U_target.copy()<br>    <br>    <span class="hljs-comment"># 简化实现：逐层消除下三角元素</span><br>    <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N-<span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N-<span class="hljs-number">1</span>, col, -<span class="hljs-number">1</span>):<br>            <span class="hljs-comment"># 消除 (row, col) 位置的元素</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">abs</span>(U_current[row, col]) &gt; <span class="hljs-number">1e-10</span>:<br>                <span class="hljs-comment"># 计算 MZI 参数</span><br>                <span class="hljs-comment"># 这里需要更精确的数学推导</span><br>                <span class="hljs-comment"># 为演示目的，使用近似方法</span><br>                <span class="hljs-keyword">pass</span><br>    <br>    <span class="hljs-keyword">return</span> mzis<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">optimize_optical_network</span>(<span class="hljs-params">target_matrix: np.ndarray, num_modes: <span class="hljs-built_in">int</span>, </span><br><span class="hljs-params">                           num_iterations: <span class="hljs-built_in">int</span> = <span class="hljs-number">1000</span></span>) -&gt; OpticalNetwork:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    使用梯度下降优化光学网络参数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        target_matrix: 目标矩阵</span><br><span class="hljs-string">        num_modes: 光学模式数</span><br><span class="hljs-string">        num_iterations: 优化迭代次数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        优化后的光学网络</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 初始化光学网络</span><br>    network = OpticalNetwork(num_modes)<br>    <br>    <span class="hljs-comment"># 学习率</span><br>    learning_rate = <span class="hljs-number">0.01</span><br>    <br>    <span class="hljs-keyword">for</span> iteration <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_iterations):<br>        <span class="hljs-comment"># 前向传播</span><br>        U_current = network.get_unitary_matrix()<br>        <br>        <span class="hljs-comment"># 计算损失（Frobenius 范数）</span><br>        loss = np.linalg.norm(U_current - target_matrix, <span class="hljs-string">&#x27;fro&#x27;</span>)<br>        <br>        <span class="hljs-comment"># 数值梯度（简化版）</span><br>        <span class="hljs-keyword">for</span> layer_idx, layer_mzis <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(network.mzis):<br>            <span class="hljs-keyword">for</span> mzi_idx, (i, j, mzi) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(layer_mzis):<br>                <span class="hljs-comment"># 对 theta 的梯度</span><br>                old_theta = mzi.theta<br>                delta = <span class="hljs-number">1e-6</span><br>                <br>                mzi.theta = old_theta + delta<br>                U_plus = network.get_unitary_matrix()<br>                loss_plus = np.linalg.norm(U_plus - target_matrix, <span class="hljs-string">&#x27;fro&#x27;</span>)<br>                <br>                mzi.theta = old_theta - delta<br>                U_minus = network.get_unitary_matrix()<br>                loss_minus = np.linalg.norm(U_minus - target_matrix, <span class="hljs-string">&#x27;fro&#x27;</span>)<br>                <br>                <span class="hljs-comment"># 恢复原值</span><br>                mzi.theta = old_theta<br>                <br>                <span class="hljs-comment"># 梯度</span><br>                grad_theta = (loss_plus - loss_minus) / (<span class="hljs-number">2</span> * delta)<br>                <br>                <span class="hljs-comment"># 更新参数</span><br>                mzi.theta -= learning_rate * grad_theta<br>        <br>        <span class="hljs-keyword">if</span> iteration % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Iteration <span class="hljs-subst">&#123;iteration&#125;</span>: Loss = <span class="hljs-subst">&#123;loss:<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br>    <br>    <span class="hljs-keyword">return</span> network<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-3-光学矩阵乘法仿真"><a href="#5-3-光学矩阵乘法仿真" class="headerlink" title="5.3 光学矩阵乘法仿真"></a>5.3 光学矩阵乘法仿真</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">optical_matrix_multiply</span>(<span class="hljs-params">matrix: np.ndarray, vector: np.ndarray</span>) -&gt; np.ndarray:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    使用光学网络执行矩阵乘法</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        matrix: M×N 权重矩阵</span><br><span class="hljs-string">        vector: N×1 输入向量</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        M×1 输出向量</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    M, N = matrix.shape<br>    <br>    <span class="hljs-comment"># 检查是否可以分解为酉矩阵形式</span><br>    <span class="hljs-keyword">if</span> M != N:<br>        <span class="hljs-comment"># 对于非方阵，需要额外的处理</span><br>        <span class="hljs-comment"># 这里简化为只处理方阵</span><br>        <span class="hljs-keyword">raise</span> NotImplementedError(<span class="hljs-string">&quot;Only square matrices supported in this demo&quot;</span>)<br>    <br>    <span class="hljs-comment"># 进行奇异值分解</span><br>    U, Sigma, Vh = np.linalg.svd(matrix)<br>    <br>    <span class="hljs-comment"># 创建光学网络</span><br>    network = OpticalNetwork(N)<br>    <br>    <span class="hljs-comment"># 设置网络实现 U 和 Vh 的共轭转置</span><br>    <span class="hljs-comment"># 注意：实际实现需要更复杂的优化</span><br>    <span class="hljs-comment"># 这里简化为直接使用 U 作为光学网络</span><br>    <br>    <span class="hljs-comment"># 将输入向量编码为光强</span><br>    input_intensity = np.<span class="hljs-built_in">abs</span>(vector) ** <span class="hljs-number">2</span><br>    input_phase = np.angle(vector)<br>    input_field = np.sqrt(input_intensity) * np.exp(<span class="hljs-number">1j</span> * input_phase)<br>    <br>    <span class="hljs-comment"># 光学前向传播</span><br>    output_field = network.forward(input_field)<br>    <br>    <span class="hljs-comment"># 检测输出光强</span><br>    output_intensity = np.<span class="hljs-built_in">abs</span>(output_field) ** <span class="hljs-number">2</span><br>    <br>    <span class="hljs-comment"># 应用奇异值缩放（实际中用放大器实现）</span><br>    output = output_intensity * np.diag(Sigma)<br>    <br>    <span class="hljs-keyword">return</span> output<br><br><span class="hljs-comment"># 测试代码</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment"># 创建一个 4×4 酉矩阵</span><br>    np.random.seed(<span class="hljs-number">42</span>)<br>    H = np.random.randn(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>) + <span class="hljs-number">1j</span> * np.random.randn(<span class="hljs-number">4</span>, <span class="hljs-number">4</span>)<br>    U, _, _ = np.linalg.svd(H)<br>    U = U[:, :<span class="hljs-number">4</span>]<br>    <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;目标酉矩阵 U:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(np.<span class="hljs-built_in">round</span>(U, <span class="hljs-number">3</span>))<br>    <br>    <span class="hljs-comment"># 创建并训练光学网络</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n训练光学网络...&quot;</span>)<br>    network = OpticalNetwork(<span class="hljs-number">4</span>)<br>    <br>    <span class="hljs-comment"># 简单测试：检查单位矩阵</span><br>    test_input = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.3</span>, <span class="hljs-number">0.8</span>], dtype=<span class="hljs-built_in">complex</span>)<br>    test_field = test_input<br>    <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n输入场:&quot;</span>, test_field)<br>    output_field = network.forward(test_field)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;输出场:&quot;</span>, np.<span class="hljs-built_in">round</span>(output_field, <span class="hljs-number">3</span>))<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;输出光强:&quot;</span>, np.<span class="hljs-built_in">round</span>(np.<span class="hljs-built_in">abs</span>(output_field)**<span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-物理限制与工程挑战"><a href="#6-物理限制与工程挑战" class="headerlink" title="6. 物理限制与工程挑战"></a>6. 物理限制与工程挑战</h2><h3 id="6-1-光学损耗的数学建模"><a href="#6-1-光学损耗的数学建模" class="headerlink" title="6.1 光学损耗的数学建模"></a>6.1 光学损耗的数学建模</h3><p>在实际光学系统中，损耗不可避免。我们需要修正酉矩阵条件为<strong>次酉矩阵</strong>：</p>
+<p>$$\mathbf{U}^\dagger \mathbf{U} \leq \mathbf{I}$$</p>
+<p>损耗可以通过以下方式建模：</p>
+<p><strong>插入损耗（Insertion Loss）</strong>：<br>每个光学元件都有固定的损耗因子 $\eta &lt; 1$。对于 $L$ 个元件，总损耗为 $\eta^L$。</p>
+<p><strong>传播损耗（Propagation Loss）</strong>：<br>光在波导中传播时的指数衰减：<br>$$I(z) &#x3D; I_0 e^{-\alpha z}$$</p>
+<p>其中 $\alpha$ 是衰减系数。</p>
+<p><strong>耦合损耗（Coupling Loss）</strong>：<br>光在不同器件间耦合时的损耗。</p>
+<h3 id="6-2-噪声模型"><a href="#6-2-噪声模型" class="headerlink" title="6.2 噪声模型"></a>6.2 噪声模型</h3><p>光学系统中的噪声主要包括：</p>
+<p><strong>量子噪声（散粒噪声）</strong>：<br>光子数的泊松统计导致的光强涨落：<br>$$\sigma_I^2 &#x3D; \langle I \rangle$$</p>
+<p><strong>热噪声</strong>：<br>探测器电子的热涨落。</p>
+<p><strong>相位噪声</strong>：<br>激光器相位涨落和环境温度变化导致的相位抖动。</p>
+<h3 id="6-3-精度与数值稳定性"><a href="#6-3-精度与数值稳定性" class="headerlink" title="6.3 精度与数值稳定性"></a>6.3 精度与数值稳定性</h3><p>光学参数（$\theta$, $\phi$）的精度受限于：</p>
+<ul>
+<li>数模转换器（DAC）的位数</li>
+<li>温度控制的精度</li>
+<li>机械调位的精度</li>
+</ul>
+<p>这会导致实现的矩阵与目标矩阵之间的偏差：</p>
+<p>$$|\mathbf{U}<em>{\text{realized}} - \mathbf{U}</em>{\text{target}}|_F$$</p>
+<h2 id="7-性能分析与电子-光学对比"><a href="#7-性能分析与电子-光学对比" class="headerlink" title="7. 性能分析与电子-光学对比"></a>7. 性能分析与电子-光学对比</h2><h3 id="7-1-计算复杂度对比"><a href="#7-1-计算复杂度对比" class="headerlink" title="7.1 计算复杂度对比"></a>7.1 计算复杂度对比</h3><p><strong>电子计算</strong>：</p>
+<ul>
+<li>单次 MAC 操作：1 个时钟周期</li>
+<li>$N \times N$ 矩阵乘法：$O(N^3)$ 个时钟周期</li>
+</ul>
+<p><strong>光学计算</strong>：</p>
+<ul>
+<li>光传播时间：$L&#x2F;c$（$L$ 是光路长度）</li>
+<li>对于片上光子电路，$L \sim \text{mm}$，$t \sim \text{ps}$</li>
+<li><strong>理论上与 $N$ 无关的延迟！</strong></li>
+</ul>
+<h3 id="7-2-能耗对比"><a href="#7-2-能耗对比" class="headerlink" title="7.2 能耗对比"></a>7.2 能耗对比</h3><p><strong>电子计算</strong>：</p>
+<ul>
+<li>单次 MAC 操作：$\sim 1-10 \text{ pJ}$</li>
+<li>$N^2$ 个 MAC：$\sim N^2 \text{ pJ}$</li>
+</ul>
+<p><strong>光学计算</strong>：</p>
+<ul>
+<li>激光器功耗：$P_{\text{laser}}$</li>
+<li>单个光子能量：$E_\gamma &#x3D; h\nu$</li>
+<li>单次计算的光子数：$N_{\text{photons}} \propto N$</li>
+<li>能耗：$\propto N \cdot h\nu$</li>
+</ul>
+<p><strong>关键洞察</strong>：光学计算的能耗<strong>线性</strong>于问题规模，而电子计算的能耗<strong>二次</strong>于问题规模！</p>
+<h2 id="8-结论"><a href="#8-结论" class="headerlink" title="8. 结论"></a>8. 结论</h2><p>从麦克斯韦方程组到矩阵乘法器，我们建立了光学计算的第一性原理框架。核心结论如下：</p>
+<ol>
+<li><strong>物理基础</strong>：电磁波的传播本质上就是在执行线性变换。</li>
+<li><strong>数学框架</strong>：任意酉矩阵都可以通过光学网络实现。</li>
+<li><strong>扩展能力</strong>：通过 SVD 分解和幅度调制，可实现任意矩阵乘法。</li>
+<li><strong>性能优势</strong>：$O(1)$ 延迟和 $O(N)$ 能耗，优于电子计算的 $O(N^3)$ 延迟和 $O(N^2)$ 能耗。</li>
+<li><strong>工程挑战</strong>：损耗、噪声和精度是实际应用的主要障碍。</li>
+</ol>
+<p>光学计算不是对电子计算的简单替代，而是基于完全不同物理原理的计算范式。随着光子集成电路（PIC）技术的成熟，我们有望看到光学计算在特定领域（深度学习推理、信号处理）的颠覆性应用。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><p>Reck, M., et al. (1994). “Experimental realization of any discrete unitary operator.” Physical Review Letters.</p>
+</li>
+<li><p>Clements, W. R., et al. (2016). “An optimal design for universal multiport interferometers.” Optica.</p>
+</li>
+<li><p>Shen, Y., et al. (2017). “Deep learning with coherent nanophotonic circuits.” Nature Photonics.</p>
+</li>
+<li><p>Miscuglio, M., &amp; Sorger, V. J. (2020). “Photonic tensor cores.” Applied Physics Reviews.</p>
+</li>
+<li><p>Miller, D. A. B. (2017). “Attojoule optoelectronics for low-energy data communication.” Journal of Lightwave Technology.</p>
+</li>
+</ol>
+<hr>
+<p><strong>⚠️ 版权与免责声明 (Copyright &amp; Disclaimer):</strong></p>
+<p>本文为非商业性的学术与技术分享，旨在促进光学计算领域的技术交流。文中部分辅助理解的配图来源于公开网络检索，未能逐一联系原作者获取正式授权。图片版权均归属原作者或对应学术期刊、机构所有。</p>
+<p>在此郑重声明：若原图权利人对本文的引用存在任何异议，或认为构成了未经授权的使用，请随时通过博客后台留言或邮件与本人联系。我将在收到通知后第一时间全力配合，进行版权信息的补充标明或立即执行删除处理。由衷感谢每一位科研工作者对科学知识开放传播的包容与贡献！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%A6%E8%AE%A1%E7%AE%97/" class="category-chain-item">光学计算</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B/" class="print-no-link">#麦克斯韦方程</a>
+      
+        <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="print-no-link">#信号处理</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="print-no-link">#线性代数</a>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6%E8%AE%A1%E7%AE%97/" class="print-no-link">#光学计算</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器</div>
+      <div>https://sunfove.xyz/2026/04/09/2026-04-09-optical-computing-first-principles/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 9, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/09/2026-04-09-neural-network-physics-connection/" title="神经网络与物理学的深刻联系：从哈密顿力学到梯度下降">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/08/2026-04-08-daily-english/" title="🌍 Daily English: The Flat Revolution: How Metasurfaces Are Redefining the Future of Optics | 2026-04-08">
+                        <span class="hidden-mobile">🌍 Daily English: The Flat Revolution: How Metasurfaces Are Redefining the Future of Optics | 2026-04-08</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://sunfove.xyz/2026/04/09/2026-04-09-optical-computing-first-principles/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
