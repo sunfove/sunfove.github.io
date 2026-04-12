@@ -1,0 +1,4 @@
+# Python 依赖 - 自动博客生成系统
+requests>=2.28.0
+matplotlib>=3.5.0
+numpy>=1.21.0

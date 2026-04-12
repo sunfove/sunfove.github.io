@@ -6,3 +6,5 @@ node_modules/
 public/
 .deploy_git/
 _config.tencent.yml
+# 环境变量文件（包含 API Key，勿上传）
+.env
