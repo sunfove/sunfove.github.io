@@ -553,9 +553,9 @@
       
       <tag>麦克斯韦方程</tag>
       
-      <tag>线性代数</tag>
-      
       <tag>信号处理</tag>
+      
+      <tag>线性代数</tag>
       
       <tag>光学计算</tag>
       
@@ -1977,9 +1977,9 @@
     
     <tags>
       
-      <tag>第一性原理</tag>
-      
       <tag>物理学</tag>
+      
+      <tag>第一性原理</tag>
       
       <tag>电磁学</tag>
       
@@ -2074,9 +2074,9 @@
       
       <tag>量子力学</tag>
       
-      <tag>第一性原理</tag>
-      
       <tag>物理学</tag>
+      
+      <tag>第一性原理</tag>
       
       <tag>光谱学</tag>
       
@@ -2531,9 +2531,9 @@
       
       <tag>Engineering</tag>
       
-      <tag>Photonics</tag>
-      
       <tag>Polarization</tag>
+      
+      <tag>Photonics</tag>
       
     </tags>
     
@@ -2725,9 +2725,9 @@
       
       <tag>光学</tag>
       
-      <tag>第一性原理</tag>
-      
       <tag>物理学</tag>
+      
+      <tag>第一性原理</tag>
       
       <tag>拓扑学</tag>
       
@@ -3868,9 +3868,9 @@
     
     <tags>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>Control Theory</tag>
       
@@ -3938,9 +3938,9 @@
     
     <tags>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>Machine Learning</tag>
       
@@ -3977,9 +3977,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>BFGS</tag>
       
@@ -4010,9 +4010,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Linear Algebra</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Linear Algebra</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4047,9 +4047,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>BFGS</tag>
       
@@ -4082,9 +4082,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4179,8 +4179,6 @@
       
       <tag>Python</tag>
       
-      <tag>MATLAB</tag>
-      
       <tag>Evolutionary Algorithms</tag>
       
       <tag>Multi-Objective Optimization</tag>
@@ -4188,6 +4186,8 @@
       <tag>NSGA-II</tag>
       
       <tag>NSGA-III</tag>
+      
+      <tag>MATLAB</tag>
       
     </tags>
     
@@ -4313,9 +4313,9 @@
     
     <tags>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4383,11 +4383,11 @@
       
       <tag>Optimization</tag>
       
+      <tag>MATLAB</tag>
+      
       <tag>Evolutionary Computation</tag>
       
       <tag>Genetic Algorithm</tag>
-      
-      <tag>MATLAB</tag>
       
       <tag>Heuristic Search</tag>
       
@@ -4721,13 +4721,13 @@
       
       <tag>Python</tag>
       
-      <tag>Algorithms</tag>
-      
       <tag>Pygame</tag>
       
       <tag>Game Development</tag>
       
       <tag>Linear Algebra</tag>
+      
+      <tag>Algorithms</tag>
       
     </tags>
     
@@ -5713,9 +5713,9 @@
       
       <tag>麦克斯韦方程</tag>
       
-      <tag>物理史</tag>
-      
       <tag>位移电流</tag>
+      
+      <tag>物理史</tag>
       
     </tags>
     
@@ -5808,11 +5808,11 @@
       
       <tag>数学基础</tag>
       
+      <tag>傅里叶变换</tag>
+      
       <tag>泛函分析</tag>
       
       <tag>线性代数</tag>
-      
-      <tag>傅里叶变换</tag>
       
       <tag>正交基</tag>
       
@@ -6074,13 +6074,13 @@
       
       <tag>光学设计</tag>
       
-      <tag>波动方程</tag>
-      
       <tag>激光物理</tag>
       
       <tag>高斯光束</tag>
       
       <tag>傍轴近似</tag>
+      
+      <tag>波动方程</tag>
       
     </tags>
     
@@ -6105,6 +6105,8 @@
     
     <tags>
       
+      <tag>波动方程</tag>
+      
       <tag>数学物理方法</tag>
       
       <tag>矢量分析</tag>
@@ -6112,8 +6114,6 @@
       <tag>麦克斯韦方程</tag>
       
       <tag>拉普拉斯算子</tag>
-      
-      <tag>波动方程</tag>
       
       <tag>坐标变换</tag>
       
@@ -6301,9 +6301,9 @@
       
       <tag>投资</tag>
       
-      <tag>宏观经济</tag>
-      
       <tag>投资逻辑</tag>
+      
+      <tag>宏观经济</tag>
       
       <tag>黄金</tag>
       
@@ -7251,9 +7251,9 @@
     
     <tags>
       
-      <tag>windows</tag>
-      
       <tag>技巧</tag>
+      
+      <tag>windows</tag>
       
     </tags>
     
