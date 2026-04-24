@@ -2624,9 +2624,9 @@
       
       <tag>Engineering</tag>
       
-      <tag>Photonics</tag>
-      
       <tag>Polarization</tag>
+      
+      <tag>Photonics</tag>
       
     </tags>
     
@@ -3961,9 +3961,9 @@
     
     <tags>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>Control Theory</tag>
       
@@ -4031,9 +4031,9 @@
     
     <tags>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4070,9 +4070,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>BFGS</tag>
       
@@ -4103,9 +4103,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Linear Algebra</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Linear Algebra</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4140,9 +4140,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>BFGS</tag>
       
@@ -4175,9 +4175,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4406,9 +4406,9 @@
     
     <tags>
       
-      <tag>Algorithms</tag>
-      
       <tag>Mathematics</tag>
+      
+      <tag>Algorithms</tag>
       
       <tag>Machine Learning</tag>
       
@@ -5207,35 +5207,6 @@
   
   
   <entry>
-    <title>将 Python 仿真工具部署并嵌入个人博客</title>
-    <link href="/2026/01/15/2026-01-15-design-your-own-app/"/>
-    <url>/2026/01/15/2026-01-15-design-your-own-app/</url>
-    
-    <content type="html"><![CDATA[<h1 id="🚀-实战指南：将-Python-仿真工具部署并嵌入个人博客"><a href="#🚀-实战指南：将-Python-仿真工具部署并嵌入个人博客" class="headerlink" title="🚀 实战指南：将 Python 仿真工具部署并嵌入个人博客"></a>🚀 实战指南：将 Python 仿真工具部署并嵌入个人博客</h1><p>本教程将指导你如何利用 <strong>Streamlit Cloud</strong> 免费托管 Python 应用，并通过 <code>iframe</code> 将其集成到 <strong>Hexo</strong> 或 <strong>Halo</strong> 博客文章中。</p><h2 id="📋-准备工作"><a href="#📋-准备工作" class="headerlink" title="📋 准备工作"></a>📋 准备工作</h2><p>在开始之前，请确保你拥有以下条件：</p><ul><li>一个 <strong>GitHub</strong> 账号。</li><li>本地已编写好的 Streamlit 代码（例如 <code>app.py</code>）。</li><li>一个现有的 Hexo 或 Halo 博客。</li></ul><hr><h2 id="第一阶段：准备项目文件"><a href="#第一阶段：准备项目文件" class="headerlink" title="第一阶段：准备项目文件"></a>第一阶段：准备项目文件</h2><p>Streamlit Cloud 需要从你的 GitHub 仓库读取代码，因此我们需要规范化文件结构。</p><h3 id="1-准备代码文件-app-py"><a href="#1-准备代码文件-app-py" class="headerlink" title="1. 准备代码文件 (app.py)"></a>1. 准备代码文件 (<code>app.py</code>)</h3><p>确保你的主程序文件命名为 <code>app.py</code>（或其他 <code>.py</code> 文件名），并确保在本地运行无误。</p><h3 id="2-创建依赖文件-requirements-txt"><a href="#2-创建依赖文件-requirements-txt" class="headerlink" title="2. 创建依赖文件 (requirements.txt)"></a>2. 创建依赖文件 (<code>requirements.txt</code>)</h3><p>在 <code>app.py</code> 同级目录下，创建一个名为 <code>requirements.txt</code> 的文本文件。<strong>文件名必须完全一致（全小写、复数）</strong>。<br>在文件中列出项目用到的所有第三方库，例如：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">streamlit<br>numpy<br>matplotlib<br></code></pre></td></tr></table></figure><h3 id="3-上传至-GitHub"><a href="#3-上传至-GitHub" class="headerlink" title="3. 上传至 GitHub"></a>3. 上传至 GitHub</h3><ol><li>登录 <a href="https://github.com/">GitHub</a>，点击右上角 <strong>+</strong> 号 -&gt; <strong>New repository</strong>。</li><li><strong>Repository name</strong>：填写项目名称（例如 <code>optical-lab</code>）。</li><li><strong>Visibility</strong>：选择 <strong>Public</strong>（公开），这对免费部署至关重要。</li><li>点击 <strong>Create repository</strong>。</li><li>在跳转页面中，点击 <strong>uploading an existing file</strong>。</li><li>将 <code>app.py</code> 和 <code>requirements.txt</code> 拖入上传区域，点击 <strong>Commit changes</strong>。</li></ol><hr><h2 id="第二阶段：部署到-Streamlit-Cloud"><a href="#第二阶段：部署到-Streamlit-Cloud" class="headerlink" title="第二阶段：部署到 Streamlit Cloud"></a>第二阶段：部署到 Streamlit Cloud</h2><p>我们将使用 Streamlit 官方提供的免费云服务来托管你的应用。</p><ol><li>访问 <a href="https://streamlit.io/cloud">Streamlit Cloud 官网</a> 并点击 <strong>Sign up</strong>。</li><li>选择 <strong>Continue with GitHub</strong> 进行登录授权。</li><li>进入控制台后，点击右上角的 <strong>New app</strong>。</li><li>填写部署表单：<ul><li><strong>Repository</strong>：在下拉菜单中选择刚才创建的仓库（如 <code>yourname/optical-lab</code>）。</li><li><strong>Branch</strong>：通常默认为 <code>main</code> 或 <code>master</code>。</li><li><strong>Main file path</strong>：选择你的主程序文件 <code>app.py</code>。</li></ul></li><li>点击 <strong>Deploy!</strong> 按钮。</li></ol><blockquote><p><strong>☕ 等待部署</strong>：<br>系统会自动安装 Python 环境和 <code>requirements.txt</code> 中的依赖。首次部署通常需要 2-5 分钟。当看到应用界面出现时，即表示部署成功。</p></blockquote><p><strong>关键步骤</strong>：复制浏览器地址栏中的 URL（例如 <code>https://optical-lab-xxxx.streamlit.app</code>），这是你的专属工具链接。</p><hr><h2 id="第三阶段：嵌入博客-Hexo-Halo"><a href="#第三阶段：嵌入博客-Hexo-Halo" class="headerlink" title="第三阶段：嵌入博客 (Hexo &#x2F; Halo)"></a>第三阶段：嵌入博客 (Hexo &#x2F; Halo)</h2><p>最后一步是将云端应用“镶嵌”到你的博客文章中。</p><h3 id="1-编辑-Markdown-文章"><a href="#1-编辑-Markdown-文章" class="headerlink" title="1. 编辑 Markdown 文章"></a>1. 编辑 Markdown 文章</h3><p>打开你的 Hexo 或 Halo 博客后台，新建或编辑一篇文章。</p><h3 id="2-插入嵌入代码"><a href="#2-插入嵌入代码" class="headerlink" title="2. 插入嵌入代码"></a>2. 插入嵌入代码</h3><p>在文章的合适位置，直接粘贴以下 HTML 代码。请务必将 <code>src</code> 替换为你第二阶段获取的真实链接：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> </span><br><span class="hljs-tag">    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;[https://你的工具链接.streamlit.app?embed=true](https://你的工具链接.streamlit.app?embed=true)&quot;</span> </span><br><span class="hljs-tag">    <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;850&quot;</span> </span><br><span class="hljs-tag">    <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;100%&quot;</span> </span><br><span class="hljs-tag">    <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;border:none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span><br></code></pre></td></tr></table></figure><h3 id="参数详解："><a href="#参数详解：" class="headerlink" title="参数详解："></a>参数详解：</h3><ul><li><code>?embed=true</code>：<strong>必填</strong>。隐藏 Streamlit 顶部的汉堡菜单和红条，让界面更干净。</li><li><code>height=&quot;850&quot;</code>：根据你的应用内容长度调整高度。</li><li><code>style=&quot;...&quot;</code>：添加圆角和阴影，使嵌入框更美观，符合现代博客设计风格。</li></ul><hr><h2 id="常见问题排查-Troubleshooting"><a href="#常见问题排查-Troubleshooting" class="headerlink" title="常见问题排查 (Troubleshooting)"></a>常见问题排查 (Troubleshooting)</h2><table><thead><tr><th align="left">问题现象</th><th align="left">可能原因</th><th align="left">解决方案</th></tr></thead><tbody><tr><td align="left"><strong>ModuleNotFoundError</strong></td><td align="left">缺少依赖描述文件</td><td align="left">检查 GitHub 仓库根目录是否有 <code>requirements.txt</code>。</td></tr><tr><td align="left"><strong>一直显示 “In the oven”</strong></td><td align="left">正在安装依赖或网络延迟</td><td align="left">如果超过 10 分钟，点击右下角 “Manage app” 查看 Logs 报错。</td></tr><tr><td align="left"><strong>Error: Image not found</strong></td><td align="left">本地图片路径错误</td><td align="left">云端无法读取本地路径。请将图片也上传到 GitHub，并使用相对路径读取。</td></tr></tbody></table><hr><p>🎉 <strong>恭喜！</strong> 你现在已经拥有了一个可交互的在线仿真实验室，快去分享吧！</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>APP</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>Streamlit</tag>
-      
-      <tag>github</tag>
-      
-      <tag>APP</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>波前、相位与振幅的数学本质及调制原理</title>
     <link href="/2026/01/15/2026-01-15-wavefront-phase-amplitude-physics/"/>
     <url>/2026/01/15/2026-01-15-wavefront-phase-amplitude-physics/</url>
@@ -5263,6 +5234,35 @@
       <tag>全息</tag>
       
       <tag>傅里叶光学</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>将 Python 仿真工具部署并嵌入个人博客</title>
+    <link href="/2026/01/15/2026-01-15-design-your-own-app/"/>
+    <url>/2026/01/15/2026-01-15-design-your-own-app/</url>
+    
+    <content type="html"><![CDATA[<h1 id="🚀-实战指南：将-Python-仿真工具部署并嵌入个人博客"><a href="#🚀-实战指南：将-Python-仿真工具部署并嵌入个人博客" class="headerlink" title="🚀 实战指南：将 Python 仿真工具部署并嵌入个人博客"></a>🚀 实战指南：将 Python 仿真工具部署并嵌入个人博客</h1><p>本教程将指导你如何利用 <strong>Streamlit Cloud</strong> 免费托管 Python 应用，并通过 <code>iframe</code> 将其集成到 <strong>Hexo</strong> 或 <strong>Halo</strong> 博客文章中。</p><h2 id="📋-准备工作"><a href="#📋-准备工作" class="headerlink" title="📋 准备工作"></a>📋 准备工作</h2><p>在开始之前，请确保你拥有以下条件：</p><ul><li>一个 <strong>GitHub</strong> 账号。</li><li>本地已编写好的 Streamlit 代码（例如 <code>app.py</code>）。</li><li>一个现有的 Hexo 或 Halo 博客。</li></ul><hr><h2 id="第一阶段：准备项目文件"><a href="#第一阶段：准备项目文件" class="headerlink" title="第一阶段：准备项目文件"></a>第一阶段：准备项目文件</h2><p>Streamlit Cloud 需要从你的 GitHub 仓库读取代码，因此我们需要规范化文件结构。</p><h3 id="1-准备代码文件-app-py"><a href="#1-准备代码文件-app-py" class="headerlink" title="1. 准备代码文件 (app.py)"></a>1. 准备代码文件 (<code>app.py</code>)</h3><p>确保你的主程序文件命名为 <code>app.py</code>（或其他 <code>.py</code> 文件名），并确保在本地运行无误。</p><h3 id="2-创建依赖文件-requirements-txt"><a href="#2-创建依赖文件-requirements-txt" class="headerlink" title="2. 创建依赖文件 (requirements.txt)"></a>2. 创建依赖文件 (<code>requirements.txt</code>)</h3><p>在 <code>app.py</code> 同级目录下，创建一个名为 <code>requirements.txt</code> 的文本文件。<strong>文件名必须完全一致（全小写、复数）</strong>。<br>在文件中列出项目用到的所有第三方库，例如：</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">streamlit<br>numpy<br>matplotlib<br></code></pre></td></tr></table></figure><h3 id="3-上传至-GitHub"><a href="#3-上传至-GitHub" class="headerlink" title="3. 上传至 GitHub"></a>3. 上传至 GitHub</h3><ol><li>登录 <a href="https://github.com/">GitHub</a>，点击右上角 <strong>+</strong> 号 -&gt; <strong>New repository</strong>。</li><li><strong>Repository name</strong>：填写项目名称（例如 <code>optical-lab</code>）。</li><li><strong>Visibility</strong>：选择 <strong>Public</strong>（公开），这对免费部署至关重要。</li><li>点击 <strong>Create repository</strong>。</li><li>在跳转页面中，点击 <strong>uploading an existing file</strong>。</li><li>将 <code>app.py</code> 和 <code>requirements.txt</code> 拖入上传区域，点击 <strong>Commit changes</strong>。</li></ol><hr><h2 id="第二阶段：部署到-Streamlit-Cloud"><a href="#第二阶段：部署到-Streamlit-Cloud" class="headerlink" title="第二阶段：部署到 Streamlit Cloud"></a>第二阶段：部署到 Streamlit Cloud</h2><p>我们将使用 Streamlit 官方提供的免费云服务来托管你的应用。</p><ol><li>访问 <a href="https://streamlit.io/cloud">Streamlit Cloud 官网</a> 并点击 <strong>Sign up</strong>。</li><li>选择 <strong>Continue with GitHub</strong> 进行登录授权。</li><li>进入控制台后，点击右上角的 <strong>New app</strong>。</li><li>填写部署表单：<ul><li><strong>Repository</strong>：在下拉菜单中选择刚才创建的仓库（如 <code>yourname/optical-lab</code>）。</li><li><strong>Branch</strong>：通常默认为 <code>main</code> 或 <code>master</code>。</li><li><strong>Main file path</strong>：选择你的主程序文件 <code>app.py</code>。</li></ul></li><li>点击 <strong>Deploy!</strong> 按钮。</li></ol><blockquote><p><strong>☕ 等待部署</strong>：<br>系统会自动安装 Python 环境和 <code>requirements.txt</code> 中的依赖。首次部署通常需要 2-5 分钟。当看到应用界面出现时，即表示部署成功。</p></blockquote><p><strong>关键步骤</strong>：复制浏览器地址栏中的 URL（例如 <code>https://optical-lab-xxxx.streamlit.app</code>），这是你的专属工具链接。</p><hr><h2 id="第三阶段：嵌入博客-Hexo-Halo"><a href="#第三阶段：嵌入博客-Hexo-Halo" class="headerlink" title="第三阶段：嵌入博客 (Hexo &#x2F; Halo)"></a>第三阶段：嵌入博客 (Hexo &#x2F; Halo)</h2><p>最后一步是将云端应用“镶嵌”到你的博客文章中。</p><h3 id="1-编辑-Markdown-文章"><a href="#1-编辑-Markdown-文章" class="headerlink" title="1. 编辑 Markdown 文章"></a>1. 编辑 Markdown 文章</h3><p>打开你的 Hexo 或 Halo 博客后台，新建或编辑一篇文章。</p><h3 id="2-插入嵌入代码"><a href="#2-插入嵌入代码" class="headerlink" title="2. 插入嵌入代码"></a>2. 插入嵌入代码</h3><p>在文章的合适位置，直接粘贴以下 HTML 代码。请务必将 <code>src</code> 替换为你第二阶段获取的真实链接：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> </span><br><span class="hljs-tag">    <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;[https://你的工具链接.streamlit.app?embed=true](https://你的工具链接.streamlit.app?embed=true)&quot;</span> </span><br><span class="hljs-tag">    <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;850&quot;</span> </span><br><span class="hljs-tag">    <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;100%&quot;</span> </span><br><span class="hljs-tag">    <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;border:none; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span><br></code></pre></td></tr></table></figure><h3 id="参数详解："><a href="#参数详解：" class="headerlink" title="参数详解："></a>参数详解：</h3><ul><li><code>?embed=true</code>：<strong>必填</strong>。隐藏 Streamlit 顶部的汉堡菜单和红条，让界面更干净。</li><li><code>height=&quot;850&quot;</code>：根据你的应用内容长度调整高度。</li><li><code>style=&quot;...&quot;</code>：添加圆角和阴影，使嵌入框更美观，符合现代博客设计风格。</li></ul><hr><h2 id="常见问题排查-Troubleshooting"><a href="#常见问题排查-Troubleshooting" class="headerlink" title="常见问题排查 (Troubleshooting)"></a>常见问题排查 (Troubleshooting)</h2><table><thead><tr><th align="left">问题现象</th><th align="left">可能原因</th><th align="left">解决方案</th></tr></thead><tbody><tr><td align="left"><strong>ModuleNotFoundError</strong></td><td align="left">缺少依赖描述文件</td><td align="left">检查 GitHub 仓库根目录是否有 <code>requirements.txt</code>。</td></tr><tr><td align="left"><strong>一直显示 “In the oven”</strong></td><td align="left">正在安装依赖或网络延迟</td><td align="left">如果超过 10 分钟，点击右下角 “Manage app” 查看 Logs 报错。</td></tr><tr><td align="left"><strong>Error: Image not found</strong></td><td align="left">本地图片路径错误</td><td align="left">云端无法读取本地路径。请将图片也上传到 GitHub，并使用相对路径读取。</td></tr></tbody></table><hr><p>🎉 <strong>恭喜！</strong> 你现在已经拥有了一个可交互的在线仿真实验室，快去分享吧！</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>APP</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Streamlit</tag>
+      
+      <tag>github</tag>
+      
+      <tag>APP</tag>
       
     </tags>
     
