@@ -1173,9 +1173,9 @@
       
       <tag>麦克斯韦方程</tag>
       
-      <tag>信号处理</tag>
-      
       <tag>线性代数</tag>
+      
+      <tag>信号处理</tag>
       
       <tag>光学计算</tag>
       
@@ -4488,9 +4488,9 @@
     
     <tags>
       
-      <tag>Mathematics</tag>
-      
       <tag>Algorithms</tag>
+      
+      <tag>Mathematics</tag>
       
       <tag>Control Theory</tag>
       
@@ -4558,9 +4558,9 @@
     
     <tags>
       
-      <tag>Mathematics</tag>
-      
       <tag>Algorithms</tag>
+      
+      <tag>Mathematics</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4597,9 +4597,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Mathematics</tag>
-      
       <tag>Algorithms</tag>
+      
+      <tag>Mathematics</tag>
       
       <tag>BFGS</tag>
       
@@ -4630,9 +4630,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Mathematics</tag>
-      
       <tag>Linear Algebra</tag>
+      
+      <tag>Mathematics</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4667,9 +4667,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Mathematics</tag>
-      
       <tag>Algorithms</tag>
+      
+      <tag>Mathematics</tag>
       
       <tag>BFGS</tag>
       
@@ -4702,9 +4702,9 @@
       
       <tag>Optimization</tag>
       
-      <tag>Mathematics</tag>
-      
       <tag>Algorithms</tag>
+      
+      <tag>Mathematics</tag>
       
       <tag>Machine Learning</tag>
       
@@ -4933,9 +4933,9 @@
     
     <tags>
       
-      <tag>Mathematics</tag>
-      
       <tag>Algorithms</tag>
+      
+      <tag>Mathematics</tag>
       
       <tag>Machine Learning</tag>
       
@@ -5304,9 +5304,9 @@
     
     <tags>
       
-      <tag>激光物理</tag>
-      
       <tag>量子力学</tag>
+      
+      <tag>激光物理</tag>
       
       <tag>光电子学</tag>
       
@@ -6428,11 +6428,11 @@
       
       <tag>数学基础</tag>
       
-      <tag>傅里叶变换</tag>
-      
       <tag>泛函分析</tag>
       
       <tag>线性代数</tag>
+      
+      <tag>傅里叶变换</tag>
       
       <tag>正交基</tag>
       
