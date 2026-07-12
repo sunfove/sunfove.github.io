@@ -1,0 +1,80 @@
+name: Hexo Auto Deploy
+
+on:
+  push:
+    branches:
+      - master  # 确保这里是你存放源码的主分支名 (master 或 main)
+
+# 🆕 新增：给予机器人写权限，否则它无法推送到 gh-pages 分支
+permissions:
+  contents: write
+
+
+# 🟢 新增：并发控制组
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. 检出代码
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    # 2. 安装 Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    # 3. 缓存依赖
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    # 4. 安装依赖
+    - name: Install dependencies
+      run: npm install
+
+    # 5. 生成静态文件
+    - name: Build Hexo
+      run: |
+        npx hexo clean
+        npx hexo generate
+
+    # 6. 部署到阿里云服务器 (任务一)
+    - name: Deploy to Aliyun
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
+        ARGS: "-rlgoDzvc -i"
+        SOURCE: "public/"
+        REMOTE_HOST: ${{ secrets.HEXO_SERVER_IP }}
+        REMOTE_USER: ${{ secrets.HEXO_SERVER_USER }}
+        TARGET: "/var/www/html"
+        EXCLUDE: "/node_modules/"
+
+    # 7. 🆕 部署到 GitHub Pages (任务二)
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }} # 这是 GitHub 自动生成的，无需你自己配置 Secret
+        publish_dir: ./public
+        publish_branch: gh-pages  # 网页文件将存放在 gh-pages 分支，保持源码分支整洁
+
+    - name: 刷新腾讯云 CDN
+      uses: keithnull/tencent-cloud-cdn-purge-cache@v1.0
+      env:
+        SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+        SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+        PATHS: 'https://sunfove.xyz/'

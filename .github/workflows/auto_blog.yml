@@ -1,0 +1,184 @@
+name: Auto Blog Generator
+
+on:
+  # 开关 1：定时器 (每天北京时间 8:00，即 UTC 0:00)
+  schedule:
+    - cron: '0 0 * * *'
+
+  # 开关 2：手动按钮
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '生成模式'
+        required: true
+        default: 'daily'
+        type: choice
+        options:
+          - daily        # 每天一篇
+          - batch        # 批量生成（5篇）
+          - publish      # 仅发布
+          - test         # 测试模式
+      topics:
+        description: '指定主题（逗号分隔，留空则随机）'
+        required: false
+        type: string
+      category:
+        description: '文章分类'
+        required: false
+        type: choice
+        options:
+          - optics
+          - algorithms
+          - physics
+          - mathematics
+          - signal_processing
+          - ''
+      direct_publish:
+        description: '直接发布（跳过 temp 目录）'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PAT_TOKEN }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests matplotlib numpy
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install Node dependencies
+      run: npm install
+
+    - name: Generate Blog Content
+      id: generate
+      env:
+        LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+        UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+      run: |
+        # 根据模式执行不同操作
+        MODE="${{ github.event.inputs.mode || 'daily' }}"
+        TOPICS="${{ github.event.inputs.topics }}"
+        CATEGORY="${{ github.event.inputs.category }}"
+        DIRECT="${{ github.event.inputs.direct_publish }}"
+
+        echo "执行模式: $MODE"
+
+        case $MODE in
+          daily)
+            # 每日一篇模式
+            if [ -n "$TOPICS" ]; then
+              python py_scripts/generate_blog.py --topic "$TOPICS" --category "$CATEGORY"
+            else
+              python py_scripts/generate_blog.py --generate 1 --category "$CATEGORY"
+            fi
+            ;;
+          batch)
+            # 批量生成模式（5篇）
+            if [ -n "$TOPICS" ]; then
+              python py_scripts/generate_blog.py --topics "$TOPICS" --category "$CATEGORY"
+            else
+              python py_scripts/generate_blog.py --generate 5 --category "$CATEGORY"
+            fi
+            ;;
+          publish)
+            # 仅发布模式
+            python py_scripts/generate_blog.py --publish
+            ;;
+          test)
+            # 测试模式：生成一篇到 temp
+            python py_scripts/generate_blog.py --generate 1 --category "optics"
+            echo "测试完成，文章已保存到 temp 目录"
+            ;;
+        esac
+
+    - name: Check for changes
+      id: check
+      run: |
+        git add .
+        if git diff --staged --quiet; then
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+          echo "No changes to commit."
+        else
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "Changes detected."
+        fi
+
+    - name: Commit and Push
+      if: steps.check.outputs.has_changes == 'true'
+      run: |
+        git config --global user.name "GitHub Action Bot"
+        git config --global user.email "actions@github.com"
+
+        # 获取当前日期
+        DATE=$(date '+%Y-%m-%d')
+        TIME=$(date '+%H:%M:%S')
+
+        git commit -m "feat: 📝 自动生成博客内容 - $DATE $TIME"
+        git push
+
+        echo "✅ 已提交并推送更改"
+
+    - name: Summary
+      run: |
+        echo "## 📊 执行摘要" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **模式**: ${{ github.event.inputs.mode || 'daily' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **时间**: $(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_STEP_SUMMARY
+        echo "- **更改**: ${{ steps.check.outputs.has_changes }}" >> $GITHUB_STEP_SUMMARY
+
+  # 可选：自动发布到网站（需要在 temp 文件夹有文章时触发）
+  auto-publish:
+    needs: generate-and-push
+    runs-on: ubuntu-latest
+    if: github.event.inputs.direct_publish == 'true'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PAT_TOKEN }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Build and Deploy
+      run: |
+        npm install
+        npx hexo clean
+        npx hexo generate
+
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
+        ARGS: "-rlgoDzvc -i"
+        SOURCE: "public/"
+        REMOTE_HOST: ${{ secrets.HEXO_SERVER_IP }}
+        REMOTE_USER: ${{ secrets.HEXO_SERVER_USER }}
+        TARGET: "/var/www/html"

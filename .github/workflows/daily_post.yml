@@ -1,0 +1,50 @@
+name: Daily English Post
+
+on:
+  # 开关 1：定时器 (每天北京时间 00:00)
+  schedule:
+    - cron: '0 16 * * *' 
+  
+  # 开关 2：手动按钮 (想测就测，即时生效)
+  workflow_dispatch: 
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PAT_TOKEN }} # 确保用了个人令牌
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install requests
+
+    - name: Run generation script
+      env: 
+        LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+      run: |
+        python py_scripts/daily_english.py
+
+    - name: Commit and Push
+      run: |
+        git config --global user.name "GitHub Action Bot"
+        git config --global user.email "actions@github.com"
+        git add .
+        # 检查是否有新内容
+        if git diff --staged --quiet; then
+          echo "No changes to commit. (Today's post might already exist)"
+        else
+          git commit -m "feat: 📚 Manual Trigger - 生成英语日报"
+          git push
+        fi
