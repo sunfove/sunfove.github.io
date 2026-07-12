@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 超表面日报生成器 - Daily Metasurface Report
-每天自动生成一篇超表面(Metaurface)领域的技术报告并发布到网站
+支持两种模式：
+1. LLM API 模式（独立运行）
+2. Agent 模式（由 AI 填充内容后发布）
 """
 import os
 import sys
@@ -14,11 +16,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from blog_generator.content_generator import ContentGenerator
-
 
 class MetasurfaceTopicPool:
-    """超表面主题池 - 涵盖超表面全领域"""
+    """超表面主题池"""
 
     TOPICS = {
         "fundamental_physics": [
@@ -129,286 +129,196 @@ class MetasurfaceTopicPool:
 
     @classmethod
     def get_random_topic(cls, category: str = None) -> dict:
-        """随机获取一个主题"""
         if category and category in cls.TOPICS:
             topic = random.choice(cls.TOPICS[category])
             return {"topic": topic, "category": category}
-        
-        # 随机选择分类
         cat = random.choice(list(cls.TOPICS.keys()))
         topic = random.choice(cls.TOPICS[cat])
         return {"topic": topic, "category": cat}
 
     @classmethod
-    def list_categories(cls) -> list:
-        return list(cls.TOPICS.keys())
-
-    @classmethod
     def get_all_topics(cls) -> list:
-        """获取所有主题"""
         all_topics = []
         for cat, topics in cls.TOPICS.items():
             for t in topics:
                 all_topics.append({"topic": t, "category": cat})
         return all_topics
 
+    @classmethod
+    def export_to_json(cls, filepath: str):
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(cls.TOPICS, f, ensure_ascii=False, indent=2)
 
-class DailyMetasurfaceReport:
-    """超表面日报生成器"""
 
-    def __init__(self, base_dir: str = None):
-        if base_dir is None:
-            base_dir = Path(__file__).parent.parent
-        self.base_dir = Path(base_dir)
-        self.posts_dir = self.base_dir / "source" / "_posts"
-        self.public_dir = self.base_dir / "public"
-        
-        # 初始化内容生成器
-        self.content_generator = ContentGenerator()
-        self.topic_pool = MetasurfaceTopicPool()
-        
-        # 历史记录
-        self.history_file = self.base_dir / "temp" / "metasurface_history.json"
-        self.history = self._load_history()
-
-    def _load_history(self) -> dict:
-        """加载历史记录"""
-        if self.history_file.exists():
-            with open(self.history_file, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        return {"used_topics": [], "generated_dates": []}
-
-    def _save_history(self):
-        """保存历史记录"""
-        self.history_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.history_file, 'w', encoding='utf-8') as f:
-            json.dump(self.history, f, ensure_ascii=False, indent=2)
-
-    def select_topic(self) -> dict:
-        """选择一个未使用过的主题"""
-        all_topics = self.topic_pool.get_all_topics()
-        available = [t for t in all_topics if t["topic"] not in self.history["used_topics"]]
-        
-        if not available:
-            print("[INFO] 所有主题已用完，重置历史记录")
-            self.history["used_topics"] = []
-            available = all_topics
-        
-        topic = random.choice(available)
-        return topic
-
-    def generate_report(self, topic: dict = None) -> dict:
-        """生成超表面日报"""
-        if topic is None:
-            topic = self.select_topic()
-        
-        topic_name = topic["topic"]
-        category = topic["category"]
-        
-        print(f"\n{'='*60}")
-        print(f"📝 生成超表面日报")
-        print(f"📌 主题: {topic_name}")
-        print(f"🏷️ 分类: {category}")
-        print(f"{'='*60}\n")
-        
-        # 使用内容生成器生成文章
-        article = self.content_generator.generate_article(
-            topic=topic_name,
-            category="超表面技术"
-        )
-        
-        if not article:
-            print("[ERROR] 文章生成失败")
-            return None
-        
-        # 生成文章文件名
-        date_str = datetime.now().strftime("%Y-%m-%d")
-        slug = self._generate_slug(topic_name)
-        filename = f"{date_str}-metasurface-{slug}.md"
-        
-        # 生成 Hexo Front-matter
-        front_matter = self._generate_front_matter(article, topic_name)
-        
-        # 完整文章内容
-        full_content = front_matter + "\n\n" + article["content"]
-        
-        return {
-            "filename": filename,
-            "title": topic_name,
-            "category": category,
-            "content": full_content,
-            "date": date_str
-        }
-
-    def _generate_slug(self, title: str) -> str:
-        """生成URL友好的slug"""
-        import re
-        # 简单的中文转拼音或保留关键字符
-        slug = re.sub(r'[^\w\s-]', '', title)
-        slug = re.sub(r'[\s]+', '-', slug)
-        return slug[:50].lower().strip('-')
-
-    def _generate_front_matter(self, article: dict, topic: str) -> str:
-        """生成Hexo Front-matter"""
+def generate_front_matter(title: str, category: str, date_str: str = None) -> str:
+    """生成 Hexo Front-matter"""
+    if date_str is None:
         date_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        excerpt = article.get("excerpt", f"今日超表面技术日报：{topic}")
-        
-        # 随机标签
-        tags = self._generate_tags(topic)
-        
-        front_matter = f"""---
-title: {topic}
+
+    tags_map = {
+        "fundamental_physics": ["超表面", "基础物理", "相位调控"],
+        "design_methods": ["超表面", "优化设计", "拓扑优化"],
+        "metalenses": ["超表面", "超构透镜", "Metalens"],
+        "holography": ["超表面", "全息术", "Holography"],
+        "beam_shaping": ["超表面", "光束整形", "涡旋光束"],
+        "polarization": ["超表面", "偏振光学", "Polarization"],
+        "tunable": ["超表面", "可调超表面", "Active Metasurface"],
+        "sensing": ["超表面", "光学传感", "Sensing"],
+        "neural_optics": ["超表面", "光学神经网络", "Optical AI"],
+        "manufacturing": ["超表面", "纳米制造", "Nanofabrication"],
+        "applications": ["超表面", "应用器件", "Applications"],
+    }
+    tags = tags_map.get(category, ["超表面", "Metasurface"])
+
+    return f"""---
+title: {title}
 date: {date_str}
 categories:
   - 超表面技术
 tags:
 {chr(10).join(f'  - {tag}' for tag in tags)}
-excerpt: {excerpt}
+excerpt: 今日超表面技术日报：{title}
 index_img: /img/fluid.png
+math: true
 ---"""
-        return front_matter
 
-    def _generate_tags(self, topic: str) -> list:
-        """根据主题生成标签"""
-        base_tags = ["超表面", "Metasurface", "纳米光子学"]
-        
-        # 根据主题内容添加特定标签
-        if "透镜" in topic or "Metalens" in topic:
-            base_tags.extend(["超构透镜", "Metalens"])
-        if "全息" in topic:
-            base_tags.extend(["全息", "Holography"])
-        if "偏振" in topic:
-            base_tags.extend(["偏振光学", "Polarization"])
-        if "涡旋" in topic or "光束" in topic:
-            base_tags.extend(["光束整形", "Beam Shaping"])
-        if "可调" in topic or "动态" in topic:
-            base_tags.extend(["可调超表面", "Active Metasurface"])
-        if "传感" in topic:
-            base_tags.extend(["光学传感", "Optical Sensing"])
-        if "神经" in topic or "AI" in topic or "深度" in topic:
-            base_tags.extend(["光学神经网络", "Optical AI"])
-        if "设计" in topic and ("优化" in topic or "逆向" in topic):
-            base_tags.extend(["拓扑优化", "逆向设计"])
-        if "制备" in topic or "制造" in topic or "光刻" in topic:
-            base_tags.extend(["纳米制造", "Nanofabrication"])
-        
-        return base_tags[:6]  # 最多6个标签
 
-    def save_article(self, article_data: dict) -> Path:
-        """保存文章到_posts目录"""
-        filepath = self.posts_dir / article_data["filename"]
-        self.posts_dir.mkdir(parents=True, exist_ok=True)
-        
-        with open(filepath, 'w', encoding='utf-8') as f:
-            f.write(article_data["content"])
-        
-        print(f"[OK] 文章已保存: {filepath}")
-        return filepath
+def load_history(base_dir: Path) -> dict:
+    history_file = base_dir / "temp" / "metasurface_history.json"
+    if history_file.exists():
+        with open(history_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return {"used_topics": [], "generated_dates": []}
 
-    def mark_as_used(self, topic: str):
-        """标记主题已使用"""
-        if topic not in self.history["used_topics"]:
-            self.history["used_topics"].append(topic)
-        today = datetime.now().strftime("%Y-%m-%d")
-        if today not in self.history["generated_dates"]:
-            self.history["generated_dates"].append(today)
-        self._save_history()
 
-    def build_and_deploy(self):
-        """构建并部署网站"""
-        print("\n🔨 开始构建网站...")
-        
-        # Hexo 构建
-        os.chdir(self.base_dir)
-        result = os.system("npx hexo generate 2>&1")
-        
-        if result != 0:
-            print("[ERROR] Hexo 构建失败")
-            return False
-        
-        print("[OK] Hexo 构建完成")
-        
-        # 复制到 Nginx 目录
-        deploy_cmd = f"sudo cp -r {self.public_dir}/* /var/www/time-frame.cloud/ && sudo chown -R www-data:www-data /var/www/time-frame.cloud"
-        result = os.system(deploy_cmd)
-        
-        if result != 0:
-            print("[ERROR] 部署失败，尝试用 sudo...")
-            return False
-        
-        print("[OK] 网站已部署到 /var/www/time-frame.cloud")
-        return True
+def save_history(base_dir: Path, history: dict):
+    history_file = base_dir / "temp" / "metasurface_history.json"
+    history_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(history_file, 'w', encoding='utf-8') as f:
+        json.dump(history, f, ensure_ascii=False, indent=2)
 
-    def run(self, dry_run: bool = False):
-        """执行完整流程"""
-        try:
-            # 1. 选择并生成主题
-            topic = self.select_topic()
-            print(f"📋 选定主题: {topic['topic']}")
-            
-            # 2. 生成文章
-            article_data = self.generate_report(topic)
-            if not article_data:
-                return False
-            
-            # 3. 保存文章
-            if not dry_run:
-                self.save_article(article_data)
-                self.mark_as_used(topic["topic"])
-                
-                # 4. 构建并部署
-                self.build_and_deploy()
-                
-                print(f"\n✅ 超表面日报发布成功!")
-                print(f"📅 日期: {article_data['date']}")
-                print(f"📝 标题: {article_data['title']}")
-                print(f"🔗 链接: https://time-frame.cloud/{article_data['date'].replace('-', '/')}/{article_data['filename'].replace('.md', '')}/")
-            else:
-                print(f"\n🧪 干运行模式，文章未保存")
-                print(f"预览标题: {article_data['title']}")
-                print(f"预览内容前200字:\n{article_data['content'][:200]}...")
-            
-            return True
-            
-        except Exception as e:
-            print(f"[ERROR] 执行失败: {e}")
-            import traceback
-            traceback.print_exc()
-            return False
+
+def select_topic(base_dir: Path) -> dict:
+    history = load_history(base_dir)
+    all_topics = MetasurfaceTopicPool.get_all_topics()
+    available = [t for t in all_topics if t["topic"] not in history.get("used_topics", [])]
+
+    if not available:
+        print("[INFO] 所有主题已用完，重置历史记录")
+        history["used_topics"] = []
+        available = all_topics
+
+    topic = random.choice(available)
+
+    # 标记已使用
+    history["used_topics"].append(topic["topic"])
+    today = datetime.now().strftime("%Y-%m-%d")
+    if today not in history.get("generated_dates", []):
+        history["generated_dates"].append(today)
+    save_history(base_dir, history)
+
+    return topic
+
+
+def save_article(base_dir: Path, filename: str, content: str) -> Path:
+    posts_dir = base_dir / "source" / "_posts"
+    posts_dir.mkdir(parents=True, exist_ok=True)
+    filepath = posts_dir / filename
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.write(content)
+    print(f"[OK] 文章已保存: {filepath}")
+    return filepath
+
+
+def build_and_deploy(base_dir: Path) -> bool:
+    """构建并部署"""
+    import subprocess
+
+    os.chdir(base_dir)
+
+    print("\n🔨 开始构建网站...")
+    result = subprocess.run(["npx", "hexo", "generate"], capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"[ERROR] Hexo 构建失败:\n{result.stderr}")
+        return False
+    print("[OK] Hexo 构建完成")
+
+    public_dir = base_dir / "public"
+    deploy_cmd = f"cp -r {public_dir}/* /var/www/time-frame.cloud/ && chown -R www-data:www-data /var/www/time-frame.cloud"
+    result = subprocess.run(deploy_cmd, shell=True, capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"[ERROR] 部署失败: {result.stderr}")
+        return False
+    print("[OK] 网站已部署")
+    return True
 
 
 def main():
     parser = argparse.ArgumentParser(description="超表面日报生成器")
-    parser.add_argument("--dry-run", action="store_true", help="干运行模式（不保存不部署）")
-    parser.add_argument("--topic", type=str, help="指定主题生成")
-    parser.add_argument("--category", type=str, help="指定分类")
-    parser.add_argument("--list-topics", action="store_true", help="列出所有可用主题")
-    parser.add_argument("--build-only", action="store_true", help="仅构建部署（不生成新文章）")
-    
+    parser.add_argument("--agent-mode", action="store_true",
+                        help="Agent 模式：选择主题并输出 JSON，等待外部填充内容")
+    parser.add_argument("--publish-file", type=str,
+                        help="发布指定文件（已包含完整内容）")
+    parser.add_argument("--build-only", action="store_true",
+                        help="仅构建部署")
+    parser.add_argument("--list-topics", action="store_true",
+                        help="列出所有主题")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="干运行（不保存不部署）")
+
     args = parser.parse_args()
-    
-    reporter = DailyMetasurfaceReport()
-    
+
+    base_dir = Path(__file__).parent.parent
+
     if args.list_topics:
-        print("\n📚 超表面主题池")
-        print("=" * 60)
-        for cat, topics in MetasurfaceTopicPool.TOPICS.items():
-            print(f"\n【{cat}】({len(topics)}个主题)")
-            for i, t in enumerate(topics, 1):
-                print(f"  {i}. {t}")
-        print("=" * 60)
+        print(json.dumps(MetasurfaceTopicPool.TOPICS, ensure_ascii=False, indent=2))
         return
-    
+
     if args.build_only:
-        reporter.build_and_deploy()
+        build_and_deploy(base_dir)
         return
-    
-    if args.topic:
-        topic = {"topic": args.topic, "category": args.category or "custom"}
-        reporter.run(dry_run=args.dry_run)
-    else:
-        reporter.run(dry_run=args.dry_run)
+
+    if args.agent_mode:
+        # Agent 模式：选择主题，生成 front-matter，输出 JSON
+        topic = select_topic(base_dir)
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        slug = topic["topic"][:30].replace(" ", "-").replace("/", "-")
+        filename = f"{date_str}-metasurface-{slug}.md"
+        front_matter = generate_front_matter(topic["topic"], topic["category"], date_str)
+
+        result = {
+            "topic": topic["topic"],
+            "category": topic["category"],
+            "filename": filename,
+            "date": date_str,
+            "front_matter": front_matter,
+            "posts_dir": str(base_dir / "source" / "_posts"),
+            "base_dir": str(base_dir),
+        }
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    if args.publish_file:
+        # 发布已有文件
+        filepath = Path(args.publish_file)
+        if not filepath.exists():
+            print(f"[ERROR] 文件不存在: {filepath}")
+            return 1
+        # 复制到 _posts（如果不是已经在那里）
+        posts_dir = base_dir / "source" / "_posts"
+        if filepath.parent != posts_dir:
+            import shutil
+            dest = posts_dir / filepath.name
+            shutil.copy2(filepath, dest)
+            print(f"[OK] 已复制到: {dest}")
+        build_and_deploy(base_dir)
+        return
+
+    # 默认：dry run 输出主题信息
+    topic = select_topic(base_dir)
+    print(f"📋 选定主题: {topic['topic']} [{topic['category']}]")
+    print(f"   运行 'python3 daily_metasurface.py --agent-mode' 获取完整 JSON")
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main() or 0)
