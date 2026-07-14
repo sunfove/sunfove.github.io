@@ -231,7 +231,7 @@ def save_article(base_dir: Path, filename: str, content: str) -> Path:
 
 
 def build_and_deploy(base_dir: Path) -> bool:
-    """构建并部署"""
+    """构建并部署到 GitHub Pages"""
     import subprocess
 
     os.chdir(base_dir)
@@ -243,13 +243,14 @@ def build_and_deploy(base_dir: Path) -> bool:
         return False
     print("[OK] Hexo 构建完成")
 
-    public_dir = base_dir / "public"
-    deploy_cmd = f"cp -r {public_dir}/* /var/www/time-frame.cloud/ && chown -R www-data:www-data /var/www/time-frame.cloud"
-    result = subprocess.run(deploy_cmd, shell=True, capture_output=True, text=True)
+    print("\n🚀 部署到 GitHub Pages...")
+    env = os.environ.copy()
+    env["GIT_SSH_COMMAND"] = "ssh -i /home/ubuntu/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"
+    result = subprocess.run(["npx", "hexo", "deploy"], capture_output=True, text=True, env=env)
     if result.returncode != 0:
-        print(f"[ERROR] 部署失败: {result.stderr}")
+        print(f"[ERROR] 部署失败:\n{result.stderr}\n{result.stdout}")
         return False
-    print("[OK] 网站已部署")
+    print("[OK] 已部署到 GitHub Pages")
     return True
 
 
