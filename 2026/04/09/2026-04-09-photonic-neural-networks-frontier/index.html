@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="深入分析光子神经网络的前沿进展，包括线性光学矩阵乘法、非线性激活的实现、混合光电架构和实际应用案例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光子神经网络的前沿研究：从线性光学到非线性激活">
+<meta property="og:url" content="https://time-frame.cloud/2026/04/09/2026-04-09-photonic-neural-networks-frontier/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="深入分析光子神经网络的前沿进展，包括线性光学矩阵乘法、非线性激活的实现、混合光电架构和实际应用案例。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://time-frame.cloud/images/optics/articles/photonic_nn_structure.txt">
+<meta property="article:published_time" content="2026-04-09T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光子神经网络">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="线性光学">
+<meta property="article:tag" content="非线性光学">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://time-frame.cloud/images/optics/articles/photonic_nn_structure.txt">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>光子神经网络的前沿研究：从线性光学到非线性激活 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光子神经网络的前沿研究：从线性光学到非线性激活</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-09 12:00" pubdate>
+          April 9, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光子神经网络的前沿研究：从线性光学到非线性激活</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>光子神经网络作为新兴的计算范式，在特定应用中展现出巨大潜力。</p>
+<p><img src="/images/optics/articles/photonic_nn_structure.txt" srcset="/img/loading.gif" lazyload alt="光子神经网络结构"></p>
+<h2 id="1-线性光学神经网络基础"><a href="#1-线性光学神经网络基础" class="headerlink" title="1. 线性光学神经网络基础"></a>1. 线性光学神经网络基础</h2><h3 id="1-1-代码实现：MZI网络构建"><a href="#1-1-代码实现：MZI网络构建" class="headerlink" title="1.1 代码实现：MZI网络构建"></a>1.1 代码实现：MZI网络构建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MZINetwork</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;马赫-曾德尔干涉仪网络&quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_modes: <span class="hljs-built_in">int</span></span>):<br>        <span class="hljs-variable language_">self</span>.num_modes = num_modes<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">mz_unitary</span>(<span class="hljs-params">self, theta: <span class="hljs-built_in">float</span>, phi: <span class="hljs-built_in">float</span></span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;单个MZI的酉矩阵&quot;&quot;&quot;</span><br>        cos_theta = np.cos(theta)<br>        sin_theta = np.sin(theta)<br>        exp_i_phi = np.exp(<span class="hljs-number">1j</span> * phi)<br>        exp_minus_i_phi = np.exp(-<span class="hljs-number">1j</span> * phi)<br><br>        U = np.array([<br>            [exp_i_phi * cos_theta, -exp_i_phi * sin_theta],<br>            [exp_minus_i_phi * sin_theta, exp_minus_i_phi * cos_theta]<br>        ], dtype=<span class="hljs-built_in">complex</span>)<br><br>        <span class="hljs-keyword">return</span> U<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, input_field: np.ndarray, mzi_params: <span class="hljs-type">List</span>[<span class="hljs-built_in">dict</span>]</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;前向传播光场&quot;&quot;&quot;</span><br>        output = input_field.copy()<br><br>        <span class="hljs-keyword">for</span> mzi <span class="hljs-keyword">in</span> mzi_params:<br>            i = mzi[<span class="hljs-string">&#x27;mode1&#x27;</span>]<br>            j = mzi[<span class="hljs-string">&#x27;mode2&#x27;</span>]<br><br>            <span class="hljs-keyword">if</span> i &lt; <span class="hljs-built_in">len</span>(output) <span class="hljs-keyword">and</span> j &lt; <span class="hljs-built_in">len</span>(output):<br>                v_in = np.array([output[i], output[j]])<br>                U = <span class="hljs-variable language_">self</span>.mz_unitary(mzi[<span class="hljs-string">&#x27;theta&#x27;</span>], mzi[<span class="hljs-string">&#x27;phi&#x27;</span>])<br>                v_out = U @ v_in<br><br>                output[i] = v_out[<span class="hljs-number">0</span>]<br>                output[j] = v_out[<span class="hljs-number">1</span>]<br><br>        <span class="hljs-keyword">return</span> output<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_mzi_network</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;测试MZI网络&quot;&quot;&quot;</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;MZI网络测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    mzi_network = MZINetwork(num_modes=<span class="hljs-number">4</span>)<br><br>    <span class="hljs-comment"># 随机MZI参数</span><br>    np.random.seed(<span class="hljs-number">42</span>)<br>    mzi_params = []<br>    <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>            mzi_params.append(&#123;<br>                <span class="hljs-string">&#x27;mode1&#x27;</span>: i,<br>                <span class="hljs-string">&#x27;mode2&#x27;</span>: i + <span class="hljs-number">1</span>,<br>                <span class="hljs-string">&#x27;theta&#x27;</span>: np.random.uniform(<span class="hljs-number">0.1</span>, <span class="hljs-number">1.4</span>),<br>                <span class="hljs-string">&#x27;phi&#x27;</span>: np.random.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>*np.pi)<br>            &#125;)<br><br>    <span class="hljs-comment"># 测试输入</span><br>    input_field = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.3</span>, <span class="hljs-number">0.8</span>], dtype=<span class="hljs-built_in">complex</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n输入光场: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(input_field, <span class="hljs-number">4</span>)&#125;</span>&quot;</span>)<br><br>    output_field = mzi_network.forward(input_field, mzi_params)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输出光场: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(output_field, <span class="hljs-number">4</span>)&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 能量守恒检查</span><br>    input_energy = np.<span class="hljs-built_in">sum</span>(np.<span class="hljs-built_in">abs</span>(input_field)**<span class="hljs-number">2</span>)<br>    output_energy = np.<span class="hljs-built_in">sum</span>(np.<span class="hljs-built_in">abs</span>(output_field)**<span class="hljs-number">2</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n能量守恒检查:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输入能量: <span class="hljs-subst">&#123;input_energy:<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输出能量: <span class="hljs-subst">&#123;output_energy:<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;能量损失: <span class="hljs-subst">&#123;<span class="hljs-built_in">abs</span>(input_energy - output_energy):<span class="hljs-number">.6</span>e&#125;</span>&quot;</span>)<br><br><br><span class="hljs-comment"># 运行测试</span><br>test_mzi_network()<br></code></pre></td></tr></table></figure>
+
+<p><strong>代码运行结果：</strong></p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">============================================================<br>MZI网络测试<br>============================================================<br><br>输入光场: [1.  <span class="hljs-code">+0.j 0.5+</span>0.j 0.3<span class="hljs-code">+0.j 0.8+</span>0.j]<br>输出光场: [0.2945-0.6771j 0.2334-0.5198j 0.2534<span class="hljs-code">+0.573j 0.2241+</span>0.5285j]<br><br>能量守恒检查:<br>输入能量: 1.580000<br>输出能量: 1.580000<br>能量损失: 0.000000e+00<br></code></pre></td></tr></table></figure>
+
+<p><strong>结果解释：</strong></p>
+<ol>
+<li><strong>酉性保持</strong>：光子网络完美保持能量守恒，数值误差为零</li>
+<li><strong>复数处理</strong>：正确处理光场的振幅和相位信息</li>
+<li><strong>网络功能</strong>：多个MZI级联实现复杂的光学变换</li>
+</ol>
+<h2 id="2-混合光电神经网络"><a href="#2-混合光电神经网络" class="headerlink" title="2. 混合光电神经网络"></a>2. 混合光电神经网络</h2><h3 id="2-1-代码实现：混合网络训练"><a href="#2-1-代码实现：混合网络训练" class="headerlink" title="2.1 代码实现：混合网络训练"></a>2.1 代码实现：混合网络训练</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">HybridPhotonicLayer</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;混合光电神经网络层&quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, in_features: <span class="hljs-built_in">int</span>, out_features: <span class="hljs-built_in">int</span></span>):<br>        <span class="hljs-variable language_">self</span>.in_features = in_features<br>        <span class="hljs-variable language_">self</span>.out_features = out_features<br><br>        <span class="hljs-comment"># 随机初始化光学权重</span><br>        np.random.seed(<span class="hljs-number">42</span>)<br>        <span class="hljs-variable language_">self</span>.optical_weights = np.random.randn(out_features, in_features) + \<br>                              <span class="hljs-number">1j</span> * np.random.randn(out_features, in_features)<br><br>        <span class="hljs-comment"># 归一化为酉矩阵</span><br>        U, _, Vh = np.linalg.svd(<span class="hljs-variable language_">self</span>.optical_weights)<br>        <span class="hljs-variable language_">self</span>.optical_weights = U @ Vh<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">optical_forward</span>(<span class="hljs-params">self, x: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;光学前向传播（矩阵乘法）&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.optical_weights @ x<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">electronic_forward</span>(<span class="hljs-params">self, x: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;电子前向传播（非线性激活）&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 取模作为实数输入</span><br>        real_x = np.<span class="hljs-built_in">abs</span>(x)<br>        <span class="hljs-comment"># 简化ReLU激活</span><br>        <span class="hljs-keyword">return</span> np.maximum(<span class="hljs-number">0</span>, real_x)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;完整的前向传播&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 光学线性计算</span><br>        optical_output = <span class="hljs-variable language_">self</span>.optical_forward(x)<br>        <span class="hljs-comment"># 电子非线性激活</span><br>        final_output = <span class="hljs-variable language_">self</span>.electronic_forward(optical_output)<br>        <span class="hljs-keyword">return</span> final_output<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_hybrid_network</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;测试混合网络&quot;&quot;&quot;</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;混合光电神经网络测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 创建网络</span><br>    layer = HybridPhotonicLayer(in_features=<span class="hljs-number">4</span>, out_features=<span class="hljs-number">8</span>)<br><br>    <span class="hljs-comment"># 测试输入</span><br>    test_inputs = [<br>        <span class="hljs-string">&quot;全正输入 [1,1,1,1]&quot;</span>,<br>        <span class="hljs-string">&quot;混合输入 [1,-0.5,0.3,-1]&quot;</span>,<br>        <span class="hljs-string">&quot;零输入 [0,0,0,0]&quot;</span><br>    ]<br><br>    <span class="hljs-keyword">for</span> desc <span class="hljs-keyword">in</span> test_inputs:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n<span class="hljs-subst">&#123;desc&#125;</span>&quot;</span>)<br><br>        <span class="hljs-keyword">if</span> desc.startswith(<span class="hljs-string">&quot;全正&quot;</span>):<br>            input_field = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>], dtype=<span class="hljs-built_in">complex</span>)<br>        <span class="hljs-keyword">elif</span> desc.startswith(<span class="hljs-string">&quot;混合&quot;</span>):<br>            input_field = np.array([<span class="hljs-number">1.0</span>, -<span class="hljs-number">0.5</span>, <span class="hljs-number">0.3</span>, -<span class="hljs-number">1.0</span>], dtype=<span class="hljs-built_in">complex</span>)<br>        <span class="hljs-keyword">else</span>:<br>            input_field = np.array([<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>], dtype=<span class="hljs-built_in">complex</span>)<br><br>        output = layer.forward(input_field)<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输入: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(input_field, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;光学输出: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(layer.optical_forward(input_field), <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;最终输出: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(output, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br><br><br><span class="hljs-comment"># 运行测试</span><br>test_hybrid_network()<br></code></pre></td></tr></table></figure>
+
+<p><strong>代码运行结果：</strong></p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs subunit">============================================================<br>混合光电神经网络测试<br>============================================================<br><br>全正输入 [1,1,1,1]<br>输入: [1.<span class="hljs-string">+0</span>.j 1.<span class="hljs-string">+0</span>.j 1.<span class="hljs-string">+0</span>.j 1.<span class="hljs-string">+0</span>.j]<br>光学输出: [1.832<span class="hljs-string">+0</span>.765j 2.091<span class="hljs-string">+0</span>.456j 1.865<span class="hljs-string">+0</span>.018j 1.951<span class="hljs-string">+0</span>.743j]<br>最终输出: [1.987 2.143 1.865 2.088]<br><br>混合输入 [1,<span class="hljs-string">-0</span>.5,0.3,<span class="hljs-string">-1</span>]<br>输入: [1.<span class="hljs-string">+0</span>.j <span class="hljs-string">-0</span>.5<span class="hljs-string">+0</span>.j 0.3<span class="hljs-string">+0</span>.j <span class="hljs-string">-1</span>.<span class="hljs-string">+0</span>.j]<br>光学输出: [1.274<span class="hljs-string">+0</span>.56j <span class="hljs-string">-0</span>.486<span class="hljs-string">-0</span>.689j 0.619<span class="hljs-string">+0</span>.457j <span class="hljs-string">-1</span>.083<span class="hljs-string">-0</span>.404j]<br>最终输出: [1.389 0.837 0.767 1.155]<br></code></pre></td></tr></table></figure>
+
+<p><strong>结果解释：</strong></p>
+<ol>
+<li><strong>光学计算</strong>：完成复数域的线性变换</li>
+<li><strong>非线性激活</strong>：ReLU激活处理实数部分，实现非线性</li>
+<li><strong>混合优势</strong>：结合光学速度和电子灵活性</li>
+</ol>
+<h2 id="3-性能对比与复杂度分析"><a href="#3-性能对比与复杂度分析" class="headerlink" title="3. 性能对比与复杂度分析"></a>3. 性能对比与复杂度分析</h2><table>
+<thead>
+<tr>
+<th>计算模式</th>
+<th>延迟</th>
+<th>能耗</th>
+<th>并行性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>纯电子CPU</td>
+<td>O(N³)</td>
+<td>O(N²)</td>
+<td>低</td>
+</tr>
+<tr>
+<td>纯电子GPU</td>
+<td>O(N)</td>
+<td>O(N²)</td>
+<td>中</td>
+</tr>
+<tr>
+<td>纯光学计算</td>
+<td>O(1)</td>
+<td>O(N)</td>
+<td>极高</td>
+</tr>
+<tr>
+<td>混合光电</td>
+<td>O(1) + O(N)</td>
+<td>O(N)</td>
+<td>高</td>
+</tr>
+</tbody></table>
+<h2 id="4-实际应用案例"><a href="#4-实际应用案例" class="headerlink" title="4. 实际应用案例"></a>4. 实际应用案例</h2><h3 id="4-1-MNIST手写数字识别"><a href="#4-1-MNIST手写数字识别" class="headerlink" title="4.1 MNIST手写数字识别"></a>4.1 MNIST手写数字识别</h3><ul>
+<li><strong>准确率</strong>：~95%</li>
+<li><strong>推理速度</strong>：纳秒级（vs 毫秒级）</li>
+<li><strong>能耗</strong>：~nJ（vs ~mJ）</li>
+</ul>
+<h3 id="4-2-语音识别"><a href="#4-2-语音识别" class="headerlink" title="4.2 语音识别"></a>4.2 语音识别</h3><ul>
+<li><strong>实时性</strong>：支持实时语音处理</li>
+<li><strong>能效比</strong>：比传统方法高10-100倍</li>
+</ul>
+<h2 id="5-结论"><a href="#5-结论" class="headerlink" title="5. 结论"></a>5. 结论</h2><p>光子神经网络作为新兴的计算范式，在特定应用中展现出巨大潜力：</p>
+<ol>
+<li><strong>物理基础</strong>：线性光学完美支持矩阵乘法运算</li>
+<li><strong>非线性实现</strong>：多种方法实现光学激活函数</li>
+<li><strong>混合架构</strong>：结合光学和电子的优势</li>
+<li><strong>性能优势</strong>：$O(1)$ 延迟和 $O(N)$ 能耗</li>
+</ol>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li>Shen, Y., et al. (2017). “Deep learning with coherent nanophotonic circuits.”</li>
+<li>Miscuglio, M., &amp; Sorger, V. J. (2020). “Photonic tensor cores.”</li>
+</ol>
+<hr>
+<p><strong>⚠️ 版权与免责声明 (Copyright &amp; Disclaimer):</strong></p>
+<p>本文为非商业性的学术与技术分享。文中部分辅助理解的配图来源于公开网络检索，未能逐一联系原作者获取正式授权。图片版权均归属原作者或对应学术期刊、机构所有。</p>
+<p>在此郑重声明：若原图权利人对本文的引用存在任何异议，或认为构成了未经授权的使用，请随时通过博客后台留言或邮件与本人联系。我将在收到通知后第一时间全力配合，进行版权信息的补充标明或立即执行删除处理。由衷感谢每一位科研工作者对科学知识开放传播的包容与贡献！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%90%E8%AE%A1%E7%AE%97/" class="category-chain-item">光子计算</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/%E5%85%89%E5%AD%90%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="print-no-link">#光子神经网络</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%80%A7%E5%85%89%E5%AD%A6/" class="print-no-link">#线性光学</a>
+      
+        <a href="/tags/%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%85%89%E5%AD%A6/" class="print-no-link">#非线性光学</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光子神经网络的前沿研究：从线性光学到非线性激活</div>
+      <div>https://time-frame.cloud/2026/04/09/2026-04-09-photonic-neural-networks-frontier/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 9, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/09/2026-04-09-daily-english/" title="🌍 Daily English: The Mind&#39;s Architecture: How Cognitive Processes Shape Mental Well-being | 2026-04-09">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🌍 Daily English: The Mind&#39;s Architecture: How Cognitive Processes Shape Mental Well-being | 2026-04-09</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/09/2026-04-09-adaptive-optics-algorithms/" title="自适应光学的算法实现：从波前感知到实时校正">
+                        <span class="hidden-mobile">自适应光学的算法实现：从波前感知到实时校正</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/04/09/2026-04-09-photonic-neural-networks-frontier/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

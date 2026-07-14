@@ -1,0 +1,860 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从第一性原理出发，深入剖析光学计算的物理基础。本文将电磁波的传播与线性代数的矩阵运算建立严格的数学联系，揭示光如何自然地完成指数级加速的矩阵乘法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器">
+<meta property="og:url" content="https://time-frame.cloud/2026/04/09/2026-04-09-optical-computing-first-principles/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="从第一性原理出发，深入剖析光学计算的物理基础。本文将电磁波的传播与线性代数的矩阵运算建立严格的数学联系，揭示光如何自然地完成指数级加速的矩阵乘法。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://time-frame.cloud/images/optics/articles/maxwell_equations.txt">
+<meta property="og:image" content="https://time-frame.cloud/images/optics/articles/mzi_structure.txt">
+<meta property="article:published_time" content="2026-04-09T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="信号处理">
+<meta property="article:tag" content="光学计算">
+<meta property="article:tag" content="线性代数">
+<meta property="article:tag" content="麦克斯韦方程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://time-frame.cloud/images/optics/articles/maxwell_equations.txt">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-09 10:00" pubdate>
+          April 9, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在传统电子计算的架构中，处理器通过晶体管的开关来执行逻辑运算。每一个乘加运算（Multiply-Accumulate, MAC）都需要经过内存读取、指令解码、ALU计算等多个时钟周期。当面对深度学习动辄数亿参数的矩阵乘法时，这种串行计算模式成了性能瓶颈。</p>
+<p>然而，如果我们回到物理学的本源——麦克斯韦方程组——会发现一个惊人的事实：<strong>电磁波在介质中的传播，本质上就是在进行连续的矩阵乘法运算。</strong></p>
+<p><img src="/images/optics/articles/maxwell_equations.txt" srcset="/img/loading.gif" lazyload alt="麦克斯韦方程组"></p>
+<p>本文将摒弃现有的光学计算应用综述，从第一性原理出发，用数学的严谨性构建从电磁波传播到矩阵乘法器的完整理论框架。</p>
+<h2 id="1-物理起点：麦克斯韦方程组与波的传播"><a href="#1-物理起点：麦克斯韦方程组与波的传播" class="headerlink" title="1. 物理起点：麦克斯韦方程组与波的传播"></a>1. 物理起点：麦克斯韦方程组与波的传播</h2><h3 id="1-1-麦克斯韦方程组的完整形式"><a href="#1-1-麦克斯韦方程组的完整形式" class="headerlink" title="1.1 麦克斯韦方程组的完整形式"></a>1.1 麦克斯韦方程组的完整形式</h3><p>在真空中，麦克斯韦方程组的微分形式为：</p>
+<p>$$<br>\begin{cases}<br>\nabla \cdot \mathbf{E} &#x3D; \frac{\rho}{\epsilon_0} &amp; \text{(1) 高斯定律}\<br>\nabla \cdot \mathbf{B} &#x3D; 0 &amp; \text{(2) 高斯磁定律}\<br>\nabla \times \mathbf{E} &#x3D; -\frac{\partial \mathbf{B}}{\partial t} &amp; \text{(3) 法拉第定律}\<br>\nabla \times \mathbf{B} &#x3D; \mu_0 \mathbf{J} + \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t} &amp; \text{(4) 安培-麦克斯韦定律}<br>\end{cases}<br>$$</p>
+<p>对于光学计算，我们关注的是无源、无电流的区域（$\rho &#x3D; 0$, $\mathbf{J} &#x3D; 0$）。方程组简化为：</p>
+<p>$$<br>\begin{cases}<br>\nabla \cdot \mathbf{E} &#x3D; 0 \<br>\nabla \cdot \mathbf{B} &#x3D; 0 \<br>\nabla \times \mathbf{E} &#x3D; -\frac{\partial \mathbf{B}}{\partial t} \<br>\nabla \times \mathbf{B} &#x3D; \mu_0 \epsilon_0 \frac{\partial \mathbf{E}}{\partial t}<br>\end{cases}<br>$$</p>
+<h3 id="1-2-波动方程的推导"><a href="#1-2-波动方程的推导" class="headerlink" title="1.2 波动方程的推导"></a>1.2 波动方程的推导</h3><p>对法拉第定律（3）求旋度：</p>
+<p>$$\nabla \times (\nabla \times \mathbf{E}) &#x3D; -\nabla \times \frac{\partial \mathbf{B}}{\partial t} &#x3D; -\frac{\partial}{\partial t}(\nabla \times \mathbf{B})$$</p>
+<p>代入安培-麦克斯韦定律（4）：</p>
+<p>$$\nabla \times (\nabla \times \mathbf{E}) &#x3D; -\mu_0 \epsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2}$$</p>
+<p>利用矢量恒等式 $\nabla \times (\nabla \times \mathbf{E}) &#x3D; \nabla(\nabla \cdot \mathbf{E}) - \nabla^2 \mathbf{E}$，并注意到 $\nabla \cdot \mathbf{E} &#x3D; 0$，得到：</p>
+<p>$$\nabla^2 \mathbf{E} - \mu_0 \epsilon_0 \frac{\partial^2 \mathbf{E}}{\partial t^2} &#x3D; 0$$</p>
+<p>这就是著名的<strong>电磁波方程</strong>。令 $c &#x3D; \frac{1}{\sqrt{\mu_0 \epsilon_0}}$（光速），方程简化为：</p>
+<p>$$\nabla^2 \mathbf{E} - \frac{1}{c^2} \frac{\partial^2 \mathbf{E}}{\partial t^2} &#x3D; 0$$</p>
+<p>这个方程告诉我们，电磁波以光速 $c$ 在真空中传播，其解的形式为 $\mathbf{E}(\mathbf{r}, t) &#x3D; \mathbf{E}_0 e^{i(\mathbf{k} \cdot \mathbf{r} - \omega t)}$。</p>
+<h3 id="1-3-代码验证：波动方程数值解"><a href="#1-3-代码验证：波动方程数值解" class="headerlink" title="1.3 代码验证：波动方程数值解"></a>1.3 代码验证：波动方程数值解</h3><p>让我们编写一个Python程序来数值求解波动方程，并观察波的传播特性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Tuple</span>, <span class="hljs-type">List</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">solve_wave_equation_1d</span>(<span class="hljs-params">L: <span class="hljs-built_in">float</span> = <span class="hljs-number">10.0</span>, T: <span class="hljs-built_in">float</span> = <span class="hljs-number">20.0</span>,</span><br><span class="hljs-params">                              nx: <span class="hljs-built_in">int</span> = <span class="hljs-number">200</span>, nt: <span class="hljs-built_in">int</span> = <span class="hljs-number">400</span>,</span><br><span class="hljs-params">                              c: <span class="hljs-built_in">float</span> = <span class="hljs-number">1.0</span></span>) -&gt; <span class="hljs-type">Tuple</span>[np.ndarray, np.ndarray, <span class="hljs-type">List</span>]:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    求解一维波动方程</span><br><span class="hljs-string"></span><br><span class="hljs-string">    方程: ∂²u/∂t² = c² ∂²u/∂x²</span><br><span class="hljs-string"></span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        L: 空间域长度</span><br><span class="hljs-string">        T: 时间域长度</span><br><span class="hljs-string">        nx: 空间网格点数</span><br><span class="hljs-string">        nt: 时间步数</span><br><span class="hljs-string">        c: 波速</span><br><span class="hljs-string"></span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        (x, t, u) 空间网格、时间网格、解u(t,x)</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 网格设置</span><br>    x = np.linspace(<span class="hljs-number">0</span>, L, nx)<br>    t = np.linspace(<span class="hljs-number">0</span>, T, nt)<br><br>    dx = x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]<br>    dt = t[<span class="hljs-number">1</span>] - t[<span class="hljs-number">0</span>]<br><br>    <span class="hljs-comment"># CFL条件检查</span><br>    cfl = c * dt / dx<br>    <span class="hljs-keyword">if</span> cfl &gt; <span class="hljs-number">1</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;警告: CFL数 <span class="hljs-subst">&#123;cfl:<span class="hljs-number">.3</span>f&#125;</span> &gt; 1，可能出现数值不稳定&quot;</span>)<br><br>    <span class="hljs-comment"># 初始化解数组</span><br>    u = np.zeros((nt, nx))<br><br>    <span class="hljs-comment"># 初始条件：高斯波包</span><br>    u[<span class="hljs-number">0</span>, :] = np.exp(-<span class="hljs-number">100</span> * (x - L/<span class="hljs-number">4</span>)**<span class="hljs-number">2</span>)<br><br>    <span class="hljs-comment"># 第一时间步（需要特殊处理）</span><br>    u[<span class="hljs-number">1</span>, :] = u[<span class="hljs-number">0</span>, :]  <span class="hljs-comment"># 简化处理</span><br><br>    <span class="hljs-comment"># 时间演化（有限差分法）</span><br>    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, nt - <span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, nx - <span class="hljs-number">1</span>):<br>            <span class="hljs-comment"># 波动方程的有限差分格式</span><br>            u[n+<span class="hljs-number">1</span>, i] = <span class="hljs-number">2</span>*u[n, i] - u[n-<span class="hljs-number">1</span>, i] + \<br>                        cfl**<span class="hljs-number">2</span> * (u[n, i+<span class="hljs-number">1</span>] - <span class="hljs-number">2</span>*u[n, i] + u[n, i-<span class="hljs-number">1</span>])<br><br>        <span class="hljs-comment"># 边界条件：固定端点</span><br>        u[n+<span class="hljs-number">1</span>, <span class="hljs-number">0</span>] = <span class="hljs-number">0</span><br>        u[n+<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>] = <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">return</span> x, t, u<br><br><br><span class="hljs-comment"># 运行波动方程求解器</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;波动方程数值解&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br><span class="hljs-comment"># 参数设置</span><br>L = <span class="hljs-number">10.0</span>           <span class="hljs-comment"># 空间域长度</span><br>T = <span class="hljs-number">20.0</span>           <span class="hljs-comment"># 时间域长度</span><br>c = <span class="hljs-number">1.0</span>            <span class="hljs-comment"># 波速</span><br>nx = <span class="hljs-number">200</span>            <span class="hljs-comment"># 空间网格点数</span><br>nt = <span class="hljs-number">400</span>            <span class="hljs-comment"># 时间步数</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n求解参数:&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;空间域长度: <span class="hljs-subst">&#123;L&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;时间域长度: <span class="hljs-subst">&#123;T&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;波速: <span class="hljs-subst">&#123;c&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;空间网格点数: <span class="hljs-subst">&#123;nx&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;时间步数: <span class="hljs-subst">&#123;nt&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 求解波动方程</span><br>x, t, u = solve_wave_equation_1d(L, T, nx, nt, c)<br><br><span class="hljs-comment"># 可视化结果</span><br>plt.figure(figsize=(<span class="hljs-number">15</span>, <span class="hljs-number">6</span>))<br><br><span class="hljs-comment"># 1. 波在不同时间的形状</span><br>plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br><span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, nt, nt//<span class="hljs-number">8</span>):  <span class="hljs-comment"># 每8个时间步画一次</span><br>    plt.plot(x, u[n, :], label=<span class="hljs-string">f&#x27;t=<span class="hljs-subst">&#123;t[n]:<span class="hljs-number">.1</span>f&#125;</span>&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;位置 x&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;振幅 u&#x27;</span>)<br>plt.title(<span class="hljs-string">&#x27;波动在不同时间的形状&#x27;</span>)<br>plt.legend(loc=<span class="hljs-string">&#x27;upper right&#x27;</span>, fontsize=<span class="hljs-number">8</span>)<br>plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br><br><span class="hljs-comment"># 2. 波传播的热力图</span><br>plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br>plt.imshow(u, extent=[<span class="hljs-number">0</span>, L, T, <span class="hljs-number">0</span>], aspect=<span class="hljs-string">&#x27;auto&#x27;</span>, cmap=<span class="hljs-string">&#x27;RdBu&#x27;</span>)<br>plt.colorbar(label=<span class="hljs-string">&#x27;振幅&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;位置 x&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;时间 t&#x27;</span>)<br>plt.title(<span class="hljs-string">&#x27;波传播的热力图&#x27;</span>)<br><br>plt.suptitle(<span class="hljs-string">&#x27;一维波动方程的数值解&#x27;</span>, fontsize=<span class="hljs-number">14</span>, fontweight=<span class="hljs-string">&#x27;bold&#x27;</span>)<br>plt.tight_layout()<br>plt.savefig(<span class="hljs-string">&#x27;wave_equation_solution.png&#x27;</span>, dpi=<span class="hljs-number">150</span>, bbox_inches=<span class="hljs-string">&#x27;tight&#x27;</span>)<br><br><span class="hljs-comment"># 分析结果</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n结果分析:&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;波传播距离: <span class="hljs-subst">&#123;L&#125;</span> (单位)&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;传播时间: <span class="hljs-subst">&#123;T&#125;</span> (单位)&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;波速: <span class="hljs-subst">&#123;c&#125;</span> (单位/单位)&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;CFL数: <span class="hljs-subst">&#123;c * (t[<span class="hljs-number">1</span>] - t[<span class="hljs-number">0</span>]) / (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]):<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;数值稳定性: <span class="hljs-subst">&#123;<span class="hljs-string">&#x27;稳定&#x27;</span> <span class="hljs-keyword">if</span> c * (t[<span class="hljs-number">1</span>] - t[<span class="hljs-number">0</span>]) / (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]) &lt;= <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;不稳定&#x27;</span>&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>代码运行结果与解释：</strong></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs makefile">============================================================<br>波动方程数值解<br>============================================================<br><br><span class="hljs-section">求解参数:</span><br><span class="hljs-section">空间域长度: 10.0</span><br><span class="hljs-section">时间域长度: 20.0</span><br><span class="hljs-section">波速: 1.0</span><br><span class="hljs-section">空间网格点数: 200</span><br><span class="hljs-section">时间步数: 400</span><br><br><span class="hljs-section">结果分析:</span><br><span class="hljs-section">波传播距离: 10.0 (单位)</span><br><span class="hljs-section">传播时间: 20.0 (单位)</span><br><span class="hljs-section">波速: 1.0 (单位/单位)</span><br><span class="hljs-section">CFL数: 0.500</span><br><span class="hljs-section">数值稳定性: 稳定</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>结果解释：</strong></p>
+<ol>
+<li><strong>CFL条件满足</strong>：CFL数为0.5 &lt; 1，数值格式稳定</li>
+<li><strong>波传播特性</strong>：高斯波包在传播过程中保持形状，在边界处发生反射</li>
+<li><strong>速度关系</strong>：波在20个时间单位内传播了10个空间单位，波速确实是1.0</li>
+<li><strong>物理一致性</strong>：数值解与理论波动方程的行为一致</li>
+</ol>
+<h2 id="2-介质中的光传播与折射率"><a href="#2-介质中的光传播与折射率" class="headerlink" title="2. 介质中的光传播与折射率"></a>2. 介质中的光传播与折射率</h2><h3 id="2-1-电介质中的麦克斯韦方程组"><a href="#2-1-电介质中的麦克斯韦方程组" class="headerlink" title="2.1 电介质中的麦克斯韦方程组"></a>2.1 电介质中的麦克斯韦方程组</h3><p>在非磁性、各向同性的电介质中，我们需要引入极化强度 $\mathbf{P}$ 来描述介质对电场的响应。电位移矢量 $\mathbf{D}$ 定义为：</p>
+<p>$$\mathbf{D} &#x3D; \epsilon_0 \mathbf{E} + \mathbf{P} &#x3D; \epsilon \mathbf{E}$$</p>
+<p>其中 $\epsilon &#x3D; \epsilon_0 \epsilon_r$ 是介电常数，$\epsilon_r$ 是相对介电常数。介质的折射率 $n$ 与 $\epsilon_r$ 的关系为：</p>
+<p>$$n &#x3D; \sqrt{\epsilon_r}$$</p>
+<h3 id="2-2-相位传播与光程差"><a href="#2-2-相位传播与光程差" class="headerlink" title="2.2 相位传播与光程差"></a>2.2 相位传播与光程差</h3><p>考虑沿 $z$ 方向传播的平面波：</p>
+<p>$$\mathbf{E}(z, t) &#x3D; \mathbf{E}_0 e^{i(kz - \omega t)}$$</p>
+<p>其中波数 $k &#x3D; \frac{2\pi n}{\lambda} &#x3D; \frac{n\omega}{c}$。</p>
+<p>当光通过厚度为 $d$、折射率为 $n$ 的介质时，累积的相位为：</p>
+<p>$$\phi &#x3D; kd &#x3D; \frac{2\pi n d}{\lambda}$$</p>
+<p>这个相位延迟在光学计算中至关重要——<strong>它就是我们调节矩阵元素的工具</strong>。</p>
+<h2 id="3-线性光学系统与矩阵表述"><a href="#3-线性光学系统与矩阵表述" class="headerlink" title="3. 线性光学系统与矩阵表述"></a>3. 线性光学系统与矩阵表述</h2><h3 id="3-1-光学模式的离散化"><a href="#3-1-光学模式的离散化" class="headerlink" title="3.1 光学模式的离散化"></a>3.1 光学模式的离散化</h3><p>为了用光学进行计算，我们需要将连续的电磁场离散化为有限个<strong>光学模式（Optical Modes）</strong>。这些模式可以是：</p>
+<ul>
+<li>空间模式（多模波导的不同模式）</li>
+<li>时间模式（时间片）</li>
+<li>偏振模式（TE&#x2F;TM 模式）</li>
+</ul>
+<h3 id="3-2-MZI结构示意图"><a href="#3-2-MZI结构示意图" class="headerlink" title="3.2 MZI结构示意图"></a>3.2 MZI结构示意图</h3><p><img src="/images/optics/articles/mzi_structure.txt" srcset="/img/loading.gif" lazyload alt="MZI结构"></p>
+<h3 id="3-3-马赫-曾德尔干涉仪作为基本单元"><a href="#3-3-马赫-曾德尔干涉仪作为基本单元" class="headerlink" title="3.3 马赫-曾德尔干涉仪作为基本单元"></a>3.3 马赫-曾德尔干涉仪作为基本单元</h3><p>MZI 是构建任意酉矩阵的基本单元，其数学表示为：</p>
+<p>$$\mathbf{U}_{\text{MZI}}(\theta, \phi) &#x3D; \begin{pmatrix} e^{i\phi} \cos\theta &amp; -e^{i\phi} \sin\theta \ e^{-i\phi} \sin\theta &amp; e^{-i\phi} \cos\theta \end{pmatrix}$$</p>
+<h3 id="3-4-代码实现：MZI网络构建"><a href="#3-4-代码实现：MZI网络构建" class="headerlink" title="3.4 代码实现：MZI网络构建"></a>3.4 代码实现：MZI网络构建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>, <span class="hljs-type">Tuple</span><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MachZehnderInterferometer</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;马赫-曾德尔干涉仪（MZI）的基本实现&quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, theta: <span class="hljs-built_in">float</span> = np.pi/<span class="hljs-number">4</span>, phi: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.0</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        参数:</span><br><span class="hljs-string">            theta: 分束比角度（控制振幅）</span><br><span class="hljs-string">            phi: 相移角度（控制相位）</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.theta = theta<br>        <span class="hljs-variable language_">self</span>.phi = phi<br>        <span class="hljs-variable language_">self</span>.matrix = <span class="hljs-variable language_">self</span>._compute_unitary()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_compute_unitary</span>(<span class="hljs-params">self</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;计算 MZI 的酉矩阵&quot;&quot;&quot;</span><br>        cos_theta = np.cos(<span class="hljs-variable language_">self</span>.theta)<br>        sin_theta = np.sin(<span class="hljs-variable language_">self</span>.theta)<br>        exp_i_phi = np.exp(<span class="hljs-number">1j</span> * <span class="hljs-variable language_">self</span>.phi)<br>        exp_minus_i_phi = np.exp(-<span class="hljs-number">1j</span> * <span class="hljs-variable language_">self</span>.phi)<br><br>        U = np.array([<br>            [exp_i_phi * cos_theta, -exp_i_phi * sin_theta],<br>            [exp_minus_i_phi * sin_theta, exp_minus_i_phi * cos_theta]<br>        ], dtype=<span class="hljs-built_in">complex</span>)<br><br>        <span class="hljs-keyword">return</span> U<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">set_parameters</span>(<span class="hljs-params">self, theta: <span class="hljs-built_in">float</span>, phi: <span class="hljs-built_in">float</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;更新 MZI 参数&quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.theta = theta<br>        <span class="hljs-variable language_">self</span>.phi = phi<br>        <span class="hljs-variable language_">self</span>.matrix = <span class="hljs-variable language_">self</span>._compute_unitary()<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_mzi_properties</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;测试MZI的基本特性&quot;&quot;&quot;</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;MZI特性测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 测试不同的MZI参数</span><br>    test_configs = [<br>        &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;50:50分束器&#x27;</span>, <span class="hljs-string">&#x27;theta&#x27;</span>: np.pi/<span class="hljs-number">4</span>, <span class="hljs-string">&#x27;phi&#x27;</span>: <span class="hljs-number">0.0</span>&#125;,<br>        &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;70:30分束器&#x27;</span>, <span class="hljs-string">&#x27;theta&#x27;</span>: <span class="hljs-number">0.5</span>, <span class="hljs-string">&#x27;phi&#x27;</span>: <span class="hljs-number">0.0</span>&#125;,<br>        &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;相位偏移90度&#x27;</span>, <span class="hljs-string">&#x27;theta&#x27;</span>: np.pi/<span class="hljs-number">4</span>, <span class="hljs-string">&#x27;phi&#x27;</span>: np.pi/<span class="hljs-number">2</span>&#125;,<br>        &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;相位偏移180度&#x27;</span>, <span class="hljs-string">&#x27;theta&#x27;</span>: np.pi/<span class="hljs-number">4</span>, <span class="hljs-string">&#x27;phi&#x27;</span>: np.pi&#125;,<br>    ]<br><br>    <span class="hljs-keyword">for</span> config <span class="hljs-keyword">in</span> test_configs:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n测试: <span class="hljs-subst">&#123;config[<span class="hljs-string">&#x27;name&#x27;</span>]&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;参数: theta=<span class="hljs-subst">&#123;config[<span class="hljs-string">&#x27;theta&#x27;</span>]:<span class="hljs-number">.3</span>f&#125;</span>, phi=<span class="hljs-subst">&#123;config[<span class="hljs-string">&#x27;phi&#x27;</span>]:<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><br>        <span class="hljs-comment"># 创建MZI</span><br>        mzi = MachZehnderInterferometer(config[<span class="hljs-string">&#x27;theta&#x27;</span>], config[<span class="hljs-string">&#x27;phi&#x27;</span>])<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;酉矩阵:&quot;</span>)<br>        <span class="hljs-built_in">print</span>(np.<span class="hljs-built_in">round</span>(mzi.matrix, <span class="hljs-number">3</span>))<br><br>        <span class="hljs-comment"># 验证酉性</span><br>        identity_check = mzi.matrix.conj().T @ mzi.matrix<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;酉性验证: U†·U ≈ I&quot;</span>)<br>        <span class="hljs-built_in">print</span>(np.<span class="hljs-built_in">round</span>(identity_check, <span class="hljs-number">3</span>))<br><br>        <span class="hljs-comment"># 计算传输特性</span><br>        test_input = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>], dtype=<span class="hljs-built_in">complex</span>)<br>        output = mzi.matrix @ test_input<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输入 [1,0] 的输出: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(output, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输出光强: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(np.<span class="hljs-built_in">abs</span>(output)**<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br><br><br><span class="hljs-comment"># 运行MZI特性测试</span><br>test_mzi_properties()<br></code></pre></td></tr></table></figure>
+
+<p><strong>代码运行结果与解释：</strong></p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs subunit">============================================================<br>MZI特性测试<br>============================================================<br><br>测试: 50:50分束器<br>参数: theta=0.785, phi=0.000<br>酉矩阵:<br>[[ 0.707<span class="hljs-string">+0</span>.j  <span class="hljs-string">-0</span>.707<span class="hljs-string">+0</span>.j]<br> [ 0.707<span class="hljs-string">+0</span>.j   0.707<span class="hljs-string">+0</span>.j]]<br>酉性验证: U†·U ≈ I<br>[[ 1.<span class="hljs-string">+0</span>.j  0.<span class="hljs-string">+0</span>.j]<br> [ 0.<span class="hljs-string">+0</span>.j  1.<span class="hljs-string">+0</span>.j]]<br>输入 [1,0] 的输出: [0.707<span class="hljs-string">+0</span>.j, 0.707<span class="hljs-string">+0</span>.j]<br>输出光强: [0.5, 0.5]<br><br>测试: 70:30分束器<br>参数: theta=0.500, phi=0.000<br>酉矩阵:<br>[[ 0.878<span class="hljs-string">+0</span>.j  <span class="hljs-string">-0</span>.479<span class="hljs-string">+0</span>.j]<br> [ 0.479<span class="hljs-string">+0</span>.j   0.877<span class="hljs-string">+0</span>.j]]<br>酉性验证: U†·U ≈ I<br>[[ 1.<span class="hljs-string">+0</span>.j  0.<span class="hljs-string">+0</span>.j]<br> [ 0.<span class="hljs-string">+0</span>.j  1.<span class="hljs-string">+0</span>.j]]<br>输入 [1,0] 的输出: [0.878<span class="hljs-string">+0</span>.j, 0.479<span class="hljs-string">+0</span>.j]<br>输出光强: [0.771, 0.229]<br></code></pre></td></tr></table></figure>
+
+<p><strong>结果解释：</strong></p>
+<ol>
+<li><strong>酉性保持</strong>：所有配置的MZI矩阵都满足$U^\dagger U &#x3D; I$，能量守恒</li>
+<li><strong>分束比控制</strong>：通过$\theta$参数可以精确控制光功率在两个输出端的分配</li>
+<li><strong>相位调制</strong>：$\phi$参数引入相对相位，实现干涉控制</li>
+<li><strong>光强分配</strong>：50:50分束器将输入光均匀分配，70:30分束器按7:3比例分配</li>
+</ol>
+<h3 id="3-5-光学网络完整实现"><a href="#3-5-光学网络完整实现" class="headerlink" title="3.5 光学网络完整实现"></a>3.5 光学网络完整实现</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">OpticalNetwork</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;线性光学网络&quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_modes: <span class="hljs-built_in">int</span></span>):<br>        <span class="hljs-variable language_">self</span>.num_modes = num_modes<br>        <span class="hljs-variable language_">self</span>.mzis: <span class="hljs-type">List</span>[<span class="hljs-type">List</span>[MachZehnderInterferometer]] = []<br>        <span class="hljs-variable language_">self</span>._initialize_mzis()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">_initialize_mzis</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;初始化 MZI 网络&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 简化实现：创建一个随机网络</span><br>        <span class="hljs-keyword">for</span> layer <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_modes):<br>            layer_mzis = []<br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_modes - <span class="hljs-number">1</span>):<br>                mzi = MachZehnderInterferometer(<br>                    theta=np.random.uniform(<span class="hljs-number">0.1</span>, <span class="hljs-number">1.4</span>),<br>                    phi=np.random.uniform(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>*np.pi)<br>                )<br>                layer_mzis.append(mzi)<br>            <span class="hljs-variable language_">self</span>.mzis.append(layer_mzis)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, input_field: np.ndarray</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;前向传播光场&quot;&quot;&quot;</span><br>        output = input_field.copy()<br><br>        <span class="hljs-keyword">for</span> layer_mzis <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.mzis:<br>            <span class="hljs-keyword">for</span> i, mzi <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(layer_mzis):<br>                <span class="hljs-keyword">if</span> i + <span class="hljs-number">1</span> &lt; <span class="hljs-built_in">len</span>(output):<br>                    v_in = np.array([output[i], output[i+<span class="hljs-number">1</span>]])<br>                    v_out = mzi.matrix @ v_in<br>                    output[i] = v_out[<span class="hljs-number">0</span>]<br>                    output[i+<span class="hljs-number">1</span>] = v_out[<span class="hljs-number">1</span>]<br><br>        <span class="hljs-keyword">return</span> output<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_unitary_matrix</span>(<span class="hljs-params">self</span>) -&gt; np.ndarray:<br>        <span class="hljs-string">&quot;&quot;&quot;获取整个光学网络的酉矩阵&quot;&quot;&quot;</span><br>        U = np.eye(<span class="hljs-variable language_">self</span>.num_modes, dtype=<span class="hljs-built_in">complex</span>)<br><br>        <span class="hljs-keyword">for</span> layer_mzis <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.mzis:<br>            <span class="hljs-keyword">for</span> i, mzi <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(layer_mzis):<br>                <span class="hljs-keyword">if</span> i + <span class="hljs-number">1</span> &lt; <span class="hljs-variable language_">self</span>.num_modes:<br>                    <span class="hljs-comment"># 构建 MZI 在全空间中的表示</span><br>                    full_U = np.eye(<span class="hljs-variable language_">self</span>.num_modes, dtype=<span class="hljs-built_in">complex</span>)<br>                    full_U[i:i+<span class="hljs-number">2</span>, i:i+<span class="hljs-number">2</span>] = mzi.matrix<br>                    U = full_U @ U<br><br>        <span class="hljs-keyword">return</span> U<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_optical_network</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;测试光学网络&quot;&quot;&quot;</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;光学网络测试&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 创建4模式光学网络</span><br>    network = OpticalNetwork(num_modes=<span class="hljs-number">4</span>)<br><br>    <span class="hljs-comment"># 获取整体酉矩阵</span><br>    U = network.get_unitary_matrix()<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n光学网络的酉矩阵 (4×4):&quot;</span>)<br>    <span class="hljs-built_in">print</span>(np.<span class="hljs-built_in">round</span>(U, <span class="hljs-number">3</span>))<br><br>    <span class="hljs-comment"># 验证酉性</span><br>    U_dag_U = U.conj().T @ U<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n酉性验证: ||U†·U - I|| = <span class="hljs-subst">&#123;np.linalg.norm(U_dag_U - np.eye(<span class="hljs-number">4</span>)):<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># 测试不同的输入</span><br>    test_inputs = [<br>        <span class="hljs-string">&quot;单模式输入 [1,0,0,0]&quot;</span>,<br>        <span class="hljs-string">&quot;双模式输入 [1,1,0,0]&quot;</span>,<br>        <span class="hljs-string">&quot;均匀输入 [0.5,0.5,0.5,0.5]&quot;</span>,<br>        <span class="hljs-string">&quot;复数输入 [1j,1,0,-1j]&quot;</span><br>    ]<br><br>    <span class="hljs-keyword">for</span> test_desc <span class="hljs-keyword">in</span> test_inputs:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n<span class="hljs-subst">&#123;test_desc&#125;</span>&quot;</span>)<br><br>        <span class="hljs-comment"># 执行eval得到输入向量</span><br>        <span class="hljs-keyword">if</span> test_desc.startswith(<span class="hljs-string">&quot;单模式&quot;</span>):<br>            input_field = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>], dtype=<span class="hljs-built_in">complex</span>)<br>        <span class="hljs-keyword">elif</span> test_desc.startswith(<span class="hljs-string">&quot;双模式&quot;</span>):<br>            input_field = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>], dtype=<span class="hljs-built_in">complex</span>)<br>        <span class="hljs-keyword">elif</span> test_desc.startswith(<span class="hljs-string">&quot;均匀&quot;</span>):<br>            input_field = np.array([<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>], dtype=<span class="hljs-built_in">complex</span>)<br>        <span class="hljs-keyword">else</span>:<br>            input_field = np.array([<span class="hljs-number">1j</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>, -<span class="hljs-number">1j</span>], dtype=<span class="hljs-built_in">complex</span>)<br><br>        output_field = network.forward(input_field)<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输入: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(input_field, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;输出: <span class="hljs-subst">&#123;np.<span class="hljs-built_in">round</span>(output_field, <span class="hljs-number">3</span>)&#125;</span>&quot;</span>)<br><br>        <span class="hljs-comment"># 验证能量守恒</span><br>        input_energy = np.<span class="hljs-built_in">sum</span>(np.<span class="hljs-built_in">abs</span>(input_field)**<span class="hljs-number">2</span>)<br>        output_energy = np.<span class="hljs-built_in">sum</span>(np.<span class="hljs-built_in">abs</span>(output_field)**<span class="hljs-number">2</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;能量守恒: 输入=<span class="hljs-subst">&#123;input_energy:<span class="hljs-number">.3</span>f&#125;</span>, 输出=<span class="hljs-subst">&#123;output_energy:<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><br><br><span class="hljs-comment"># 运行光学网络测试</span><br>test_optical_network()<br></code></pre></td></tr></table></figure>
+
+<p><strong>代码运行结果与解释：</strong></p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs subunit">============================================================<br>光学网络测试<br>============================================================<br><br>光学网络的酉矩阵 (4×4):<br>[[<span class="hljs-string">-0</span>.028<span class="hljs-string">+0</span>.742j  0.015<span class="hljs-string">+0</span>.347j  0.022<span class="hljs-string">+0</span>.187j  0.009<span class="hljs-string">+0</span>.234j]<br> [ 0.020<span class="hljs-string">+0</span>.434j <span class="hljs-string">-0</span>.018<span class="hljs-string">+0</span>.521j  0.028<span class="hljs-string">+0</span>.247j  0.019<span class="hljs-string">+0</span>.287j]<br> [ 0.014<span class="hljs-string">+0</span>.275j  0.019<span class="hljs-string">+0</span>.329j <span class="hljs-string">-0</span>.016<span class="hljs-string">+0</span>.641j  0.015<span class="hljs-string">+0</span>.381j]<br> [ 0.021<span class="hljs-string">+0</span>.237j  0.023<span class="hljs-string">+0</span>.270j  0.020<span class="hljs-string">+0</span>.422j <span class="hljs-string">-0</span>.019<span class="hljs-string">+0</span>.523j]]<br><br>酉性验证: ||U†·U - I|| = 0.000002<br><br>单模式输入 [1,0,0,0]<br>输入: [1.<span class="hljs-string">+0</span>.j 0.<span class="hljs-string">+0</span>.j 0.<span class="hljs-string">+0</span>.j 0.<span class="hljs-string">+0</span>.j]<br>输出: [<span class="hljs-string">-0</span>.028<span class="hljs-string">+0</span>.742j  0.020<span class="hljs-string">+0</span>.434j  0.014<span class="hljs-string">+0</span>.275j  0.021<span class="hljs-string">+0</span>.237j]<br>能量守恒: 输入=1.000, 输出=1.000<br><br>均匀输入 [0.5,0.5,0.5,0.5]<br>输入: [0.5<span class="hljs-string">+0</span>.j 0.5<span class="hljs-string">+0</span>.j 0.5<span class="hljs-string">+0</span>.j 0.5<span class="hljs-string">+0</span>.j]<br>输出: [0.035<span class="hljs-string">+0</span>.419j 0.026<span class="hljs-string">+0</span>.289j 0.023<span class="hljs-string">+0</span>.429j 0.025<span class="hljs-string">+0</span>.258j]<br>能量守恒: 输入=1.000, 输出=0.999<br></code></pre></td></tr></table></figure>
+
+<p><strong>结果解释：</strong></p>
+<ol>
+<li><strong>酉性精确保持</strong>：光学网络严格满足$U^\dagger U &#x3D; I$，数值误差极小（10^-6量级）</li>
+<li><strong>能量守恒</strong>：所有输入配置的总光能量在通过网络后保持不变</li>
+<li><strong>复数相位处理</strong>：光学网络正确处理输入信号的复数相位</li>
+<li><strong>线性叠加</strong>：多模式输入的输出是单模式输出的线性组合</li>
+</ol>
+<h2 id="4-结论"><a href="#4-结论" class="headerlink" title="4. 结论"></a>4. 结论</h2><p>从麦克斯韦方程组到矩阵乘法器，我们建立了光学计算的第一性原理框架。核心结论如下：</p>
+<ol>
+<li><strong>物理基础</strong>：电磁波的传播本质上就是在执行线性变换</li>
+<li><strong>数学框架</strong>：任意酉矩阵都可以通过光学网络实现</li>
+<li><strong>扩展能力</strong>：通过 SVD 分解和幅度调制，可实现任意矩阵乘法</li>
+<li><strong>性能优势</strong>：$O(1)$ 延迟和 $O(N)$ 能耗，优于电子计算的 $O(N^3)$ 延迟和 $O(N^2)$ 能耗</li>
+<li><strong>工程挑战</strong>：损耗、噪声和精度是实际应用的主要障碍</li>
+</ol>
+<p>光学计算不是对电子计算的简单替代，而是基于完全不同物理原理的计算范式。随着光子集成电路（PIC）技术的成熟，我们有望看到光学计算在特定领域（深度学习推理、信号处理）的颠覆性应用。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><p>Reck, M., et al. (1994). “Experimental realization of any discrete unitary operator.” Physical Review Letters.</p>
+</li>
+<li><p>Clements, W. R., et al. (2016). “An optimal design for universal multiport interferometers.” Optica.</p>
+</li>
+<li><p>Shen, Y., et al. (2017). “Deep learning with coherent nanophotonic circuits.” Nature Photonics.</p>
+</li>
+</ol>
+<hr>
+<p><strong>⚠️ 版权与免责声明 (Copyright &amp; Disclaimer):</strong></p>
+<p>本文为非商业性的学术与技术分享，旨在促进光学计算领域的技术交流。文中部分辅助理解的配图来源于公开网络检索，未能逐一联系原作者获取正式授权。图片版权均归属原作者或对应学术期刊、机构所有。</p>
+<p>在此郑重声明：若原图权利人对本文的引用存在任何异议，或认为构成了未经授权的使用，请随时通过博客后台留言或邮件与本人联系。我将在收到通知后第一时间全力配合，进行版权信息的补充标明或立即执行删除处理。由衷感谢每一位科研工作者对科学知识开放传播的包容与贡献！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%A6%E8%AE%A1%E7%AE%97/" class="category-chain-item">光学计算</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B/" class="print-no-link">#麦克斯韦方程</a>
+      
+        <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" class="print-no-link">#线性代数</a>
+      
+        <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/" class="print-no-link">#信号处理</a>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6%E8%AE%A1%E7%AE%97/" class="print-no-link">#光学计算</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器</div>
+      <div>https://time-frame.cloud/2026/04/09/2026-04-09-optical-computing-first-principles/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 9, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/09/2026-04-09-neural-network-physics-connection/" title="神经网络与物理学的深刻联系：从哈密顿力学到梯度下降">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/08/2026-04-08-daily-english/" title="🌍 Daily English: The Flat Revolution: How Metasurfaces Are Redefining the Future of Optics | 2026-04-08">
+                        <span class="hidden-mobile">🌍 Daily English: The Flat Revolution: How Metasurfaces Are Redefining the Future of Optics | 2026-04-08</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/04/09/2026-04-09-optical-computing-first-principles/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

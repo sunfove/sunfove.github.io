@@ -1,0 +1,887 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本文摒弃通俗类比，利用多元微积分与球面几何构建光度学的数学大厦。详细推导立体角定义、距离平方反比定律、朗伯余弦积分（M&#x3D;πL）以及亮度守恒定理，为理解渲染方程与光学设计提供坚实的理论支撑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光度学原理的数学重构：从立体角微分到亮度守恒的严格推导">
+<meta property="og:url" content="https://time-frame.cloud/2026/02/02/2026-02-02-photometry-mathematical-derivation/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="本文摒弃通俗类比，利用多元微积分与球面几何构建光度学的数学大厦。详细推导立体角定义、距离平方反比定律、朗伯余弦积分（M&#x3D;πL）以及亮度守恒定理，为理解渲染方程与光学设计提供坚实的理论支撑。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_095700.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_095107.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_101645.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_111412.png">
+<meta property="article:published_time" content="2026-02-02T07:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Calculus">
+<meta property="article:tag" content="Math">
+<meta property="article:tag" content="Optics">
+<meta property="article:tag" content="Physics">
+<meta property="article:tag" content="Rendering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_095700.png">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>光度学原理的数学重构：从立体角微分到亮度守恒的严格推导 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光度学原理的数学重构：从立体角微分到亮度守恒的严格推导</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-02 15:00" pubdate>
+          February 2, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光度学原理的数学重构：从立体角微分到亮度守恒的严格推导</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>光度学（Photometry）并非简单的单位换算，而是一门建立在几何光学与辐射度量学基础上的严密学科。对于追求极致的图形学工程师或光学物理学研究者而言，知其然（公式）不够，必须知其所以然（推导）。</p>
+<p>本文将从最基础的几何量——立体角出发，利用微积分工具，对光通量、光强、照度、亮度这四个核心物理量给出数学上的定义与推导。</p>
+<h2 id="一、-数学基石：立体角-Solid-Angle-的微分形式"><a href="#一、-数学基石：立体角-Solid-Angle-的微分形式" class="headerlink" title="一、 数学基石：立体角 (Solid Angle) 的微分形式"></a>一、 数学基石：立体角 (Solid Angle) 的微分形式</h2><p>在讨论光如何传播之前，必须先定义“方向”的量度。</p>
+<h3 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h3><p>在二维平面，角度 $\theta$ 定义为弧长 $s$ 与半径 $r$ 之比。<br>在三维空间，立体角 $\Omega$ 定义为球面表面积 $A$ 与半径平方 $r^2$ 之比。</p>
+<p>$$<br>\Omega &#x3D; \frac{A}{r^2} \quad (\text{单位: 球面度 steradian, } sr)<br>$$</p>
+<h3 id="1-2-球坐标系下的微分推导"><a href="#1-2-球坐标系下的微分推导" class="headerlink" title="1.2 球坐标系下的微分推导"></a>1.2 球坐标系下的微分推导</h3><p>考虑球坐标系 $(r, \theta, \phi)$，其中 $\theta$ 为天顶角（Zenith angle, $0 \to \pi$），$\phi$ 为方位角（Azimuth angle, $0 \to 2\pi$）。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_095700.png" srcset="/img/loading.gif" lazyload></p>
+<p>球面上的微元面积 $dA$ 可以由两段微弧长构成：</p>
+<ol>
+<li>经线方向弧长：$r d\theta$</li>
+<li>纬线方向弧长：$r \sin\theta d\phi$</li>
+</ol>
+<p>因此，微元面积 $dA$ 为：</p>
+<p>$$<br>dA &#x3D; (r d\theta)(r \sin\theta d\phi) &#x3D; r^2 \sin\theta d\theta d\phi<br>$$</p>
+<p>代入立体角定义 $d\Omega &#x3D; dA &#x2F; r^2$，我们得到<strong>立体角的微分形式</strong>：</p>
+<p>$$<br>d\Omega &#x3D; \sin\theta d\theta d\phi<br>$$</p>
+<p>这是后续所有光度学积分推导的核心公式。全球面的立体角积分为：<br>$$<br>\int_{0}^{2\pi} d\phi \int_{0}^{\pi} \sin\theta d\theta &#x3D; 2\pi \cdot [-\cos\theta]_0^{\pi} &#x3D; 4\pi , sr<br>$$</p>
+<h3 id="1-3-光通量、强度、照度和亮度"><a href="#1-3-光通量、强度、照度和亮度" class="headerlink" title="1.3 光通量、强度、照度和亮度"></a>1.3 光通量、强度、照度和亮度</h3><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_095107.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="二、-光通量-Phi-与-发光强度-I"><a href="#二、-光通量-Phi-与-发光强度-I" class="headerlink" title="二、 光通量 ($\Phi$) 与 发光强度 ($I$)"></a>二、 光通量 ($\Phi$) 与 发光强度 ($I$)</h2><h3 id="2-1-光通量-Luminous-Flux-Phi"><a href="#2-1-光通量-Luminous-Flux-Phi" class="headerlink" title="2.1 光通量 (Luminous Flux, $\Phi$)"></a>2.1 光通量 (Luminous Flux, $\Phi$)</h3><p>光通量是加权的辐射功率，单位为流明 ($lm$)。它是光度学中的基本标量。</p>
+<h3 id="2-2-发光强度-Luminous-Intensity-I"><a href="#2-2-发光强度-Luminous-Intensity-I" class="headerlink" title="2.2 发光强度 (Luminous Intensity, $I$)"></a>2.2 发光强度 (Luminous Intensity, $I$)</h3><p>光强描述点光源在特定方向上的辐射密度。<br><strong>定义</strong>：单位立体角内的光通量。</p>
+<p>$$<br>I &#x3D; \frac{d\Phi}{d\Omega} \quad (\text{单位: } cd &#x3D; lm&#x2F;sr)<br>$$</p>
+<p>由此可得光通量的计算公式：<br>$$<br>\Phi &#x3D; \int_{\Omega} I(\theta, \phi) d\Omega &#x3D; \int_{0}^{2\pi} \int_{0}^{\pi} I(\theta, \phi) \sin\theta d\theta d\phi<br>$$</p>
+<p><strong>特例</strong>：对于各向同性（Isotropic）点光源，$I$ 为常数，则 $\Phi &#x3D; 4\pi I$。</p>
+<hr>
+<h2 id="三、-照度-E-的严格推导：从微分到定律"><a href="#三、-照度-E-的严格推导：从微分到定律" class="headerlink" title="三、 照度 ($E$) 的严格推导：从微分到定律"></a>三、 照度 ($E$) 的严格推导：从微分到定律</h2><p>照度定义为单位面积接收的光通量：$E &#x3D; d\Phi &#x2F; dA$。<br>我们将推导点光源照射到表面时的<strong>平方反比定律</strong>和<strong>余弦定律</strong>。</p>
+<h3 id="3-1-几何模型"><a href="#3-1-几何模型" class="headerlink" title="3.1 几何模型"></a>3.1 几何模型</h3><p>设有一点光源 $S$，光强为 $I$。在距离 $r$ 处有一微元面积 $dA$，其法线 $\mathbf{n}$ 与光线入射方向 $\mathbf{l}$ 的夹角为 $\theta_i$（入射角）。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_101645.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="3-2-推导过程"><a href="#3-2-推导过程" class="headerlink" title="3.2 推导过程"></a>3.2 推导过程</h3><ol>
+<li><p><strong>投影面积</strong>：光源“看”到的有效面积并不是 $dA$，而是 $dA$ 在垂直光线方向的投影 $dA_{\perp}$。<br>$$<br>dA_{\perp} &#x3D; dA \cos\theta_i<br>$$</p>
+</li>
+<li><p><strong>立体角关联</strong>：微元 $dA$ 对光源所张的立体角 $d\Omega$ 为：<br>$$<br>d\Omega &#x3D; \frac{dA_{\perp}}{r^2} &#x3D; \frac{dA \cos\theta_i}{r^2}<br>$$</p>
+</li>
+<li><p><strong>光通量传递</strong>：在该立体角内，光源发出的光通量 $d\Phi$ 为：<br>$$<br>d\Phi &#x3D; I d\Omega &#x3D; I \frac{dA \cos\theta_i}{r^2}<br>$$</p>
+</li>
+<li><p><strong>照度计算</strong>：根据照度定义 $E &#x3D; d\Phi &#x2F; dA$，代入上式：<br>$$<br>E &#x3D; \frac{I \frac{dA \cos\theta_i}{r^2}}{dA}<br>$$</p>
+</li>
+<li><p><strong>最终公式</strong>：<br>$$<br>E &#x3D; \frac{I \cos\theta_i}{r^2}<br>$$</p>
+</li>
+</ol>
+<p>这一公式同时包含了两大定律：</p>
+<ul>
+<li><strong>$1&#x2F;r^2$</strong> ：距离平方反比定律。</li>
+<li><strong>$\cos\theta_i$</strong> ：朗伯余弦定律（Lambert’s Cosine Law for Illuminance）。</li>
+</ul>
+<hr>
+<h2 id="四、-亮度-L-：相空间密度的定义"><a href="#四、-亮度-L-：相空间密度的定义" class="headerlink" title="四、 亮度 ($L$)：相空间密度的定义"></a>四、 亮度 ($L$)：相空间密度的定义</h2><p>亮度（Luminance）是光度学中最复杂、最抽象，却也是最核心的物理量。亮度 $L$ 定义为：单位立体角、单位投影面积上的光通量。</p>
+<p>如果说光通量是“水量”，照度是“淋湿地面的程度”，那么亮度描述的就是<strong>光在传输过程中的状态</strong>。它不仅仅涉及空间位置（在哪？），还涉及方向（去哪？）。在物理光学的**相空间（Phase Space）**中，亮度是描述位置空间 $(x, y, z)$ 与方向空间 $(\theta, \phi)$ 联合分布密度的物理量。</p>
+<p>为了理解亮度的定义公式，我们采用“剥洋葱”的方式，通过两次微分运算，从宏观的光通量一步步推导至亮度。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260202_111412.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>第一步：方向微分（锁定方向）</strong><br>假设一个光源发出的总光通量为 $\Phi$。<br>光射向四面八方，我们首先只关心射向特定方向 $\vec{\omega}$ 的光。<br>我们将总光通量对<strong>立体角 $d\Omega$</strong> 进行微分。<br>这定义了<strong>发光强度 (Intensity, $I$)</strong> ：<br>$$<br>I &#x3D; \frac{d\Phi}{d\Omega}<br>$$<br><em>此时，我们确定了光“往哪个方向飞”，得到了光束的*<em>角密度</em></em>。*</p>
+<p><strong>第二步：空间微分（锁定投影面积）</strong><br>现在我们有了一束强度为 $I$ 的光，但我们还想知道这束光是“从多大的表面发出来的”。<br>我们考察表面上一个极小的微元面积 $dA$。由于视线与表面法线 $\mathbf{n}$ 存在夹角 $\theta$，我们看到的<strong>有效发光面积</strong>并不是 $dA$，而是其在视线垂直方向上的投影：<br>$$<br>dA_{proj} &#x3D; dA \cdot \cos\theta<br>$$<br>我们将光强 $I$ 对这个<strong>投影面积</strong>进行第二次微分，这就得到了<strong>亮度 (Luminance, $L$)</strong> ：<br>$$<br>L &#x3D; \frac{dI}{dA_{proj}} &#x3D; \frac{dI}{dA \cdot \cos\theta}<br>$$<br><em>此时，我们进一步确定了光“从哪里来”，得到了光束的*<em>面密度</em></em>。*</p>
+<p><strong>第三步：亮度的统一定义</strong><br>结合上述两步，亮度 $L$ 实际上是光通量 $\Phi$ 对立体角和投影面积的<strong>二阶微分</strong>：</p>
+<p>$$<br>L &#x3D; \frac{d}{dA \cos\theta} \left( \frac{d\Phi}{d\Omega} \right) &#x3D; \frac{d^2\Phi}{d\Omega \cdot (dA \cdot \cos\theta)}<br>$$</p>
+<p>整理后，我们得到光通量的积分形式，这在渲染方程（Rendering Equation）中极为常见：<br>$$<br>d^2\Phi &#x3D; L \cdot \cos\theta \cdot dA \cdot d\Omega<br>$$</p>
+<blockquote>
+<p><strong>💡 学术注脚：光度学与辐射度量学的同构性</strong></p>
+<p>许多读者可能会遇到 <strong>辐射度 (Radiance, $L_e$)</strong> 这个术语。</p>
+<ul>
+<li><strong>辐射度 ($W \cdot sr^{-1} \cdot m^{-2}$)</strong>：描述纯粹的物理能量分布。</li>
+<li><strong>亮度 ($cd \cdot m^{-2}$)</strong>：是辐射度经过人眼视见函数 $V(\lambda)$ 加权积分后的结果。</li>
+</ul>
+<p>两者在数学定义和微分推导上是完全<strong>同构</strong>的。本文为了保持符号系统的一致性，统一使用<strong>亮度</strong>进行推导，但上述关于相空间、投影面积的所有物理规律，对于辐射度同样完全适用。</p>
+</blockquote>
+<hr>
+<h2 id="五、-应用案例1：朗伯体出射度-M-pi-L-的证明"><a href="#五、-应用案例1：朗伯体出射度-M-pi-L-的证明" class="headerlink" title="五、 应用案例1：朗伯体出射度 $M &#x3D; \pi L$ 的证明"></a>五、 应用案例1：朗伯体出射度 $M &#x3D; \pi L$ 的证明</h2><p>这是一个经典的面试题，也是理解光度学的试金石。<br><strong>问题</strong>：已知一个朗伯体（Lambertian surface）表面亮度为 $L$（常数），求其光出射度 $M$（单位面积向半球空间辐射的总光通量）。<br><strong>直觉误区</strong>：既然半球立体角是 $2\pi$，为什么 $M \neq 2\pi L$？</p>
+<h3 id="5-1-建立积分"><a href="#5-1-建立积分" class="headerlink" title="5.1 建立积分"></a>5.1 建立积分</h3><p>光出射度 $M$ 定义为面密度：$M &#x3D; \frac{d\Phi}{dA}$。<br>根据亮度定义：$d\Phi &#x3D; L \cdot dA \cos\theta \cdot d\Omega$。<br>两边除以 $dA$ 并对半球空间积分：<br>$$<br>M &#x3D; \int_{\Omega} L \cos\theta d\Omega<br>$$</p>
+<h3 id="5-2-展开积分"><a href="#5-2-展开积分" class="headerlink" title="5.2 展开积分"></a>5.2 展开积分</h3><p>将微分立体角 $d\Omega &#x3D; \sin\theta d\theta d\phi$ 代入。<br>积分范围：</p>
+<ul>
+<li>方位角 $\phi$: $0 \to 2\pi$</li>
+<li>天顶角 $\theta$: $0 \to \pi&#x2F;2$ (注意只积半球，不是全球)</li>
+</ul>
+<p>$$<br>M &#x3D; \int_{0}^{2\pi} d\phi \int_{0}^{\pi&#x2F;2} L \cos\theta \sin\theta d\theta<br>$$</p>
+<p>由于是朗伯体，$L$ 与角度无关，提取到积分号外：</p>
+<p>$$<br>M &#x3D; L \cdot \left( \int_{0}^{2\pi} d\phi \right) \cdot \left( \int_{0}^{\pi&#x2F;2} \cos\theta \sin\theta d\theta \right)<br>$$</p>
+<h3 id="5-3-求解积分"><a href="#5-3-求解积分" class="headerlink" title="5.3 求解积分"></a>5.3 求解积分</h3><p>第一部分：<br>$$<br>\int_{0}^{2\pi} d\phi &#x3D; 2\pi<br>$$</p>
+<p>第二部分（利用倍角公式 $\sin\theta \cos\theta &#x3D; \frac{1}{2}\sin 2\theta$）：<br>$$<br>\int_{0}^{\pi&#x2F;2} \frac{1}{2} \sin 2\theta d\theta &#x3D; \left[ -\frac{1}{4} \cos 2\theta \right]_0^{\pi&#x2F;2}<br>$$<br>$$<br>&#x3D; -\frac{1}{4} (\cos\pi - \cos 0) &#x3D; -\frac{1}{4} (-1 - 1) &#x3D; \frac{1}{2}<br>$$</p>
+<h3 id="5-4-最终结果"><a href="#5-4-最终结果" class="headerlink" title="5.4 最终结果"></a>5.4 最终结果</h3><p>$$<br>M &#x3D; L \cdot (2\pi) \cdot (\frac{1}{2}) &#x3D; \pi L<br>$$</p>
+<p><strong>结论</strong>：朗伯表面的光出射度是亮度的 $\pi$ 倍。<br>那个丢失的因子 $2$ 来自于 $\cos\theta$ 项（投影面积效应），它使得掠射角方向的能量贡献衰减了。</p>
+<hr>
+<h2 id="六、-应用案例2：亮度守恒定理-Conservation-of-Luminance-的推导"><a href="#六、-应用案例2：亮度守恒定理-Conservation-of-Luminance-的推导" class="headerlink" title="六、 应用案例2：亮度守恒定理 (Conservation of Luminance) 的推导"></a>六、 应用案例2：亮度守恒定理 (Conservation of Luminance) 的推导</h2><p>光学系统中有一个重要结论：<strong>亮度在光线传播过程中保持不变（假设无介质吸收和散射）。</strong></p>
+<h3 id="6-1-光管模型-Light-Tube"><a href="#6-1-光管模型-Light-Tube" class="headerlink" title="6.1 光管模型 (Light Tube)"></a>6.1 光管模型 (Light Tube)</h3><p>考虑一束光在空间中传播，截面 1 为 $dA_1$，光束立体角为 $d\Omega_1$；传播到位置 2，截面为 $dA_2$，立体角为 $d\Omega_2$。</p>
+<p>由能量守恒，通过两截面的光通量相等：<br>$$<br>d\Phi_1 &#x3D; d\Phi_2<br>$$</p>
+<p>展开亮度公式（设光线垂直截面，$\cos\theta&#x3D;1$）：<br>$$<br>L_1 dA_1 d\Omega_1 &#x3D; L_2 dA_2 d\Omega_2<br>$$</p>
+<h3 id="6-2-几何光学不变量-Etendue"><a href="#6-2-几何光学不变量-Etendue" class="headerlink" title="6.2 几何光学不变量 (Etendue)"></a>6.2 几何光学不变量 (Etendue)</h3><p>由几何光学可知，量 $G &#x3D; dA \cdot d\Omega$ 称为光学扩展量（Etendue）。在理想光学系统中，Etendue 是守恒的。<br>$$<br>dA_1 d\Omega_1 &#x3D; dA_2 d\Omega_2<br>$$<br>(简单的例子：透镜聚焦，光斑面积 $dA$ 减小，但会聚角 $d\Omega$ 必然增大，乘积不变。)</p>
+<h3 id="6-3-结论"><a href="#6-3-结论" class="headerlink" title="6.3 结论"></a>6.3 结论</h3><p>将 6.2 代入 6.1：<br>$$<br>L_1 (dA_1 d\Omega_1) &#x3D; L_2 (dA_2 d\Omega_2) \implies L_1 &#x3D; L_2<br>$$</p>
+<p><strong>物理意义</strong>：无论你用多大的透镜去聚焦太阳光，你都无法得到比太阳表面亮度更高的像。这保证了热力学第二定律在光学中成立（无法通过被动光学系统将目标加热到超过热源温度）。</p>
+<hr>
+<h2 id="七、-总结：四大物理量的关系网络"><a href="#七、-总结：四大物理量的关系网络" class="headerlink" title="七、 总结：四大物理量的关系网络"></a>七、 总结：四大物理量的关系网络</h2><p>通过上述推导，我们可以画出严密的数学关系图：</p>
+<ol>
+<li><strong>光通量 $\Phi$</strong>：能量的总和，无方向、无位置，纯标量。<br>$$ \Phi &#x3D; \iint L \cos\theta d\Omega dA $$</li>
+<li><strong>光强 $I$</strong>：$\Phi$ 对 $\Omega$ 的导数，<strong>只包含方向信息 (点光源近似)</strong>。<br>$$ I &#x3D; \frac{d\Phi}{d\Omega} &#x3D; \int L \cos\theta dA $$</li>
+<li><strong>照度 $E$</strong>：$\Phi$ 对 $A$ 的导数，<strong>只保留位置信息</strong>。<br>$$ E &#x3D; \frac{d\Phi}{dA} &#x3D; \int L \cos\theta d\Omega $$</li>
+<li><strong>亮度 $L$</strong>：基本的相空间分布函数，<strong>信息最全，包含位置+方向</strong>。<br>$$ L &#x3D; \frac{d^2\Phi}{d\Omega dA \cos\theta} $$</li>
+</ol>
+<p>这里列出工程中和渲染中最常用的推导关系：</p>
+<h4 id="1-亮度-L-leftrightarrow-发光强度-I"><a href="#1-亮度-L-leftrightarrow-发光强度-I" class="headerlink" title="1. 亮度 $L$ $\leftrightarrow$ 发光强度 $I$"></a>1. 亮度 $L$ $\leftrightarrow$ 发光强度 $I$</h4><p>描述<strong>面光源</strong>与<strong>点光源</strong>的联系。亮度可以理解为“发光强度的面密度”。<br>$$<br>L &#x3D; \frac{dI}{dA \cdot \cos\theta} \quad \iff \quad I &#x3D; \int_{A} L \cos\theta dA<br>$$</p>
+<ul>
+<li><strong>应用场景</strong>：当我们有一个面积为 $A$ 的面光源（如显示器），已知其亮度 $L$，想把它近似看作一个点光源时，就用积分公式计算其总光强 $I$。</li>
+</ul>
+<h4 id="2-照度-E-leftrightarrow-发光强度-I-平方反比定律"><a href="#2-照度-E-leftrightarrow-发光强度-I-平方反比定律" class="headerlink" title="2. 照度 $E$ $\leftrightarrow$ 发光强度 $I$ (平方反比定律)"></a>2. 照度 $E$ $\leftrightarrow$ 发光强度 $I$ (平方反比定律)</h4><p>描述<strong>点光源</strong>照射到<strong>表面</strong>的情况。这是经典光学的核心定律。<br>$$<br>dE &#x3D; \frac{I \cos\theta_{in}}{r^2} \quad (\text{其中 } d\Omega &#x3D; \frac{dA \cos\theta_{in}}{r^2})<br>$$</p>
+<ul>
+<li><strong>应用场景</strong>：计算路灯（近似点光源）在地面某点的照度。</li>
+</ul>
+<h4 id="3-照度-E-leftrightarrow-亮度-L-环境光积分"><a href="#3-照度-E-leftrightarrow-亮度-L-环境光积分" class="headerlink" title="3. 照度 $E$ $\leftrightarrow$ 亮度 $L$ (环境光积分)"></a>3. 照度 $E$ $\leftrightarrow$ 亮度 $L$ (环境光积分)</h4><p>描述<strong>环境光</strong>（来自四面八方）照射到<strong>表面</strong>的情况。这是全局光照渲染（Global Illumination）的基础。<br>$$<br>E &#x3D; \int_{\Omega} L_{incident} \cos\theta_{in} d\Omega<br>$$</p>
+<ul>
+<li><strong>应用场景</strong>：计算天空光（面光源）对地面的照度。注意这里必须对入射半球进行积分，且必须包含余弦项 $\cos\theta_{in}$。</li>
+</ul>
+<p>理解这些微积分关系，是进行复杂光学设计（如车灯设计、投影仪光路）和计算机图形学渲染（如路径追踪算法 Path Tracing）的先决条件。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Physics/" class="category-chain-item">Physics</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Physics/Theoretical-Optics/" class="category-chain-item">Theoretical Optics</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
+      
+        <a href="/tags/Physics/" class="print-no-link">#Physics</a>
+      
+        <a href="/tags/Calculus/" class="print-no-link">#Calculus</a>
+      
+        <a href="/tags/Math/" class="print-no-link">#Math</a>
+      
+        <a href="/tags/Rendering/" class="print-no-link">#Rendering</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光度学原理的数学重构：从立体角微分到亮度守恒的严格推导</div>
+      <div>https://time-frame.cloud/2026/02/02/2026-02-02-photometry-mathematical-derivation/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 2, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/02/02/2026-02-02-daily-english/" title="🌍 Daily English: The Alchemy of Ideas: How TED Talks Forge New Perspectives | 2026-02-02">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🌍 Daily English: The Alchemy of Ideas: How TED Talks Forge New Perspectives | 2026-02-02</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/02/01/2026-02-01-daily-english/" title="🌍 Daily English: Beyond the Tourist Trail: How Immersive Travel Fosters Global Understanding | 2026-02-01">
+                        <span class="hidden-mobile">🌍 Daily English: Beyond the Tourist Trail: How Immersive Travel Fosters Global Understanding | 2026-02-01</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/02/02/2026-02-02-photometry-mathematical-derivation/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

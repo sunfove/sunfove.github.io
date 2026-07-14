@@ -1,0 +1,803 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="如何用代码画出“墨韵”？本文将带你用 Python 实现一个支持双字体（行书+篆体）、模拟宣纸纹理、并引入随机抖动算法的竖排书法生成器。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 复刻苏轼笔意：手写级书法生成器 (完整源码)">
+<meta property="og:url" content="https://time-frame.cloud/2026/01/16/2026-01-16-python-zen-calligraphy/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="如何用代码画出“墨韵”？本文将带你用 Python 实现一个支持双字体（行书+篆体）、模拟宣纸纹理、并引入随机抖动算法的竖排书法生成器。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_121103.png">
+<meta property="article:published_time" content="2026-01-16T14:30:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="PIL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="图像处理">
+<meta property="article:tag" content="生成艺术">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_121103.png">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>Python 复刻苏轼笔意：手写级书法生成器 (完整源码) - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Python 复刻苏轼笔意：手写级书法生成器 (完整源码)</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-16 22:30" pubdate>
+          January 16, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Python 复刻苏轼笔意：手写级书法生成器 (完整源码)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在数字化时代，标准的电脑排版虽然整洁，却丢失了传统书法的“精气神”。</p>
+<p>真正的书法作品，字与字之间有呼吸感，笔墨有浓淡枯湿，印章有金石古朴。本文将分享一个完整的 Python 脚本，通过<strong>双字体引擎</strong>和<strong>随机抖动算法</strong>，将一段普通的文字转化为一幅足以乱真的电子书法艺术品。</p>
+<h2 id="01-核心原理：如何用代码模拟“手写”？"><a href="#01-核心原理：如何用代码模拟“手写”？" class="headerlink" title="01. 核心原理：如何用代码模拟“手写”？"></a>01. 核心原理：如何用代码模拟“手写”？</h2><p>要打破计算机绘图的机械感，我们需要在三个维度上引入“混乱”：</p>
+<ol>
+<li><p><strong>布局重构（竖排）</strong>：<br>摒弃现代的横排逻辑，采用古法<strong>从右向左、从上向下</strong>的书写顺序。</p>
+</li>
+<li><p><strong>双字体引擎</strong>：</p>
+<ul>
+<li><strong>正文</strong>：使用连笔飘逸的<strong>行书</strong>或<strong>草书</strong>。</li>
+<li><strong>印章</strong>：使用方正古朴的<strong>篆体</strong>。</li>
+<li><em>技术点</em>：如果只用一种字体，印章会显得非常突兀（像打印店刻的章），双字体是提升质感的关键。</li>
+</ul>
+</li>
+<li><p><strong>拟真随机算法 (Jitter Algorithm)</strong>：</p>
+<ul>
+<li><strong>位置抖动</strong>：每个字不再死板对齐，而是随机发生 $\pm 4$ 像素的偏移。</li>
+<li><strong>大小呼吸</strong>：字号在 $92% \sim 108%$ 之间随机缩放，模拟下笔轻重。</li>
+<li><strong>微旋转</strong>：引入 $\pm 1.5^\circ$ 的随机倾斜，增加灵动感。</li>
+</ul>
+</li>
+<li><p><strong>动态宣纸纹理</strong>：<br>利用噪声算法（Noise）和高斯模糊（Gaussian Blur）实时生成带有纤维感的米黄色宣纸底色，而不是简单加载一张背景图。</p>
+</li>
+</ol>
+<hr>
+<h2 id="02-准备工作"><a href="#02-准备工作" class="headerlink" title="02. 准备工作"></a>02. 准备工作</h2><p>在运行代码前，你需要准备以下素材（放在脚本同级目录下）：</p>
+<ol>
+<li><strong><code>brush.ttf</code></strong>：正文毛笔字体（推荐：<em>禹卫书法行书</em>、<em>李旭科毛笔行书</em>）。</li>
+<li><strong><code>seal.ttf</code></strong>：印章篆体字体（推荐：<em>方正小篆</em>、<em>汉仪粗篆</em>）。</li>
+</ol>
+<p><em>注：如果没有 <code>seal.ttf</code>，代码会自动降级使用正文字体，但效果会打折。</em></p>
+<hr>
+<h2 id="03-完整实现代码"><a href="#03-完整实现代码" class="headerlink" title="03. 完整实现代码"></a>03. 完整实现代码</h2><p>将以下代码保存为 <code>calligraphy_gen.py</code>。该版本已修复所有浮点数坐标报错问题，并优化了印章逻辑。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image, ImageDraw, ImageFont, ImageFilter<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ArtisticCalligrapher</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, main_font_path, seal_font_path, bg_color=(<span class="hljs-params"><span class="hljs-number">242</span>, <span class="hljs-number">238</span>, <span class="hljs-number">230</span></span>)</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        初始化书法生成器</span><br><span class="hljs-string">        :param main_font_path: 正文字体路径 (如行书)</span><br><span class="hljs-string">        :param seal_font_path: 印章字体路径 (如篆体)</span><br><span class="hljs-string">        :param bg_color: 背景宣纸色 (默认米黄)</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-variable language_">self</span>.main_font_path = main_font_path<br>        <span class="hljs-variable language_">self</span>.seal_font_path = seal_font_path<br>        <span class="hljs-variable language_">self</span>.bg_color = bg_color<br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">add_paper_texture</span>(<span class="hljs-params">self, img</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;核心算法1：生成宣纸纹理&quot;&quot;&quot;</span><br>        width, height = img.size<br>        draw = ImageDraw.Draw(img)<br>        <br>        <span class="hljs-comment"># A. 添加随机噪点 (模拟纸张纤维)</span><br>        <span class="hljs-comment"># 密度控制在 8%</span><br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">int</span>(width * height * <span class="hljs-number">0.08</span>)):<br>            x = random.randint(<span class="hljs-number">0</span>, width - <span class="hljs-number">1</span>)<br>            y = random.randint(<span class="hljs-number">0</span>, height - <span class="hljs-number">1</span>)<br>            <span class="hljs-comment"># 噪点颜色基于背景色微调</span><br>            color_offset = random.randint(-<span class="hljs-number">20</span>, <span class="hljs-number">20</span>)<br>            noise_color = (<br>                <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">min</span>(<span class="hljs-number">255</span>, <span class="hljs-variable language_">self</span>.bg_color[<span class="hljs-number">0</span>] + color_offset)),<br>                <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">min</span>(<span class="hljs-number">255</span>, <span class="hljs-variable language_">self</span>.bg_color[<span class="hljs-number">1</span>] + color_offset)),<br>                <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">min</span>(<span class="hljs-number">255</span>, <span class="hljs-variable language_">self</span>.bg_color[<span class="hljs-number">2</span>] + color_offset))<br>            )<br>            draw.point((x, y), fill=noise_color)<br>        <br>        <span class="hljs-comment"># B. 模拟纸张晕影 (模拟陈旧感)</span><br>        overlay = Image.new(<span class="hljs-string">&#x27;RGBA&#x27;</span>, img.size, (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>))<br>        overlay_draw = ImageDraw.Draw(overlay)<br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">6</span>):<br>            x = random.randint(<span class="hljs-number">0</span>, width)<br>            y = random.randint(<span class="hljs-number">0</span>, height)<br>            r = random.randint(<span class="hljs-number">150</span>, <span class="hljs-number">450</span>)<br>            <span class="hljs-comment"># 淡淡的褐色斑块</span><br>            overlay_draw.ellipse((x-r, y-r, x+r, y+r), fill=(<span class="hljs-number">210</span>, <span class="hljs-number">205</span>, <span class="hljs-number">190</span>, <span class="hljs-number">25</span>))<br>        <br>        <span class="hljs-comment"># 高斯模糊融合</span><br>        overlay = overlay.<span class="hljs-built_in">filter</span>(ImageFilter.GaussianBlur(<span class="hljs-number">60</span>))<br>        img = Image.alpha_composite(img.convert(<span class="hljs-string">&#x27;RGBA&#x27;</span>), overlay).convert(<span class="hljs-string">&#x27;RGB&#x27;</span>)<br>        <span class="hljs-keyword">return</span> img<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">create_seal</span>(<span class="hljs-params">self, content, size=<span class="hljs-number">100</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;核心算法2：生成仿古印章 (支持篆体)&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 放大画布以处理旋转边缘</span><br>        canvas_size = <span class="hljs-built_in">int</span>(size * <span class="hljs-number">1.1</span>)<br>        img = Image.new(<span class="hljs-string">&#x27;RGBA&#x27;</span>, (canvas_size, canvas_size), (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>        draw = ImageDraw.Draw(img)<br>        <br>        <span class="hljs-comment"># 印章颜色：朱红</span><br>        seal_color = (<span class="hljs-number">175</span>, <span class="hljs-number">35</span>, <span class="hljs-number">35</span>)<br>        <br>        <span class="hljs-comment"># 1. 画残缺边框 (模拟印泥痕迹)</span><br>        rect = [<span class="hljs-number">5</span>, <span class="hljs-number">5</span>, size-<span class="hljs-number">5</span>, size-<span class="hljs-number">5</span>]<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>            off_x = random.randint(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>            off_y = random.randint(-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>            draw.rectangle([rect[<span class="hljs-number">0</span>]+off_x, rect[<span class="hljs-number">1</span>]+off_y, rect[<span class="hljs-number">2</span>]-off_x, rect[<span class="hljs-number">3</span>]-off_y], <br>                           outline=seal_color, width=random.randint(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>))<br><br>        <span class="hljs-comment"># 2. 加载印章字体</span><br>        seal_font_size = <span class="hljs-built_in">int</span>(size * <span class="hljs-number">0.45</span>)<br>        <span class="hljs-keyword">try</span>:<br>            seal_font = ImageFont.truetype(<span class="hljs-variable language_">self</span>.seal_font_path, seal_font_size)<br>        <span class="hljs-keyword">except</span> IOError:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;【警告】印章字体加载失败，降级使用正文字体。&quot;</span>)<br>            seal_font = ImageFont.truetype(<span class="hljs-variable language_">self</span>.main_font_path, seal_font_size)<br>            <br>        <span class="hljs-comment"># 3. 智能布局 (2字竖排，4字方阵)</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(content) == <span class="hljs-number">2</span>:<br>            char_h = seal_font_size * <span class="hljs-number">0.9</span><br>            total_h = char_h * <span class="hljs-number">2</span><br>            start_y = (size - total_h) / <span class="hljs-number">2</span><br>            <span class="hljs-comment"># 上字</span><br>            w1 = draw.textbbox((<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), content[<span class="hljs-number">0</span>], font=seal_font)[<span class="hljs-number">2</span>]<br>            draw.text(((size-w1)/<span class="hljs-number">2</span>, start_y), content[<span class="hljs-number">0</span>], font=seal_font, fill=seal_color)<br>            <span class="hljs-comment"># 下字</span><br>            w2 = draw.textbbox((<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), content[<span class="hljs-number">1</span>], font=seal_font)[<span class="hljs-number">2</span>]<br>            draw.text(((size-w2)/<span class="hljs-number">2</span>, start_y + char_h), content[<span class="hljs-number">1</span>], font=seal_font, fill=seal_color)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-comment"># 默认居中</span><br>            text_bbox = draw.textbbox((<span class="hljs-number">0</span>,<span class="hljs-number">0</span>), content, font=seal_font)<br>            w = text_bbox[<span class="hljs-number">2</span>] - text_bbox[<span class="hljs-number">0</span>]<br>            h = text_bbox[<span class="hljs-number">3</span>] - text_bbox[<span class="hljs-number">1</span>]<br>            draw.text(((size-w)/<span class="hljs-number">2</span>, (size-h)/<span class="hljs-number">2</span> - size*<span class="hljs-number">0.02</span>), content, font=seal_font, fill=seal_color)<br>            <br>        <span class="hljs-comment"># 4. 做旧噪点 (模拟印泥不均匀)</span><br>        pixels = img.load()<br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">int</span>(size*size*<span class="hljs-number">0.15</span>)):<br>            x = random.randint(<span class="hljs-number">0</span>, canvas_size-<span class="hljs-number">1</span>)<br>            y = random.randint(<span class="hljs-number">0</span>, canvas_size-<span class="hljs-number">1</span>)<br>            <span class="hljs-keyword">if</span> pixels[x, y][<span class="hljs-number">3</span>] &gt; <span class="hljs-number">0</span>: <span class="hljs-comment"># 如果不是透明</span><br>                <span class="hljs-keyword">if</span> random.random() &gt; <span class="hljs-number">0.65</span>:<br>                    pixels[x, y] = (<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0</span>) <span class="hljs-comment"># 擦除像素</span><br>                    <br>        <span class="hljs-keyword">return</span> img<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">generate</span>(<span class="hljs-params">self, text, seal_content, base_font_size=<span class="hljs-number">80</span>, output_file=<span class="hljs-string">&quot;result.jpg&quot;</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;主生成逻辑&quot;&quot;&quot;</span><br>        <span class="hljs-comment"># --- 布局参数 (全部转为int防止报错) ---</span><br>        char_spacing = <span class="hljs-built_in">int</span>(base_font_size * <span class="hljs-number">1.15</span>) <br>        line_spacing = <span class="hljs-built_in">int</span>(base_font_size * <span class="hljs-number">1.5</span>)<br>        margin = <span class="hljs-built_in">int</span>(base_font_size * <span class="hljs-number">2.5</span>)<br>        canvas_height = <span class="hljs-number">1300</span> <span class="hljs-comment"># 可根据字数动态调整</span><br>        <br>        <span class="hljs-comment"># 计算宽度</span><br>        chars_per_col = (canvas_height - margin * <span class="hljs-number">2</span>) // char_spacing<br>        num_cols = math.ceil((<span class="hljs-built_in">len</span>(text) + <span class="hljs-number">1</span>) / chars_per_col)<br>        canvas_width = margin * <span class="hljs-number">2</span> + num_cols * line_spacing<br>        <br>        <span class="hljs-comment"># --- 创建画布 ---</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在编织宣纸纹理...&quot;</span>)<br>        img = Image.new(<span class="hljs-string">&#x27;RGB&#x27;</span>, (<span class="hljs-built_in">int</span>(canvas_width), canvas_height), <span class="hljs-variable language_">self</span>.bg_color)<br>        img = <span class="hljs-variable language_">self</span>.add_paper_texture(img)<br>        <br>        <span class="hljs-comment"># --- 绘制正文 (双重随机算法) ---</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;正在挥毫泼墨...&quot;</span>)<br>        <span class="hljs-comment"># 坐标起点：右上角</span><br>        cursor_x = canvas_width - margin - base_font_size<br>        cursor_y = margin<br>        <br>        <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> text:<br>            <span class="hljs-comment"># 1. 随机字号 (模拟墨量变化)</span><br>            scale = random.uniform(<span class="hljs-number">0.92</span>, <span class="hljs-number">1.08</span>)<br>            current_font_size = <span class="hljs-built_in">int</span>(base_font_size * scale)<br>            font = ImageFont.truetype(<span class="hljs-variable language_">self</span>.main_font_path, current_font_size)<br>            <br>            <span class="hljs-comment"># 2. 随机偏移 (模拟手腕摆动)</span><br>            offset_x = random.randint(-<span class="hljs-number">4</span>, <span class="hljs-number">4</span>)<br>            offset_y = random.randint(-<span class="hljs-number">4</span>, <span class="hljs-number">4</span>)<br>            <br>            <span class="hljs-comment"># 3. 墨色微调 (避免死黑)</span><br>            ink_val = random.randint(<span class="hljs-number">15</span>, <span class="hljs-number">35</span>)<br>            ink_color = (ink_val, ink_val, ink_val)<br>            <br>            <span class="hljs-comment"># 4. 绘制单字图层</span><br>            char_layer = Image.new(<span class="hljs-string">&#x27;RGBA&#x27;</span>, (<span class="hljs-built_in">int</span>(base_font_size*<span class="hljs-number">1.5</span>), <span class="hljs-built_in">int</span>(base_font_size*<span class="hljs-number">1.5</span>)), (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>))<br>            char_draw = ImageDraw.Draw(char_layer)<br>            <span class="hljs-comment"># 居中绘制</span><br>            char_draw.text((base_font_size*<span class="hljs-number">0.25</span>, base_font_size*<span class="hljs-number">0.25</span>), char, font=font, fill=ink_color+(<span class="hljs-number">240</span>,)) <br>            <br>            <span class="hljs-comment"># 5. 微旋转 (关键!)</span><br>            angle = random.uniform(-<span class="hljs-number">1.5</span>, <span class="hljs-number">1.5</span>)<br>            char_layer = char_layer.rotate(angle, resample=Image.BICUBIC, expand=<span class="hljs-number">0</span>)<br>            <br>            <span class="hljs-comment"># 6. 粘贴回主画布 (坐标强转int)</span><br>            paste_x = <span class="hljs-built_in">int</span>(cursor_x + offset_x + (base_font_size - char_layer.width)/<span class="hljs-number">2</span>)<br>            paste_y = <span class="hljs-built_in">int</span>(cursor_y + offset_y + (base_font_size - char_layer.height)/<span class="hljs-number">2</span>)<br>            img.paste(char_layer, (paste_x, paste_y), char_layer)<br>            <br>            <span class="hljs-comment"># 移动坐标</span><br>            cursor_y += char_spacing<br>            <br>            <span class="hljs-comment"># 换列检测</span><br>            <span class="hljs-keyword">if</span> cursor_y &gt; canvas_height - margin - base_font_size*<span class="hljs-number">1.2</span>:<br>                cursor_y = margin<br>                cursor_x -= line_spacing<br>                <br>        <span class="hljs-comment"># --- 盖章逻辑 ---</span><br>        seal_size = <span class="hljs-built_in">int</span>(base_font_size * <span class="hljs-number">1.1</span>)<br>        <br>        <span class="hljs-comment"># 判断当前列是否还有空间</span><br>        <span class="hljs-keyword">if</span> cursor_y + seal_size + margin &gt; canvas_height:<br>             cursor_y = margin<br>             cursor_x -= line_spacing<br>        <span class="hljs-keyword">else</span>:<br>             cursor_y += <span class="hljs-built_in">int</span>(base_font_size * <span class="hljs-number">0.6</span>)<br>             <br>        <span class="hljs-comment"># 生成印章</span><br>        seal_img = <span class="hljs-variable language_">self</span>.create_seal(seal_content, size=seal_size)<br>        <br>        <span class="hljs-comment"># 印章随机旋转</span><br>        seal_angle = random.uniform(-<span class="hljs-number">3</span>, <span class="hljs-number">3</span>)<br>        seal_img = seal_img.rotate(seal_angle, resample=Image.BICUBIC, expand=<span class="hljs-number">1</span>)<br>        <br>        <span class="hljs-comment"># 计算盖章位置</span><br>        seal_offset_x = random.randint(-<span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br>        seal_x = <span class="hljs-built_in">int</span>(cursor_x + (base_font_size-seal_size)/<span class="hljs-number">2</span>) + seal_offset_x<br>        seal_y = <span class="hljs-built_in">int</span>(cursor_y)<br>        <br>        img.paste(seal_img, (seal_x, seal_y), seal_img)<br><br>        <span class="hljs-comment"># --- 最终质感处理 ---</span><br>        img = img.<span class="hljs-built_in">filter</span>(ImageFilter.SMOOTH_MORE) <span class="hljs-comment"># 整体柔化，融合笔触</span><br>        img.save(output_file, quality=<span class="hljs-number">98</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;✅ 书法作品已生成: <span class="hljs-subst">&#123;output_file&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># --- 运行配置 ---</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment"># 1. 字体配置 (请修改为你电脑上的实际路径)</span><br>    main_font = <span class="hljs-string">&quot;brush.ttf&quot;</span>  <span class="hljs-comment"># 行书/草书</span><br>    seal_font = <span class="hljs-string">&quot;seal.ttf&quot;</span>   <span class="hljs-comment"># 篆体</span><br><br>    <span class="hljs-comment"># 2. 安全检查</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> (os.path.exists(main_font) <span class="hljs-keyword">and</span> os.path.exists(seal_font)):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;❌ 错误：请确保目录下包含 <span class="hljs-subst">&#123;main_font&#125;</span> 和 <span class="hljs-subst">&#123;seal_font&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-comment"># 3. 内容配置</span><br>        artist = ArtisticCalligrapher(main_font, seal_font)<br>        <br>        <span class="hljs-comment"># 苏轼《定风波》</span><br>        content = <span class="hljs-string">&quot;莫听穿林打叶声何妨吟啸且徐行竹杖芒鞋轻胜马谁怕一蓑烟雨任平生&quot;</span><br>        <br>        <span class="hljs-comment"># 注意：篆体字库通常只包含繁体字，请务必使用繁体输入！</span><br>        seal_text = <span class="hljs-string">&quot;蘇軾&quot;</span>  <br>        <br>        <span class="hljs-comment"># 4. 生成</span><br>        artist.generate(content, seal_text, base_font_size=<span class="hljs-number">110</span>, output_file=<span class="hljs-string">&quot;su_shi_calligraphy.jpg&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p>最终运行效果如图，当然可以根据自己对字体的爱好，进行修。<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260117_121103.png" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Python-%E8%A7%86%E8%A7%89%E5%AE%9E%E6%88%98/" class="category-chain-item">Python 视觉实战</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" class="print-no-link">#图像处理</a>
+      
+        <a href="/tags/PIL/" class="print-no-link">#PIL</a>
+      
+        <a href="/tags/%E7%94%9F%E6%88%90%E8%89%BA%E6%9C%AF/" class="print-no-link">#生成艺术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Python 复刻苏轼笔意：手写级书法生成器 (完整源码)</div>
+      <div>https://time-frame.cloud/2026/01/16/2026-01-16-python-zen-calligraphy/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 16, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/17/2026-01-17-daily-english/" title="🌍 Daily English: The Lens of Conservation: How Wildlife Documentaries Shape Our Understanding of Nature | 2026-01-17">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🌍 Daily English: The Lens of Conservation: How Wildlife Documentaries Shape Our Understanding of Nature | 2026-01-17</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/16/2026-01-16-daily-english/" title="🌍 Daily English: Beyond Borders: How Modern Exploration Redefines Cultural Understanding | 2026-01-16">
+                        <span class="hidden-mobile">🌍 Daily English: Beyond Borders: How Modern Exploration Redefines Cultural Understanding | 2026-01-16</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/01/16/2026-01-16-python-zen-calligraphy/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

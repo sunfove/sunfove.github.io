@@ -1,0 +1,892 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="做光学设计分不清 Radiometry 和 Photometry？不知道如何把 Laser 的功率 (Watts) 换算成 LED 的流明 (Lumens)？本文从微积分定义出发，深度推导四大光学单位的转换关系与工程应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📐 光学学习笔记：详解光通量、照度、强度与亮度">
+<meta property="og:url" content="https://time-frame.cloud/2026/01/07/2026-01-07-optics-photometry-basics/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="做光学设计分不清 Radiometry 和 Photometry？不知道如何把 Laser 的功率 (Watts) 换算成 LED 的流明 (Lumens)？本文从微积分定义出发，深度推导四大光学单位的转换关系与工程应用。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260107_105357.png">
+<meta property="article:published_time" content="2026-01-07T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光学设计">
+<meta property="article:tag" content="光度学">
+<meta property="article:tag" content="物理公式">
+<meta property="article:tag" content="辐射度学">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260107_105357.png">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>📐 光学学习笔记：详解光通量、照度、强度与亮度 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">📐 光学学习笔记：详解光通量、照度、强度与亮度</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-07 10:00" pubdate>
+          January 7, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">📐 光学学习笔记：详解光通量、照度、强度与亮度</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在微纳光学（Micro-nano optics）和光学系统设计中，准确理解光的度量单位是建模的基础。</p>
+<p>很多人分不清 <strong>Radiometry（辐射度学）</strong> 和 <strong>Photometry（光度学）</strong>。</p>
+<ul>
+<li><strong>辐射度学</strong>是纯物理的能量度量（客观，单位：瓦特 Watt）。</li>
+<li><strong>光度学</strong>是基于人眼感知的度量（主观，单位：流明 Lumen）。</li>
+</ul>
+<p>本文将从数学定义的角度，彻底理清光度学四大金刚：<strong>光通量、光强、照度、亮度</strong>。</p>
+<hr>
+<h2 id="01-全局概览图谱"><a href="#01-全局概览图谱" class="headerlink" title="01. 全局概览图谱"></a>01. 全局概览图谱</h2><p>在进入公式之前，先看这张经典的转换关系图。这是光学工程师必须印在脑子里的“地图”。<br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260107_105357.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>光源 (Source)</strong> 发出光通量 $\Phi$。</li>
+<li>光在<strong>立体角 (Solid Angle)</strong> 内的密度是光强 $I$。</li>
+<li>光打在<strong>接收面 (Surface)</strong> 上的密度是照度 $E$。</li>
+<li><strong>人眼 (Observer)</strong> 或是相机看到的发光面的明暗程度是亮度 $L$。</li>
+</ul>
+<hr>
+<h2 id="02-深度拆解：四大物理量"><a href="#02-深度拆解：四大物理量" class="headerlink" title="02. 深度拆解：四大物理量"></a>02. 深度拆解：四大物理量</h2><h3 id="1-光通量-Luminous-Flux-Phi-v"><a href="#1-光通量-Luminous-Flux-Phi-v" class="headerlink" title="1. 光通量 (Luminous Flux, $\Phi_v$)"></a>1. 光通量 (Luminous Flux, $\Phi_v$)</h3><p><strong>定义</strong>：光源在单位时间内发出的<strong>光能量</strong>，根据人眼视见函数加权后的结果。</p>
+<ul>
+<li><strong>单位</strong>：流明 (Lumen, lm)</li>
+<li><strong>物理公式</strong>：<br>  $$\Phi_v &#x3D; K_m \int_{380}^{780} P(\lambda) V(\lambda) d\lambda$$<ul>
+<li>$P(\lambda)$：光谱辐射功率分布 (Spectral Power Distribution)，单位 $W&#x2F;nm$。</li>
+<li>$V(\lambda)$：人眼视见函数（CIE 标准），在 555nm (绿光) 处达到峰值 1。</li>
+<li>$K_m$：最大光视效能，约为 <strong>683 lm&#x2F;W</strong>。</li>
+</ul>
+</li>
+<li><strong>工程意义</strong>：<br>  这意味着 <strong>1 Watt 的 555nm 绿光 $\approx$ 683 lm</strong>，而 <strong>1 Watt 的红外光 &#x3D; 0 lm</strong>（因为人眼看不见）。</li>
+</ul>
+<h3 id="2-发光强度-Luminous-Intensity-I-v"><a href="#2-发光强度-Luminous-Intensity-I-v" class="headerlink" title="2. 发光强度 (Luminous Intensity, $I_v$)"></a>2. 发光强度 (Luminous Intensity, $I_v$)</h3><p><strong>定义</strong>：点光源在<strong>特定方向</strong>上，单位<strong>立体角</strong>内发出的光通量。</p>
+<ul>
+<li><strong>单位</strong>：坎德拉 (Candela, cd)</li>
+<li><strong>物理公式</strong>：<br>  $$I_v &#x3D; \frac{d\Phi_v}{d\Omega}$$<ul>
+<li>$\Omega$：立体角 (Solid Angle)，单位是球面度 (sr)。</li>
+<li>全空间的立体角是 $4\pi$ sr。</li>
+</ul>
+</li>
+<li><strong>常见误区</strong>：<br>  如果你把 LED 的发光角度压缩（加透镜），总流明 $\Phi$ 不变，但立体角 $\Omega$ 变小，所以中心光强 $I$ 会暴涨。这就是激光笔刺眼的原因。</li>
+</ul>
+<h3 id="3-照度-Illuminance-E-v"><a href="#3-照度-Illuminance-E-v" class="headerlink" title="3. 照度 (Illuminance, $E_v$)"></a>3. 照度 (Illuminance, $E_v$)</h3><p><strong>定义</strong>：单位<strong>接收面积</strong>上接收到的光通量。它描述的是“被照面”的情况。</p>
+<ul>
+<li><strong>单位</strong>：勒克斯 (Lux, lx &#x3D; $lm&#x2F;m^2$)</li>
+<li><strong>物理公式</strong>：<br>  $$E_v &#x3D; \frac{d\Phi_v}{dA}$$</li>
+<li><strong>距离平方反比定律 (Inverse Square Law)</strong>：<br>  对于点光源，照度与距离的平方成反比：<br>  $$E &#x3D; \frac{I}{r^2} \cdot \cos\theta$$<ul>
+<li>$r$：光源到接收面的距离。</li>
+<li>$\theta$：光线入射角（光线与法线的夹角）。</li>
+<li><strong>应用</strong>：在模拟探测器（Detector）上的能量分布时，如果你移动探测器使其距离加倍，照度理论上会变为原来的 1&#x2F;4。</li>
+</ul>
+</li>
+</ul>
+<p>[Image of Inverse Square Law for light diagram]</p>
+<h3 id="4-亮度-Luminance-L-v"><a href="#4-亮度-Luminance-L-v" class="headerlink" title="4. 亮度 (Luminance, $L_v$)"></a>4. 亮度 (Luminance, $L_v$)</h3><p><strong>定义</strong>：发光面（或反射面）在<strong>单位投影面积</strong>、<strong>单位立体角</strong>内发出的光通量。</p>
+<ul>
+<li><strong>单位</strong>：尼特 (nit &#x3D; $cd&#x2F;m^2$)</li>
+<li><strong>物理公式</strong>：<br>  $$L_v &#x3D; \frac{d^2\Phi_v}{d\Omega \cdot dA \cdot \cos\theta}$$<ul>
+<li>$dA \cdot \cos\theta$：这是<strong>投影面积</strong>。当你侧着看屏幕时，投影面积变小了，所以需要除以 $\cos\theta$ 来修正。</li>
+</ul>
+</li>
+<li><strong>亮度守恒定律 (Conservation of Luminance)</strong>：<br>  在理想光学系统（无损耗）中，光在传播过程中，<strong>亮度是不变的</strong>。<ul>
+<li>这就是为什么你不能通过透镜系统让成像比光源更“亮”（温度不能比光源更高）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="03-辐射度学-vs-光度学："><a href="#03-辐射度学-vs-光度学：" class="headerlink" title="03. 辐射度学 vs 光度学："></a>03. 辐射度学 vs 光度学：</h2><p>做微纳光学仿真时，你通常输入的是 Laser Power (Watts)，但最后客户要看的是亮度 (Nits)。你需要这张对照表：</p>
+<table>
+<thead>
+<tr>
+<th align="left">物理维度</th>
+<th align="left">辐射度学 (Radiometry) <br> <em>能量&#x2F;物理</em></th>
+<th align="left">光度学 (Photometry) <br> <em>人眼&#x2F;视觉</em></th>
+<th align="left">转换桥梁 (555nm)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>能量&#x2F;功率</strong></td>
+<td align="left"><strong>辐射通量</strong> Radiant Flux <br> 单位: <strong>Watt (W)</strong></td>
+<td align="left"><strong>光通量</strong> Luminous Flux <br> 单位: <strong>Lumen (lm)</strong></td>
+<td align="left">$1 W &#x3D; 683 lm$</td>
+</tr>
+<tr>
+<td align="left"><strong>空间强度</strong></td>
+<td align="left"><strong>辐射强度</strong> Radiant Intensity <br> 单位: <strong>W&#x2F;sr</strong></td>
+<td align="left"><strong>发光强度</strong> Luminous Intensity <br> 单位: <strong>Candela (cd)</strong></td>
+<td align="left">$1 W&#x2F;sr &#x3D; 683 cd$</td>
+</tr>
+<tr>
+<td align="left"><strong>接收面密度</strong></td>
+<td align="left"><strong>辐照度</strong> Irradiance <br> 单位: <strong>W&#x2F;m²</strong></td>
+<td align="left"><strong>照度</strong> Illuminance <br> 单位: <strong>Lux (lx)</strong></td>
+<td align="left">$1 W&#x2F;m^2 &#x3D; 683 lx$</td>
+</tr>
+<tr>
+<td align="left"><strong>源表面亮度</strong></td>
+<td align="left"><strong>辐射亮度</strong> Radiance <br> 单位: <strong>W&#x2F;(sr·m²)</strong></td>
+<td align="left"><strong>亮度</strong> Luminance <br> 单位: <strong>Nit (cd&#x2F;m²)</strong></td>
+<td align="left">$1 W&#x2F;(sr\cdot m^2) &#x3D; 683 nit$</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="04-典型计算案例"><a href="#04-典型计算案例" class="headerlink" title="04. 典型计算案例"></a>04. 典型计算案例</h2><p><strong>场景</strong>：<br>你有一个各向同性（各个方向发光均匀）的 LED 灯泡，总光通量为 <strong>1000 lm</strong>。<br>你想知道：</p>
+<ol>
+<li>它的发光强度是多少？</li>
+<li>在距离它 2 米远的桌面上，照度是多少？</li>
+</ol>
+<p><strong>计算过程</strong>：</p>
+<ol>
+<li><p><strong>求光强 ($I$)</strong>：</p>
+<ul>
+<li>因为是各向同性点光源，光向四面八方发射，立体角 $\Omega &#x3D; 4\pi \approx 12.57$ sr。</li>
+<li>$I &#x3D; \frac{\Phi}{\Omega} &#x3D; \frac{1000}{4\pi} \approx \mathbf{79.6 \ cd}$。</li>
+</ul>
+</li>
+<li><p><strong>求照度 ($E$)</strong>：</p>
+<ul>
+<li>利用距离平方反比定律（假设垂直照射，$\cos\theta&#x3D;1$）：</li>
+<li>$E &#x3D; \frac{I}{r^2} &#x3D; \frac{79.6}{2^2} &#x3D; \frac{79.6}{4} \approx \mathbf{19.9 \ lx}$。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><ul>
+<li><strong>$\Phi$ (lm)</strong> 是源头的“总水量”。</li>
+<li><strong>$I$ (cd)</strong> 是喷头的“水压”。</li>
+<li><strong>$E$ (lx)</strong> 是地面的“湿润度”。</li>
+<li><strong>$L$ (nit)</strong> 是别人看过来觉得“刺不刺眼”。</li>
+</ul>
+<p>做 <strong>Micro-nano optics</strong> 时，如果处理的是红外激光（如 1550nm），请直接忽略右边的光度学单位，死磕左边的 <strong>Radiometry (Watts)</strong> 即可，因为对于那样的波长，流明永远是 0。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%A6%E7%90%86%E8%AE%BA/" class="category-chain-item">光学理论</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6%E8%AE%BE%E8%AE%A1/" class="print-no-link">#光学设计</a>
+      
+        <a href="/tags/%E8%BE%90%E5%B0%84%E5%BA%A6%E5%AD%A6/" class="print-no-link">#辐射度学</a>
+      
+        <a href="/tags/%E5%85%89%E5%BA%A6%E5%AD%A6/" class="print-no-link">#光度学</a>
+      
+        <a href="/tags/%E7%89%A9%E7%90%86%E5%85%AC%E5%BC%8F/" class="print-no-link">#物理公式</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>📐 光学学习笔记：详解光通量、照度、强度与亮度</div>
+      <div>https://time-frame.cloud/2026/01/07/2026-01-07-optics-photometry-basics/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 7, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/07/2026-01-07-daily-english/" title="🌍 Daily English: Beyond the Guidebook: How Deep Cultural Immersion Transforms the Modern Traveler | 2026-01-07">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🌍 Daily English: Beyond the Guidebook: How Deep Cultural Immersion Transforms the Modern Traveler | 2026-01-07</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/06/2026-01-06-economics-10/" title="📉 新手必读：为什么盯着“美债收益率”，才能炒好A股和黄金？">
+                        <span class="hidden-mobile">📉 新手必读：为什么盯着“美债收益率”，才能炒好A股和黄金？</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/01/07/2026-01-07-optics-photometry-basics/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

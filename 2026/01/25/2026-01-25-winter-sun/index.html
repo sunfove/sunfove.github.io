@@ -1,0 +1,860 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么冬天的太阳色温更暖而质感更透？本文通过大气质量(AM)、瑞利散射定律、米氏散射及辐射度学模型，深度拆解地球季节变换中的光学滤波机制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="冬天的太阳颜色为什么和夏天的不一样？">
+<meta property="og:url" content="https://time-frame.cloud/2026/01/25/2026-01-25-winter-sun/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="为什么冬天的太阳色温更暖而质感更透？本文通过大气质量(AM)、瑞利散射定律、米氏散射及辐射度学模型，深度拆解地球季节变换中的光学滤波机制。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_105646.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102437.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102627.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_103115.png">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102943.png">
+<meta property="article:published_time" content="2026-01-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光学">
+<meta property="article:tag" content="天文学">
+<meta property="article:tag" content="气象学">
+<meta property="article:tag" content="物理学">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_105646.png">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>冬天的太阳颜色为什么和夏天的不一样？ - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">冬天的太阳颜色为什么和夏天的不一样？</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-25 00:00" pubdate>
+          January 25, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">冬天的太阳颜色为什么和夏天的不一样？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>不知道大家平时有没有注意过，冬天的太阳和夏天的太阳颜色看起来不一样：夏日的太阳如同一枚功率全开、近乎发白的白炽灯，带着令人眩晕的灼热质感；而冬日的阳光却像是一块被精心打磨的暖金色琥珀，色调柔和且边缘锐利。但不都是同一个太阳么，为什么会产生这种不同颜色的差异呢，本文将从其内部原理出发，给出问题的解答。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_105646.png" srcset="/img/loading.gif" lazyload></p>
+<p>虽然太阳本身作为黑体辐射源（表面温度约为 $5778\ K$），其发射的光谱在四季中几乎保持恒定，但作为观测者，我们处于地球大气层底部。大气层充当了一个<strong>动态的光学滤波器</strong>，而季节改变了这个滤波器的物理参数（厚度、介质成分）。</p>
+<p>以下是详细的物理机制拆解：</p>
+<hr>
+<h2 id="1-几何光学：光程与大气质量-Air-Mass"><a href="#1-几何光学：光程与大气质量-Air-Mass" class="headerlink" title="1. 几何光学：光程与大气质量 (Air Mass)"></a>1. 几何光学：光程与大气质量 (Air Mass)</h2><p>这是导致颜色差异的最根本原因。地球自转轴相对于公转轨道平面有 $23.5^\circ$ 的倾角。</p>
+<ul>
+<li><strong>夏季（北半球）：</strong> 太阳直射北回归线附近，正午时太阳高度角（Solar Elevation Angle, $\alpha$）很大，接近天顶。</li>
+<li><strong>冬季（北半球）：</strong> 太阳直射南回归线附近，北半球观测到的太阳高度角 $\alpha$ 显著降低。</li>
+</ul>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102437.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="大气质量-AM-的概念"><a href="#大气质量-AM-的概念" class="headerlink" title="大气质量 (AM) 的概念"></a>大气质量 (AM) 的概念</h3><p>在光学和光伏领域，我们用 <strong>Air Mass (AM)</strong> 来量化光线穿过大气的路径长度。如果天顶方向的路径为 1，那么任意角度的路径长度 $AM$ 近似为：<br>$$<br>AM \approx \frac{1}{\cos(\theta_z)} &#x3D; \frac{1}{\sin(\alpha)}<br>$$<br>其中 $\theta_z$ 是天顶角（Zenith Angle）。</p>
+<ul>
+<li><strong>夏天：</strong> 太阳几乎垂直入射，$\alpha \approx 80^\circ$-$90^\circ$，光程最短，$AM \approx 1$。光线受到的衰减最少。</li>
+<li><strong>冬天：</strong> 太阳斜射，$\alpha$ 可能只有 $30^\circ$-$40^\circ$ 甚至更低，光程显著增加，$AM$ 值可能达到 2 或 3 以上。这意味着光线要穿过比夏天厚 <strong>2 到 3 倍</strong> 的大气层才能到达你的眼睛。</li>
+</ul>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102627.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="2-散射物理：瑞利散射与光谱过滤"><a href="#2-散射物理：瑞利散射与光谱过滤" class="headerlink" title="2. 散射物理：瑞利散射与光谱过滤"></a>2. 散射物理：瑞利散射与光谱过滤</h2><p>光在大气中传播距离变长，会发生什么？这涉及两个核心散射机制：</p>
+<h3 id="A-瑞利散射-Rayleigh-Scattering-——-颜色的决定者"><a href="#A-瑞利散射-Rayleigh-Scattering-——-颜色的决定者" class="headerlink" title="A. 瑞利散射 (Rayleigh Scattering) —— 颜色的决定者"></a>A. 瑞利散射 (Rayleigh Scattering) —— 颜色的决定者</h3><p>当光与大气中的气体分子（尺寸远小于光波长，如 $N_2, O_2$）相互作用时，发生瑞利散射。其散射强度 $I$ 与波长 $\lambda$ 的关系为：<br>$$<br>I \propto \frac{1}{\lambda^4}<br>$$</p>
+<p>这意味着：<strong>波长越短（蓝紫光），被散射得越强；波长越长（红黄光），穿透力越强。</strong></p>
+<ul>
+<li><strong>夏天的“白色&#x2F;浅黄”：</strong> 由于 $AM \approx 1$，光程短，只有少量的短波（蓝光）被散射掉。剩下的光谱成分依然很全，混合在一起呈现出极其明亮的<strong>白色</strong>，仅带有轻微的黄色调。</li>
+<li><strong>冬天的“金色&#x2F;橙红”：</strong> 由于 $AM &gt; 2$，光程极长。在长途跋涉中，绝大部分的高频短波（蓝、靛、紫、甚至部分绿光）都被大气分子散射到了四面八方（这也是为什么晴朗的冬日天空特别蓝）。最终能够直线穿透到达人眼的，主要是低频的长波（<strong>黄、橙、红</strong>）。因此，太阳呈现出柔和的金色。</li>
+</ul>
+<h3 id="B-米氏散射-Mie-Scattering-——-质感的决定者"><a href="#B-米氏散射-Mie-Scattering-——-质感的决定者" class="headerlink" title="B. 米氏散射 (Mie Scattering) —— 质感的决定者"></a>B. 米氏散射 (Mie Scattering) —— 质感的决定者</h3><p>当光与尺寸接近或大于波长的微粒（如水滴、气溶胶、灰尘）作用时，发生米氏散射。这种散射对波长不敏感（全波段散射），呈现<strong>白色</strong>。</p>
+<ul>
+<li><strong>夏天的“朦胧感”：</strong> 夏季高温导致空气湿度大，悬浮水汽多。强烈的米氏散射将所有颜色的光混合散射，导致天空呈现<strong>灰白色</strong>或<strong>乳白色</strong>，太阳周围有一圈明亮的“光晕”，视觉上显得非常刺眼且浑浊。</li>
+<li><strong>冬天的“通透感”：</strong> 冬季气温低，冷空气保持水分的能力极差（绝对湿度低）。空气中水汽含量少，米氏散射大大减弱。此时瑞利散射占主导，导致光线非常**“干”<strong>和</strong>“透”**，阴影边缘清晰锐利。</li>
+</ul>
+<hr>
+<h2 id="3-辐射度学：光通量密度的稀释"><a href="#3-辐射度学：光通量密度的稀释" class="headerlink" title="3. 辐射度学：光通量密度的稀释"></a>3. 辐射度学：光通量密度的稀释</h2><p>为什么冬天的太阳看起来没有那么“毒辣”？除了大气衰减，还有一个几何投影的问题，遵循<strong>朗伯余弦定律 (Lambert’s Cosine Law)</strong>。</p>
+<p>即使太阳发出的总能量不变，但这束光照射到地面的面积发生了变化。<br>$$<br>E &#x3D; E_0 \cos(\theta_z)<br>$$<br>其中 $E$ 是地面的辐照度（Irradiance, $W&#x2F;m^2$），$E_0$ 是垂直入射时的辐照度。</p>
+<ul>
+<li><strong>夏天：</strong> 光束垂直打在地面，能量集中在最小的面积上，能量密度极高。</li>
+<li><strong>冬天：</strong> 同样一束光，因为倾斜入射，被“涂抹”在了更大的面积上。单位面积接收到的光子数量显著减少。</li>
+</ul>
+<p><strong>结论：</strong> 视觉上，你会觉得冬天的阳光虽然颜色偏暖（金黄），但<strong>亮度（Luminance）</strong> 降低了，不再像夏天那样甚至无法直视。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_103115.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="4-一个反直觉的事实：近日点-Perihelion"><a href="#4-一个反直觉的事实：近日点-Perihelion" class="headerlink" title="4. 一个反直觉的事实：近日点 (Perihelion)"></a>4. 一个反直觉的事实：近日点 (Perihelion)</h2><p>这里有一个物理学上的“冷知识”：</p>
+<p><strong>其实，冬天的太阳比夏天的太阳距离我们要更近一些（针对北半球）。</strong></p>
+<p>地球轨道是椭圆的。</p>
+<ul>
+<li><strong>近日点：</strong> 每年 <strong>1月3日</strong> 左右，地球距离太阳最近（约 1.47 亿公里）。</li>
+<li><strong>远日点：</strong> 每年 <strong>7月4日</strong> 左右，地球距离太阳最远（约 1.52 亿公里）。</li>
+</ul>
+<p>这意味着，在北半球的隆冬时节，到达大气层顶部的太阳辐射其实比夏天要强约 <strong>6.9%</strong>。<br><em>但是</em>，由于前文提到的 <strong>高度角（光程长、投影面积大）</strong> 因素的影响力远超这就距离变化，所以我们依然感觉冬天是寒冷且光线柔和的。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260125_102943.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h2 id="总结：冬夏太阳特征对比表"><a href="#总结：冬夏太阳特征对比表" class="headerlink" title="总结：冬夏太阳特征对比表"></a>总结：冬夏太阳特征对比表</h2><table>
+<thead>
+<tr>
+<th align="left">特征维度</th>
+<th align="left">夏天的太阳</th>
+<th align="left">冬天的太阳</th>
+<th align="left">物理主因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>视觉颜色</strong></td>
+<td align="left">刺眼白、浅黄</td>
+<td align="left">金黄、橙红</td>
+<td align="left"><strong>瑞利散射</strong>（光程 $AM$ 差异）</td>
+</tr>
+<tr>
+<td align="left"><strong>天空质感</strong></td>
+<td align="left">朦胧、乳白蓝</td>
+<td align="left">通透、深邃蓝</td>
+<td align="left"><strong>米氏散射</strong>（空气湿度&#x2F;水汽差异）</td>
+</tr>
+<tr>
+<td align="left"><strong>阴影特征</strong></td>
+<td align="left">短、边缘模糊</td>
+<td align="left">长、边缘锐利</td>
+<td align="left">投影几何 + 散射光比例</td>
+</tr>
+<tr>
+<td align="left"><strong>能量感受</strong></td>
+<td align="left">灼热、暴晒</td>
+<td align="left">温暖、温和</td>
+<td align="left"><strong>朗伯余弦定律</strong>（能量密度分散）</td>
+</tr>
+<tr>
+<td align="left"><strong>地日距离</strong></td>
+<td align="left">较远（远日点）</td>
+<td align="left"><strong>较近（近日点）</strong></td>
+<td align="left">轨道偏心率（虽然近，但由于角度低，依然冷）</td>
+</tr>
+</tbody></table>
+<p>综上所述，冬天的太阳之所以呈现出迷人的金色和通透的质感，本质上是因为我们是在透过一个 <strong>更厚（角度低）</strong> 但 <strong>更纯净（湿度低）</strong> 的大气透镜在观察它。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%A7%91%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%88%86%E6%9E%90/" class="category-chain-item">科学深度分析</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6/" class="print-no-link">#光学</a>
+      
+        <a href="/tags/%E7%89%A9%E7%90%86%E5%AD%A6/" class="print-no-link">#物理学</a>
+      
+        <a href="/tags/%E6%B0%94%E8%B1%A1%E5%AD%A6/" class="print-no-link">#气象学</a>
+      
+        <a href="/tags/%E5%A4%A9%E6%96%87%E5%AD%A6/" class="print-no-link">#天文学</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>冬天的太阳颜色为什么和夏天的不一样？</div>
+      <div>https://time-frame.cloud/2026/01/25/2026-01-25-winter-sun/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 25, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/25/2026-01-25-daily-english/" title="🌍 Daily English: The Unseen World: How Technology Transforms Wildlife Documentaries | 2026-01-25">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🌍 Daily English: The Unseen World: How Technology Transforms Wildlife Documentaries | 2026-01-25</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/24/2026-01-24-daily-english/" title="🌍 Daily English: The Unseen World: How Technology Transforms Wildlife Filmmaking | 2026-01-24">
+                        <span class="hidden-mobile">🌍 Daily English: The Unseen World: How Technology Transforms Wildlife Filmmaking | 2026-01-24</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/01/25/2026-01-25-winter-sun/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

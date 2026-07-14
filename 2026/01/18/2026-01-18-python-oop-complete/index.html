@@ -1,0 +1,919 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、引言：为什么你迟早要面对面向对象很多人在学习 Python 时，会产生一个疑问：  Python 明明可以不用类，为什么还要学面向对象？  这是一个非常合理的问题。 在脚本、小工具、一次性任务中，过程式编程确实更加直接、高效。但当代码开始具备以下特征时，问题就会逐渐显现：  代码文件越来越多 同一类数据被反复传递给不同函数 修改一个功能，牵一发动全身 很难用“自然语言”描述代码结构  这些问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 面向对象编程：从过程式思维到对象模型">
+<meta property="og:url" content="https://time-frame.cloud/2026/01/18/2026-01-18-python-oop-complete/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="一、引言：为什么你迟早要面对面向对象很多人在学习 Python 时，会产生一个疑问：  Python 明明可以不用类，为什么还要学面向对象？  这是一个非常合理的问题。 在脚本、小工具、一次性任务中，过程式编程确实更加直接、高效。但当代码开始具备以下特征时，问题就会逐渐显现：  代码文件越来越多 同一类数据被反复传递给不同函数 修改一个功能，牵一发动全身 很难用“自然语言”描述代码结构  这些问题">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="OOP">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>Python 面向对象编程：从过程式思维到对象模型 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Python 面向对象编程：从过程式思维到对象模型</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-18 00:00" pubdate>
+          January 18, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Python 面向对象编程：从过程式思维到对象模型</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、引言：为什么你迟早要面对面向对象"><a href="#一、引言：为什么你迟早要面对面向对象" class="headerlink" title="一、引言：为什么你迟早要面对面向对象"></a>一、引言：为什么你迟早要面对面向对象</h2><p>很多人在学习 Python 时，会产生一个疑问：</p>
+<blockquote>
+<p>Python 明明可以不用类，为什么还要学面向对象？</p>
+</blockquote>
+<p>这是一个<strong>非常合理的问题</strong>。</p>
+<p>在脚本、小工具、一次性任务中，过程式编程确实更加直接、高效。但当代码开始具备以下特征时，问题就会逐渐显现：</p>
+<ul>
+<li>代码文件越来越多</li>
+<li>同一类数据被反复传递给不同函数</li>
+<li>修改一个功能，牵一发动全身</li>
+<li>很难用“自然语言”描述代码结构</li>
+</ul>
+<p>这些问题，并不是因为你“写得不好”，<br>而是<strong>过程式模型本身不擅长表达复杂系统</strong>。</p>
+<p>面向对象编程，正是为了解决这一类问题而诞生的。</p>
+<hr>
+<h2 id="二、回顾过程式编程的局限"><a href="#二、回顾过程式编程的局限" class="headerlink" title="二、回顾过程式编程的局限"></a>二、回顾过程式编程的局限</h2><p>我们先看一个典型的过程式示例：银行账户系统。</p>
+<pre><code class="hljs">balance = 1000
+
+def deposit(balance, amount):
+    return balance + amount
+
+def withdraw(balance, amount):
+    if amount &gt; balance:
+        raise ValueError(&quot;Insufficient funds&quot;)
+    return balance - amount
+</code></pre>
+<p>这个模型的特点是：</p>
+<ul>
+<li>数据（balance）是“裸露”的</li>
+<li>函数通过参数间接操作数据</li>
+<li>状态的一致性完全依赖调用者的自律</li>
+</ul>
+<p>当系统中只有一个账户时，这样的代码尚可接受；<br>但当账户数量增加时，你很快会遇到问题：</p>
+<ul>
+<li>如何区分不同账户？</li>
+<li>如何保证每个账户的状态不被错误修改？</li>
+<li>如何为不同类型账户增加不同规则？</li>
+</ul>
+<p>此时，代码结构会迅速变得混乱。</p>
+<hr>
+<h2 id="三、对象思维：把“事物”作为第一公民"><a href="#三、对象思维：把“事物”作为第一公民" class="headerlink" title="三、对象思维：把“事物”作为第一公民"></a>三、对象思维：把“事物”作为第一公民</h2><p>面向对象的核心思想可以总结为一句话：</p>
+<p><strong>程序不再围绕“函数”，而是围绕“对象”展开。</strong></p>
+<p>对象具备三个关键特征：</p>
+<ol>
+<li><strong>状态（State）</strong>：对象当前持有的数据</li>
+<li><strong>行为（Behavior）</strong>：对象可以执行的操作</li>
+<li><strong>身份（Identity）</strong>：对象彼此独立、互不干扰</li>
+</ol>
+<p>在现实世界中，我们天然以对象的方式思考问题：</p>
+<ul>
+<li>一个“账户”有余额</li>
+<li>一个“账户”可以存钱、取钱</li>
+<li>不同账户彼此独立</li>
+</ul>
+<p>面向对象只是把这种思维方式映射到了代码中。</p>
+<hr>
+<h2 id="四、类：对象的设计图纸"><a href="#四、类：对象的设计图纸" class="headerlink" title="四、类：对象的设计图纸"></a>四、类：对象的设计图纸</h2><p>在 Python 中，类用于描述一类对象的共同特征。</p>
+<pre><code class="hljs">class BankAccount:
+    def __init__(self, balance):
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            raise ValueError(&quot;Insufficient funds&quot;)
+        self.balance -= amount
+</code></pre>
+<p>这里有几个关键点需要理解：</p>
+<ul>
+<li><code>__init__</code> 是对象的初始化方法</li>
+<li><code>self</code> 代表当前对象本身</li>
+<li>每个方法的第一个参数必须是 <code>self</code></li>
+</ul>
+<p>创建对象时：</p>
+<pre><code class="hljs">account_a = BankAccount(1000)
+account_b = BankAccount(500)
+</code></pre>
+<p>两个对象共享<strong>行为定义</strong>，但拥有<strong>完全独立的状态</strong>。</p>
+<hr>
+<h2 id="五、封装：控制复杂度的第一道防线"><a href="#五、封装：控制复杂度的第一道防线" class="headerlink" title="五、封装：控制复杂度的第一道防线"></a>五、封装：控制复杂度的第一道防线</h2><p>封装（Encapsulation）的本质不是“隐藏”，<br>而是<strong>建立清晰、可控的访问边界</strong>。</p>
+<p>改进账户模型：</p>
+<pre><code class="hljs">class BankAccount:
+    def __init__(self, balance):
+        self._balance = balance
+
+    def deposit(self, amount):
+        if amount &lt;= 0:
+            raise ValueError(&quot;Invalid amount&quot;)
+        self._balance += amount
+
+    def withdraw(self, amount):
+        if amount &gt; self._balance:
+            raise ValueError(&quot;Insufficient funds&quot;)
+        self._balance -= amount
+
+    def get_balance(self):
+        return self._balance
+</code></pre>
+<p>通过封装：</p>
+<ul>
+<li>对象自己负责维护合法状态</li>
+<li>外部代码不能随意破坏内部数据</li>
+<li>错误更早暴露，调试成本更低</li>
+</ul>
+<hr>
+<h2 id="六、继承：表达“是什么”，而不是“像什么”"><a href="#六、继承：表达“是什么”，而不是“像什么”" class="headerlink" title="六、继承：表达“是什么”，而不是“像什么”"></a>六、继承：表达“是什么”，而不是“像什么”</h2><p>继承用于描述<strong>本质上的从属关系</strong>。</p>
+<pre><code class="hljs">class SavingsAccount(BankAccount):
+    def add_interest(self, rate):
+        self._balance *= (1 + rate)
+</code></pre>
+<p>这里的语义是：</p>
+<blockquote>
+<p>储蓄账户 <strong>是一种</strong> 银行账户</p>
+</blockquote>
+<p>继承的价值在于：</p>
+<ul>
+<li>复用成熟、稳定的行为</li>
+<li>在保持一致接口的前提下扩展功能</li>
+<li>构建清晰的类型层级结构</li>
+</ul>
+<p>但需要强调的是：</p>
+<p><strong>继承是强约束关系，应谨慎使用。</strong></p>
+<hr>
+<h2 id="七、多态：面向对象真正的威力所在"><a href="#七、多态：面向对象真正的威力所在" class="headerlink" title="七、多态：面向对象真正的威力所在"></a>七、多态：面向对象真正的威力所在</h2><p>多态并不依赖复杂语法，而是一种设计原则：</p>
+<blockquote>
+<p><strong>面向接口编程，而不是面向具体实现。</strong></p>
+</blockquote>
+<p>示例：</p>
+<pre><code class="hljs">def process_account(account):
+    account.deposit(100)
+</code></pre>
+<p>只要传入的对象具备 <code>deposit</code> 方法，这段代码就可以正常工作。</p>
+<p>这带来的好处是：</p>
+<ul>
+<li>函数无需关心对象的具体类型</li>
+<li>新类型可以无缝接入现有系统</li>
+<li>系统对变化更加“免疫”</li>
+</ul>
+<p>这正是大型系统可扩展性的关键。</p>
+<hr>
+<h2 id="八、何时不该使用面向对象"><a href="#八、何时不该使用面向对象" class="headerlink" title="八、何时不该使用面向对象"></a>八、何时不该使用面向对象</h2><p>面向对象并非银弹。</p>
+<p>以下场景中，过程式或函数式更合适：</p>
+<ul>
+<li>简单数据处理脚本</li>
+<li>明确的数学计算流程</li>
+<li>一次性工具代码</li>
+</ul>
+<p>成熟的工程师，追求的不是“全用 OOP”，<br>而是<strong>在合适的地方使用合适的抽象层级</strong>。</p>
+<hr>
+<h2 id="九、结语：面向对象是一种建模能力"><a href="#九、结语：面向对象是一种建模能力" class="headerlink" title="九、结语：面向对象是一种建模能力"></a>九、结语：面向对象是一种建模能力</h2><p>学习面向对象编程，真正的收获并不是：</p>
+<ul>
+<li>学会 <code>class</code></li>
+<li>学会 <code>self</code></li>
+<li>学会继承语法</li>
+</ul>
+<p>而是学会：</p>
+<blockquote>
+<p><strong>如何把现实世界的问题，映射成稳定、可演化的软件结构。</strong></p>
+</blockquote>
+<p>当你的系统开始“自然地长成一棵树”，<br>而不是一团纠缠的函数调用时，<br>你就真正掌握了面向对象的价值。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Python/" class="category-chain-item">Python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/OOP/" class="print-no-link">#OOP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Python 面向对象编程：从过程式思维到对象模型</div>
+      <div>https://time-frame.cloud/2026/01/18/2026-01-18-python-oop-complete/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 18, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/18/2026-01-18-%20CPO%E6%9C%AC%E8%B4%A8%E9%97%AE%E9%A2%98/" title="为什么说 CPO 的本质问题不是“光”，而是“电”">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">为什么说 CPO 的本质问题不是“光”，而是“电”</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/17/2026-01-17-daily-english/" title="🌍 Daily English: The Lens of Conservation: How Wildlife Documentaries Shape Our Understanding of Nature | 2026-01-17">
+                        <span class="hidden-mobile">🌍 Daily English: The Lens of Conservation: How Wildlife Documentaries Shape Our Understanding of Nature | 2026-01-17</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/01/18/2026-01-18-python-oop-complete/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

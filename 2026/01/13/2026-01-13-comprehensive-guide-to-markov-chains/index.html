@@ -1,0 +1,887 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="未来只取决于现在，而与过去无关。这句看似充满哲学意味的话，是马尔科夫链的核心。从醉汉的随机游走，到 Google 搜索的万亿帝国，再到生成式 AI 的前身，本文将用 5000+ 字的篇幅，深度拆解马尔科夫链的数学之美与工程之力。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【万字长文】上帝掷骰子的规则：马尔科夫链从数学原理到AI应用全解析">
+<meta property="og:url" content="https://time-frame.cloud/2026/01/13/2026-01-13-comprehensive-guide-to-markov-chains/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="未来只取决于现在，而与过去无关。这句看似充满哲学意味的话，是马尔科夫链的核心。从醉汉的随机游走，到 Google 搜索的万亿帝国，再到生成式 AI 的前身，本文将用 5000+ 字的篇幅，深度拆解马尔科夫链的数学之美与工程之力。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-13T14:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T16:26:19.897Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="MCMC">
+<meta property="article:tag" content="PageRank">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="概率论">
+<meta property="article:tag" content="马尔科夫链">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>【万字长文】上帝掷骰子的规则：马尔科夫链从数学原理到AI应用全解析 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">【万字长文】上帝掷骰子的规则：马尔科夫链从数学原理到AI应用全解析</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-13 22:00" pubdate>
+          January 13, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">【万字长文】上帝掷骰子的规则：马尔科夫链从数学原理到AI应用全解析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="引言：被遗忘的记忆"><a href="#引言：被遗忘的记忆" class="headerlink" title="引言：被遗忘的记忆"></a>引言：被遗忘的记忆</h1><p>在这个充满大数据的时代，我们习惯于认为“数据越多越好”，历史数据越长，预测越准确。然而，在 20 世纪初，一位俄国数学家安德烈·马尔科夫 (Andrey Markov) 却提出了一个截然不同的观点。</p>
+<p>他设想了一种系统，在这个系统中，<strong>预测未来的状态，只需要知道现在的状态，而不需要知道过去是如何到达这个状态的。</strong></p>
+<p>这就是著名的<strong>无记忆性 (Memorylessness)</strong>，或者叫<strong>马尔科夫性 (Markov Property)</strong>。</p>
+<p>这听起来似乎是一种对现实的过度简化，但正是这种简化，让我们得以驯服复杂的随机过程。从天气预报到股票波动，从语音识别到 Google 的 PageRank 算法，马尔科夫链 (Markov Chain) 几乎构建了现代随机过程的半壁江山。</p>
+<p>本文将带你从最基础的定义出发，推导其数学本质，解析平稳分布的奥秘，并深入探讨其在 NLP、金融和搜索引擎中的硬核应用。</p>
+<hr>
+<h1 id="第一章：数学原理——醉汉的随机游走"><a href="#第一章：数学原理——醉汉的随机游走" class="headerlink" title="第一章：数学原理——醉汉的随机游走"></a>第一章：数学原理——醉汉的随机游走</h1><h2 id="1-1-定义与直觉"><a href="#1-1-定义与直觉" class="headerlink" title="1.1 定义与直觉"></a>1.1 定义与直觉</h2><p>想象一个醉汉在街上走。每一步，他都有 50% 的概率向前走一步，50% 的概率向后退一步。<br>他在第 $n+1$ 步的位置，只取决于他在第 $n$ 步的位置，而与他在第 $n-1$ 步甚至更早的位置完全无关。</p>
+<p>这就是最简单的<strong>离散时间马尔科夫链</strong>。</p>
+<p><strong>数学定义</strong>：<br>随机过程 ${X_0, X_1, X_2, \dots}$ 是一个马尔科夫链，如果它满足：<br>$$P(X_{n+1} &#x3D; x | X_n &#x3D; x_n, X_{n-1} &#x3D; x_{n-1}, \dots, X_0 &#x3D; x_0) &#x3D; P(X_{n+1} &#x3D; x | X_n &#x3D; x_n)$$</p>
+<p>这意味着：<strong>在已知“现在”的条件下，“未来”与“过去”是独立的。</strong></p>
+<h2 id="1-2-关键要素：状态与转移"><a href="#1-2-关键要素：状态与转移" class="headerlink" title="1.2 关键要素：状态与转移"></a>1.2 关键要素：状态与转移</h2><p>要描述一个马尔科夫链，我们需要三个核心要素：</p>
+<ol>
+<li><p><strong>状态空间 (State Space, $S$)</strong>：<br>系统所有可能处于的状态集合。</p>
+<ul>
+<li><em>例子</em>：天气模型中，$S &#x3D; {\text{晴}, \text{雨}, \text{阴}}$。</li>
+</ul>
+</li>
+<li><p><strong>转移概率 (Transition Probability)</strong>：<br>从状态 $i$ 转移到状态 $j$ 的概率，记为 $p_{ij}$。<br>$$p_{ij} &#x3D; P(X_{n+1} &#x3D; j | X_n &#x3D; i)$$<br>显然，对于任意状态 $i$，转移出去的概率之和必须为 1：$\sum_{j} p_{ij} &#x3D; 1$。</p>
+</li>
+<li><p><strong>转移矩阵 (Transition Matrix, $P$)</strong>：<br>这是马尔科夫链的“引擎”。我们将所有 $p_{ij}$ 排列成一个矩阵：<br>$$<br>P &#x3D; \begin{bmatrix}<br>p_{11} &amp; p_{12} &amp; \dots &amp; p_{1n} \<br>p_{21} &amp; p_{22} &amp; \dots &amp; p_{2n} \<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \<br>p_{n1} &amp; p_{n2} &amp; \dots &amp; p_{nn}<br>\end{bmatrix}<br>$$</p>
+</li>
+</ol>
+<h2 id="1-3-举个栗子：打工人的生活"><a href="#1-3-举个栗子：打工人的生活" class="headerlink" title="1.3 举个栗子：打工人的生活"></a>1.3 举个栗子：打工人的生活</h2><p>假设一个打工人的生活只有三种状态：<strong>工作 (Work)</strong>、<strong>摸鱼 (Slack)</strong>、<strong>睡觉 (Sleep)</strong>。</p>
+<p>转移规则如下：</p>
+<ul>
+<li>工作时：50% 概率继续工作，30% 概率开始摸鱼，20% 概率去睡觉（太累了）。</li>
+<li>摸鱼时：40% 概率回去工作（良心发现），50% 概率继续摸鱼，10% 概率去睡觉。</li>
+<li>睡觉时：20% 概率醒来工作，10% 概率醒来摸鱼，70% 概率继续睡。</li>
+</ul>
+<p>我们可以写出转移矩阵 $P$：<br>$$<br>\begin{matrix}<br> &amp; W &amp; Sl &amp; Sp \<br>W &amp; 0.5 &amp; 0.3 &amp; 0.2 \<br>Sl &amp; 0.4 &amp; 0.5 &amp; 0.1 \<br>Sp &amp; 0.2 &amp; 0.1 &amp; 0.7<br>\end{matrix}<br>$$</p>
+<hr>
+<h1 id="第二章：动态演化——未来的不确定性"><a href="#第二章：动态演化——未来的不确定性" class="headerlink" title="第二章：动态演化——未来的不确定性"></a>第二章：动态演化——未来的不确定性</h1><p>有了矩阵，我们就可以预测未来。</p>
+<h2 id="2-1-n步转移概率"><a href="#2-1-n步转移概率" class="headerlink" title="2.1 n步转移概率"></a>2.1 n步转移概率</h2><p>如果今天是“工作”状态，两天后是“睡觉”状态的概率是多少？<br>这涉及到<strong>Chapman-Kolmogorov 方程</strong>。但在矩阵代数中，这变得异常简单：</p>
+<ul>
+<li>1步转移矩阵：$P$</li>
+<li>2步转移矩阵：$P^{(2)} &#x3D; P \times P &#x3D; P^2$</li>
+<li>n步转移矩阵：$P^{(n)} &#x3D; P^n$</li>
+</ul>
+<p>如果初始状态分布向量为 $\pi_0$（例如 $[1, 0, 0]$ 代表初始在工作），那么 $n$ 步之后的状态分布 $\pi_n$ 为：<br>$$\pi_n &#x3D; \pi_0 \cdot P^n$$</p>
+<p>这展示了马尔科夫链的强大之处：<strong>线性代数（矩阵乘法）可以完美模拟随机系统的演化。</strong></p>
+<h2 id="2-2-终极归宿：平稳分布-Stationary-Distribution"><a href="#2-2-终极归宿：平稳分布-Stationary-Distribution" class="headerlink" title="2.2 终极归宿：平稳分布 (Stationary Distribution)"></a>2.2 终极归宿：平稳分布 (Stationary Distribution)</h2><p>随着时间推移 ($n \to \infty$)，系统会发生什么？<br>在很多情况下，系统会进入一个<strong>动态平衡</strong>状态。无论初始状态是什么，最终处于各个状态的概率会趋于稳定。</p>
+<p>这个稳定的概率分布 $\pi$ 称为<strong>平稳分布</strong>，它满足：<br>$$\pi &#x3D; \pi P$$</p>
+<p>这是一个特征值问题！<br>这意味着 $\pi$ 是矩阵 $P$ 的左特征向量，且对应的特征值为 1。</p>
+<p><strong>并不是所有马尔科夫链都有平稳分布</strong>。它需要满足两个条件：</p>
+<ol>
+<li><strong>不可约性 (Irreducibility)</strong>：从任意一个状态出发，都有可能到达任意其他状态（没有黑洞，也没有孤岛）。</li>
+<li><strong>非周期性 (Aperiodicity)</strong>：系统不会陷入死板的循环（比如 1-&gt;2-&gt;1-&gt;2…）。</li>
+</ol>
+<p>满足这两个条件的链被称为<strong>遍历的 (Ergodic)</strong>。对于打工人模型，只要算出 $\pi P &#x3D; \pi$，我们就能知道长期来看，他到底有多少比例的时间在摸鱼。</p>
+<hr>
+<h1 id="第三章：进阶模型——HMM-与-MCMC"><a href="#第三章：进阶模型——HMM-与-MCMC" class="headerlink" title="第三章：进阶模型——HMM 与 MCMC"></a>第三章：进阶模型——HMM 与 MCMC</h1><p>基础马尔科夫链假设状态是可见的。但在现实中，我们往往只能看到表象。</p>
+<h2 id="3-1-隐马尔科夫模型-HMM"><a href="#3-1-隐马尔科夫模型-HMM" class="headerlink" title="3.1 隐马尔科夫模型 (HMM)"></a>3.1 隐马尔科夫模型 (HMM)</h2><p>假设你看不见天气（状态 $X$），只能看到朋友发的朋友圈是“去公园”、“看电影”还是“宅在家”（观测值 $O$）。<br>你需要通过观测值序列，反推背后的天气序列。</p>
+<p>HMM 包含两个过程：</p>
+<ol>
+<li><strong>状态转移</strong>：天气随时间变化（马尔科夫链）。</li>
+<li><strong>发射概率</strong>：特定天气下产生特定行为的概率。</li>
+</ol>
+<p>HMM 是语音识别（前深度学习时代）和生物信息学（DNA 序列分析）的基石。解决 HMM 主要有三个算法：</p>
+<ul>
+<li><strong>前向算法</strong>：算概率。</li>
+<li><strong>Viterbi 算法</strong>：找最可能的隐藏路径（比如 Siri 听音辨字）。</li>
+<li><strong>Baum-Welch 算法</strong>：参数学习。</li>
+</ul>
+<h2 id="3-2-马尔科夫链蒙特卡洛-MCMC"><a href="#3-2-马尔科夫链蒙特卡洛-MCMC" class="headerlink" title="3.2 马尔科夫链蒙特卡洛 (MCMC)"></a>3.2 马尔科夫链蒙特卡洛 (MCMC)</h2><p>这可能是物理学和贝叶斯统计中最重要的算法之一。<br>当我们面临一个极其复杂的高维分布（比如计算核反应堆的积分，或者贝叶斯推断中的后验概率），直接计算是不可能的。</p>
+<p>MCMC 的思路是：<strong>设计一个马尔科夫链，让它的平稳分布恰好等于我们想要采样的目标分布。</strong><br>然后，我们在计算机里模拟这个链的随机游走。等它收敛（Burn-in）之后，记录下的样本就服从目标分布。</p>
+<p>著名的 <strong>Metropolis-Hastings 算法</strong> 和 <strong>Gibbs 采样</strong> 就是构建这种马尔科夫链的具体方法。</p>
+<hr>
+<h1 id="第四章：皇冠上的明珠——Google-PageRank"><a href="#第四章：皇冠上的明珠——Google-PageRank" class="headerlink" title="第四章：皇冠上的明珠——Google PageRank"></a>第四章：皇冠上的明珠——Google PageRank</h1><p>如果说马尔科夫链有什么价值万亿的应用，那一定是 Google 的 <strong>PageRank</strong>。</p>
+<h2 id="4-1-互联网的图模型"><a href="#4-1-互联网的图模型" class="headerlink" title="4.1 互联网的图模型"></a>4.1 互联网的图模型</h2><p>在 Google 出现之前，搜索引擎主要靠关键词匹配。Larry Page 和 Sergey Brin 认为：网页的重要性不应由关键词决定，而应由<strong>有多少重要的网页链接到它</strong>来决定。</p>
+<p>他们把整个互联网看作一张图：</p>
+<ul>
+<li><strong>网页</strong> &#x3D; 状态</li>
+<li><strong>超链接</strong> &#x3D; 转移路径</li>
+</ul>
+<h2 id="4-2-随机冲浪者模型-Random-Surfer"><a href="#4-2-随机冲浪者模型-Random-Surfer" class="headerlink" title="4.2 随机冲浪者模型 (Random Surfer)"></a>4.2 随机冲浪者模型 (Random Surfer)</h2><p>想象一个用户在互联网上随机点击链接浏览。</p>
+<ul>
+<li>如果他在网页 A，且 A 有 3 个外链，那么他点击每个链接的概率是 $1&#x2F;3$。</li>
+<li>他长期停留在某个网页的概率，就代表了这个网页的<strong>权重 (PageRank 值)</strong>。</li>
+</ul>
+<p>这本质上就是求互联网这个巨大马尔科夫链的<strong>平稳分布</strong>！</p>
+<h2 id="4-3-修正：阻尼因子-Damping-Factor"><a href="#4-3-修正：阻尼因子-Damping-Factor" class="headerlink" title="4.3 修正：阻尼因子 (Damping Factor)"></a>4.3 修正：阻尼因子 (Damping Factor)</h2><p>互联网图有一个大问题：<strong>死胡同 (Dangling Nodes)</strong> 和 <strong>蜘蛛陷阱 (Spider Traps)</strong>。</p>
+<ul>
+<li>如果一个网页没有外链，用户就卡死了。</li>
+<li>如果几个网页互相指，用户就出不去了。</li>
+</ul>
+<p>为了解决这个问题（保证马尔科夫链的不可约性和非周期性），Google 引入了<strong>阻尼因子 $\alpha$</strong>（通常取 0.85）。</p>
+<p><strong>规则变为</strong>：<br>用户有 85% 的概率通过链接跳转；<br>有 15% 的概率感到厌倦，<strong>随机瞬移</strong>到互联网上的任意一个网页。</p>
+<p>修正后的 PageRank 公式：<br>$$PR(u) &#x3D; \frac{1-\alpha}{N} + \alpha \sum_{v \in B(u)} \frac{PR(v)}{L(v)}$$<br>这保证了平稳分布一定存在且唯一。Google 就是通过不断迭代计算这个矩阵乘法，给全球网页排座次。</p>
+<hr>
+<h1 id="第五章：自然语言处理——从-N-gram-到-GPT"><a href="#第五章：自然语言处理——从-N-gram-到-GPT" class="headerlink" title="第五章：自然语言处理——从 N-gram 到 GPT"></a>第五章：自然语言处理——从 N-gram 到 GPT</h1><p>在 ChatGPT 出现之前，语言模型本质上就是高阶马尔科夫链。</p>
+<h2 id="5-1-N-gram-模型"><a href="#5-1-N-gram-模型" class="headerlink" title="5.1 N-gram 模型"></a>5.1 N-gram 模型</h2><p>语言生成的任务是：已知前面的词，预测下一个词。<br>$$P(w_n | w_{n-1}, w_{n-2}, \dots)$$</p>
+<ul>
+<li><strong>1-gram (Unigram)</strong>：词之间独立。说话像精神分裂。</li>
+<li><strong>2-gram (Bigram)</strong>：一阶马尔科夫链。下一个词只取决于前一个词。<ul>
+<li><em>例子</em>：看到 “New”，大概率接 “York”。</li>
+</ul>
+</li>
+<li><strong>N-gram</strong>：$N-1$ 阶马尔科夫链。</li>
+</ul>
+<h2 id="5-2-局限性与突破"><a href="#5-2-局限性与突破" class="headerlink" title="5.2 局限性与突破"></a>5.2 局限性与突破</h2><p>马尔科夫链最大的问题是<strong>长程依赖 (Long-term Dependency)</strong> 缺失。<br>受限于计算量，我们无法建立非常高阶的马尔科夫链。这导致传统模型“记不住”很长以前的主语。<br>后来的 RNN（循环神经网络）和 Transformer（注意力机制），本质上就是为了打破马尔科夫假设的限制，让模型能够拥有“无限”的记忆窗口。</p>
+<hr>
+<h1 id="第六章：Python-实战——预测股票市场趋势"><a href="#第六章：Python-实战——预测股票市场趋势" class="headerlink" title="第六章：Python 实战——预测股票市场趋势"></a>第六章：Python 实战——预测股票市场趋势</h1><p>为了让大家更有体感，我们用 Python 写一个简单的马尔科夫链来模拟市场状态。假设市场有三种状态：<strong>牛市 (Bull)</strong>、<strong>熊市 (Bear)</strong>、<strong>震荡 (Stagnant)</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-comment"># 1. 定义状态空间</span><br>states = [<span class="hljs-string">&quot;Bull&quot;</span>, <span class="hljs-string">&quot;Bear&quot;</span>, <span class="hljs-string">&quot;Stagnant&quot;</span>]<br>state_map = &#123;<span class="hljs-number">0</span>: <span class="hljs-string">&quot;Bull&quot;</span>, <span class="hljs-number">1</span>: <span class="hljs-string">&quot;Bear&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;Stagnant&quot;</span>&#125;<br><br><span class="hljs-comment"># 2. 定义转移矩阵 P</span><br><span class="hljs-comment"># rows: [Current State], cols: [Next State]</span><br><span class="hljs-comment"># Bull -&gt; [0.9, 0.075, 0.025] (牛市大概率持续)</span><br><span class="hljs-comment"># Bear -&gt; [0.15, 0.8, 0.05] (熊市也容易持续)</span><br><span class="hljs-comment"># Stag -&gt; [0.25, 0.25, 0.5] (震荡市容易变盘)</span><br>P = np.array([<br>    [<span class="hljs-number">0.9</span>, <span class="hljs-number">0.075</span>, <span class="hljs-number">0.025</span>],<br>    [<span class="hljs-number">0.15</span>, <span class="hljs-number">0.8</span>, <span class="hljs-number">0.05</span>],<br>    [<span class="hljs-number">0.25</span>, <span class="hljs-number">0.25</span>, <span class="hljs-number">0.5</span>]<br>])<br><br><span class="hljs-comment"># 3. 模拟随机游走</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">simulate_market</span>(<span class="hljs-params">days=<span class="hljs-number">100</span>, start_state=<span class="hljs-number">0</span></span>):<br>    current_state = start_state<br>    history = [current_state]<br>    <br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(days):<br>        <span class="hljs-comment"># np.random.choice 根据概率分布进行抽样</span><br>        next_state = np.random.choice(<br>            [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], <br>            p=P[current_state]<br>        )<br>        history.append(next_state)<br>        current_state = next_state<br>        <br>    <span class="hljs-keyword">return</span> history<br><br><span class="hljs-comment"># 4. 计算平稳分布 (Endgame)</span><br><span class="hljs-comment"># πP = π =&gt; π(P - I) = 0</span><br><span class="hljs-comment"># 这是一个线性方程组求解问题，也可以通过矩阵多次幂逼近</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_stationary_distribution</span>(<span class="hljs-params">P</span>):<br>    <span class="hljs-comment"># 方法：计算 P 的 100 次方</span><br>    P_n = np.linalg.matrix_power(P, <span class="hljs-number">1000</span>)<br>    <span class="hljs-keyword">return</span> P_n[<span class="hljs-number">0</span>]<br><br><span class="hljs-comment"># --- 运行 ---</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;--- 转移矩阵 ---&quot;</span>)<br><span class="hljs-built_in">print</span>(P)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n--- 长期平稳分布 ---&quot;</span>)<br>stationary = get_stationary_distribution(P)<br><span class="hljs-keyword">for</span> s, prob <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(states, stationary):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;s&#125;</span>: <span class="hljs-subst">&#123;prob:<span class="hljs-number">.2</span>%&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 绘图模拟路径</span><br>history = simulate_market(<span class="hljs-number">50</span>, start_state=<span class="hljs-number">1</span>) <span class="hljs-comment"># 从熊市开始</span><br>plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">4</span>))<br>plt.plot(history, <span class="hljs-string">&#x27;o-&#x27;</span>, alpha=<span class="hljs-number">0.6</span>)<br>plt.yticks([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], states)<br>plt.title(<span class="hljs-string">&quot;Market Regime Switching Simulation (Markov Chain)&quot;</span>)<br>plt.grid(<span class="hljs-literal">True</span>, axis=<span class="hljs-string">&#x27;y&#x27;</span>)<br>plt.show()<br><br></code></pre></td></tr></table></figure>
+
+<p>代码解读<br>运行上述代码，你会发现，无论你从牛市还是熊市开始，经过足够长的时间（比如 1000 天），市场处于“牛市”的概率会稳定在 62.5% 左右（这是由我们设定的矩阵决定的）。这就是平稳分布的魔力——它揭示了系统的内在属性。</p>
+<h1 id="结语：简化的哲学"><a href="#结语：简化的哲学" class="headerlink" title="结语：简化的哲学"></a>结语：简化的哲学</h1><p>马尔科夫链之所以伟大，不在于它完美地描述了世界，而在于它提供了一种**“可计算的近似”**。</p>
+<p>现实世界当然不是无记忆的。股票今天的价格受一年前政策的影响，你今天的心情受童年经历的影响。但是，如果我们试图考虑所有历史因素，模型将变得极其复杂而无法求解。</p>
+<p>马尔科夫假设告诉我们：有时候，抓住“当下”，就足以把握“未来”。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" class="category-chain-item">人工智能</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MCMC/" class="print-no-link">#MCMC</a>
+      
+        <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" class="print-no-link">#概率论</a>
+      
+        <a href="/tags/%E6%95%B0%E5%AD%A6/" class="print-no-link">#数学</a>
+      
+        <a href="/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E9%93%BE/" class="print-no-link">#马尔科夫链</a>
+      
+        <a href="/tags/PageRank/" class="print-no-link">#PageRank</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【万字长文】上帝掷骰子的规则：马尔科夫链从数学原理到AI应用全解析</div>
+      <div>https://time-frame.cloud/2026/01/13/2026-01-13-comprehensive-guide-to-markov-chains/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 13, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/14/2026-01-14-principles-of-super-resolution/" title="打破物理与算法的边界：超分辨率成像原理深度解析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">打破物理与算法的边界：超分辨率成像原理深度解析</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/13/2026-01-13-mtf-calculation-principle/" title="从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF/ESF 转换">
+                        <span class="hidden-mobile">从模糊的一个点说起：深度解析 MTF 的计算原理与 PSF/ESF 转换</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/01/13/2026-01-13-comprehensive-guide-to-markov-chains/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

@@ -1,0 +1,836 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么显微镜的焦距稍微动一下就模糊，而拍风景时怎么拍都清晰？景深在物方，焦深在像方，两者之间竟然藏着一个纵向放大率 M² 的秘密。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🔭 光学笔记：景深(Depth of Field)与焦深(Depth of Focus)">
+<meta property="og:url" content="https://time-frame.cloud/2026/01/08/2026-01-08-dof-vs-depth-of-focus/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="为什么显微镜的焦距稍微动一下就模糊，而拍风景时怎么拍都清晰？景深在物方，焦深在像方，两者之间竟然藏着一个纵向放大率 M² 的秘密。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260108_102629.png">
+<meta property="article:published_time" content="2026-01-08T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="光学设计">
+<meta property="article:tag" content="摄影光学">
+<meta property="article:tag" content="显微镜">
+<meta property="article:tag" content="物理公式">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260108_102629.png">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>🔭 光学笔记：景深(Depth of Field)与焦深(Depth of Focus) - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">🔭 光学笔记：景深(Depth of Field)与焦深(Depth of Focus)</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-08 20:00" pubdate>
+          January 8, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🔭 光学笔记：景深(Depth of Field)与焦深(Depth of Focus)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在光学设计和摄影领域，有两个概念经常被混淆：<strong>景深 (Depth of Field, DOF)</strong> 和 <strong>焦深 (Depth of Focus)</strong>。</p>
+<p>很多人以为它们是一回事，其实它们分别位于透镜的两端：</p>
+<ul>
+<li><strong>景深</strong>：管的是<strong>物方 (Object Space)</strong>，决定了你能把多厚的物体拍清楚。</li>
+<li><strong>焦深</strong>：管的是<strong>像方 (Image Space)</strong>，决定了你的探测器（CCD&#x2F;CMOS）安装误差能有多大。</li>
+</ul>
+<p>今天我们就从几何光学和波动光学两个层面，硬核推导它们的计算公式及内在联系。</p>
+<hr>
+<h2 id="01-几何示意图：一切的起点"><a href="#01-几何示意图：一切的起点" class="headerlink" title="01. 几何示意图：一切的起点"></a>01. 几何示意图：一切的起点</h2><p>首先，必须建立几何直观。<br>光学系统不是理想的点对点成像，光斑总是有大小的。当光斑直径小于某个<strong>允许值</strong>（比如相机的像素尺寸，或人眼的容许弥散圆）时，我们就认为它是“清晰”的。</p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260108_102629.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>左边（物方）</strong>：物体前后移动一段距离 $\Delta L$，像面上的光斑依然足够小，这段 $\Delta L$ 就是<strong>景深</strong>。</li>
+<li><strong>右边（像方）</strong>：探测器前后移动一段距离 $\Delta z’$，接收到的光斑依然足够小，这段 $\Delta z’$ 就是<strong>焦深</strong>。</li>
+</ul>
+<hr>
+<h2 id="02-景深-Depth-of-Field-DOF-——-摄影师的战场"><a href="#02-景深-Depth-of-Field-DOF-——-摄影师的战场" class="headerlink" title="02. 景深 (Depth of Field, DOF) —— 摄影师的战场"></a>02. 景深 (Depth of Field, DOF) —— 摄影师的战场</h2><p>景深主要取决于三个要素：<strong>光圈 ($F&#x2F;#$)、焦距 ($f$)、拍摄距离 ($L$)</strong>。</p>
+<h3 id="几何推导-Geometric-Derivation"><a href="#几何推导-Geometric-Derivation" class="headerlink" title="几何推导 (Geometric Derivation)"></a>几何推导 (Geometric Derivation)</h3><p>基于相似三角形，我们可以推导出前景深和后景深。这里直接给出最常用的<strong>工程近似公式</strong>（适用于中远距离拍摄）：</p>
+<p>$$DOF \approx \frac{2 \cdot N \cdot \delta \cdot L^2}{f^2}$$</p>
+<ul>
+<li>$N$：光圈值 ($F$-number, 如 2.8, 8.0)。</li>
+<li>$\delta$：容许弥散圆直径 (Circle of Confusion, CoC)。通常全画幅相机取 0.03mm。</li>
+<li>$L$：对焦距离。</li>
+<li>$f$：镜头焦距。</li>
+</ul>
+<h3 id="深入分析"><a href="#深入分析" class="headerlink" title="深入分析"></a>深入分析</h3><ol>
+<li><strong>光圈越小 ($N$ 越大)</strong> $\rightarrow$ 景深越大。（F16 拍风景，F1.8 拍人像虚化）</li>
+<li><strong>焦距越短 (广角)</strong> $\rightarrow$ 景深越大。（这就是为什么手机很难拍出光学虚化，因为 $f$ 太短了）</li>
+<li><strong>距离越远</strong> $\rightarrow$ 景深越大。</li>
+</ol>
+<hr>
+<h2 id="03-焦深-Depth-of-Focus-——-光学工程师的战场"><a href="#03-焦深-Depth-of-Focus-——-光学工程师的战场" class="headerlink" title="03. 焦深 (Depth of Focus) —— 光学工程师的战场"></a>03. 焦深 (Depth of Focus) —— 光学工程师的战场</h2><p>焦深对 Zemax 设计师和光刻机工程师至关重要。它决定了系统的<strong>装调公差</strong>。<br>焦深的定义主要有两种标准：几何标准和物理标准。</p>
+<h3 id="1-几何焦深-Geometric-Depth-of-Focus"><a href="#1-几何焦深-Geometric-Depth-of-Focus" class="headerlink" title="1. 几何焦深 (Geometric Depth of Focus)"></a>1. 几何焦深 (Geometric Depth of Focus)</h3><p>受限于探测器像素大小（Pixel Size）。假设像素大小为 $p$，光圈数为 $F&#x2F;#$ (即 $N$)。</p>
+<p>$$\Delta z’_{geo} \approx 2 \cdot N \cdot p$$</p>
+<ul>
+<li><strong>含义</strong>：如果你的光圈是 F&#x2F;4，像素是 3um，那么你的对焦误差不能超过 $2 \times 4 \times 3\mu m &#x3D; 24\mu m$。</li>
+</ul>
+<h3 id="2-物理焦深-Diffraction-Limited-Depth-of-Focus"><a href="#2-物理焦深-Diffraction-Limited-Depth-of-Focus" class="headerlink" title="2. 物理焦深 (Diffraction Limited Depth of Focus)"></a>2. 物理焦深 (Diffraction Limited Depth of Focus)</h3><p>当光学系统接近衍射极限（如光刻机、高倍显微镜）时，必须用瑞利判据 (Rayleigh Criterion) 计算。<br>这里引入数值孔径 <strong>$NA &#x3D; n \sin\theta$</strong>。</p>
+<p>$$\Delta z’_{diff} &#x3D; \pm \frac{\lambda}{2 \cdot (NA)^2}$$</p>
+<ul>
+<li>$\lambda$：工作波长。</li>
+<li>$NA$：像方数值孔径。</li>
+</ul>
+<h3 id="深入分析：光刻机的噩梦"><a href="#深入分析：光刻机的噩梦" class="headerlink" title="深入分析：光刻机的噩梦"></a>深入分析：光刻机的噩梦</h3><p>在浸没式光刻中，为了追求极致的分辨率，NA 越做越大（接近 1.35）。<br>由公式可知，<strong>焦深与 NA 的平方成反比</strong>。</p>
+<ul>
+<li>这意味着：分辨率提高一倍，焦深会缩水四倍！</li>
+<li>结果：晶圆表面的平整度要求必须极高，稍微有一点起伏，电路就刻糊了。</li>
+</ul>
+<hr>
+<h2 id="04-终极关联：纵向放大率的秘密"><a href="#04-终极关联：纵向放大率的秘密" class="headerlink" title="04. 终极关联：纵向放大率的秘密"></a>04. 终极关联：纵向放大率的秘密</h2><p>景深（物）和焦深（像）是孤立的吗？当然不是。<br>它们通过<strong>纵向放大率 (Longitudinal Magnification, $\alpha$)</strong> 联系在一起。</p>
+<p>我们知道<strong>垂轴放大率</strong>（倍率）是 $M &#x3D; y’&#x2F;y$。<br>而<strong>纵向放大率</strong>（轴向移动量的比值）是：<br>$$\alpha &#x3D; \frac{dz’}{dz} \approx M^2$$</p>
+<p><strong>这个公式揭示了光学设计的深刻直觉：</strong></p>
+<h3 id="场景-A：显微镜-M-gg-1"><a href="#场景-A：显微镜-M-gg-1" class="headerlink" title="场景 A：显微镜 ($M \gg 1$)"></a>场景 A：显微镜 ($M \gg 1$)</h3><ul>
+<li>假设 $M &#x3D; 100$ (100倍物镜)。</li>
+<li>$M^2 &#x3D; 10000$。</li>
+<li><strong>结论</strong>：像方（焦深）是物方（景深）的 10000 倍！</li>
+<li><strong>现象</strong>：你看显微镜时，稍微转动微调旋钮（物方移动微米级），图像就模糊了（景深极浅）；但你的眼睛或者相机稍微前后挪动几厘米（像方移动），图像依然清晰（焦深很大）。</li>
+</ul>
+<h3 id="场景-B：航拍-安防相机-M-ll-1"><a href="#场景-B：航拍-安防相机-M-ll-1" class="headerlink" title="场景 B：航拍&#x2F;安防相机 ($M \ll 1$)"></a>场景 B：航拍&#x2F;安防相机 ($M \ll 1$)</h3><ul>
+<li>假设 $M &#x3D; 1&#x2F;1000$ (拍远处的车)。</li>
+<li>$M^2 &#x3D; 1&#x2F;1000000$。</li>
+<li><strong>结论</strong>：像方（焦深）是物方（景深）的百万分之一！</li>
+<li><strong>现象</strong>：外面的车前后开几十米你都觉得清楚（景深极大）；但相机模组里的传感器如果装歪了 10 微米，画面就糊了（焦深极浅）。</li>
+</ul>
+<hr>
+<h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05. 总结"></a>05. 总结</h2><p>在 Zemax 优化时，我们关注的是 <strong>Through Focus MTF</strong> 曲线，这本质上就是在检查<strong>焦深</strong>。</p>
+<ul>
+<li><strong>景深 (DOF)</strong>：是<strong>给用户用的</strong>。如果你做安防镜头，你要保证景深够大，让用户看清远近的目标。</li>
+<li><strong>焦深 (Focus Depth)</strong>：是<strong>给工厂用的</strong>。它决定了你的镜头和传感器在组装时的精度要求 (Tolerance)。</li>
+</ul>
+<p>记住那个魔法公式：<strong>焦深 $\approx$ 景深 $\times M^2$</strong>。<br>理解了它，你就打通了物象空间的任督二脉。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%89%E5%AD%A6%E7%90%86%E8%AE%BA/" class="category-chain-item">光学理论</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6%E8%AE%BE%E8%AE%A1/" class="print-no-link">#光学设计</a>
+      
+        <a href="/tags/%E7%89%A9%E7%90%86%E5%85%AC%E5%BC%8F/" class="print-no-link">#物理公式</a>
+      
+        <a href="/tags/%E6%91%84%E5%BD%B1%E5%85%89%E5%AD%A6/" class="print-no-link">#摄影光学</a>
+      
+        <a href="/tags/%E6%98%BE%E5%BE%AE%E9%95%9C/" class="print-no-link">#显微镜</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🔭 光学笔记：景深(Depth of Field)与焦深(Depth of Focus)</div>
+      <div>https://time-frame.cloud/2026/01/08/2026-01-08-dof-vs-depth-of-focus/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 8, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/08/2026-01-08-laplacian-and-maxwell/" title="数理物理方法笔记：微分算子与拉普拉斯算子 (∇²) 的运算机制解析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数理物理方法笔记：微分算子与拉普拉斯算子 (∇²) 的运算机制解析</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/08/2026-01-08-daily-english/" title="🌍 Daily English: The Alchemy of Ideas: How TED Talks Transform Minds and Societies | 2026-01-08">
+                        <span class="hidden-mobile">🌍 Daily English: The Alchemy of Ideas: How TED Talks Transform Minds and Societies | 2026-01-08</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/01/08/2026-01-08-dof-vs-depth-of-focus/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

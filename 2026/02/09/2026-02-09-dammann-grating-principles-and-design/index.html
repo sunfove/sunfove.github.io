@@ -1,0 +1,848 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="从标量衍射理论出发，深入剖析达曼光栅（Dammann Grating）的工作机制。本文将推导其二元相位调制的数学本质，探讨从非线性方程组求解到模拟退火算法的优化路径，并分析其在现代激光雷达与光互连中的核心应用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光子学的精密分束：深入解析达曼光栅 (Dammann Grating) 的物理原理与数学设计">
+<meta property="og:url" content="https://time-frame.cloud/2026/02/09/2026-02-09-dammann-grating-principles-and-design/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="从标量衍射理论出发，深入剖析达曼光栅（Dammann Grating）的工作机制。本文将推导其二元相位调制的数学本质，探讨从非线性方程组求解到模拟退火算法的优化路径，并分析其在现代激光雷达与光互连中的核心应用。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-02-09T06:30:00.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Diffraction">
+<meta property="article:tag" content="Math">
+<meta property="article:tag" content="Optics">
+<meta property="article:tag" content="Photonics">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>光子学的精密分束：深入解析达曼光栅 (Dammann Grating) 的物理原理与数学设计 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">光子学的精密分束：深入解析达曼光栅 (Dammann Grating) 的物理原理与数学设计</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-02-09 14:30" pubdate>
+          February 9, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">光子学的精密分束：深入解析达曼光栅 (Dammann Grating) 的物理原理与数学设计</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在现代光学系统中，如何将一束激光高效、均匀地分裂成多束光，是一个极具挑战性的基础问题。从面部识别中的点阵投影，到光通信中的并行处理，再到激光加工中的多点焊接，<strong>分束（Beam Splitting）</strong> 都是核心环节。</p>
+<p>传统的半透半反镜（Beam Splitter）难以实现大规模阵列分束；全息透镜（HOE）虽然灵活但效率和均匀性往往受限。1971年，H. Dammann 和 K. Görtler 提出了一种特殊的二元相位光栅——<strong>达曼光栅（Dammann Grating）</strong>，它以极其优雅的数学形式解决了这一物理难题。</p>
+<p>本文将摒弃浅层的现象描述，从<strong>波动光学的标量衍射理论</strong>出发，推导达曼光栅的物理本质，并深入探讨其背后的数学优化逻辑。</p>
+<h2 id="1-物理本源：为何选择二元相位？"><a href="#1-物理本源：为何选择二元相位？" class="headerlink" title="1. 物理本源：为何选择二元相位？"></a>1. 物理本源：为何选择二元相位？</h2><p>要理解达曼光栅，首先必须回到光栅衍射的第一性原理。</p>
+<h3 id="1-1-振幅型-vs-相位型"><a href="#1-1-振幅型-vs-相位型" class="headerlink" title="1.1 振幅型 vs. 相位型"></a>1.1 振幅型 vs. 相位型</h3><p>最简单的光栅是振幅光栅（Amplitude Grating），即通过周期性的遮挡（透光率在0和1之间变化）来调制光。然而，根据巴比涅原理（Babinet’s principle）和能量守恒，振幅光栅的一半能量被阻挡吸收，其理论衍射效率极限极低（对于方波振幅光栅，一级衍射效率仅为 $\approx 10%$）。</p>
+<p>为了提高能量利用率，我们必须转向<strong>相位光栅（Phase Grating）</strong>。相位光栅不吸收光，而是通过改变介质的折射率或厚度，对入射光波的波前进行调制。</p>
+<p>$$<br>t(x) &#x3D; \exp(i \phi(x))<br>$$</p>
+<p>其中 $t(x)$ 是复振幅透射函数，$\phi(x)$ 是相位调制函数。由于 $|t(x)| &#x3D; 1$，理论上没有能量损失。</p>
+<h3 id="1-2-二元化的工程智慧"><a href="#1-2-二元化的工程智慧" class="headerlink" title="1.2 二元化的工程智慧"></a>1.2 二元化的工程智慧</h3><p>在20世纪70年代，微纳加工技术尚不成熟，制造连续变化的相位轮廓（如闪耀光栅的锯齿波）极为困难。Dammann 的天才之处在于他提出了<strong>二元相位（Binary Phase）</strong> 的概念。</p>
+<p>他将相位 $\phi(x)$ 限制在两个值：$0$ 和 $\pi$。<br>这种二元设计在物理实现上极其简单：只需在基底上刻蚀特定的深度 $h$。根据光程差公式：</p>
+<p>$$<br>\Delta \phi &#x3D; \frac{2\pi}{\lambda} (n - 1) h &#x3D; \pi \implies h &#x3D; \frac{\lambda}{2(n-1)}<br>$$</p>
+<p>其中 $\lambda$ 是波长，$n$ 是材料折射率。这种简单的“台阶”结构非常适合光刻（Lithography）工艺。</p>
+<h2 id="2-数学推导：傅里叶域的逆问题"><a href="#2-数学推导：傅里叶域的逆问题" class="headerlink" title="2. 数学推导：傅里叶域的逆问题"></a>2. 数学推导：傅里叶域的逆问题</h2><p>达曼光栅的核心不在于物理结构的复杂，而在于<strong>相位跳变点（Transition Points）</strong> 位置的数学设计。这是一个典型的逆问题：<strong>已知目标衍射图样，求解光栅结构。</strong></p>
+<h3 id="2-1-透射函数的傅里叶展开"><a href="#2-1-透射函数的傅里叶展开" class="headerlink" title="2.1 透射函数的傅里叶展开"></a>2.1 透射函数的傅里叶展开</h3><p>假设光栅是周期性的，周期为 $T$（归一化为1）。在一个周期内，相位在 $0$ 和 $\pi$ 之间跳变。由于 $\exp(i0)&#x3D;1$ 且 $\exp(i\pi)&#x3D;-1$，透射函数 $t(x)$ 本质上是一个取值为 $+1$ 和 $-1$ 的方波函数。</p>
+<p>设在一个周期内有 $N$ 个相位跳变点，坐标为 $x_1, x_2, \dots, x_N$，且满足 $0 &lt; x_1 &lt; x_2 &lt; \dots &lt; x_N &lt; 1$。<br>根据傅里叶光学理论，远场衍射分布由光栅透射函数的傅里叶级数系数决定。</p>
+<p>我们将 $t(x)$ 展开为傅里叶级数：</p>
+<p>$$<br>t(x) &#x3D; \sum_{m&#x3D;-\infty}^{+\infty} C_m \exp(i 2\pi m x)<br>$$</p>
+<p>其中 $C_m$ 是第 $m$ 级衍射波的复振幅系数。</p>
+<h3 id="2-2-达曼方程组的建立"><a href="#2-2-达曼方程组的建立" class="headerlink" title="2.2 达曼方程组的建立"></a>2.2 达曼方程组的建立</h3><p>根据傅里叶系数的定义：</p>
+<p>$$<br>C_m &#x3D; \int_{0}^{1} t(x) \exp(-i 2\pi m x) dx<br>$$</p>
+<p>对于偶对称设计的达曼光栅（通常设计为关于原点对称以简化计算），我们可以推导出 $m$ 级（$m \neq 0$）的频谱系数表达式。经过分段积分和简化（假设 $t(0)&#x3D;1$），我们得到著名的<strong>达曼方程</strong>：</p>
+<p>$$<br>C_m &#x3D; \frac{1}{m\pi} \sum_{k&#x3D;1}^{N} (-1)^{k+1} \sin(2\pi m x_k)<br>$$</p>
+<p>对于零级衍射（$m&#x3D;0$）：</p>
+<p>$$<br>C_0 &#x3D; 2 \sum_{k&#x3D;1}^{N} (-1)^{k+1} x_k - 1 \quad (\text{视具体边界条件而定})<br>$$</p>
+<h3 id="2-3-目标函数"><a href="#2-3-目标函数" class="headerlink" title="2.3 目标函数"></a>2.3 目标函数</h3><p>我们的目标是产生 $2M+1$ 个等强度的衍射光斑（例如从 $-M$ 到 $+M$ 级）。这要求衍射效率 $\eta_m &#x3D; |C_m|^2$ 对于所有的 $m \in [-M, M]$ 都是常数。</p>
+<p>因此，我们需要求解一组非线性方程组：</p>
+<p>$$<br>|C_m(x_1, x_2, \dots, x_N)|^2 &#x3D; \text{Constant}, \quad \text{for } m &#x3D; 0, \pm 1, \dots, \pm M<br>$$</p>
+<p>这就是达曼光栅设计的数学本质：<strong>寻找一组最优的转折点 ${x_k}$，使得目标衍射级次的功率谱尽量平坦。</strong></p>
+<h2 id="3-算法求解：在多维空间中寻找极值"><a href="#3-算法求解：在多维空间中寻找极值" class="headerlink" title="3. 算法求解：在多维空间中寻找极值"></a>3. 算法求解：在多维空间中寻找极值</h2><p>解析求解上述非线性方程组在 $N$ 较大时几乎是不可能的。这是一个典型的高维非凸优化问题。</p>
+<h3 id="3-1-自由度的限制"><a href="#3-1-自由度的限制" class="headerlink" title="3.1 自由度的限制"></a>3.1 自由度的限制</h3><p>根据代数基本定理，为了控制 $M$ 个独立的衍射级次强度，我们需要至少 $M$ 个自由度。在达曼光栅中，每一个相位跳变点 $x_k$ 提供一个自由度。因此，要产生 $2M+1$ 个光斑，通常需要在一个半周期内设置 $M$ 个跳变点。</p>
+<h3 id="3-2-优化算法的选择"><a href="#3-2-优化算法的选择" class="headerlink" title="3.2 优化算法的选择"></a>3.2 优化算法的选择</h3><p>传统的牛顿-拉夫逊法（Newton-Raphson）依赖于初值的选取，容易陷入局部最优解。在现代设计中，我们通常采用全局优化算法：</p>
+<ol>
+<li><p><strong>模拟退火算法 (Simulated Annealing, SA)</strong>:</p>
+<ul>
+<li>将误差函数（如均匀性误差）视为系统的“能量”。</li>
+<li>通过引入随机扰动和逐渐降低“温度”，允许系统跳出局部极小值。</li>
+<li><em>优势</em>：能找到接近全局最优的解。</li>
+</ul>
+</li>
+<li><p><strong>遗传算法 (Genetic Algorithm, GA)</strong>:</p>
+<ul>
+<li>将跳变点向量 ${x_k}$ 视为“染色体”。</li>
+<li>通过选择、交叉和变异操作进化出最优结构。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-3-评价指标"><a href="#3-3-评价指标" class="headerlink" title="3.3 评价指标"></a>3.3 评价指标</h3><p>设计的好坏主要由两个指标决定：</p>
+<ul>
+<li><p><strong>衍射效率 (Diffraction Efficiency, $\eta$)</strong>:<br>  $$ \eta &#x3D; \sum_{m \in \text{Target}} |C_m|^2 $$<br>  对于一维达曼光栅，理论极限约为 <strong>81%</strong>。这意味着约 19% 的能量必然分布在不需要的高阶衍射级次上。这是二元相位调制的物理限制。</p>
+</li>
+<li><p><strong>均匀性 (Uniformity, $U$)</strong>:<br>  $$ U &#x3D; \frac{I_{max} - I_{min}}{I_{max} + I_{min}} $$<br>  优秀的达曼光栅设计可以将 $U$ 控制在 1% 以内。</p>
+</li>
+</ul>
+<h2 id="4-2D-达曼光栅与-Python-仿真验证"><a href="#4-2D-达曼光栅与-Python-仿真验证" class="headerlink" title="4. 2D 达曼光栅与 Python 仿真验证"></a>4. 2D 达曼光栅与 Python 仿真验证</h2><p>实际应用中，我们通常需要二维阵列（如 $4 \times 4$ 或 $8 \times 8$）。由于傅里叶变换的分离变量特性，二维达曼光栅可以简单地由两个正交的一维光栅叠加而成：</p>
+<p>$$<br>t(x, y) &#x3D; t_x(x) \cdot t_y(y)<br>$$</p>
+<p>这意味着我们只需要设计一维结构，然后正交旋转即可。</p>
+<p>下面是一个使用 Python 模拟 1D 达曼光栅衍射场强分布的简易代码片段，展示了如何从结构计算频谱：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_dammann_spectrum</span>(<span class="hljs-params">transitions, max_order=<span class="hljs-number">10</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    计算达曼光栅的衍射谱</span><br><span class="hljs-string">    transitions: 归一化周期内的相位跳变点列表 [x1, x2, ...]</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    orders = np.arange(-max_order, max_order + <span class="hljs-number">1</span>)<br>    coeffs = []<br>    <br>    <span class="hljs-keyword">for</span> m <span class="hljs-keyword">in</span> orders:<br>        <span class="hljs-keyword">if</span> m == <span class="hljs-number">0</span>:<br>            <span class="hljs-comment"># 简化计算，假设起始相位为0</span><br>            c = <span class="hljs-number">1</span> - <span class="hljs-number">2</span> * transitions[<span class="hljs-number">0</span>] + <span class="hljs-number">2</span> * transitions[<span class="hljs-number">1</span>] - ... <br>            <span class="hljs-comment"># 实际需根据具体的求和公式</span><br>            val = <span class="hljs-number">0</span> <span class="hljs-comment"># 占位，具体取决于跳变点数量</span><br>        <span class="hljs-keyword">else</span>:<br>            sum_sin = <span class="hljs-number">0</span><br>            <span class="hljs-keyword">for</span> k, xk <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(transitions):<br>                <span class="hljs-comment"># 符号交替 (-1)^(k+1)</span><br>                sign = (-<span class="hljs-number">1</span>)**(k) <br>                sum_sin += sign * np.sin(<span class="hljs-number">2</span> * np.pi * m * xk)<br>            c = (<span class="hljs-number">1</span> / (m * np.pi)) * sum_sin<br>        coeffs.append(np.<span class="hljs-built_in">abs</span>(c)**<span class="hljs-number">2</span>)<br>        <br>    <span class="hljs-keyword">return</span> orders, coeffs<br><br><span class="hljs-comment"># 注意：这只是一个原理性伪代码，真实的系数计算需严格遵循边界条件</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-局限性与现代演进"><a href="#5-局限性与现代演进" class="headerlink" title="5. 局限性与现代演进"></a>5. 局限性与现代演进</h2><p>尽管达曼光栅非常经典，但它并非完美无缺。</p>
+<ol>
+<li><strong>高阶衍射干扰</strong>：由于是二元光栅，其频谱包含大量的高阶谐波。在某些高信噪比要求的应用中，这被称为“鬼影”（Ghost orders）。</li>
+<li><strong>效率上限</strong>：81% 的效率限制了其在高能激光领域的应用。</li>
+<li><strong>波长敏感性</strong>：光栅结构是针对特定波长设计的。波长漂移会导致 $0$ 和 $\pi$ 的相位差不再准确，进而破坏零级抑制，导致中心光斑极亮（Zero-order hotspot）。</li>
+</ol>
+<h3 id="5-1-技术的演进"><a href="#5-1-技术的演进" class="headerlink" title="5.1 技术的演进"></a>5.1 技术的演进</h3><p>为了克服这些限制，现代光学引入了：</p>
+<ul>
+<li><strong>多阶相位光栅 (Multi-level Phase Gratings)</strong>：不局限于 $0&#x2F;\pi$，引入 4 阶或 8 阶台阶，效率可逼近 100%。</li>
+<li><strong>超表面 (Metasurfaces)</strong>：利用亚波长结构实现对相位、振幅和偏振的任意调控，打破了传统衍射光学的限制。</li>
+</ul>
+<h2 id="6-总结与应用展望"><a href="#6-总结与应用展望" class="headerlink" title="6. 总结与应用展望"></a>6. 总结与应用展望</h2><p>达曼光栅是物理光学与数学优化完美结合的典范。它利用最简单的二元结构，通过精密的傅里叶频谱工程，实现了复杂的光场调控。</p>
+<p>从原理上讲，它是**结构光（Structured Light）**技术的基石之一。当你使用 iPhone 的 FaceID 解锁手机时，虽然其点阵投射器可能采用了更为复杂的衍射光学元件（DOE）或超表面设计，但其核心思想——通过相位调制实现特定点阵分布——与达曼光栅一脉相承。</p>
+<p>在激光雷达（LiDAR）向纯固态演进的过程中，利用光栅进行多光束并行扫描正在成为一种重要技术路线。理解达曼光栅，即是理解了光子在微观结构中舞动的基本步法。</p>
+<hr>
+<p><em>如果您对如何编写具体的遗传算法来求解达曼光栅的转折点感兴趣，或者想了解其在光通信中的具体波导耦合方案，欢迎在评论区深入探讨。</em></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Technology/" class="category-chain-item">Technology</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Technology/Physics/" class="category-chain-item">Physics</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Algorithm/" class="print-no-link">#Algorithm</a>
+      
+        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
+      
+        <a href="/tags/Math/" class="print-no-link">#Math</a>
+      
+        <a href="/tags/Photonics/" class="print-no-link">#Photonics</a>
+      
+        <a href="/tags/Diffraction/" class="print-no-link">#Diffraction</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>光子学的精密分束：深入解析达曼光栅 (Dammann Grating) 的物理原理与数学设计</div>
+      <div>https://time-frame.cloud/2026/02/09/2026-02-09-dammann-grating-principles-and-design/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>February 9, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/02/09/2026-02-09-fiber-bragg-grating-principles-applications/" title="2026-02-09-fiber-bragg-grating-principles-applications">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2026-02-09-fiber-bragg-grating-principles-applications</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/02/08/2026-02-08-daily-english/" title="🌍 Daily English: The Alchemy of Ideas: How TED Talks Transform Minds and Societies | 2026-02-08">
+                        <span class="hidden-mobile">🌍 Daily English: The Alchemy of Ideas: How TED Talks Transform Minds and Societies | 2026-02-08</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/02/09/2026-02-09-dammann-grating-principles-and-design/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

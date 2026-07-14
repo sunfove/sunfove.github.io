@@ -1,0 +1,881 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sunfove">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="深入解析贝叶斯定理的数学本质，从直觉反差到医疗诊断、机器学习及人类认知的广泛应用。本文旨在从第一性原理出发，探讨如何在一个不确定的世界中逼近真理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="上帝掷骰子吗？——贝叶斯原理的底层逻辑与跨学科应用">
+<meta property="og:url" content="https://time-frame.cloud/2026/01/21/2026-01-21-bayesian-principles-application/index.html">
+<meta property="og:site_name" content="明明如月">
+<meta property="og:description" content="深入解析贝叶斯定理的数学本质，从直觉反差到医疗诊断、机器学习及人类认知的广泛应用。本文旨在从第一性原理出发，探讨如何在一个不确定的世界中逼近真理。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-01-20T23:57:25.000Z">
+<meta property="article:modified_time" content="2026-07-12T01:50:51.000Z">
+<meta property="article:author" content="Sunfove">
+<meta property="article:tag" content="Artificial Intelligence">
+<meta property="article:tag" content="Cognition">
+<meta property="article:tag" content="Decision Making">
+<meta property="article:tag" content="Mathematics">
+<meta property="article:tag" content="Probability Theory">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+  
+  <title>上帝掷骰子吗？——贝叶斯原理的底层逻辑与跨学科应用 - 明明如月</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>明明如月</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">上帝掷骰子吗？——贝叶斯原理的底层逻辑与跨学科应用</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-21 07:57" pubdate>
+          January 21, 2026 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">上帝掷骰子吗？——贝叶斯原理的底层逻辑与跨学科应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="引言：逆转因果的思维革命"><a href="#引言：逆转因果的思维革命" class="headerlink" title="引言：逆转因果的思维革命"></a>引言：逆转因果的思维革命</h1><p>在确定性的世界里，如果 $A$ 导致了 $B$，那么看到 $A$ 发生，我们可以断言 $B$ 必然发生。这是一种演绎逻辑。然而，现实世界充满了不确定性。当我们观察到结果 $B$ 时，能否推断出它是由原因 $A$ 引起的？如果能，这种推断的可靠性有多高？</p>
+<p>这就是**贝叶斯定理（Bayes’ Theorem）**试图回答的核心问题。</p>
+<p>它不仅仅是一个概率论公式，更是一套关于“知识如何随证据更新”的认识论哲学。从垃圾邮件过滤到核潜艇搜救，从医疗诊断到大脑的认知机制，贝叶斯原理揭示了人类理性和人工智能共同遵循的底层逻辑：<strong>在这个充满噪声的世界中，真理不是一个静态的点，而是一个不断收敛的过程。</strong></p>
+<p>本文将从数学的第一性原理出发，剖析贝叶斯公式的内核，并深入探讨其在不同领域的硬核应用。</p>
+<hr>
+<h1 id="第一部分：贝叶斯定理的数学解构"><a href="#第一部分：贝叶斯定理的数学解构" class="headerlink" title="第一部分：贝叶斯定理的数学解构"></a>第一部分：贝叶斯定理的数学解构</h1><h2 id="1-1-从频率主义到贝叶斯主义"><a href="#1-1-从频率主义到贝叶斯主义" class="headerlink" title="1.1 从频率主义到贝叶斯主义"></a>1.1 从频率主义到贝叶斯主义</h2><p>在深入公式之前，我们需要理解两种对立的概率观：</p>
+<ul>
+<li><strong>频率主义（Frequentist）</strong>：概率是大量重复实验中事件发生的频率极限。客观存在，不以人的意志为转移。</li>
+<li><strong>贝叶斯主义（Bayesian）</strong>：概率是主体对某一事件发生的<strong>信念强度（Degree of Belief）</strong>。它是主观的，并且随着新信息的获取而动态修正。</li>
+</ul>
+<p>贝叶斯公式的伟大之处在于，它给出了“修正信念”的精确数学表达。</p>
+<h2 id="1-2-核心公式推导"><a href="#1-2-核心公式推导" class="headerlink" title="1.2 核心公式推导"></a>1.2 核心公式推导</h2><p>贝叶斯定理源于条件概率的定义。设 $H$ 为假设（Hypothesis），$E$ 为证据（Evidence）。</p>
+<p>根据条件概率公式：<br>$$P(H|E) &#x3D; \frac{P(H \cap E)}{P(E)}$$<br>$$P(E|H) &#x3D; \frac{P(E \cap H)}{P(H)}$$</p>
+<p>由于 $P(H \cap E) &#x3D; P(E \cap H)$，我们可以推导出贝叶斯公式的标准形式：</p>
+<p>$$P(H|E) &#x3D; \frac{P(E|H) \cdot P(H)}{P(E)}$$</p>
+<h2 id="1-3-物理意义拆解"><a href="#1-3-物理意义拆解" class="headerlink" title="1.3 物理意义拆解"></a>1.3 物理意义拆解</h2><p>为了深刻理解这个公式，我们需要对每一项赋予物理意义：</p>
+<ol>
+<li><p><strong>$P(H)$ —— 先验概率（Prior Probability）</strong>：<br>在观察到任何新证据之前，我们根据过往经验或统计数据，对假设 $H$ 成立可能性的初始判断。这是贝叶斯推理的起点。</p>
+</li>
+<li><p><strong>$P(E|H)$ —— 似然性（Likelihood）</strong>：<br>假设 $H$ 成立的情况下，观察到证据 $E$ 的概率。这代表了证据对于假设的支持程度。</p>
+</li>
+<li><p><strong>$P(E)$ —— 边缘概率（Marginal Probability）</strong>：<br>在所有可能的情况下，观察到证据 $E$ 的总概率。它通常充当归一化常数（Normalization Constant），确保后验概率的总和为 1。<br>$$P(E) &#x3D; \sum P(E|H_i)P(H_i)$$</p>
+</li>
+<li><p><strong>$P(H|E)$ —— 后验概率（Posterior Probability）</strong>：<br>在考虑了新证据 $E$ 之后，我们对假设 $H$ 的信心更新。这是我们最终追求的目标。</p>
+</li>
+</ol>
+<p><strong>一句话总结：</strong></p>
+<blockquote>
+<p><strong>后验概率 $\propto$ 似然性 $\times$ 先验概率</strong></p>
+</blockquote>
+<p>这意味着，我们要判断一个假设是否为真，不仅要看眼前的证据（似然性），还要看这个假设原本的可能性有多大（先验）。</p>
+<hr>
+<h1 id="第二部分：直觉的陷阱——医疗诊断中的应用"><a href="#第二部分：直觉的陷阱——医疗诊断中的应用" class="headerlink" title="第二部分：直觉的陷阱——医疗诊断中的应用"></a>第二部分：直觉的陷阱——医疗诊断中的应用</h1><p>贝叶斯原理最著名的反直觉应用在于医疗诊断，它揭示了人类大脑普遍存在的<strong>基本比率谬误（Base Rate Fallacy）</strong>。</p>
+<h2 id="2-1-案例分析"><a href="#2-1-案例分析" class="headerlink" title="2.1 案例分析"></a>2.1 案例分析</h2><p>假设有一种罕见病，在人群中的发病率为 <strong>0.1%</strong>（即 $P(Sick) &#x3D; 0.001$）。<br>现在有一种检测手段，其准确率极高：</p>
+<ul>
+<li>如果你真的病了，检测结果为阳性的概率是 <strong>99%</strong>（敏感性，$P(+|Sick) &#x3D; 0.99$）。</li>
+<li>如果你没病，检测结果为阴性的概率也是 <strong>99%</strong>（特异性，$P(-|Healthy) &#x3D; 0.99$），即误报率为 1%（$P(+|Healthy) &#x3D; 0.01$）。</li>
+</ul>
+<p><strong>问题</strong>：如果你去检测，结果呈<strong>阳性</strong>，你真正患病的概率是多少？</p>
+<p>直觉告诉我们，既然准确率高达 99%，那我得病的概率应该接近 99% 吧？让我们用贝叶斯公式计算一下。</p>
+<h2 id="2-2-贝叶斯计算"><a href="#2-2-贝叶斯计算" class="headerlink" title="2.2 贝叶斯计算"></a>2.2 贝叶斯计算</h2><p>我们需要求的是 $P(Sick|+)$。</p>
+<p>$$P(Sick|+) &#x3D; \frac{P(+|Sick) \cdot P(Sick)}{P(+)}$$</p>
+<p>其中分母 $P(+)$ 需要展开为全概率公式：<br>$$P(+) &#x3D; P(+|Sick)P(Sick) + P(+|Healthy)P(Healthy)$$</p>
+<p>代入数值：</p>
+<ul>
+<li>$P(+|Sick) &#x3D; 0.99$</li>
+<li>$P(Sick) &#x3D; 0.001$</li>
+<li>$P(+|Healthy) &#x3D; 0.01$</li>
+<li>$P(Healthy) &#x3D; 1 - 0.001 &#x3D; 0.999$</li>
+</ul>
+<p>$$P(Sick|+) &#x3D; \frac{0.99 \times 0.001}{(0.99 \times 0.001) + (0.01 \times 0.999)}$$<br>$$P(Sick|+) &#x3D; \frac{0.00099}{0.00099 + 0.00999} \approx \frac{0.00099}{0.01098} \approx 0.09$$</p>
+<p><strong>结论：</strong> 即使检测结果呈阳性，你真正得病的概率只有 <strong>9%</strong> 左右。</p>
+<h2 id="2-3-第一性原理分析：为什么会这样？"><a href="#2-3-第一性原理分析：为什么会这样？" class="headerlink" title="2.3 第一性原理分析：为什么会这样？"></a>2.3 第一性原理分析：为什么会这样？</h2><p>为什么直觉错得这么离谱？因为我们忽略了<strong>先验概率（Base Rate）</strong>。</p>
+<ul>
+<li><strong>罕见病</strong>意味着绝大多数人都是健康的。</li>
+<li>在一个 1000 人的群体中，平均只有 1 个人真病。</li>
+<li>剩下的 999 个健康人中，有 1% 会被误判为阳性，大约 10 个人。</li>
+<li>所以，当你拿到阳性单子时，你属于那 1 个真病人的可能性，远小于你属于那 10 个被误判的健康人的可能性。</li>
+</ul>
+<p>这就是贝叶斯思维的力量：<strong>它强迫我们将眼前的证据（检测结果）放回宏大的背景（先验概率）中去审视。</strong></p>
+<hr>
+<h1 id="第三部分：机器智能的基石——朴素贝叶斯分类器"><a href="#第三部分：机器智能的基石——朴素贝叶斯分类器" class="headerlink" title="第三部分：机器智能的基石——朴素贝叶斯分类器"></a>第三部分：机器智能的基石——朴素贝叶斯分类器</h1><p>在计算机科学领域，贝叶斯原理是机器学习，特别是自然语言处理（NLP）的基石之一。最经典的应用莫过于垃圾邮件过滤。</p>
+<h2 id="3-1-朴素贝叶斯（Naive-Bayes）"><a href="#3-1-朴素贝叶斯（Naive-Bayes）" class="headerlink" title="3.1 朴素贝叶斯（Naive Bayes）"></a>3.1 朴素贝叶斯（Naive Bayes）</h2><p>为什么叫“朴素”？因为它引入了一个强假设：<strong>特征之间相互独立</strong>。虽然在现实中这个假设往往不成立（单词之间是有语境联系的），但在工程实践中，它的效果出奇地好。</p>
+<p>假设我们要判断一封邮件 $D$ 是否为垃圾邮件（Spam）。邮件由单词向量 $W &#x3D; (w_1, w_2, …, w_n)$ 组成。</p>
+<p>$$P(Spam|W) \propto P(Spam) \cdot \prod_{i&#x3D;1}^{n} P(w_i|Spam)$$</p>
+<h2 id="3-2-算法实现逻辑"><a href="#3-2-算法实现逻辑" class="headerlink" title="3.2 算法实现逻辑"></a>3.2 算法实现逻辑</h2><ol>
+<li><strong>训练阶段</strong>：统计在已知垃圾邮件和正常邮件中，各个单词（如 “Buy”, “Viagra”, “Free”）出现的频率。这就建立了 $P(w_i|Spam)$ 和 $P(w_i|Ham)$ 的似然性模型。</li>
+<li><strong>预测阶段</strong>：对于新邮件，将所有单词的概率乘起来，再乘以先验概率 $P(Spam)$。</li>
+</ol>
+<p>以下是一个简化的 Python 伪代码演示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">NaiveBayesClassifier</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.prior_spam = <span class="hljs-number">0.5</span><br>        <span class="hljs-variable language_">self</span>.word_probs_spam = &#123;&#125; <span class="hljs-comment"># P(word|spam)</span><br>        <span class="hljs-variable language_">self</span>.word_probs_ham = &#123;&#125;  <span class="hljs-comment"># P(word|ham)</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">self, message</span>):<br>        words = message.split()<br>        <br>        <span class="hljs-comment"># 使用对数概率防止下溢 (Log-Sum-Exp Trick)</span><br>        log_prob_spam = np.log(<span class="hljs-variable language_">self</span>.prior_spam)<br>        log_prob_ham = np.log(<span class="hljs-number">1</span> - <span class="hljs-variable language_">self</span>.prior_spam)<br>        <br>        <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> words:<br>            <span class="hljs-comment"># 假设 word 在字典中，获取其条件概率</span><br>            p_w_spam = <span class="hljs-variable language_">self</span>.word_probs_spam.get(word, <span class="hljs-number">1e-6</span>)<br>            p_w_ham = <span class="hljs-variable language_">self</span>.word_probs_ham.get(word, <span class="hljs-number">1e-6</span>)<br>            <br>            log_prob_spam += np.log(p_w_spam)<br>            log_prob_ham += np.log(p_w_ham)<br>            <br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Spam&quot;</span> <span class="hljs-keyword">if</span> log_prob_spam &gt; log_prob_ham <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;Ham&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>这种方法的优美之处在于它的<strong>可解释性</strong>和<strong>计算效率</strong>。它不需要复杂的反向传播，仅仅通过计数和概率更新就能完成分类。</p>
+<hr>
+<h1 id="第四部分：搜寻深海幽灵——贝叶斯搜索理论"><a href="#第四部分：搜寻深海幽灵——贝叶斯搜索理论" class="headerlink" title="第四部分：搜寻深海幽灵——贝叶斯搜索理论"></a>第四部分：搜寻深海幽灵——贝叶斯搜索理论</h1><p>1968年5月，美国核潜艇“天蝎号”（USS Scorpion）在北大西洋失踪。海军不知道它具体在哪里沉没，搜索范围是数千平方英里的深海。</p>
+<p>为了找到它，数学家约翰·克雷文（John Craven）应用了<strong>贝叶斯搜索理论（Bayesian Search Theory）</strong>。</p>
+<h2 id="4-1-构建概率图谱"><a href="#4-1-构建概率图谱" class="headerlink" title="4.1 构建概率图谱"></a>4.1 构建概率图谱</h2><p>克雷文没有像无头苍蝇一样乱找，而是组织了一群专家制定了多种“剧本”（Scenarios）：</p>
+<ul>
+<li>剧本 A：潜艇遭到鱼雷攻击。</li>
+<li>剧本 B：蓄电池爆炸。</li>
+<li>剧本 C：机械故障导致失控。</li>
+</ul>
+<p>对于每个剧本，潜艇沉没的位置分布都不同。他们将海域划分为无数个网格，每个网格 $i$ 被分配了一个先验概率 $p_i$，表示潜艇在这个网格内的可能性。</p>
+<h2 id="4-2-动态更新：没有消息就是信息"><a href="#4-2-动态更新：没有消息就是信息" class="headerlink" title="4.2 动态更新：没有消息就是信息"></a>4.2 动态更新：没有消息就是信息</h2><p>搜索不仅取决于潜艇在哪（$p_i$），还取决于如果潜艇在那，我们要花多大力气能发现它（探测效率 $d_i$）。</p>
+<p>如果在网格 $i$ 搜索了一遍<strong>没有发现</strong>潜艇，这本身就是一个巨大的信息。根据贝叶斯公式，我们可以更新所有网格的概率：</p>
+<p>$$P(\text{在} i | \text{没找到}) &#x3D; \frac{P(\text{没找到} | \text{在} i) \cdot P(\text{在} i)}{P(\text{没找到})}$$</p>
+<ul>
+<li>如果在 $i$ 处没找到，那么 $i$ 处有潜艇的概率下降。</li>
+<li><strong>关键点</strong>：由于概率总和为 1，其他所有未被搜索网格的概率会自动<strong>上升</strong>。</li>
+</ul>
+<p>通过这种迭代，搜索船只总是前往当前概率密度最高的区域。最终，他们在距离原定点仅几百码的地方找到了“天蝎号”。这是贝叶斯推理在物理世界搜索中的完美胜利。</p>
+<hr>
+<h1 id="第五部分：贝叶斯大脑——认知的本质"><a href="#第五部分：贝叶斯大脑——认知的本质" class="headerlink" title="第五部分：贝叶斯大脑——认知的本质"></a>第五部分：贝叶斯大脑——认知的本质</h1><p>如果我们把视角转向内部，现代神经科学提出了一个震撼的假说：<strong>大脑本身就是一个贝叶斯推理机。</strong></p>
+<h2 id="5-1-预测编码（Predictive-Coding）"><a href="#5-1-预测编码（Predictive-Coding）" class="headerlink" title="5.1 预测编码（Predictive Coding）"></a>5.1 预测编码（Predictive Coding）</h2><p>著名的神经科学家卡尔·弗里斯顿（Karl Friston）提出的**自由能原理（Free Energy Principle）**认为，大脑并非被动地接收感官输入，而是主动地生成关于世界的预测模型。</p>
+<ul>
+<li><strong>先验（Prior）</strong>：大脑对环境的内部模型。</li>
+<li><strong>似然（Likelihood）</strong>：感官输入（视觉、听觉等）。</li>
+<li><strong>后验（Posterior）</strong>：感知（我们看到的“现实”）。</li>
+</ul>
+<p>当我们看到一个模糊的物体时，大脑会调动先验知识（比如“这里通常有一只猫”）来解释模糊的视觉信号。</p>
+<h2 id="5-2-视错觉的贝叶斯解释"><a href="#5-2-视错觉的贝叶斯解释" class="headerlink" title="5.2 视错觉的贝叶斯解释"></a>5.2 视错觉的贝叶斯解释</h2><p>很多视错觉其实是大脑先验知识过于强大导致的。例如，在凹脸错觉（Hollow-Face Illusion）中，即使我们看的是一个凹进去的面具，我们的大脑也会强行把它看成凸出来的。</p>
+<p>为什么？因为在我们的<strong>先验</strong>中，所有的脸都是凸的。这个先验概率 $P(\text{凸脸})$ 如此之高，以至于它压倒了光影提供的微弱证据 $P(\text{阴影}| \text{凹脸})$。</p>
+<p>$$\text{感知} \approx \text{先验(极强)} \times \text{感官输入(较弱)}$$</p>
+<p>这表明，我们所感知的世界，实际上是大脑根据先验和感官数据不断进行贝叶斯更新后的“最佳猜测”。</p>
+<hr>
+<h1 id="结论：作为一种生活哲学的贝叶斯"><a href="#结论：作为一种生活哲学的贝叶斯" class="headerlink" title="结论：作为一种生活哲学的贝叶斯"></a>结论：作为一种生活哲学的贝叶斯</h1><p>贝叶斯原理不仅是数学工具，更是一种<strong>认知美德</strong>。它教导我们：</p>
+<ol>
+<li><strong>保持开放（Priors are not absolute）</strong>：无论你的先验信念多么坚定，永远给 $P(H)$ 留一点余地，不要设为 0 或 1。否则，无论多少证据 $E$ 出现，你的观点永远无法改变。</li>
+<li><strong>重视基础概率（Respect Base Rates）</strong>：在做判断时，不要被个别的、鲜活的案例（Evidence）冲昏头脑，要时刻记得背景统计数据（Prior）。</li>
+<li><strong>持续迭代（Update constantly）</strong>：观点不是身份的象征，而是暂时的假设。随着新信息的流入，修正观点不是软弱，而是理性的体现。</li>
+</ol>
+<p>在这个充满不确定性的宇宙中，我们无法全知全能，但贝叶斯定理赋予了我们逼近真理的最佳路径。</p>
+<blockquote>
+<p>“Probability theory is nothing but common sense reduced to calculation.”<br>—— Pierre-Simon Laplace</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Theoretical-Foundations/" class="category-chain-item">Theoretical Foundations</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Artificial-Intelligence/" class="print-no-link">#Artificial Intelligence</a>
+      
+        <a href="/tags/Mathematics/" class="print-no-link">#Mathematics</a>
+      
+        <a href="/tags/Probability-Theory/" class="print-no-link">#Probability Theory</a>
+      
+        <a href="/tags/Cognition/" class="print-no-link">#Cognition</a>
+      
+        <a href="/tags/Decision-Making/" class="print-no-link">#Decision Making</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>上帝掷骰子吗？——贝叶斯原理的底层逻辑与跨学科应用</div>
+      <div>https://time-frame.cloud/2026/01/21/2026-01-21-bayesian-principles-application/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Sunfove</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 21, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/21/2026-01-21-bayesian-neural-networks-pytorch/" title="拥抱不确定性：使用 PyTorch 构建贝叶斯神经网络 (BNN)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">拥抱不确定性：使用 PyTorch 构建贝叶斯神经网络 (BNN)</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/21/2026-01-21-nsga-ii-iii-principles-and-implementation/" title="NSGA-II的原理解析及CODE实现">
+                        <span class="hidden-mobile">NSGA-II的原理解析及CODE实现</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/01/21/2026-01-21-bayesian-principles-application/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>

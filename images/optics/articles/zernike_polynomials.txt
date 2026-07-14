@@ -1,0 +1,15 @@
+
+    Zernike多项式前几项（低阶像差）
+    =============================
+
+    Z₁ = 1                    → Piston（平移）
+    Z₂ = 2ρcosθ              → Tip（X方向倾斜）
+    Z₃ = 2ρsinθ              → Tilt（Y方向倾斜）
+    Z₄ = √3(2ρ² - 1)        → Defocus（离焦）
+    Z₅ = √6ρ²sin2θ          → Astigmatism（像散）
+    Z₆ = √8(3ρ³ - 2ρ)      → Coma（彗差）
+    Z₇ = √8ρ³sin3θ          → Trefoil（三叶草）
+    Z₈ = √8(6ρ⁴ - 6ρ² + 1) → Spherical（球差）
+
+    其中 ρ = √(x² + y²), θ = arctan(y/x)
+    
