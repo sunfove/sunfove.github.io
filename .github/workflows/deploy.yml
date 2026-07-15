@@ -52,16 +52,16 @@ jobs:
         npx hexo clean
         npx hexo generate
 
-    # 6. 部署到阿里云服务器 (任务一)
-    - name: Deploy to Aliyun
+    # 6. 部署到服务器 (time-frame.cloud)
+    - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
         ARGS: "-rlgoDzvc -i"
         SOURCE: "public/"
-        REMOTE_HOST: ${{ secrets.HEXO_SERVER_IP }}
-        REMOTE_USER: ${{ secrets.HEXO_SERVER_USER }}
-        TARGET: "/var/www/html"
+        REMOTE_HOST: 124.220.80.92
+        REMOTE_USER: root
+        TARGET: "/var/www/time-frame.cloud"
         EXCLUDE: "/node_modules/"
 
     # 7. 🆕 部署到 GitHub Pages (任务二)
