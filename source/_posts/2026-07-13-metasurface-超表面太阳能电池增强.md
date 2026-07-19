@@ -8,7 +8,7 @@ tags:
   - 应用器件
   - Applications
 excerpt: 今日超表面技术日报：超表面太阳能电池增强
-index_img: /img/fluid.png
+index_img:
 math: true
 ---
 

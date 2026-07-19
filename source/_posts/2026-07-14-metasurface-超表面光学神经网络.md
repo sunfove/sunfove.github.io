@@ -8,7 +8,7 @@ tags:
   - 光学神经网络
   - Optical AI
 excerpt: 今日超表面技术日报：超表面光学神经网络
-index_img: /img/fluid.png
+index_img:
 math: true
 ---
 

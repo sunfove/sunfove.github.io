@@ -10,3 +10,5 @@ _config.tencent.yml
 .env
 __pycache__/
 *.pyc
+hexo_deploy_key
+hexo_deploy_key.pub

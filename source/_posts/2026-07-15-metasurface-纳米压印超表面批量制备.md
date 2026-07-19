@@ -8,7 +8,7 @@ tags:
   - 纳米制造
   - Nanofabrication
 excerpt: 今日超表面技术日报：纳米压印超表面批量制备
-index_img: /img/fluid.png
+index_img:
 math: true
 ---
 

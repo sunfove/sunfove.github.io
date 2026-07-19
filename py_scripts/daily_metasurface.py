@@ -178,7 +178,7 @@ categories:
 tags:
 {chr(10).join(f'  - {tag}' for tag in tags)}
 excerpt: 今日超表面技术日报：{title}
-index_img: /img/fluid.png
+index_img:
 math: true
 ---"""
 
