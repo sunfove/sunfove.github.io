@@ -1,0 +1,21 @@
+# Logs
+logs
+*.log
+
+# Dependencies
+node_modules/
+
+# Optional: editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.pid
+*.seed
+*.pid.lock

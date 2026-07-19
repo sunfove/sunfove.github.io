@@ -1,0 +1,27 @@
+{
+  "name": "wechat-publisher",
+  "version": "1.0.0",
+  "description": "微信公众号内容发布平台 - 选题/调研/素材/写作/配图/审核/发布",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "better-sqlite3": "^9.4.3",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.18.2",
+    "juice": "^12.1.0",
+    "katex": "^0.17.0",
+    "marked": "^11.0.0",
+    "mathjax-full": "^3.2.1",
+    "multer": "^1.4.5-lts.1",
+    "pino": "^9.0.0",
+    "pino-pretty": "^13.0.0",
+    "puppeteer-core": "^25.3.0",
+    "rotating-file-stream": "^3.2.9",
+    "sharp": "^0.35.3",
+    "uuid": "^9.0.0"
+  }
+}
