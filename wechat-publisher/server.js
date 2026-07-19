@@ -265,6 +265,33 @@ app.post('/api/publish/preview/:articleId', async (req, res) => {
     res.json({ html });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
+app.get('/api/publish/preview/local/:articleId', async (req, res) => {
+  try {
+    const data = await publishModule.previewLocalHtml(req.params.articleId);
+    const db = getDb();
+    const fullHtml = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${data.title}</title>
+<style>
+body{margin:0;padding:20px;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;color:#333;max-width:680px;margin:0 auto;}
+h1,h2,h3,h4{color:#2e7d32;}a{color:#1b5e20;}img{max-width:100%;height:auto;}
+blockquote{border-left:4px solid #4CAF50;background:#f1f8e9;padding:12px 16px;margin:15px 0;}
+pre,code{background:#f1f8e9;}table{border-collapse:collapse;width:100%;}
+th,td{border:1px solid #ddd;padding:8px 12px;}</style>
+</head>
+<body>${data.html}</body>
+</html>`;
+    const filename = `preview-${req.params.articleId.slice(0,8)}-${Date.now()}.html`;
+    const filepath = path.join(__dirname, 'preview', filename);
+    const fs = require('fs');
+    fs.mkdirSync(path.join(__dirname, 'preview'), { recursive: true });
+    fs.writeFileSync(filepath, fullHtml);
+    res.json({ ok: true, file: filename, path: `/preview/${filename}`, digest: data.digest });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
 app.get('/api/publish/token', async (req, res) => {
   try {
     const token = await publishModule.getAccessToken();

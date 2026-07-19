@@ -1,41 +1,15 @@
 {
   "currentPhase": "Phase 1",
-  "currentDay": 4,
-  "currentTask": "日志规范化：pino 替换 console.log，按天轮转",
+  "currentDay": 5,
+  "currentTask": "公式渲染收尾+本地预览模式",
   "status": "completed",
-  "startedAt": "2026-07-19T20:00:00+08:00",
-  "completedAt": "2026-07-19T20:06:00+08:00",
-  "nextTask": "Day 5：公式渲染收尾：根据预览效果微调，增加本地预览模式",
+  "nextTask": "Day 6：发布模块整合",
   "history": [
-    {
-      "date": "2026-07-19",
-      "task": "建立计划与自动化任务",
-      "status": "completed",
-      "note": "创建 roadmap 与 cron 任务"
-    },
-    {
-      "date": "2026-07-19",
-      "task": "Day 1: 统一配置管理",
-      "status": "completed",
-      "note": "创建 config 模块，接入 publish.js 和 publish_v6.mjs，迁移凭据，新增 health/preview API"
-    },
-    {
-      "date": "2026-07-19",
-      "task": "Day 2: 服务进程守护",
-      "status": "completed",
-      "note": "pm2 + systemd 开机自启，日志轮转，健康检查脚本，自动重启验证通过"
-    },
-    {
-      "date": "2026-07-19",
-      "task": "Day 3: 数据库迁移化",
-      "status": "completed",
-      "note": "改造 schema.js 为迁移运行器，migrations/ 目录包含初始迁移和示例迁移，支持 up/down/reset/status"
-    },
-    {
-      "date": "2026-07-19",
-      "task": "Day 4: 日志规范化",
-      "status": "completed",
-      "note": "新增 modules/logger.js 统一日志模块，pino 替换 console.log，按天轮转 app.log 和 error.log，验证 server.js / schema.js / healthcheck.js / publish_v6.mjs / wechat_formatter_mdnice.mjs 已接入"
-    }
+    {"date":"2026-07-19","task":"建立计划","status":"completed"},
+    {"date":"2026-07-19","task":"Day 1: 统一配置","status":"completed"},
+    {"date":"2026-07-19","task":"Day 2: 服务守护","status":"completed"},
+    {"date":"2026-07-19","task":"Day 3: 数据库迁移","status":"completed"},
+    {"date":"2026-07-19","task":"Day 4: 日志规范化","status":"completed"},
+    {"date":"2026-07-19","task":"Day 5: 本地预览","status":"completed"}
   ]
 }

@@ -286,7 +286,23 @@ export async function mdToWeChat(markdown, options = {}) {
  * 渲染所有公式为 PNG 并上传，替换占位符
  */
 export async function renderFormulasAndImages(html, formulas, imageUrls, accessToken) {
-  if (!accessToken) return html;
+  if (!accessToken) {
+    // 本地模式：公式用内嵌 SVG
+    for (let i = 0; i < formulas.length; i++) {
+      const { tex, display } = formulas[i];
+      let svg = latexToSvg(tex, display);
+      svg = svg.replace("<svg ", `<svg role="img" `);
+      const wrapper = display
+        ? `<div style="text-align:center;margin:15px 0;">${svg}</div>`
+        : `<span style="display:inline-block;vertical-align:middle;">${svg}</span>`;
+      html = html.replace(`\x00FORMULA${i}\x00`, wrapper);
+    }
+    for (let i = 0; i < imageUrls.length; i++) {
+      const { url, alt } = imageUrls[i];
+      html = html.replace(`\x00IMG${i}\x00`, `<img src="${url}" alt="${escapeHtml(alt)}" style="display:block;margin:15px auto;max-width:100%;height:auto;" />`);
+    }
+    return html;
+  }
 
   for (let i = 0; i < formulas.length; i++) {
     const { tex, display } = formulas[i];

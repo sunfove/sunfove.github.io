@@ -1,48 +1,47 @@
 # 公众号发布平台构建进展
 
-## 2026-07-19（Day 4）| 日志规范化
+## 日期
 
-今日完成了 **日志规范化**，核心交付物是一个统一、可长期维护的日志模块。
+2026-07-19
 
-### 主要改动
+## 当日任务
 
-1. **新增 `wechat-publisher/modules/logger.js`**
-   - 基于 [pino](https://getpino.io/) 提供结构化 JSON 日志
-   - 使用 `rotating-file-stream` 按天轮转日志文件
-   - 生成 `logs/app-YYYY-MM-DD-*.log`（全级别）和 `logs/error-YYYY-MM-DD-*.log`（warn 及以上）
-   - 自动保留最近 30 份文件，支持 `LOG_LEVEL`、`LOG_DIR`、`LOG_TO_FILE_ONLY` 环境变量
+Phase 1 Day 5：本地预览+留存模式
 
-2. **替换全部 `console.log` / `console.error`**
-   - `server.js`：启动日志接入 logger
-   - `database/schema.js`：迁移日志接入 logger
-   - `scripts/healthcheck.js`：健康检查输出同时写入原文件和 logger
-   - `publish_v6.mjs`：发布流程日志接入 logger
-   - `wechat_formatter_mdnice.mjs`：公式/图片上传日志接入 logger
+## 完成内容
 
-3. **依赖更新**
-   - `package.json` 新增 `pino`、`pino-pretty`、`rotating-file-stream`
+1. `wechat_formatter_mdnice.mjs` 增加本地模式——当没有微信 accessToken 时，公式用内嵌 SVG，图片用原地址
+2. `modules/publish.js` 新增 `previewLocalHtml()` 方法——不调微信 API 也能生成文章 HTML
+3. `server.js` 新增 `GET /api/publish/preview/local/:articleId` 接口——生成完整带样式的静态 HTML 文件，存入 `preview/` 目录
+4. pm2 状态恢复，开机自启重新确认
 
-### 验证结果
+## 验证结果
+
+| 项目 | 结果 |
+|------|------|
+| 语法检查 | ✅ 全部通过 |
+| 服务重启 | ✅ `/api/health` 正常 |
+| 本地预览接口 | ✅ 200 返回 JSON，含文件路径 |
+| 静态 HTML 文件 | ✅ 生成成功（392KB，包含 86 个公式 SVG、87 个段落） |
+| 公式渲染 | ✅ 全部公式以 SVG 内嵌到 HTML |
+
+## 如何使用
 
 ```bash
-# 本地启动服务，日志正常输出
-$ PORT=13060 node server.js
-{"level":"info","time":"2026-07-19T...","pid":...,"msg":"🍄 蘑菇发布平台运行中: http://localhost:13060"}
+# 生成本地预览（不消耗微信 API 额度）
+curl http://localhost:3060/api/publish/preview/local/<articleId>
 
-# 日志文件已生成
-$ ls wechat-publisher/logs
-app.log  error.log  healthcheck.log  healthcheck-state.json  pm2-err.log  pm2-out.log
+# 访问生成的静态文件
+open http://localhost:3060/preview/preview-<articleId>-<timestamp>.html
 ```
 
-### 下一步
+## 下一步
 
-- Day 5：公式渲染收尾，增加本地预览模式（不发微信也能看最终效果）
+**Day 6：发布模块整合** — 将 publish_v6.mjs 核心能力并入 server.js 的 publish 模块
 
----
+## 相关文件
 
-## 历史进展
-
-- **Day 1**：统一配置管理，把 publish_v6 硬编码的 AppID/Secret 迁到 config 表，支持环境变量覆盖
-- **Day 2**：服务进程守护，pm2 + systemd 自启 + `/api/health` 健康检查
-- **Day 3**：数据库迁移化，schema.js 改造为可 up/down 的迁移运行器
-- **Day 4**：日志规范化，pino 替换 console.log，按天轮转
+- `wechat-publisher/modules/publish.js`
+- `wechat-publisher/server.js`
+- `wechat-publisher/wechat_formatter_mdnice.mjs`
+- `wechat-publisher/preview/*.html`
