@@ -54,9 +54,9 @@
 
 ## 状态
 
-当前进度：Phase 1 - Day 3 已完成
+当前进度：Phase 1 - Day 4 已完成
 当前阶段：Phase 1
-当前任务：Day 4 - 日志规范化：pino 替换 console.log，按天轮转
+当前任务：Day 5 - 公式渲染收尾：根据预览效果微调，增加本地预览模式
 
 ## 完成记录
 
@@ -66,4 +66,5 @@
 | 2026-07-19 | Day 1: 统一配置管理 | 已完成 | 创建 config 模块，接入 publish.js 和 publish_v6.mjs，迁移凭据，新增 health/preview API |
 | 2026-07-19 | Day 2: 服务进程守护 | 已完成 | pm2 + systemd 开机自启，日志轮转，健康检查脚本，自动重启验证通过 |
 | 2026-07-19 | Day 3: 数据库迁移化 | 已完成 | 改造 schema.js 为迁移运行器，migrations/ 目录包含初始迁移和示例迁移，支持 up/down/reset/status |
+| 2026-07-19 | Day 4: 日志规范化 | 已完成 | 新增 `modules/logger.js` 统一日志模块；pino 替换 console.log；按天轮转 `logs/app-*.log` 和 `logs/error-*.log`；server.js、schema.js、healthcheck.js、publish_v6.mjs、wechat_formatter_mdnice.mjs 已接入 logger |
 

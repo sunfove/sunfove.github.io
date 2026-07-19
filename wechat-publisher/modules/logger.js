@@ -2,7 +2,7 @@
  * 统一日志模块
  * - 使用 pino 做结构化日志
  * - 按天轮转日志文件
- * - 支持环境变量 LOG_LEVEL 和 LOG_DIR
+ * - 支持环境变量 LOG_LEVEL、LOG_DIR、LOG_TO_FILE_ONLY
  */
 const path = require('path');
 const fs = require('fs');
@@ -16,26 +16,20 @@ if (!fs.existsSync(LOG_DIR)) {
   fs.mkdirSync(LOG_DIR, { recursive: true });
 }
 
-// 使用按天生成的文件名函数，确保文件名格式正确
 function pad(n) { return n > 9 ? String(n) : '0' + n; }
-function filenameGenerator(time, index) {
-  if (!time) return 'app.log';
-  const y = time.getFullYear();
-  const m = pad(time.getMonth() + 1);
-  const d = pad(time.getDate());
-  return `app-${y}-${m}-${d}-${index}.log`;
+
+function filenameGenerator(prefix) {
+  return (time, index) => {
+    if (!time) return `${prefix}.log`;
+    const y = time.getFullYear();
+    const m = pad(time.getMonth() + 1);
+    const d = pad(time.getDate());
+    return `${prefix}-${y}-${m}-${d}-${index}.log`;
+  };
 }
 
-function errorFilenameGenerator(time, index) {
-  if (!time) return 'error.log';
-  const y = time.getFullYear();
-  const m = pad(time.getMonth() + 1);
-  const d = pad(time.getDate());
-  return `error-${y}-${m}-${d}-${index}.log`;
-}
-
-function createRotateStream(filename) {
-  return rfs.createStream(filename, {
+function createRotateStream(generator) {
+  return rfs.createStream(generator, {
     interval: '1d',
     path: LOG_DIR,
     compress: 'gzip',
@@ -45,11 +39,9 @@ function createRotateStream(filename) {
   });
 }
 
-// 仅输出到文件，不污染 stdout；生产环境需要看日志时读文件
-const appStream = createRotateStream(filenameGenerator);
-const errorStream = createRotateStream(errorFilenameGenerator);
+const appStream = createRotateStream(filenameGenerator('app'));
+const errorStream = createRotateStream(filenameGenerator('error'));
 
-// 控制台输出：可选，适合 dev；生产用 LOG_TO_FILE_ONLY=1 关闭
 const toConsole = process.env.LOG_TO_FILE_ONLY !== '1';
 
 const streams = [
