@@ -72,7 +72,7 @@ const publishModule = {
     try {
       const html = await this.renderArticleForWechat(article);
       const resp = await axios.post(
-        `https://api.weixin.qq.com/cgi-bin/draft/add?access_token=***}`,
+        `https://api.weixin.qq.com/cgi-bin/draft/add?access_token=${token}`,
         { articles: [{ title: article.title, author: article.author || '蘑菇', content: html, digest: (article.summary || article.content?.substring(0, 120)).substring(0, 120), thumb_media_id: article.cover_image || '', need_open_comment: 1, only_fans_can_comment: 0 }] },
         { timeout: 300000 }
       );
@@ -122,7 +122,7 @@ const publishModule = {
 
   async _createWechatPermanentUrl(accessToken, mediaId) {
     try {
-      const resp = await axios.post(`https://api.weixin.qq.com/cgi-bin/draft/get?access_token=***}`, { media_id: mediaId }, { timeout: 10000 });
+      const resp = await axios.post(`https://api.weixin.qq.com/cgi-bin/draft/get?access_token=${accessToken}`, { media_id: mediaId }, { timeout: 10000 });
       return resp.data.article_url || '';
     } catch { return `https://mp.weixin.qq.com/s?media_id=${mediaId}`; }
   },

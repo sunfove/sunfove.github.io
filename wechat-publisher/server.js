@@ -294,6 +294,9 @@ th,td{border:1px solid #ddd;padding:8px 12px;}</style>
 });
 app.get('/api/publish/token', async (req, res) => {
   try {
+    const adminToken = process.env.ADMIN_TOKEN;
+    if (!adminToken) return res.status(404).json({ error: 'Not Found' });
+    if (req.headers['x-admin-token'] !== adminToken) return res.status(403).json({ error: 'Forbidden' });
     const token = await publishModule.getAccessToken();
     res.json({ access_token: token });
   } catch (err) { res.status(500).json({ error: err.message }); }

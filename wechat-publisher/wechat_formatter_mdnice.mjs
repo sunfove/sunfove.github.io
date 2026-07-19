@@ -20,6 +20,10 @@ import logger from './modules/logger.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// 本地图片解析根目录：优先环境变量 BLOG_SOURCE_DIR，回退到旧版 Linux 路径；
+// 若目录不存在则跳过本地图片解析，保留原始图片 URL
+const BLOG_SOURCE_DIR = process.env.BLOG_SOURCE_DIR || '/home/ubuntu/time-frame-website/source';
+
 import { mathjax } from 'mathjax-full/js/mathjax.js';
 import { TeX } from 'mathjax-full/js/input/tex.js';
 import { SVG } from 'mathjax-full/js/output/svg.js';
@@ -329,9 +333,14 @@ export async function renderFormulasAndImages(html, formulas, imageUrls, accessT
         const resp = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
         imageBuffer = Buffer.from(await resp.arrayBuffer());
       } else {
+        if (!fs.existsSync(BLOG_SOURCE_DIR)) {
+          logger.warn(`  ⚠️ 本地图片源目录不存在 (${BLOG_SOURCE_DIR})，跳过本地解析，保留原始图片地址: ${url}`);
+          html = html.replace(`\x00IMG${i}\x00`, `<img src="${url}" alt="${escapeHtml(alt)}" style="display:block;margin:15px auto;max-width:100%;height:auto;" />`);
+          continue;
+        }
         const localPath = url.startsWith('/')
-          ? '/home/ubuntu/time-frame-website/source' + url
-          : path.resolve('/home/ubuntu/time-frame-website/source', url);
+          ? BLOG_SOURCE_DIR + url
+          : path.resolve(BLOG_SOURCE_DIR, url);
         imageBuffer = fs.readFileSync(localPath);
       }
       const cdnUrl = await uploadImageToWeChat(accessToken, imageBuffer, `img_${i}.png`);
