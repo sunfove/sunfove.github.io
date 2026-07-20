@@ -111,7 +111,7 @@ theme: spectrum
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   - type: git
-    repo: git@github.com:sunfove/sunfove.github.io.git
+    repo: ssh://git@ssh.github.com:443/sunfove/sunfove.github.io.git
     branch: master
     message: "Update: {{ now('YYYY-MM-DD HH:mm:ss') }}"
   # - type: git

@@ -3,25 +3,31 @@
    手写 CSS，无框架
    ========================================================================== */
 
-/* ---------- 1. 设计令牌 ---------- */
+/* ---------- 1. 设计令牌（水墨书卷风） ---------- */
 :root {
-  --paper: #f6f2e5;
-  --paper-raised: #fdfaf1;
-  --ink: #3e3832;
-  --ink-soft: #6b655c;
-  --ink-faint: #a39a8c;
-  --selection: #ebb137;
+  /* 宣纸色调 */
+  --paper: #f3ecd8;
+  --paper-raised: #faf6e9;
+  --ink: #2d2620;           /* 松烟墨 */
+  --ink-soft: #5c5549;      /* 淡墨 */
+  --ink-faint: #9a9180;     /* 清墨 */
+  --selection: #c4a45a;     /* 琉璃黄 */
 
-  --sp-violet: #6d28d9;
-  --sp-blue: #2563eb;
-  --sp-cyan: #0891b2;
-  --sp-green: #2c6469;
-  --sp-amber: #df6536;
-  --sp-red: #b20155;
-  --sp-yellow: #ebb137;
+  /* 传统七色 */
+  --sp-violet: #553b5e;     /* 紫棠 */
+  --sp-blue: #2d506b;       /* 靛蓝 */
+  --sp-cyan: #3d7b7f;       /* 青碧 */
+  --sp-green: #426e52;      /* 松花绿 */
+  --sp-amber: #b85d3b;      /* 赭石 */
+  --sp-red: #a52834;        /* 朱砂 */
+  --sp-yellow: #c4a45a;     /* 琉璃黄 */
 
-  --code-bg: #efe9d8;
-  --hairline: rgba(62, 56, 50, 0.16);
+  /* 印章红 */
+  --seal-red: #c4333e;
+  --seal-red-dark: #8b1a2b;
+
+  --code-bg: #efe7d0;
+  --hairline: rgba(45, 38, 32, 0.14);
   --link: var(--sp-blue);
 
   --serif: 'Songti SC', 'STSong', 'Noto Serif CJK SC', 'SimSun', Georgia, serif;
@@ -30,27 +36,30 @@
 
   --nav-h: 52px;
   --content-w: 700px;
-  --sky: rgba(223, 101, 54, 0.05);
+  --sky: rgba(184, 93, 59, 0.04);
 }
 
 [data-theme="dark"] {
-  --paper: #16140f;
-  --paper-raised: #1e1b14;
-  --ink: #e8e2d4;
-  --ink-soft: #b0a893;
-  --ink-faint: #6f6a5c;
+  --paper: #1a1612;
+  --paper-raised: #221e18;
+  --ink: #e5ddcc;
+  --ink-soft: #a89e8a;
+  --ink-faint: #6d6558;
 
-  --sp-violet: #8447e8;
-  --sp-blue: #4c7ef0;
-  --sp-cyan: #12a8cc;
-  --sp-green: #3d8288;
-  --sp-amber: #e67f52;
-  --sp-red: #d1146c;
-  --sp-yellow: #f0c35e;
+  --sp-violet: #735b7c;
+  --sp-blue: #456f90;
+  --sp-cyan: #55989c;
+  --sp-green: #5a8a6a;
+  --sp-amber: #d07a58;
+  --sp-red: #c44a52;
+  --sp-yellow: #d4b870;
 
-  --code-bg: #211d15;
-  --hairline: rgba(232, 226, 212, 0.14);
-  --sky: rgba(76, 126, 240, 0.06);
+  --seal-red: #d44a50;
+  --seal-red-dark: #a52a35;
+
+  --code-bg: #231f18;
+  --hairline: rgba(229, 221, 204, 0.12);
+  --sky: rgba(208, 122, 88, 0.06);
 }
 
 /* ---------- 2. 基础 ---------- */
@@ -82,8 +91,10 @@ body {
 
 [data-theme="dark"] body {
   background-image:
-    radial-gradient(rgba(232, 226, 212, 0.02) 1px, transparent 1px),
-    radial-gradient(rgba(232, 226, 212, 0.015) 1px, transparent 1px);
+    radial-gradient(rgba(229, 221, 204, 0.018) 1px, transparent 1px),
+    radial-gradient(rgba(229, 221, 204, 0.012) 1px, transparent 1px);
+  background-size: 28px 28px, 28px 28px;
+  background-position: 0 0, 14px 14px;
 }
 
 ::selection { background: var(--selection); color: #16140f; }
@@ -686,32 +697,32 @@ pre code { background: none; padding: 0; }
 /* ---------- 17. 四时场景 ---------- */
 /* 晨曦：玫瑰金纸面 */
 :root[data-theme="light"][data-scene="dawn"] {
-  --paper: #f7ede2;
-  --paper-raised: #fdf6ec;
-  --ink: #413630;
-  --ink-soft: #6e5e54;
-  --ink-faint: #a89a8b;
-  --code-bg: #f2e6d4;
-  --hairline: rgba(65, 54, 48, 0.16);
-  --sky: rgba(223, 101, 54, 0.14);
+  --paper: #f5e8d5;
+  --paper-raised: #fbf1e2;
+  --ink: #3d3028;
+  --ink-soft: #6a5b4c;
+  --ink-faint: #a4927e;
+  --code-bg: #f0e2cc;
+  --hairline: rgba(61, 48, 40, 0.16);
+  --sky: rgba(184, 93, 59, 0.14);
 }
 /* 黄昏：琥珀杏子纸面 */
 :root[data-theme="light"][data-scene="dusk"] {
-  --paper: #f6ecda;
-  --paper-raised: #fcf4e3;
-  --ink: #403a2e;
-  --ink-soft: #6d6450;
-  --ink-faint: #a99c83;
-  --code-bg: #f1e5cb;
-  --hairline: rgba(64, 58, 46, 0.16);
-  --sky: rgba(223, 101, 54, 0.16);
+  --paper: #f4e8d2;
+  --paper-raised: #faf0df;
+  --ink: #3c352a;
+  --ink-soft: #695f4c;
+  --ink-faint: #a49578;
+  --code-bg: #efe1c5;
+  --hairline: rgba(60, 53, 42, 0.16);
+  --sky: rgba(184, 93, 59, 0.16);
 }
 /* 子夜：暗房偏靛 */
 :root[data-theme="dark"][data-scene="midnight"] {
   --paper: #131219;
   --paper-raised: #1a1922;
   --code-bg: #1e1d28;
-  --sky: rgba(76, 126, 240, 0.10);
+  --sky: rgba(69, 111, 144, 0.10);
 }
 
 /* Hero 天空：每场景顶部微渐变 */
@@ -804,4 +815,290 @@ pre code { background: none; padding: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .gradient-title { animation: none; }
+}
+
+/* ==========================================================================
+   水墨书卷风 · 中国风演进
+   ========================================================================== */
+
+/* ---------- 23. 宣纸纹理 ---------- */
+body {
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(45, 38, 32, 0.01) 3px,
+      rgba(45, 38, 32, 0.01) 3.5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(45, 38, 32, 0.006) 3px,
+      rgba(45, 38, 32, 0.006) 3.5px
+    ),
+    radial-gradient(rgba(45, 38, 32, 0.016) 1px, transparent 1px),
+    radial-gradient(rgba(45, 38, 32, 0.01) 0.5px, transparent 0.5px);
+  background-size:
+    100% 6px,
+    6px 100%,
+    37px 37px,
+    23px 23px;
+  background-position: 0 0, 0 0, 0 0, 11.5px 11.5px;
+}
+
+/* ---------- 24. 印章 ---------- */
+.seal-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border: 2px solid var(--seal-red);
+  border-radius: 3px;
+  color: var(--seal-red);
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transform: rotate(-3deg);
+  transition: border-color 0.25s, color 0.25s, transform 0.3s;
+}
+.seal-mark:hover {
+  border-color: var(--seal-red-dark);
+  color: var(--seal-red-dark);
+  transform: rotate(0deg);
+}
+
+.seal-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border: 1.5px solid var(--seal-red);
+  border-radius: 3px;
+  color: var(--seal-red);
+  text-decoration: none;
+  background: transparent;
+  transform: rotate(-1deg);
+  transition: background 0.25s, color 0.25s;
+}
+.seal-chip:hover {
+  background: var(--seal-red);
+  color: var(--paper-raised);
+}
+
+/* ---------- 25. 水墨晕染 ---------- */
+.ink-bleed {
+  position: relative;
+  transition: background-color 0.4s ease;
+}
+.ink-bleed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 50%, rgba(45, 38, 32, 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 70% 60%, rgba(45, 38, 32, 0.03) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  filter: blur(8px);
+  z-index: 0;
+}
+.ink-bleed:hover::after {
+  opacity: 1;
+}
+[data-theme="dark"] .ink-bleed::after {
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 50%, rgba(229, 221, 204, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 70% 60%, rgba(229, 221, 204, 0.025) 0%, transparent 70%);
+}
+
+/* ---------- 26. 云纹 / 古典装饰线 ---------- */
+.cloud-border {
+  position: relative;
+  height: 24px;
+  overflow: hidden;
+  margin: 0 24px;
+}
+.cloud-border::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 24px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      var(--hairline) 0px,
+      var(--hairline) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+  mask-image:
+    repeating-conic-gradient(
+      from -45deg at 50% 0%,
+      transparent 0deg,
+      transparent 45deg,
+      black 45deg,
+      black 135deg,
+      transparent 135deg,
+      transparent 180deg
+    );
+  mask-size: 60px 24px;
+  -webkit-mask-image: repeating-conic-gradient(
+    from -45deg at 50% 0%,
+    transparent 0deg,
+    transparent 45deg,
+    black 45deg,
+    black 135deg,
+    transparent 135deg,
+    transparent 180deg
+  );
+  -webkit-mask-size: 60px 24px;
+}
+
+.chinese-border {
+  max-width: 720px; margin: 36px auto;
+  border-top: 2px double var(--ink-faint);
+  border-bottom: 1px solid var(--hairline);
+  padding: 12px 0;
+  position: relative;
+}
+.chinese-border::before {
+  content: '◆';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: var(--ink-faint);
+  background: var(--paper);
+  padding: 0 12px;
+}
+
+/* ---------- 27. 山水剪影 Hero ---------- */
+.hero-mountains {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 40%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.hero-mountains svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.mountain-layer { fill: rgba(45, 38, 32, 0.06); }
+.mountain-layer:nth-child(2) { fill: rgba(45, 38, 32, 0.04); }
+.mountain-layer:nth-child(3) { fill: rgba(45, 38, 32, 0.025); }
+[data-theme="dark"] .mountain-layer { fill: rgba(229, 221, 204, 0.05); }
+[data-theme="dark"] .mountain-layer:nth-child(2) { fill: rgba(229, 221, 204, 0.035); }
+[data-theme="dark"] .mountain-layer:nth-child(3) { fill: rgba(229, 221, 204, 0.02); }
+
+/* ---------- 28. 水墨笔触 Feed 边框 ---------- */
+.feed-item {
+  border-left: none;
+  position: relative;
+}
+.feed-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 28px; bottom: 28px;
+  width: 4px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--catc, var(--sp-blue)) 8%,
+    var(--catc, var(--sp-blue)) 92%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  opacity: 0.55;
+  transition: opacity 0.3s, width 0.3s;
+}
+.feed-item:hover::before {
+  opacity: 0.85;
+  width: 5px;
+}
+
+/* ---------- 29. 诗中排版 ---------- */
+.poetry-shell { max-width: 760px; }
+.poem-block {
+  max-width: 560px;
+  margin: 48px auto;
+  padding: 40px 48px;
+  text-align: center;
+  position: relative;
+}
+.poem-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  letter-spacing: 0.15em;
+  color: var(--ink);
+}
+.poem-author {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-faint);
+  letter-spacing: 0.2em;
+  margin: 0 0 28px;
+}
+.poem-lines {
+  font-size: 1.1rem;
+  line-height: 2.4;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+.poem-lines p { margin: 0; }
+.poem-note {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.1em;
+  margin: 8px 0 0;
+}
+.poem-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--ink-faint);
+  margin: 32px auto;
+  position: relative;
+}
+.poem-divider::after {
+  content: '光';
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: var(--sp-amber);
+  background: var(--paper);
+  padding: 0 10px;
+}
+.poetry-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  padding: 32px 24px;
+}
+
+/* ---------- 30. 响应式补充 ---------- */
+@media (max-width: 880px) {
+  .seal-mark { width: 28px; height: 28px; font-size: 15px; }
+  .poem-block { padding: 32px 24px; }
+}
+@media (max-width: 760px) {
+  .hero-mountains { height: 28%; }
+  .poem-lines { font-size: 1rem; }
+  .poem-block { padding: 24px 16px; }
 }

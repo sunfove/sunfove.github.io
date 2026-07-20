@@ -24,6 +24,14 @@
 }
 </script>
 <% } %>
+<!-- Resource hints: early DNS + connection for external origins -->
+<link rel="dns-prefetch" href="//hm.baidu.com">
+<link rel="preconnect" href="//hm.baidu.com" crossorigin>
+<link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+<link rel="preconnect" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com" crossorigin>
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//at.alicdn.com">
+<link rel="preload" href="<%- url_for('/css/spectrum.css') %>" as="style">
 <link rel="stylesheet" href="<%- url_for('/css/spectrum.css') %>">
 <script>
 /* 防闪烁：首绘前确定四时场景与明暗主题（与 js/scenes.js 逻辑一致） */

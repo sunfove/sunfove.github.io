@@ -1,0 +1,69 @@
+<%- partial('partials/wave-header') %>
+<%
+  var poems = [
+    { title: '日出', author: '李白', dynasty: '唐', lines: ['日出东方隈，', '似从地底来。', '历天又复入西海，', '六龙所舍安在哉？'], note: '光与时空的古老追问' },
+    { title: '物理之光', author: 'Sunfove', dynasty: '今', lines: ['光子穿过双缝，', '在屏上写下', '波动的自白书 ——', '每一道条纹，都是宇宙的签名。'], note: '双缝干涉实验的诗意记录' },
+    { title: '登鹳雀楼', author: '王之涣', dynasty: '唐', lines: ['白日依山尽，', '黄河入海流。', '欲穷千里目，', '更上一层楼。'], note: '光的传播与远望 —— 几何光学的直觉' },
+    { title: '超表面吟', author: 'Sunfove', dynasty: '今', lines: ['在纳米的海拔上，', '每一根柱子都是', '一个调相器 ——', '它们集体鞠躬，', '将光折向预言的方向。'], note: '超表面相位调控的诗意表达' },
+    { title: '月下独酌（节选）', author: '李白', dynasty: '唐', lines: ['花间一壶酒，', '独酌无相亲。', '举杯邀明月，', '对影成三人。'], note: '月光、反射与影 —— 光学现象的诗眼' },
+    { title: '夜雨寄北', author: '李商隐', dynasty: '唐', lines: ['君问归期未有期，', '巴山夜雨涨秋池。', '何当共剪西窗烛，', '却话巴山夜雨时。'], note: '烛光 —— 人类最早的光源与最深的思念' }
+  ];
+  var featured = poems[Math.floor(Math.random() * poems.length)];
+%>
+<section class="poetry-shell post-shell">
+  <header class="post-head">
+    <span class="seal-chip">光之诗</span>
+    <h1 class="post-title">Poetry of Light</h1>
+    <p class="post-byline">古典诗词遇见物理之美 · <%= poems.length %> 首选诗</p>
+    <hr class="post-rule">
+  </header>
+
+  <div class="poem-featured poem-block">
+    <p class="poem-title"><%= featured.title %></p>
+    <p class="poem-author"><%= featured.author %> · <%= featured.dynasty %></p>
+    <div class="poem-lines">
+      <% featured.lines.forEach(function(line) { %>
+        <p><%= line %></p>
+      <% }) %>
+    </div>
+    <div class="poem-divider"></div>
+    <p class="poem-note"><%= featured.note %></p>
+  </div>
+
+  <div class="chinese-border"></div>
+
+  <% poems.forEach(function(poem) { %>
+  <div class="poem-block">
+    <p class="poem-title"><%= poem.title %></p>
+    <p class="poem-author"><%= poem.author %> · <%= poem.dynasty %></p>
+    <div class="poem-lines">
+      <% poem.lines.forEach(function(line) { %>
+        <p><%= line %></p>
+      <% }) %>
+    </div>
+    <p class="poem-note"><%= poem.note %></p>
+  </div>
+  <div class="poem-divider"></div>
+  <% }) %>
+
+  <p class="poetry-footer"><em>页面每次加载随机展示一首作为「今日诗光」。本页所有诗歌均围绕光、光学、视觉、时间等主题遴选。水墨书卷，诗中有理。</em></p>
+</section>
+
+<script>
+(function() {
+  var featured = document.querySelector('.poem-featured');
+  if (!featured) return;
+  var poems = document.querySelectorAll('.poem-block:not(.poem-featured)');
+  if (!poems.length) return;
+  var rand = Math.floor(Math.random() * poems.length);
+  var swap = poems[rand];
+  if (swap) {
+    var parent = featured.parentNode;
+    var tempFeatured = featured.cloneNode(true);
+    var tempSwap = swap.cloneNode(true);
+    parent.replaceChild(tempSwap, featured);
+    tempSwap.classList.add('poem-featured');
+    parent.replaceChild(tempFeatured, swap);
+  }
+})();
+</script>

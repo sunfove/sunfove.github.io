@@ -1,6 +1,6 @@
 /**
- * Lightweight particle effect for banner area
- * ~30 particles, no heavy physics, minimal performance impact
+ * Lightweight particle effect for banner area (~30 particles).
+ * Optimized: rAF pauses when tab hidden, passive resize, pre-computed constants.
  */
 (function () {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -10,6 +10,7 @@
 
   var canvas = document.createElement('canvas');
   canvas.id = 'particle-bg';
+  canvas.setAttribute('aria-hidden', 'true');
   board.style.position = 'relative';
   board.insertBefore(canvas, board.firstChild);
 
@@ -18,6 +19,10 @@
   var particles = [];
   var COUNT = 30;
   var mouse = { x: -200, y: -200 };
+  var TAU = Math.PI * 2;
+  var LINE_DIST = 80;
+  var MOUSE_DIST = 150;
+  var running = true;
 
   function size() {
     var rect = board.getBoundingClientRect();
@@ -26,7 +31,7 @@
   }
 
   function initParticles() {
-    particles = [];
+    particles.length = 0;
     for (var i = 0; i < COUNT; i++) {
       particles.push({
         x: Math.random() * W,
@@ -43,7 +48,7 @@
     var rect = board.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
-  });
+  }, { passive: true });
 
   board.addEventListener('mouseleave', function () {
     mouse.x = -200;
@@ -51,17 +56,21 @@
   });
 
   function loop() {
+    if (!running) {
+      raf = requestAnimationFrame(loop);
+      return;
+    }
     ctx.clearRect(0, 0, W, H);
 
-    for (var i = 0; i < particles.length; i++) {
-      var p = particles[i];
+    var i, j, p, dx, dy, dist, f;
+    for (i = 0; i < COUNT; i++) {
+      p = particles[i];
 
-      // Gentle attraction toward mouse
-      var dx = mouse.x - p.x;
-      var dy = mouse.y - p.y;
-      var dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 150 && dist > 0.5) {
-        var f = (1.5 - 1.5 * dist / 150) / dist;
+      dx = mouse.x - p.x;
+      dy = mouse.y - p.y;
+      dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_DIST && dist > 0.5) {
+        f = (1.5 - 1.5 * dist / MOUSE_DIST) / dist;
         p.vx += dx * f * 0.003;
         p.vy += dy * f * 0.003;
       }
@@ -78,22 +87,22 @@
       if (p.y > H + 5) p.y = -5;
 
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, p.r, 0, TAU);
       ctx.fillStyle = 'rgba(255,255,255,' + p.a + ')';
       ctx.fill();
     }
 
-    // Lines
-    for (i = 0; i < particles.length; i++) {
-      for (var j = i + 1; j < particles.length; j++) {
+    // Lines between nearby particles
+    for (i = 0; i < COUNT; i++) {
+      for (j = i + 1; j < COUNT; j++) {
         var dx2 = particles[i].x - particles[j].x;
         var dy2 = particles[i].y - particles[j].y;
         var d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-        if (d2 < 80) {
+        if (d2 < LINE_DIST) {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = 'rgba(255,255,255,' + (0.06 * (1 - d2 / 80)) + ')';
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.06 * (1 - d2 / LINE_DIST)) + ')';
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
@@ -102,6 +111,11 @@
 
     raf = requestAnimationFrame(loop);
   }
+
+  // Pause when tab is hidden to save CPU
+  document.addEventListener('visibilitychange', function () {
+    running = !document.hidden;
+  });
 
   size();
   initParticles();
@@ -114,10 +128,5 @@
       size();
       initParticles();
     }, 200);
-  });
-
-  // Cleanup on page navigation (SPA-like)
-  window.addEventListener('beforeunload', function () {
-    cancelAnimationFrame(raf);
-  });
+  }, { passive: true });
 })();
