@@ -1,23 +1,25 @@
-<footer class="site-footer">
+<footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
     <div class="footer-col">
       <h4>关于</h4>
       <p><%= config.description || '' %></p>
-      <p class="footer-dim">© <%= new Date().getFullYear() %> <%= config.author %> · <%= config.title %></p>
+      <p class="footer-dim">&copy; <%= new Date().getFullYear() %> <%= config.author %> · <%= config.title %></p>
+      <p class="footer-dim"><a href="<%- url_for('/sitemap.xml') %>">Sitemap</a> · <a href="<%- url_for('/atom.xml') %>">RSS</a></p>
     </div>
     <div class="footer-col">
-      <h4>订阅</h4>
-      <p><a href="<%- url_for('/sitemap.xml') %>">Sitemap</a></p>
-      <p><a href="<%- url_for('/baidusitemap.xml') %>">百度 Sitemap</a></p>
+      <h4>导航</h4>
+      <p><a href="<%- url_for('/archives/') %>">文章归档</a></p>
+      <p><a href="<%- url_for('/categories/') %>">分类索引</a></p>
+      <p><a href="<%- url_for('/tags/') %>">标签云</a></p>
       <p><a href="<%- url_for('/search/') %>">站内搜索</a></p>
     </div>
     <div class="footer-col">
-      <h4>运转</h4>
-      <p><a href="<%- url_for('/automation/') %>">本博客由自动化管线驱动</a></p>
+      <h4>实验室</h4>
       <p><a href="<%- url_for('/lab/') %>">光谱实验室</a></p>
       <p><a href="<%- url_for('/stats/') %>">发布仪表盘</a></p>
+      <p><a href="<%- url_for('/automation/') %>">自动化管线</a></p>
+      <p><a href="<%- url_for('/about/') %>">关于本站</a></p>
     </div>
   </div>
-  <div class="cloud-border" aria-hidden="true"></div>
-  <div class="footer-spectrum" aria-hidden="true"></div>
+  <div class="footer-line" aria-hidden="true"></div>
 </footer>

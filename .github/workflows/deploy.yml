@@ -1,80 +1,210 @@
-name: Hexo Auto Deploy
+name: Deploy to Production
 
 on:
   push:
     branches:
-      - master  # 确保这里是你存放源码的主分支名 (master 或 main)
+      - master
 
-# 🆕 新增：给予机器人写权限，否则它无法推送到 gh-pages 分支
+# 写入权限
 permissions:
   contents: write
+  deployments: write
+  statuses: write
 
-
-# 🟢 新增：并发控制组
+# 并发控制：同一分支同时只运行一个流程
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  NODE_VERSION: '20'
+  DEPLOY_SERVER: 124.220.80.92
+  DEPLOY_PATH: /var/www/time-frame.cloud
 
 jobs:
-  build-and-deploy:
+  # ── 阶段 1：构建与验证 ──
+  build:
+    name: Build & Validate
     runs-on: ubuntu-latest
+    outputs:
+      build-status: ${{ steps.build.outcome }}
 
     steps:
-    # 1. 检出代码
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        submodules: true
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
 
-    # 2. 安装 Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
-    # 3. 缓存依赖
-    - name: Cache dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
-    # 4. 安装依赖
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
 
-    # 5. 生成静态文件
-    - name: Build Hexo
-      run: |
-        npx hexo clean
-        npx hexo generate
+      - name: Clean previous build
+        run: npx hexo clean
 
-    # 6. 部署到服务器 (time-frame.cloud)
-    - name: Deploy to Server
-      uses: easingthemes/ssh-deploy@main
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
-        ARGS: "-rlgoDzvc -i"
-        SOURCE: "public/"
-        REMOTE_HOST: 124.220.80.92
-        REMOTE_USER: root
-        TARGET: "/var/www/time-frame.cloud"
-        EXCLUDE: "/node_modules/"
+      - name: Generate static site
+        id: build
+        run: npx hexo generate
 
-    # 7. 🆕 部署到 GitHub Pages (任务二)
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }} # 这是 GitHub 自动生成的，无需你自己配置 Secret
-        publish_dir: ./public
-        publish_branch: gh-pages  # 网页文件将存放在 gh-pages 分支，保持源码分支整洁
+      - name: Validate build output
+        run: |
+          echo "=== Build validation ==="
+          if [ ! -f "public/index.html" ]; then
+            echo "ERROR: public/index.html not found!"
+            exit 1
+          fi
+          echo "✓ index.html exists"
+          if [ ! -f "public/local-search.xml" ]; then
+            echo "WARNING: local-search.xml not found"
+          else
+            echo "✓ search index exists"
+          fi
+          # Count output files
+          FILE_COUNT=$(find public -type f | wc -l)
+          echo "✓ Total output files: $FILE_COUNT"
+          # Check total size
+          SIZE=$(du -sh public | cut -f1)
+          echo "✓ Build size: $SIZE"
 
-    - name: 刷新腾讯云 CDN
-      uses: keithnull/tencent-cloud-cdn-purge-cache@v1.0
-      env:
-        SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
-        SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
-        PATHS: 'https://sunfove.xyz/'
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-build
+          path: public/
+          retention-days: 1
+          compression-level: 6
+
+  # ── 阶段 2：部署到服务器 ──
+  deploy-server:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    needs: build
+    if: needs.build.result == 'success'
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build
+          path: public/
+
+      - name: Verify artifact
+        run: |
+          if [ ! -f "public/index.html" ]; then
+            echo "ERROR: Artifact missing index.html"
+            exit 1
+          fi
+          echo "✓ Artifact verified"
+
+      - name: Deploy via SSH (rsync)
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
+          ARGS: "-rlgoDzvc -i --delete --exclude=.well-known"
+          SOURCE: "public/"
+          REMOTE_HOST: ${{ env.DEPLOY_SERVER }}
+          REMOTE_USER: root
+          TARGET: ${{ env.DEPLOY_PATH }}
+          EXCLUDE: "/node_modules/"
+
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.DEPLOY_SERVER }}
+          username: root
+          key: ${{ secrets.HEXO_DEPLOY_PRI }}
+          script: |
+            if [ -f "${{ env.DEPLOY_PATH }}/index.html" ]; then
+              echo "✓ Deployment verified: index.html exists on server"
+              ls -la ${{ env.DEPLOY_PATH }}/index.html
+            else
+              echo "ERROR: Deployment verification failed!"
+              exit 1
+            fi
+
+  # ── 阶段 3：部署到 GitHub Pages ──
+  deploy-ghpages:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: needs.build.result == 'success'
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build
+          path: public/
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          commit_message: 'deploy: ${{ github.sha }} [skip ci]'
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          full_commit_message: |
+            deploy: ${{ github.event.head_commit.message || github.sha }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+
+  # ── 阶段 4：刷新 CDN ──
+  refresh-cdn:
+    name: Refresh CDN Cache
+    runs-on: ubuntu-latest
+    needs: [deploy-server, deploy-ghpages]
+    if: always() && (needs.deploy-server.result == 'success' || needs.deploy-ghpages.result == 'success')
+
+    steps:
+      - name: Purge Tencent Cloud CDN
+        uses: keithnull/tencent-cloud-cdn-purge-cache@v1.0
+        env:
+          SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          PATHS: 'https://time-frame.cloud/'
+
+  # ── 阶段 5：部署状态通知 ──
+  notify:
+    name: Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [build, deploy-server, deploy-ghpages, refresh-cdn]
+    if: always()
+
+    steps:
+      - name: Report deployment status
+        run: |
+          echo "========================================="
+          echo "  Deployment Pipeline Summary"
+          echo "========================================="
+          echo ""
+          echo "  Commit:    ${{ github.event.head_commit.message || github.sha }}"
+          echo "  Branch:    ${{ github.ref_name }}"
+          echo "  Author:    ${{ github.actor }}"
+          echo "  Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo ""
+          echo "  Build:          ${{ needs.build.result || 'skipped' }}"
+          echo "  Server Deploy:  ${{ needs.deploy-server.result || 'skipped' }}"
+          echo "  GitHub Pages:   ${{ needs.deploy-ghpages.result || 'skipped' }}"
+          echo "  CDN Refresh:    ${{ needs.refresh-cdn.result || 'skipped' }}"
+          echo ""
+          if [ "${{ needs.build.result }}" = "success" ]; then
+            echo "  ✓ Site: https://time-frame.cloud"
+            echo "  ✓ Pages: https://sunfove.github.io"
+          fi
+          echo "========================================="

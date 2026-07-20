@@ -1,9 +1,8 @@
 <%- partial('partials/wave-header') %>
 <% if (page.category) { %>
-  <%/* 单分类页 */%>
   <section class="archive-shell">
     <header class="post-head">
-      <a class="post-cat chip-<%= catColorKey(page.category) %>">分类</a>
+      <span class="post-cat chip-<%= catColorKey(page.category) %>">分类</span>
       <h1 class="post-title"><%= page.category %></h1>
       <p class="post-byline"><%= page.posts.length %> 篇</p>
       <hr class="post-rule">
@@ -19,7 +18,6 @@
   </section>
   <%- partial('partials/pager') %>
 <% } else { %>
-  <%/* 分类总览 */%>
   <section class="archive-shell">
     <header class="post-head">
       <h1 class="post-title">分类</h1>

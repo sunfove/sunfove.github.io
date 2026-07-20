@@ -1,11 +1,17 @@
-<% if (page.total > 1) { %>
-<nav class="pager" aria-label="分页">
+<% if (page.prev || page.next) { %>
+<nav class="pager" aria-label="分页导航">
   <% if (page.prev) { %>
-    <a class="pager-link" href="<%- url_for(page.prev_link) %>">← 较新</a>
-  <% } else { %><span class="pager-link is-disabled">← 较新</span><% } %>
-  <span class="pager-info"><%= page.current %> / <%= page.total %></span>
+    <a class="pager-link is-prev" href="<%- url_for(page.prev_link) %>" rel="prev">← 上一页</a>
+  <% } else { %>
+    <span class="pager-link is-disabled" aria-hidden="true">← 上一页</span>
+  <% } %>
+
+  <span class="pager-info">第 <%= page.current %> / <%= page.total %> 页</span>
+
   <% if (page.next) { %>
-    <a class="pager-link" href="<%- url_for(page.next_link) %>">较旧 →</a>
-  <% } else { %><span class="pager-link is-disabled">较旧 →</span><% } %>
+    <a class="pager-link is-next" href="<%- url_for(page.next_link) %>" rel="next">下一页 →</a>
+  <% } else { %>
+    <span class="pager-link is-disabled" aria-hidden="true">下一页 →</span>
+  <% } %>
 </nav>
 <% } %>

@@ -23,7 +23,7 @@
             <span class="archive-date"><%= p.date.format('MM-DD') %></span>
             <a class="archive-title" href="<%- url_for(p.path) %>"><%= p.title %></a>
             <% var c = (p.categories.toArray() || [])[0]; %>
-            <% if (c) { %><span class="archive-dot chip-<%= catColorKey(c.name) %>" title="<%= c.name %>"></span><% } %>
+            <% if (c) { %><span class="archive-dot chip-<%= catColorKey(c.name) %>" title="<%= c.name %>" aria-label="分类：<%= c.name %>"></span><% } %>
           </li>
         <% }) %>
       </ul>

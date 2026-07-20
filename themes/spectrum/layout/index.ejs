@@ -1,18 +1,11 @@
 <% if (page.current === 1) { %>
 <section class="hero">
   <div class="hero-text">
-    <h1 class="hero-title gradient-title"><%= theme.hero.title %></h1>
+    <h1 class="hero-title"><%= theme.hero.title %></h1>
     <p class="hero-subtitle"><%= theme.hero.subtitle %></p>
     <p class="hero-note"><%= theme.hero.note %></p>
   </div>
   <div class="hero-tank">
-    <div class="hero-mountains" aria-hidden="true">
-      <svg viewBox="0 0 1200 200" preserveAspectRatio="none">
-        <path class="mountain-layer" d="M0,200 L0,140 Q150,80 300,120 Q450,60 600,100 Q750,50 900,90 Q1050,60 1200,80 L1200,200 Z"/>
-        <path class="mountain-layer" d="M0,200 L0,160 Q200,100 400,140 Q600,90 800,130 Q1000,80 1200,100 L1200,200 Z"/>
-        <path class="mountain-layer" d="M0,200 L0,175 Q250,130 500,155 Q750,120 1000,145 Q1100,130 1200,135 L1200,200 Z"/>
-      </svg>
-    </div>
     <canvas id="rippleTank" aria-label="涟漪池：移动指针可激起水波"></canvas>
     <p class="hero-hint no-js-hide">— 涟漪池 · 触碰水面 —</p>
   </div>
@@ -39,7 +32,7 @@
     <% var cat = (post.categories.toArray() || [])[0]; %>
     <% var ckey = cat ? catColorKey(cat.name) : 'blue'; %>
     <article class="feed-item fc-<%= ckey %> ink-bleed">
-      <a class="feed-date" href="<%- url_for(post.path) %>">
+      <a class="feed-date" href="<%- url_for(post.path) %>" aria-hidden="true">
         <span class="feed-day"><%= post.date.format('DD') %></span>
         <span class="feed-ym"><%= post.date.format('YYYY · MM') %></span>
       </a>

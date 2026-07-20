@@ -1,40 +1,100 @@
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f3ecd8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1612" media="(prefers-color-scheme: dark)">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 <%
   var siteTitle = config.title;
   var pageTitle = page.title ? page.title + ' · ' + siteTitle : siteTitle + ' — ' + (config.subtitle || '');
   var desc = page.description || config.description || '';
+  var canonical = full_url_for(page.path || '');
+  var locale = config.language || 'zh-CN';
 %>
 <title><%= pageTitle %></title>
 <meta name="description" content="<%= String(desc).replace(/"/g, '&quot;') %>">
 <meta name="author" content="<%= config.author %>">
-<link rel="canonical" href="<%= full_url_for(page.path || '') %>">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="<%= canonical %>">
+
+<!-- Open Graph -->
+<meta property="og:type" content="<%= page.__post ? 'article' : 'website' %>">
+<meta property="og:locale" content="<%= locale %>">
+<meta property="og:site_name" content="<%= siteTitle %>">
+<meta property="og:title" content="<%= page.title || siteTitle %>">
+<meta property="og:description" content="<%= String(desc).replace(/"/g, '&quot;') %>">
+<meta property="og:url" content="<%= canonical %>">
+<% if (page.index_img) { %>
+<meta property="og:image" content="<%= full_url_for(page.index_img) %>">
+<% } %>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= page.title || siteTitle %>">
+<meta name="twitter:description" content="<%= String(desc).replace(/"/g, '&quot;') %>">
+<% if (page.index_img) { %>
+<meta name="twitter:image" content="<%= full_url_for(page.index_img) %>">
+<% } %>
+
 <% if (page.__post) { %>
+<!-- Structured Data: Article -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": <%- JSON.stringify(page.title || '') %>,
   "description": <%- JSON.stringify(String(page.description || '').substring(0, 200)) %>,
-  "url": <%- JSON.stringify(full_url_for(page.path)) %>,
+  "url": <%- JSON.stringify(canonical) %>,
   "datePublished": <%- JSON.stringify(page.date ? page.date.toISOString() : '') %>,
   "dateModified": <%- JSON.stringify((page.updated || page.date) ? (page.updated || page.date).toISOString() : '') %>,
   "author": { "@type": "Person", "name": <%- JSON.stringify(config.author || '') %> },
-  "publisher": { "@type": "Person", "name": <%- JSON.stringify(config.author || '') %> }
+  "publisher": { "@type": "Person", "name": <%- JSON.stringify(config.author || '') %> },
+  "inLanguage": "<%= locale %>"
 }
 </script>
 <% } %>
-<!-- Resource hints: early DNS + connection for external origins -->
+
+<% if (!page.__post) { %>
+<!-- Structured Data: Website -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": <%- JSON.stringify(siteTitle) %>,
+  "url": <%- JSON.stringify(config.url) %>,
+  "description": <%- JSON.stringify(config.description || '') %>,
+  "inLanguage": "<%= locale %>"
+}
+</script>
+<% } %>
+
+<!-- Resource hints -->
 <link rel="dns-prefetch" href="//hm.baidu.com">
 <link rel="preconnect" href="//hm.baidu.com" crossorigin>
 <link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
 <link rel="preconnect" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com" crossorigin>
 <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
 <link rel="dns-prefetch" href="//at.alicdn.com">
+
+<!-- Preload critical CSS -->
 <link rel="preload" href="<%- url_for('/css/spectrum.css') %>" as="style">
 <link rel="stylesheet" href="<%- url_for('/css/spectrum.css') %>">
+
+<!-- Preconnect to CDN for fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="<%= siteTitle %> RSS" href="<%- url_for('/atom.xml') %>">
+
+<!-- PWA -->
+<link rel="manifest" href="<%- url_for('/manifest.json') %>">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="<%= siteTitle %>">
+
+<!-- Anti-flicker: scene + theme detection -->
 <script>
-/* 防闪烁：首绘前确定四时场景与明暗主题（与 js/scenes.js 逻辑一致） */
 (function () {
   try {
     var h = new Date().getHours();

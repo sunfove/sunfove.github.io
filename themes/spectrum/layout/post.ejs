@@ -7,13 +7,16 @@
 %>
 <%- partial('partials/wave-header') %>
 
-<article class="post-shell">
+<article class="post-shell" itemscope itemtype="https://schema.org/Article">
   <header class="post-head">
     <% if (cat) { %>
       <a class="post-cat chip-<%= catColorKey(cat.name) %>" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
     <% } %>
-    <h1 class="post-title"><%= page.title %></h1>
-    <p class="post-byline"><%= date(page.date, 'YYYY年M月D日') %> · <%= config.author %></p>
+    <h1 class="post-title" itemprop="headline"><%= page.title %></h1>
+    <p class="post-byline">
+      <time datetime="<%= page.date.toISOString() %>" itemprop="datePublished"><%= date(page.date, 'YYYY年M月D日') %></time>
+      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name"><%= config.author %></span></span>
+    </p>
     <hr class="post-rule">
   </header>
 
@@ -22,7 +25,7 @@
       <details class="toc-box" id="tocBox" open>
         <summary>目录</summary>
         <% if (tocHtml) { %>
-          <nav class="toc-nav" id="tocNav"><%- tocHtml %></nav>
+          <nav class="toc-nav" id="tocNav" aria-label="文章目录"><%- tocHtml %></nav>
         <% } else { %>
           <p class="toc-empty">本文无小节</p>
         <% } %>
@@ -32,21 +35,21 @@
     <div class="post-body">
       <% if (page.index_img) { %>
         <figure class="post-cover">
-          <img src="<%- url_for(page.index_img) %>" alt="<%= page.title %>" loading="lazy">
+          <img src="<%- url_for(page.index_img) %>" alt="<%= page.title %>" loading="lazy" decoding="async" itemprop="image">
         </figure>
       <% } %>
-      <div class="post-content" id="postContent">
+      <div class="post-content" id="postContent" itemprop="articleBody">
         <%- page.content %>
       </div>
       <div class="post-fin" aria-hidden="true"><span class="post-fin-icon">◆&nbsp;◆&nbsp;◆</span></div>
       <footer class="post-foot">
-        <div class="post-tags">
+        <div class="post-tags" aria-label="文章标签">
           <% tags.forEach(function (t) { %>
             <a class="tag-chip" href="<%- url_for(t.path) %>">#<%= t.name %></a>
           <% }) %>
         </div>
         <% if (page.prev || page.next) { %>
-        <nav class="post-nav" aria-label="上下篇">
+        <nav class="post-nav" aria-label="上下篇导航">
           <% if (page.prev) { %><a class="post-nav-link" href="<%- url_for(page.prev.path) %>">← <%= page.prev.title %></a><% } %>
           <% if (page.next) { %><a class="post-nav-link is-next" href="<%- url_for(page.next.path) %>"><%= page.next.title %> →</a><% } %>
         </nav>
@@ -58,7 +61,7 @@
       <div class="meta-box">
         <h4>手记信息</h4>
         <dl>
-          <dt>日期</dt><dd><%= date(page.date, 'YYYY-MM-DD') %></dd>
+          <dt>日期</dt><dd><time datetime="<%= page.date.toISOString() %>"><%= date(page.date, 'YYYY-MM-DD') %></time></dd>
           <% if (cat) { %><dt>分类</dt><dd><a class="meta-cat chip-<%= catColorKey(cat.name) %>" href="<%- url_for(cat.path) %>"><%= cat.name %></a></dd><% } %>
           <% if (tags.length) { %>
             <dt>标签</dt>

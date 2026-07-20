@@ -1,13 +1,14 @@
 <section class="search-shell">
   <header class="post-head">
     <h1 class="post-title">站内搜索</h1>
-    <p class="post-byline">索引全部手记的标题与正文</p>
+    <p class="post-byline">索引全部手记的标题与正文 · 支持中文分词</p>
     <hr class="post-rule">
   </header>
-  <div class="search-box">
-    <input type="search" id="searchInput" class="search-input" placeholder="输入关键词，如：超表面、偏振、傅里叶…" aria-label="搜索关键词" autocomplete="off">
-  </div>
-  <p class="search-status" id="searchStatus">正在加载索引…</p>
-  <ul class="search-results" id="searchResults"></ul>
+  <form class="search-box" role="search" onsubmit="return false;">
+    <label for="searchInput" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">搜索关键词</label>
+    <input type="search" id="searchInput" class="search-input" placeholder="输入关键词，如：超表面、偏振、傅里叶…" aria-label="搜索关键词" autocomplete="off" autocapitalize="off" spellcheck="false">
+  </form>
+  <p class="search-status" id="searchStatus" role="status">正在加载搜索索引……</p>
+  <ul class="search-results" id="searchResults" aria-label="搜索结果"></ul>
 </section>
 <script src="<%- url_for('/js/search.js') %>" defer></script>
