@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>贝叶斯优化：从第一性原理看黑盒函数的最优解 · 时间帧</title>
+<meta name="description" content="深入解析贝叶斯优化的数学本质。从高斯过程的先验信念到采集函数的博弈策略，本文以第一性原理阐述如何在昂贵的黑盒函数中寻找全局最优解，并结合代码实现与跨学科应用分析。">
+<meta name="author" content="Sunfove">
+<link rel="canonical" href="https://time-frame.cloud/2026/01/29/2026-01-30-bayesian-optimization-first-principles/">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "贝叶斯优化：从第一性原理看黑盒函数的最优解",
+  "description": "深入解析贝叶斯优化的数学本质。从高斯过程的先验信念到采集函数的博弈策略，本文以第一性原理阐述如何在昂贵的黑盒函数中寻找全局最优解，并结合代码实现与跨学科应用分析。",
+  "url": "https://time-frame.cloud/2026/01/29/2026-01-30-bayesian-optimization-first-principles/",
+  "datePublished": "2026-01-29T21:39:16.000Z",
+  "dateModified": "2026-07-20T14:36:53.652Z",
+  "author": { "@type": "Person", "name": "Sunfove" },
+  "publisher": { "@type": "Person", "name": "Sunfove" }
+}
+</script>
+
+<!-- Resource hints: early DNS + connection for external origins -->
+<link rel="dns-prefetch" href="//hm.baidu.com">
+<link rel="preconnect" href="//hm.baidu.com" crossorigin>
+<link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+<link rel="preconnect" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com" crossorigin>
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//at.alicdn.com">
+<link rel="preload" href="/css/spectrum.css" as="style">
+<link rel="stylesheet" href="/css/spectrum.css">
+<script>
+/* 防闪烁：首绘前确定四时场景与明暗主题（与 js/scenes.js 逻辑一致） */
+(function () {
+  try {
+    var h = new Date().getHours();
+    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
+    var manual = false, saved = null;
+    try {
+      manual = sessionStorage.getItem('spectrum-manual') === '1';
+      saved = localStorage.getItem('spectrum-theme');
+    } catch (e2) {}
+    var dark;
+    if (manual && saved) dark = saved === 'dark';
+    else if (scene === 'midnight') dark = true;
+    else if (saved) dark = saved === 'dark';
+    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var de = document.documentElement;
+    de.setAttribute('data-theme', dark ? 'dark' : 'light');
+    de.setAttribute('data-scene', scene);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-scene', 'day');
+  }
+})();
+</script>
+<noscript><style>.no-js-hide{display:none}</style></noscript>
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <span class="seal-mark" aria-hidden="true">帧</span>
+      <span class="brand-name">时间帧</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="主导航">
+      
+        <a href="/" class="nav-link">首页</a>
+      
+        <a href="/archives/" class="nav-link">归档</a>
+      
+        <a href="/categories/" class="nav-link">分类</a>
+      
+        <a href="/tags/" class="nav-link">标签</a>
+      
+        <a href="/poetry/" class="nav-link">诗光</a>
+      
+        <a href="/lab/" class="nav-link">实验室</a>
+      
+        <a href="/stats/" class="nav-link">仪表盘</a>
+      
+        <a href="/automation/" class="nav-link">自动化</a>
+      
+        <a href="/about/" class="nav-link">关于</a>
+      
+    </nav>
+    <div class="nav-actions">
+      <span class="nav-clock" id="navClock" title="北京时间">
+        <svg class="nav-dial" viewBox="0 0 26 26" width="22" height="22" aria-hidden="true">
+          <circle class="nd-ring" cx="13" cy="13" r="11"/>
+          <line class="nd-horizon" x1="3" y1="13" x2="23" y2="13"/>
+          <line class="nd-tick" x1="13" y1="1.4" x2="13" y2="3.6"/>
+          <g id="navDialSky">
+            <circle id="ndSun" class="nd-sun" cx="13" cy="5" r="2.6"/>
+            <circle id="ndMoon" class="nd-moon" cx="13" cy="21" r="2.4"/>
+          </g>
+        </svg>
+        <span class="nav-clock-time" id="navClockTime">--:--</span>
+      </span>
+      <a class="nav-icon-link" href="/search/" title="搜索" aria-label="搜索">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" title="切换明暗" aria-label="切换明暗主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <button class="nav-burger" id="navBurger" type="button" aria-label="展开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+  <main id="main">
+    
+
+
+<div class="wave-header" aria-hidden="true">
+  <svg viewBox="0 0 1200 160" preserveAspectRatio="xMidYMid slice" role="presentation">
+    <g fill="none" stroke-width="1">
+      <path class="wv wv1" d="M0,80 C150,40 300,120 450,80 S750,40 900,80 S1150,110 1200,85"/>
+      <path class="wv wv2" d="M0,95 C160,60 320,130 480,95 S780,60 930,95 S1150,120 1200,100"/>
+      <path class="wv wv3" d="M0,110 C170,80 340,140 510,110 S800,80 950,110 S1160,128 1200,115"/>
+      <circle class="wv-dot" cx="600" cy="80" r="3"/>
+      <circle class="wv-ring" cx="600" cy="80" r="26"/>
+      <circle class="wv-ring wv-ring2" cx="600" cy="80" r="52"/>
+    </g>
+  </svg>
+</div>
+
+
+<article class="post-shell">
+  <header class="post-head">
+    
+      <a class="post-cat chip-cyan" href="/categories/Technical-Deep-Dive/">Technical Deep Dive</a>
+    
+    <h1 class="post-title">贝叶斯优化：从第一性原理看黑盒函数的最优解</h1>
+    <p class="post-byline">2026年1月30日 · Sunfove</p>
+    <hr class="post-rule">
+  </header>
+
+  <div class="post-grid">
+    <aside class="post-toc" id="postToc">
+      <details class="toc-box" id="tocBox" open>
+        <summary>目录</summary>
+        
+          <nav class="toc-nav" id="tocNav"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BF%A1%E5%BF%B5%E7%9A%84%E6%9B%B4%E6%96%B0"><span class="toc-text">贝叶斯思维：信念的更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%AB%98%E6%96%AF%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="toc-text">什么是高斯过程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6%EF%BC%9A%E6%A0%B8%E5%87%BD%E6%95%B0%EF%BC%88Kernel-Function%EF%BC%89"><span class="toc-text">核心机制：核函数（Kernel Function）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E9%AA%8C%E6%8E%A8%E6%96%AD%EF%BC%88Math-Heavy%EF%BC%89"><span class="toc-text">后验推断（Math Heavy）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Upper-Confidence-Bound-UCB-%E4%B9%90%E8%A7%82%E4%B8%BB%E4%B9%89%E8%80%85%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">1. Upper Confidence Bound (UCB) - 乐观主义者的选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Expected-Improvement-EI-%E9%A3%8E%E9%99%A9%E4%B8%AD%E6%80%A7%E8%80%85%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">2. Expected Improvement (EI) - 风险中性者的选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98%EF%BC%88AutoML%EF%BC%89"><span class="toc-text">1. 机器学习超参数调优（AutoML）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-A-B-%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%9C%A8%E7%BA%BF%E6%8E%A8%E8%8D%90"><span class="toc-text">2. A&#x2F;B 测试与在线推荐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%9D%90%E6%96%99%E7%A7%91%E5%AD%A6%E4%B8%8E%E8%8D%AF%E7%89%A9%E5%8F%91%E7%8E%B0"><span class="toc-text">3. 材料科学与药物发现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6"><span class="toc-text">4. 机器人控制</span></a></li></ol></nav>
+        
+      </details>
+    </aside>
+
+    <div class="post-body">
+      
+      <div class="post-content" id="postContent">
+        <h1 id="引言：不确定性中的理性决策"><a href="#引言：不确定性中的理性决策" class="headerlink" title="引言：不确定性中的理性决策"></a>引言：不确定性中的理性决策</h1><p>在科学与工程的广袤疆域中，我们常常面临一类极具挑战性的优化问题：目标函数 $f(x)$ 像是一个神秘的“黑盒子”。我们不知道它的解析形式，不知道它的梯度信息（或者梯度不存在），而且每一次评估（Evaluation）都极其昂贵——可能意味着训练一个深度神经网络数天，合成一种新材料数周，或者进行一次耗资巨大的物理实验。</p>
+<p>传统的优化方法在此刻显得捉襟见肘：</p>
+<ul>
+<li><strong>网格搜索（Grid Search）</strong>：受制于维数灾难，效率低下。</li>
+<li><strong>随机搜索（Random Search）</strong>：缺乏记忆，无法利用历史信息指导未来探索。</li>
+<li><strong>梯度下降（Gradient Descent）</strong>：依赖导数，且容易陷入局部最优，不适用于离散或不可微的黑盒函数。</li>
+</ul>
+<p><strong>贝叶斯优化（Bayesian Optimization, BO）</strong> 应运而生。它不仅仅是一个算法，更是一种<strong>在有限预算下，平衡“已知”与“未知”的哲学体系</strong>。</p>
+<p>本文将从原理出发，解构贝叶斯优化如何利用<strong>高斯过程（Gaussian Processes）</strong> 构建世界模型，并通过<strong>采集函数（Acquisition Functions）</strong> 定最优策略，从而在探索（Exploration）与利用（Exploitation）之间找到完美的平衡。</p>
+<hr>
+<h1 id="第一性原理：黑盒优化的本质"><a href="#第一性原理：黑盒优化的本质" class="headerlink" title="第一性原理：黑盒优化的本质"></a>第一性原理：黑盒优化的本质</h1><p>优化的核心目标是找到输入 $x^*$，使得目标函数 $f(x)$ 取得全局最大值（或最小值）：</p>
+<p>$$<br>x^* &#x3D; \arg \max_{x \in \mathcal{X}} f(x)<br>$$</p>
+<p>在贝叶斯优化的语境下，我们假设 $f(x)$ 满足两个核心约束：</p>
+<ol>
+<li><strong>黑盒特性</strong>：我们只能通过输入 $x$ 观察到输出 $y$，且观测可能包含噪声，即 $y &#x3D; f(x) + \epsilon$。</li>
+<li><strong>高昂成本</strong>：我们无法承担大量的采样，必须每一次尝试都“物有所值”。</li>
+</ol>
+<h2 id="贝叶斯思维：信念的更新"><a href="#贝叶斯思维：信念的更新" class="headerlink" title="贝叶斯思维：信念的更新"></a>贝叶斯思维：信念的更新</h2><p>频率学派（Frequentist）视参数为固定常数，而贝叶斯学派（Bayesian）视参数为随机变量。在优化过程中，我们将 $f(x)$ 视为一个随机函数。</p>
+<p>这就引入了贝叶斯推理的核心公式：</p>
+<p>$$<br>P(f | \mathcal{D}) \propto P(\mathcal{D} | f) P(f)<br>$$</p>
+<ul>
+<li><strong>$P(f)$（先验，Prior）</strong>：在观测任何数据之前，我们对函数形状的假设（例如，它应该是平滑的）。</li>
+<li><strong>$P(\mathcal{D} | f)$（似然，Likelihood）</strong>：给定函数形态下，观测到当前数据的概率。</li>
+<li><strong>$P(f | \mathcal{D})$（后验，Posterior）</strong>：结合了先验信念和观测数据后，我们对函数形态的最新认知。</li>
+</ul>
+<p>贝叶斯优化的过程，就是不断收集数据 $\mathcal{D} &#x3D; {(x_1, y_1), …, (x_n, y_n)}$，更新对 $f(x)$ 的后验分布，并据此决定下一个 $x_{n+1}$ 去哪里采样的过程。</p>
+<hr>
+<h1 id="代理模型：高斯过程（Gaussian-Processes）"><a href="#代理模型：高斯过程（Gaussian-Processes）" class="headerlink" title="代理模型：高斯过程（Gaussian Processes）"></a>代理模型：高斯过程（Gaussian Processes）</h1><p>为了数学上可处理，我们需要一个能够描述“函数分布”的模型。<strong>高斯过程（GP）</strong> 是贝叶斯优化的标配代理模型（Surrogate Model）。</p>
+<h2 id="什么是高斯过程？"><a href="#什么是高斯过程？" class="headerlink" title="什么是高斯过程？"></a>什么是高斯过程？</h2><p>从物理直觉来看，高斯过程是多元高斯分布在无限维度的推广。如果说高斯分布描述的是标量的随机变量，那么高斯过程描述的就是<strong>随机函数</strong>。</p>
+<p>一个高斯过程由均值函数 $m(x)$ 和协方差函数（核函数）$k(x, x’)$ 唯一确定：</p>
+<p>$$<br>f(x) \sim \mathcal{GP}(m(x), k(x, x’))<br>$$</p>
+<h2 id="核心机制：核函数（Kernel-Function）"><a href="#核心机制：核函数（Kernel-Function）" class="headerlink" title="核心机制：核函数（Kernel Function）"></a>核心机制：核函数（Kernel Function）</h2><p>核函数 $k(x, x’)$ 定义了空间中两点之间的相似度，进而决定了函数的<strong>平滑性</strong>。常用的核函数是径向基函数（RBF）或平方指数核（Squared Exponential）：</p>
+<p>$$<br>k(x, x’) &#x3D; \sigma^2 \exp\left( -\frac{||x - x’||^2}{2l^2} \right)<br>$$</p>
+<p>这里蕴含着深刻的几何意义：</p>
+<ul>
+<li><strong>如果 $x$ 和 $x’$ 很近</strong>，则 $k(x, x’) \to \sigma^2$，意味着这两个点的函数值 $f(x)$ 和 $f(x’)$ 具有很高的相关性。</li>
+<li><strong>如果 $x$ 和 $x’$ 很远</strong>，则 $k(x, x’) \to 0$，意味着它们互不影响。</li>
+</ul>
+<p><em>(图注：高斯过程后验分布示意图。实线为均值，阴影区域表示不确定性&#x2F;方差。观测点附近的方差收缩为0，远离观测点的方差较大。)</em></p>
+<h2 id="后验推断（Math-Heavy）"><a href="#后验推断（Math-Heavy）" class="headerlink" title="后验推断（Math Heavy）"></a>后验推断（Math Heavy）</h2><p>假设我们有观测数据 $X$ 和对应的函数值 $\mathbf{y}$，现在要预测新点 $x_*$ 的函数值 $f_*$。根据联合高斯分布性质：</p>
+<p>$$<br>\begin{bmatrix} \mathbf{y} \ f_* \end{bmatrix} \sim \mathcal{N} \left( \mathbf{0}, \begin{bmatrix} K(X, X) + \sigma_n^2 I &amp; K(X, x_*) \ K(x_*, X) &amp; k(x_*, x_*) \end{bmatrix} \right)<br>$$</p>
+<p>利用条件概率公式，我们可以得到 $f_*$ 的后验分布也是高斯分布，其均值 $\mu_*$ 和方差 $\sigma_*^2$ 为：</p>
+<p>$$<br>\mu(x_*) &#x3D; K(x_*, X) [K(X, X) + \sigma_n^2 I]^{-1} \mathbf{y}<br>$$</p>
+<p>$$<br>\sigma^2(x_*) &#x3D; k(x_*, x_*) - K(x_*, X) [K(X, X) + \sigma_n^2 I]^{-1} K(X, x_*)<br>$$</p>
+<p><strong>物理意义解读：</strong></p>
+<ul>
+<li><strong>预测均值 $\mu(x_*)$</strong>：这是模型认为 $f(x_*)$ 最可能的值，代表了**Exploitation（利用）**的基础。</li>
+<li><strong>预测方差 $\sigma^2(x_*)$</strong>：这是模型对该点的不确定性，代表了**Exploration（探索）**的潜力。</li>
+</ul>
+<hr>
+<h1 id="决策引擎：采集函数（Acquisition-Function）"><a href="#决策引擎：采集函数（Acquisition-Function）" class="headerlink" title="决策引擎：采集函数（Acquisition Function）"></a>决策引擎：采集函数（Acquisition Function）</h1><p>有了代理模型（GP），我们知道了哪里可能值很高（高均值），哪里我们很不了解（高方差）。下一步由谁来做决定？这就引入了<strong>采集函数 $\alpha(x)$</strong>。</p>
+<p>采集函数的目标是将复杂的后验分布映射为一个简单的数值，该数值代表了在点 $x$ 处进行采样的“价值”。</p>
+<p>$$<br>x_{n+1} &#x3D; \arg \max_{x} \alpha(x; \mathcal{D}_n)<br>$$</p>
+<h2 id="1-Upper-Confidence-Bound-UCB-乐观主义者的选择"><a href="#1-Upper-Confidence-Bound-UCB-乐观主义者的选择" class="headerlink" title="1. Upper Confidence Bound (UCB) - 乐观主义者的选择"></a>1. Upper Confidence Bound (UCB) - 乐观主义者的选择</h2><p>UCB 体现了“面对不确定性时的乐观原则”（Optimism in the face of uncertainty）。它直接线性组合了均值和标准差：</p>
+<p>$$<br>\alpha_{UCB}(x) &#x3D; \mu(x) + \kappa \cdot \sigma(x)<br>$$</p>
+<ul>
+<li>$\mu(x)$：倾向于去已知表现好的地方（Exploitation）。</li>
+<li>$\sigma(x)$：倾向于去未知的地方（Exploration）。</li>
+<li>$\kappa$：调节参数。$\kappa$ 越大，越倾向于探索。</li>
+</ul>
+<p><strong>心理学视角</strong>：这就像一个寻宝者，不仅会去挖那些传说中有宝藏的地方（均值高），也会去挖那些从未涉足的荒地（方差大），因为那里可能隐藏着惊喜。</p>
+<h2 id="2-Expected-Improvement-EI-风险中性者的选择"><a href="#2-Expected-Improvement-EI-风险中性者的选择" class="headerlink" title="2. Expected Improvement (EI) - 风险中性者的选择"></a>2. Expected Improvement (EI) - 风险中性者的选择</h2><p>EI 关注的是：在这个点采样，预期能比当前的全局最优值 $f(x^+)$ 提升多少？</p>
+<p>$$<br>\alpha_{EI}(x) &#x3D; \mathbb{E} [ \max(f(x) - f(x^+), 0) ]<br>$$</p>
+<p>通过推导，可以得到解析解：</p>
+<p>$$<br>\alpha_{EI}(x) &#x3D; (\mu(x) - f(x^+) - \xi)\Phi(Z) + \sigma(x)\phi(Z)<br>$$</p>
+<p>其中 $Z &#x3D; \frac{\mu(x) - f(x^+) - \xi}{\sigma(x)}$，$\Phi$ 和 $\phi$ 分别是标准正态分布的CDF和PDF。</p>
+<p>EI 是目前最常用的采集函数，因为它在没有任何调节参数的情况下（除了微小的 $\xi$ 用于数值稳定性），就能在探索和利用之间取得极佳的平衡。</p>
+<hr>
+<h1 id="算法流程与代码实现"><a href="#算法流程与代码实现" class="headerlink" title="算法流程与代码实现"></a>算法流程与代码实现</h1><p>让我们将上述理论转化为算法流程：</p>
+<ol>
+<li><strong>初始化</strong>：随机采样若干点，构建初始数据集 $\mathcal{D}$。</li>
+<li><strong>循环</strong>（直到达到预算）：<br>a.  基于 $\mathcal{D}$ 拟合高斯过程（GP）。<br>b.  在定义域内最大化采集函数 $\alpha(x)$，找到下一个采样点 $x_{next}$。<br>c.  <strong>昂贵操作</strong>：计算真实的 $y_{next} &#x3D; f(x_{next})$。<br>d.  更新数据集 $\mathcal{D} &#x3D; \mathcal{D} \cup {(x_{next}, y_{next})}$。<br>e.  更新 GP 后验分布。</li>
+<li><strong>输出</strong>：历史上观测到的最优值。</li>
+</ol>
+<p>以下是使用 Python 和 <code>scikit-learn</code> 实现的一个简化版贝叶斯优化器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.gaussian_process <span class="keyword">import</span> GaussianProcessRegressor</span><br><span class="line"><span class="keyword">from</span> sklearn.gaussian_process.kernels <span class="keyword">import</span> Matern</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> norm</span><br><span class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> minimize</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SimpleBayesianOptimization</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, target_func, bounds</span>):</span><br><span class="line">        <span class="variable language_">self</span>.target_func = target_func</span><br><span class="line">        <span class="variable language_">self</span>.bounds = bounds</span><br><span class="line">        <span class="comment"># 使用 Matern 核函数，nu=2.5 允许适度的粗糙度</span></span><br><span class="line">        <span class="variable language_">self</span>.kernel = Matern(nu=<span class="number">2.5</span>)</span><br><span class="line">        <span class="variable language_">self</span>.gp = GaussianProcessRegressor(kernel=<span class="variable language_">self</span>.kernel, </span><br><span class="line">                                           alpha=<span class="number">1e-6</span>, </span><br><span class="line">                                           normalize_y=<span class="literal">True</span>)</span><br><span class="line">        <span class="variable language_">self</span>.X_sample = []</span><br><span class="line">        <span class="variable language_">self</span>.Y_sample = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_acquisition_function</span>(<span class="params">self, x, xi=<span class="number">0.01</span></span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Expected Improvement (EI)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        mean, std = <span class="variable language_">self</span>.gp.predict(x.reshape(<span class="number">1</span>, -<span class="number">1</span>), return_std=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.Y_sample) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        mu_sample_opt = np.<span class="built_in">max</span>(<span class="variable language_">self</span>.Y_sample)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">with</span> np.errstate(divide=<span class="string">&#x27;warn&#x27;</span>):</span><br><span class="line">            imp = mean - mu_sample_opt - xi</span><br><span class="line">            Z = imp / std</span><br><span class="line">            ei = imp * norm.cdf(Z) + std * norm.pdf(Z)</span><br><span class="line">            ei[std == <span class="number">0.0</span>] = <span class="number">0.0</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> ei[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">propose_location</span>(<span class="params">self, n_restarts=<span class="number">25</span></span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        最大化采集函数以寻找下一个采样点</span></span><br><span class="line"><span class="string">        由于采集函数是非凸的，我们使用多次随机重启</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        dim = <span class="variable language_">self</span>.bounds.shape[<span class="number">0</span>]</span><br><span class="line">        min_val = <span class="number">1</span></span><br><span class="line">        min_x = <span class="literal">None</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">min_obj</span>(<span class="params">x</span>):</span><br><span class="line">            <span class="keyword">return</span> -<span class="variable language_">self</span>._acquisition_function(x)</span><br><span class="line">            </span><br><span class="line">        <span class="comment"># 随机重启优化</span></span><br><span class="line">        <span class="keyword">for</span> x0 <span class="keyword">in</span> np.random.uniform(<span class="variable language_">self</span>.bounds[:, <span class="number">0</span>], <span class="variable language_">self</span>.bounds[:, <span class="number">1</span>], size=(n_restarts, dim)):</span><br><span class="line">            res = minimize(min_obj, x0=x0, bounds=<span class="variable language_">self</span>.bounds, method=<span class="string">&#x27;L-BFGS-B&#x27;</span>)</span><br><span class="line">            <span class="keyword">if</span> res.fun &lt; min_val:</span><br><span class="line">                min_val = res.fun[<span class="number">0</span>]</span><br><span class="line">                min_x = res.x</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> min_x.reshape(<span class="number">1</span>, -<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">optimize</span>(<span class="params">self, n_iter=<span class="number">10</span></span>):</span><br><span class="line">        <span class="comment"># 初始随机采样</span></span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">            x = np.random.uniform(<span class="variable language_">self</span>.bounds[:, <span class="number">0</span>], <span class="variable language_">self</span>.bounds[:, <span class="number">1</span>], size=(<span class="number">1</span>, <span class="variable language_">self</span>.bounds.shape[<span class="number">0</span>]))</span><br><span class="line">            y = <span class="variable language_">self</span>.target_func(x)</span><br><span class="line">            <span class="variable language_">self</span>.X_sample.append(x)</span><br><span class="line">            <span class="variable language_">self</span>.Y_sample.append(y)</span><br><span class="line">            </span><br><span class="line">        <span class="variable language_">self</span>.X_sample = np.vstack(<span class="variable language_">self</span>.X_sample)</span><br><span class="line">        <span class="variable language_">self</span>.Y_sample = np.array(<span class="variable language_">self</span>.Y_sample)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_iter):</span><br><span class="line">            <span class="comment"># 更新 GP</span></span><br><span class="line">            <span class="variable language_">self</span>.gp.fit(<span class="variable language_">self</span>.X_sample, <span class="variable language_">self</span>.Y_sample)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 寻找下一个点</span></span><br><span class="line">            x_next = <span class="variable language_">self</span>.propose_location()</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 评估黑盒函数</span></span><br><span class="line">            y_next = <span class="variable language_">self</span>.target_func(x_next)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 打印过程</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Iteration <span class="subst">&#123;i+<span class="number">1</span>&#125;</span>: x=<span class="subst">&#123;x_next[<span class="number">0</span>]&#125;</span>, y=<span class="subst">&#123;y_next:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 添加数据</span></span><br><span class="line">            <span class="variable language_">self</span>.X_sample = np.vstack((<span class="variable language_">self</span>.X_sample, x_next))</span><br><span class="line">            <span class="variable language_">self</span>.Y_sample = np.append(<span class="variable language_">self</span>.Y_sample, y_next)</span><br><span class="line"></span><br><span class="line">        idx_best = np.argmax(<span class="variable language_">self</span>.Y_sample)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.X_sample[idx_best], <span class="variable language_">self</span>.Y_sample[idx_best]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例使用：优化一个简单的 1D 函数</span></span><br><span class="line"><span class="comment"># f(x) = - (x - 2)^2 + 10</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">black_box_function</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> -(x - <span class="number">2</span>)**<span class="number">2</span> + <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行优化</span></span><br><span class="line">bo = SimpleBayesianOptimization(target_func=black_box_function, </span><br><span class="line">                                bounds=np.array([[-<span class="number">5</span>, <span class="number">5</span>]]))</span><br><span class="line">best_x, best_y = bo.optimize(n_iter=<span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;Optimal Result: x=<span class="subst">&#123;best_x&#125;</span>, y=<span class="subst">&#123;best_y&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="实际应用：从调参到材料科学"><a href="#实际应用：从调参到材料科学" class="headerlink" title="实际应用：从调参到材料科学"></a>实际应用：从调参到材料科学</h1><p>理解了原理，我们来看看贝叶斯优化如何在工业界大放异彩。</p>
+<h2 id="1-机器学习超参数调优（AutoML）"><a href="#1-机器学习超参数调优（AutoML）" class="headerlink" title="1. 机器学习超参数调优（AutoML）"></a>1. 机器学习超参数调优（AutoML）</h2><p>这是 BO 最著名的应用场景。深度学习模型（如 Transformer, CNN）拥有海量的超参数（学习率、层数、Batch size、Dropout率）。</p>
+<ul>
+<li><strong>问题</strong>：训练一次大模型可能耗资数千美元。网格搜索不可行。</li>
+<li><strong>BO 优势</strong>：BO 能够构建超参数与验证集准确率之间的响应面（Response Surface），快速收敛到最优配置。Google 的 <strong>Vizier</strong> 系统正是基于此原理。</li>
+</ul>
+<h2 id="2-A-B-测试与在线推荐"><a href="#2-A-B-测试与在线推荐" class="headerlink" title="2. A&#x2F;B 测试与在线推荐"></a>2. A&#x2F;B 测试与在线推荐</h2><p>在互联网产品迭代中，我们可能需要测试不同的UI布局或推荐算法参数。</p>
+<ul>
+<li><strong>问题</strong>：流量是金钱，不能把太多流量浪费在效果差的方案上。</li>
+<li><strong>BO 优势</strong>：通过 UCB 算法，系统可以自动且平滑地将流量倾斜到表现更好的版本上，同时保留少量流量探索新版本（Exploration-Exploitation Dilemma）。这与多臂老虎机（Multi-Armed Bandit）问题紧密相关。</li>
+</ul>
+<h2 id="3-材料科学与药物发现"><a href="#3-材料科学与药物发现" class="headerlink" title="3. 材料科学与药物发现"></a>3. 材料科学与药物发现</h2><ul>
+<li><strong>问题</strong>：合成一种新合金或测试一种新药物分子的性质，需要实验室进行物理合成，周期长且成本极高。</li>
+<li><strong>BO 优势</strong>：科学家利用 BO 根据已有的实验数据，预测哪种化学成分配比最有可能产生高强度或高导电性的材料，指导下一次实验。这被称为“逆向设计”（Inverse Design）。</li>
+</ul>
+<h2 id="4-机器人控制"><a href="#4-机器人控制" class="headerlink" title="4. 机器人控制"></a>4. 机器人控制</h2><ul>
+<li><strong>问题</strong>：机器人步态参数的微调。如果直接在物理机器人上随机试错，可能会导致机器人摔坏。</li>
+<li><strong>BO 优势</strong>：BO 可以在极少的试验次数内找到稳定的控制参数，并且可以通过设置安全约束（Safe Bayesian Optimization）来避免危险区域。</li>
+</ul>
+<hr>
+<h1 id="总结：理性的力量"><a href="#总结：理性的力量" class="headerlink" title="总结：理性的力量"></a>总结：理性的力量</h1><p>贝叶斯优化之所以迷人，在于它将人类的认知过程数学化了。</p>
+<p>当我们面对未知世界时，我们拥有过去的经验（先验 Prior）；当我们尝试去探索时，我们获得了反馈（似然 Likelihood）；进而我们修正了自己的世界观（后验 Posterior）。在这个过程中，我们既不盲目自信（过度利用），也不盲目乱撞（过度探索），而是根据**信息增益（Information Gain）**的最大化来指导行动。</p>
+<p>从数学公式中的 $\sigma(x)$ 到现实生活中的风险投资，贝叶斯优化揭示了一个深刻的真理：<strong>最大的机会往往隐藏在不确定性最高的领域，但只有理性的探索者才能在有限的生命（Budget）中找到它。</strong></p>
+<hr>
+
+      </div>
+      <footer class="post-foot">
+        <div class="post-tags">
+          
+            <a class="tag-chip" href="/tags/Python/">#Python</a>
+          
+            <a class="tag-chip" href="/tags/Optimization/">#Optimization</a>
+          
+            <a class="tag-chip" href="/tags/Mathematics/">#Mathematics</a>
+          
+            <a class="tag-chip" href="/tags/Machine-Learning/">#Machine Learning</a>
+          
+            <a class="tag-chip" href="/tags/Bayesian-Statistics/">#Bayesian Statistics</a>
+          
+        </div>
+        
+        <nav class="post-nav" aria-label="上下篇">
+          <a class="post-nav-link" href="/2026/01/30/2026-01-30-lithography-scanner-stepper-types/">← 芯片制造的“刻刀”：详解光刻机波长分类与 Stepper/Scanner 区别</a>
+          <a class="post-nav-link is-next" href="/2026/01/28/2026-01-29-fast-simulated-annealing-analysis/">穿越势能的幽灵：从模拟退火到快速退火的第一性原理剖析 →</a>
+        </nav>
+        
+      </footer>
+    </div>
+
+    <aside class="post-meta">
+      <div class="meta-box">
+        <h4>手记信息</h4>
+        <dl>
+          <dt>日期</dt><dd>2026-01-30</dd>
+          <dt>分类</dt><dd><a class="meta-cat chip-cyan" href="/categories/Technical-Deep-Dive/">Technical Deep Dive</a></dd>
+          
+            <dt>标签</dt>
+            <dd><a href="/tags/Python/">Python</a> · <a href="/tags/Optimization/">Optimization</a> · <a href="/tags/Mathematics/">Mathematics</a> · <a href="/tags/Machine-Learning/">Machine Learning</a> · <a href="/tags/Bayesian-Statistics/">Bayesian Statistics</a></dd>
+          
+          <dt>字数</dt><dd>3172</dd>
+          <dt>阅读</dt><dd>约 11 分钟</dd>
+        </dl>
+        
+          <h4>相关文章</h4>
+          <ul class="related-list">
+            
+              <li><a href="/2026/02/01/2026-02-01-thin-film-interference-simulation/">深入解析薄膜干涉：从物理本源到算法仿真</a></li>
+            
+              <li><a href="/2026/01/21/2026-01-22-kalman-filter-from-scratch/">在噪声中看见真相：卡尔曼滤波的第一性原理推导</a></li>
+            
+              <li><a href="/2026/01/21/2026-01-22-shannon-sampling-theorem-deep-dive/">离散与连续的桥梁：香农采样定理的第一性原理</a></li>
+            
+          </ul>
+        
+      </div>
+    </aside>
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>关于</h4>
+      <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
+      <p class="footer-dim">© 2026 Sunfove · 时间帧</p>
+    </div>
+    <div class="footer-col">
+      <h4>订阅</h4>
+      <p><a href="/sitemap.xml">Sitemap</a></p>
+      <p><a href="/baidusitemap.xml">百度 Sitemap</a></p>
+      <p><a href="/search/">站内搜索</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>运转</h4>
+      <p><a href="/automation/">本博客由自动化管线驱动</a></p>
+      <p><a href="/lab/">光谱实验室</a></p>
+      <p><a href="/stats/">发布仪表盘</a></p>
+    </div>
+  </div>
+  <div class="cloud-border" aria-hidden="true"></div>
+  <div class="footer-spectrum" aria-hidden="true"></div>
+</footer>
+
+  <script src="/js/scenes.js" defer></script>
+  <script src="/js/main.js" defer></script>
+  <script src="/js/clock.js" defer></script>
+  
+    
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+
+<script>
+/* Mermaid：仅当页面含 mermaid 代码块时按需加载 */
+(function () {
+  var blocks = document.querySelectorAll('pre.mermaid, code.mermaid, pre > code.language-mermaid');
+  if (!blocks.length) return;
+  blocks.forEach(function (el) {
+    var host = el.closest('pre') || el;
+    var code = el.tagName === 'CODE' ? el.textContent : host.textContent;
+    var div = document.createElement('div');
+    div.className = 'mermaid';
+    div.textContent = code;
+    host.replaceWith(div);
+  });
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+  s.onload = function () {
+    if (window.mermaid) {
+      mermaid.initialize({ startOnLoad: true, theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default' });
+    }
+  };
+  document.head.appendChild(s);
+})();
+</script>
+
+  
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
