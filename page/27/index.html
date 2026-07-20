@@ -1,1065 +1,245 @@
-
-
 <!DOCTYPE html>
-<html lang="en" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
-  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
-  
+<title>时间帧 — 光学 · 超表面 · 硬核科普</title>
+<meta name="description" content="时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。">
+<meta name="author" content="Sunfove">
+<link rel="canonical" href="https://time-frame.cloud/page/27/index.html">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Sunfove">
-  <meta name="keywords" content="">
-  
-    <meta property="og:type" content="website">
-<meta property="og:title" content="时间帧">
-<meta property="og:url" content="https://time-frame.cloud/page/27/index.html">
-<meta property="og:site_name" content="时间帧">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="Sunfove">
-<meta name="twitter:card" content="summary_large_image">
-  
-  
-  
-    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
-  
-  <title>时间帧</title>
+<!-- Resource hints: early DNS + connection for external origins -->
+<link rel="dns-prefetch" href="//hm.baidu.com">
+<link rel="preconnect" href="//hm.baidu.com" crossorigin>
+<link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+<link rel="preconnect" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com" crossorigin>
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//at.alicdn.com">
+<link rel="preload" href="/css/spectrum.css" as="style">
+<link rel="stylesheet" href="/css/spectrum.css">
+<script>
+/* 防闪烁：首绘前确定四时场景与明暗主题（与 js/scenes.js 逻辑一致） */
+(function () {
+  try {
+    var h = new Date().getHours();
+    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
+    var manual = false, saved = null;
+    try {
+      manual = sessionStorage.getItem('spectrum-manual') === '1';
+      saved = localStorage.getItem('spectrum-theme');
+    } catch (e2) {}
+    var dark;
+    if (manual && saved) dark = saved === 'dark';
+    else if (scene === 'midnight') dark = true;
+    else if (saved) dark = saved === 'dark';
+    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var de = document.documentElement;
+    de.setAttribute('data-theme', dark ? 'dark' : 'light');
+    de.setAttribute('data-scene', scene);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-scene', 'day');
+  }
+})();
+</script>
+<noscript><style>.no-js-hide{display:none}</style></noscript>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-    <!-- Baidu Analytics -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
 <meta name="generator" content="Hexo 8.1.1"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 100vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>明明如月</strong>
+<body class="">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <span class="seal-mark" aria-hidden="true">帧</span>
+      <span class="brand-name">时间帧</span>
     </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>Home</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>Archives</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>Categories</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>Tags</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>About</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
+    <nav class="nav-links" id="navLinks" aria-label="主导航">
+      
+        <a href="/" class="nav-link is-active">首页</a>
+      
+        <a href="/archives/" class="nav-link">归档</a>
+      
+        <a href="/categories/" class="nav-link">分类</a>
+      
+        <a href="/tags/" class="nav-link">标签</a>
+      
+        <a href="/poetry/" class="nav-link">诗光</a>
+      
+        <a href="/lab/" class="nav-link">实验室</a>
+      
+        <a href="/stats/" class="nav-link">仪表盘</a>
+      
+        <a href="/automation/" class="nav-link">自动化</a>
+      
+        <a href="/about/" class="nav-link">关于</a>
+      
+    </nav>
+    <div class="nav-actions">
+      <span class="nav-clock" id="navClock" title="北京时间">
+        <svg class="nav-dial" viewBox="0 0 26 26" width="22" height="22" aria-hidden="true">
+          <circle class="nd-ring" cx="13" cy="13" r="11"/>
+          <line class="nd-horizon" x1="3" y1="13" x2="23" y2="13"/>
+          <line class="nd-tick" x1="13" y1="1.4" x2="13" y2="3.6"/>
+          <g id="navDialSky">
+            <circle id="ndSun" class="nd-sun" cx="13" cy="5" r="2.6"/>
+            <circle id="ndMoon" class="nd-moon" cx="13" cy="21" r="2.4"/>
+          </g>
+        </svg>
+        <span class="nav-clock-time" id="navClockTime">--:--</span>
+      </span>
+      <a class="nav-icon-link" href="/search/" title="搜索" aria-label="搜索">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" title="切换明暗" aria-label="切换明暗主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <button class="nav-burger" id="navBurger" type="button" aria-label="展开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
+</header>
+
+  <main id="main">
+    
+
+<section class="feed" aria-label="文章列表">
+  
+    
+    
+    <article class="feed-item fc-green ink-bleed">
+      <a class="feed-date" href="/2026/03/11/2026-03-11-daily-english/">
+        <span class="feed-day">11</span>
+        <span class="feed-ym">2026 · 03</span>
+      </a>
+      <div class="feed-main">
+        <h2 class="feed-title"><a href="/2026/03/11/2026-03-11-daily-english/">🌍 Daily English: Beyond Tourism: The Transformative Power of Cultural Immersion | 2026-03-11</a></h2>
+        <p class="feed-excerpt">🖼️ Part 1: Daily Quote “The starry sky hangs lower than usual, leaning toward the sleepless.” 星空比往常更低，垂向未眠人的肩头。 🔑 Part 2: Vocabulary Build …</p>
+      </div>
+      <div class="feed-side">
+        
+          <a class="cat-chip chip-green" href="/categories/English-Learning/">English Learning</a>
+        
+      </div>
+    </article>
+  
+    
+    
+    <article class="feed-item fc-green ink-bleed">
+      <a class="feed-date" href="/2026/03/10/2026-03-10-daily-english/">
+        <span class="feed-day">10</span>
+        <span class="feed-ym">2026 · 03</span>
+      </a>
+      <div class="feed-main">
+        <h2 class="feed-title"><a href="/2026/03/10/2026-03-10-daily-english/">🌍 Daily English: Beyond the Lens: How Metasurfaces Are Redefining the Frontiers of Light Manipulation | 2026-03-10</a></h2>
+        <p class="feed-excerpt">🖼️ Part 1: Daily Quote “New leaves whisper where the spade once dug.” 铁锹翻过的地方，新叶正低语。 🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 ke …</p>
+      </div>
+      <div class="feed-side">
+        
+          <a class="cat-chip chip-green" href="/categories/English-Learning/">English Learning</a>
+        
+      </div>
+    </article>
+  
+    
+    
+    <article class="feed-item fc-green ink-bleed">
+      <a class="feed-date" href="/2026/03/09/2026-03-09-daily-english/">
+        <span class="feed-day">09</span>
+        <span class="feed-ym">2026 · 03</span>
+      </a>
+      <div class="feed-main">
+        <h2 class="feed-title"><a href="/2026/03/09/2026-03-09-daily-english/">🌍 Daily English: The Alchemy of Ideas: How TED Talks Transform Minds and Societies | 2026-03-09</a></h2>
+        <p class="feed-excerpt">🖼️ Part 1: Daily Quote “The old tree wears a cloak of new moss.” 老树披上了一层新苔藓的外衣。 🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key wor …</p>
+      </div>
+      <div class="feed-side">
+        
+          <a class="cat-chip chip-green" href="/categories/English-Learning/">English Learning</a>
+        
+      </div>
+    </article>
+  
+    
+    
+    <article class="feed-item fc-green ink-bleed">
+      <a class="feed-date" href="/2026/03/08/2026-03-08-daily-english/">
+        <span class="feed-day">08</span>
+        <span class="feed-ym">2026 · 03</span>
+      </a>
+      <div class="feed-main">
+        <h2 class="feed-title"><a href="/2026/03/08/2026-03-08-daily-english/">🌍 Daily English: The Mind&#39;s Architecture: How Cognitive Psychology Illuminates Mental Health | 2026-03-08</a></h2>
+        <p class="feed-excerpt">🖼️ Part 1: Daily Quote “Green appears overnight, shy but sure.” 绿色在一夜之间浮现，羞涩而坚定。 🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key wo …</p>
+      </div>
+      <div class="feed-side">
+        
+          <a class="cat-chip chip-green" href="/categories/English-Learning/">English Learning</a>
+        
+      </div>
+    </article>
+  
+    
+    
+    <article class="feed-item fc-green ink-bleed">
+      <a class="feed-date" href="/2026/03/07/2026-03-07-daily-english/">
+        <span class="feed-day">07</span>
+        <span class="feed-ym">2026 · 03</span>
+      </a>
+      <div class="feed-main">
+        <h2 class="feed-title"><a href="/2026/03/07/2026-03-07-daily-english/">🌍 Daily English: Beyond the Diffraction Limit: How Metasurfaces Are Redefining Optical Engineering | 2026-03-07</a></h2>
+        <p class="feed-excerpt">🖼️ Part 1: Daily Quote “Honor her journey, celebrate her light.” 致敬她的旅程，庆祝她的光芒。 🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key wor …</p>
+      </div>
+      <div class="feed-side">
+        
+          <a class="cat-chip chip-green" href="/categories/English-Learning/">English Learning</a>
+        
+      </div>
+    </article>
+  
+</section>
+
+
+<nav class="pager" aria-label="分页">
+  
+    <a class="pager-link" href="/page/26/">← 较新</a>
+  
+  <span class="pager-info">27 / 70</span>
+  
+    <a class="pager-link" href="/page/28/">较旧 →</a>
+  
 </nav>
 
-  
 
-<div id="banner" class="banner" parallax=true
-     style="background: url('https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/benjamin-voros-phIFdC6lA4E-unsplash.jpg') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle"></span>
-          
-        </div>
 
-        
-      </div>
-
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      <div class="container nopadding-x-md">
-        <div id="board"
-          style="margin-top: 0">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/10/2026-01-10-fourier-transform-1d-principle/" target="_self">
-          一维傅里叶变换 (1D-FT) 的数学本质与物理哲学
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/10/2026-01-10-fourier-transform-1d-principle/" target="_self">
-        <div>
-          为什么说我们的耳朵是天然的傅里叶变换器？为什么单缝衍射的光斑是 Sinc 函数？本文从欧拉公式出发，揭示傅里叶变换如何将时空信号拆解为频率的乐章，并探讨其在光学与量子力学中的深层对应。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-10 21:00" pubdate>
-              2026-01-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E5%AD%A6%E7%89%A9%E7%90%86%E6%96%B9%E6%B3%95/">#数学物理方法</a>
-            
-              <a href="/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/">#傅里叶变换</a>
-            
-              <a href="/tags/%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86/">#信号处理</a>
-            
-              <a href="/tags/%E6%B3%A2%E5%8A%A8%E5%85%89%E5%AD%A6/">#波动光学</a>
-            
-              <a href="/tags/%E9%A2%91%E5%9F%9F%E5%88%86%E6%9E%90/">#频域分析</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/10/2026-01-10-daily-english/" target="_self">
-          🌍 Daily English: Beyond the Lens: How Metasurfaces Are Redefining the Future of Optics | 2026-01-10
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/10/2026-01-10-daily-english/" target="_self">
-        <div>
-          🖼️ Part 1: Daily Quote  “Morning light crept through the windowpanes.Today brings warm breezes and clear skies.” 晨光漫上窗棂，今日风暖，天色晴和。   🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key words sele
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-10 16:18" pubdate>
-              2026-01-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/English-Learning/" class="category-chain-item">English Learning</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/English/">#English</a>
-            
-              <a href="/tags/Optics-Metasurfaces-Technology/">#Optics & Metasurfaces Technology</a>
-            
-              <a href="/tags/Vocabulary/">#Vocabulary</a>
-            
-              <a href="/tags/Reading/">#Reading</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/10/2026-01-10-wss-principles-and-lcos/" target="_self">
-          光网络的交通枢纽：波长选择开关 (WSS) 的 LCOS 与 MEMS 技术硬核解析
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/10/2026-01-10-wss-principles-and-lcos/" target="_self">
-        <div>
-          在 DWDM 网络中，如何不把光转成电，直接在光域实现“红光向左，蓝光向右”？本文深度解析 WSS 的内部光路架构，揭秘 LCOS 芯片如何通过“相位全息”技术实现无机械运动的光束偏转。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-10 16:00" pubdate>
-              2026-01-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/" class="category-chain-item">光学工程</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%85%89%E9%80%9A%E4%BF%A1/">#光通信</a>
-            
-              <a href="/tags/MEMS/">#MEMS</a>
-            
-              <a href="/tags/ROADM/">#ROADM</a>
-            
-              <a href="/tags/WSS/">#WSS</a>
-            
-              <a href="/tags/LCOS/">#LCOS</a>
-            
-              <a href="/tags/%E8%A1%8D%E5%B0%84%E5%85%89%E6%A0%85/">#衍射光栅</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/09/2026-01-09-bayesian-model-principles/" target="_self">
-          上帝掷骰子，而我修正骰子：贝叶斯模型 (Bayesian Model) 的直觉与硬核原理
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/09/2026-01-09-bayesian-model-principles/" target="_self">
-        <div>
-          频率学派认为参数是固定的，贝叶斯学派认为参数是随机的。本文从贝叶斯定理出发，解析“先验-似然-后验”的认知闭环，并探讨其在垃圾邮件过滤、卡尔曼滤波及超参数优化中的硬核应用。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-09 23:00" pubdate>
-              2026-01-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E5%AD%A6/" class="category-chain-item">算法与数学</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BB%9F%E8%AE%A1%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">#统计机器学习</a>
-            
-              <a href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%8E%A8%E6%96%AD/">#贝叶斯推断</a>
-            
-              <a href="/tags/MCMC/">#MCMC</a>
-            
-              <a href="/tags/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2/">#卡尔曼滤波</a>
-            
-              <a href="/tags/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">#朴素贝叶斯</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/09/2026-01-09-history-of-nobel-physics/" target="_self">
-          众神闪耀：一部诺贝尔物理学奖定义的“宇宙认知进化史”
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/09/2026-01-09-history-of-nobel-physics/" target="_self">
-        <div>
-          诺贝尔物理学奖不仅是科学界的最高荣誉，更是人类理解宇宙的里程碑。从 1901 年伦琴发现 X 射线，到 2024 年 AI 神经网络获奖，本文将物理学百年史划分为四个认知阶段，深度解析那些改变世界的底层原理。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-09 21:20" pubdate>
-              2026-01-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%89%A9%E7%90%86%E7%A1%AC%E6%A0%B8/" class="category-chain-item">物理硬核</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%89%A9%E7%90%86%E5%8F%B2/">#物理史</a>
-            
-              <a href="/tags/%E8%AF%BA%E8%B4%9D%E5%B0%94%E5%A5%96/">#诺贝尔奖</a>
-            
-              <a href="/tags/%E9%87%8F%E5%AD%90%E5%8A%9B%E5%AD%A6/">#量子力学</a>
-            
-              <a href="/tags/%E7%9B%B8%E5%AF%B9%E8%AE%BA/">#相对论</a>
-            
-              <a href="/tags/%E5%87%9D%E8%81%9A%E6%80%81/">#凝聚态</a>
-            
-              <a href="/tags/%E5%A4%8D%E6%9D%82%E7%B3%BB%E7%BB%9F/">#复杂系统</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/09/2026-01-09-laser-principles-and-applications/" target="_self">
-          20世纪最亮的光：激光 (LASER) 的量子原理、核心架构与现代应用全景解析
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/09/2026-01-09-laser-principles-and-applications/" target="_self">
-        <div>
-          它是“最快的刀”、“最准的尺”、“最亮的光”。从爱因斯坦 1917 年的预言到梅曼 1960 年的第一台红宝石激光器，本文将用 3000 字深度拆解 LASER 的量子起源、三大核心组件以及改变现代工业与医疗的硬核应用。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-09 20:50" pubdate>
-              2026-01-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%89%A9%E7%90%86%E7%A1%AC%E6%A0%B8/" class="category-chain-item">物理硬核</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%BF%80%E5%85%89%E7%89%A9%E7%90%86/">#激光物理</a>
-            
-              <a href="/tags/%E5%8F%97%E6%BF%80%E8%BE%90%E5%B0%84/">#受激辐射</a>
-            
-              <a href="/tags/%E7%B2%92%E5%AD%90%E6%95%B0%E5%8F%8D%E8%BD%AC/">#粒子数反转</a>
-            
-              <a href="/tags/%E8%B0%90%E6%8C%AF%E8%85%94/">#谐振腔</a>
-            
-              <a href="/tags/%E5%85%89%E7%BA%A4%E9%80%9A%E4%BF%A1/">#光纤通信</a>
-            
-              <a href="/tags/%E6%BF%80%E5%85%89%E5%8A%A0%E5%B7%A5/">#激光加工</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/09/2026-01-09-daily-english/" target="_self">
-          🌍 Daily English: The Flat Revolution: How Metasurfaces Are Redefining Optical Technology | 2026-01-09
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/09/2026-01-09-daily-english/" target="_self">
-        <div>
-          🖼️ Part 1: Daily Quote  “When “best” has no boundaries, effort turns into obligation.” 当“最好”永无止境，努力便沦为负累。   🔑 Part 2: Vocabulary Builder (10 Words)Here are 10 key words selected from today’s reading
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-09 16:21" pubdate>
-              2026-01-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/English-Learning/" class="category-chain-item">English Learning</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/English/">#English</a>
-            
-              <a href="/tags/Optics-Metasurfaces-Technology/">#Optics & Metasurfaces Technology</a>
-            
-              <a href="/tags/Vocabulary/">#Vocabulary</a>
-            
-              <a href="/tags/Reading/">#Reading</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/09/2026-01-09-gaussian-beam-derivation/" target="_self">
-          激光物理笔记：从波动方程到高斯光束 (Gaussian Beam) 的完整推导与核心指标
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/09/2026-01-09-gaussian-beam-derivation/" target="_self">
-        <div>
-          为什么激光不是理想的平面波？本文从亥姆霍兹方程出发，引入“缓变包络近似 (SVEA)”，手推高斯光束的数学解，并深度解析束腰、瑞利长度、远场发散角等关键工程指标。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-09 14:00" pubdate>
-              2026-01-09
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%89%A9%E7%90%86%E7%A1%AC%E6%A0%B8/" class="category-chain-item">物理硬核</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%85%89%E5%AD%A6%E8%AE%BE%E8%AE%A1/">#光学设计</a>
-            
-              <a href="/tags/%E6%B3%A2%E5%8A%A8%E6%96%B9%E7%A8%8B/">#波动方程</a>
-            
-              <a href="/tags/%E6%BF%80%E5%85%89%E7%89%A9%E7%90%86/">#激光物理</a>
-            
-              <a href="/tags/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/">#高斯光束</a>
-            
-              <a href="/tags/%E5%82%8D%E8%BD%B4%E8%BF%91%E4%BC%BC/">#傍轴近似</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/08/2026-01-08-laplacian-and-maxwell/" target="_self">
-          数理物理方法笔记：微分算子与拉普拉斯算子 (∇²) 的运算机制解析
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/08/2026-01-08-laplacian-and-maxwell/" target="_self">
-        <div>
-          本文深度解析经典场论中的核心数学工具——Nabla 算子。从历史背景到数学定义，详细拆解梯度、散度、旋度及拉普拉斯算子的物理本质与计算法则。并在柱坐标与球坐标系下展开讨论，最终通过严谨推导，展示如何从麦克斯韦方程组导出电磁场的波动方程。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-08 23:15" pubdate>
-              2026-01-08
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%89%A9%E7%90%86%E7%A1%AC%E6%A0%B8/" class="category-chain-item">物理硬核</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%95%B0%E5%AD%A6%E7%89%A9%E7%90%86%E6%96%B9%E6%B3%95/">#数学物理方法</a>
-            
-              <a href="/tags/%E7%9F%A2%E9%87%8F%E5%88%86%E6%9E%90/">#矢量分析</a>
-            
-              <a href="/tags/%E9%BA%A6%E5%85%8B%E6%96%AF%E9%9F%A6%E6%96%B9%E7%A8%8B/">#麦克斯韦方程</a>
-            
-              <a href="/tags/%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E7%AE%97%E5%AD%90/">#拉普拉斯算子</a>
-            
-              <a href="/tags/%E6%B3%A2%E5%8A%A8%E6%96%B9%E7%A8%8B/">#波动方程</a>
-            
-              <a href="/tags/%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/">#坐标变换</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2026/01/08/2026-01-08-dof-vs-depth-of-focus/" target="_self">
-          🔭 光学笔记：景深(Depth of Field)与焦深(Depth of Focus)
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/08/2026-01-08-dof-vs-depth-of-focus/" target="_self">
-        <div>
-          为什么显微镜的焦距稍微动一下就模糊，而拍风景时怎么拍都清晰？景深在物方，焦深在像方，两者之间竟然藏着一个纵向放大率 M² 的秘密。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2026-01-08 20:00" pubdate>
-              2026-01-08
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%85%89%E5%AD%A6%E7%90%86%E8%AE%BA/" class="category-chain-item">光学理论</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%85%89%E5%AD%A6%E8%AE%BE%E8%AE%A1/">#光学设计</a>
-            
-              <a href="/tags/%E7%89%A9%E7%90%86%E5%85%AC%E5%BC%8F/">#物理公式</a>
-            
-              <a href="/tags/%E6%91%84%E5%BD%B1%E5%85%89%E5%AD%A6/">#摄影光学</a>
-            
-              <a href="/tags/%E6%98%BE%E5%BE%AE%E9%95%9C/">#显微镜</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-
-
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/26/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/#board">25</a><a class="page-number" href="/page/26/#board">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/#board">28</a><a class="page-number" href="/page/29/#board">29</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/#board">33</a><a class="extend next" rel="next" href="/page/28/#board"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
-
-
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
   </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>关于</h4>
+      <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
+      <p class="footer-dim">© 2026 Sunfove · 时间帧</p>
     </div>
+    <div class="footer-col">
+      <h4>订阅</h4>
+      <p><a href="/sitemap.xml">Sitemap</a></p>
+      <p><a href="/baidusitemap.xml">百度 Sitemap</a></p>
+      <p><a href="/search/">站内搜索</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>运转</h4>
+      <p><a href="/automation/">本博客由自动化管线驱动</a></p>
+      <p><a href="/lab/">光谱实验室</a></p>
+      <p><a href="/stats/">发布仪表盘</a></p>
+    </div>
+  </div>
+  <div class="cloud-border" aria-hidden="true"></div>
+  <div class="footer-spectrum" aria-hidden="true"></div>
+</footer>
+
+  <script src="/js/scenes.js" defer></script>
+  <script src="/js/main.js" defer></script>
+  <script src="/js/clock.js" defer></script>
   
-  
-  
-    <!-- 备案信息 ICP for China -->
-    <div class="beian">
-  <span>
-    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-      浙ICP备19044173号
-    </a>
-  </span>
-  
-</div>
-
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
-  </noscript>
 </body>
 </html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>论文速览 · 时间帧</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#0a0f18;color:#c8d6e5;font-family:'Georgia','PingFang SC','Noto Serif SC','Microsoft YaHei',sans-serif;
+  min-height:100vh
+}
+.header{
+  text-align:center;padding:3rem 1.5rem 2rem;
+  background:linear-gradient(180deg,rgba(20,60,120,0.15) 0%,transparent 100%);
+  border-bottom:1px solid rgba(120,160,220,0.1)
+}
+.header h1{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:300;letter-spacing:0.15em;color:#d0dfff;margin-bottom:.5rem}
+.header p{font-size:.9rem;color:rgba(180,200,220,.5);letter-spacing:.06em}
+.container{max-width:960px;margin:0 auto;padding:1.5rem}
+.tag-bar{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:2rem}
+.tag-btn{
+  padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.04);color:rgba(200,220,240,.6);
+  border:1px solid rgba(120,160,220,.15);cursor:pointer;font-size:.85rem;letter-spacing:.05em;
+  transition:all .25s
+}
+.tag-btn:hover,.tag-btn.active{background:rgba(100,160,240,.12);color:#8cb4ff;border-color:rgba(120,160,240,.35)}
+.paper-card{
+  display:block;text-decoration:none;color:inherit;
+  background:rgba(255,255,255,.02);border:1px solid rgba(120,160,220,.08);
+  border-radius:12px;padding:1.5rem;margin-bottom:1rem;
+  transition:all .3s;cursor:pointer
+}
+.paper-card:hover{background:rgba(255,255,255,.04);border-color:rgba(120,160,220,.2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.paper-title{font-size:1.05rem;line-height:1.5;color:#b8ccee;margin-bottom:.6rem;font-weight:400}
+.paper-meta{font-size:.8rem;color:rgba(160,180,200,.5);margin-bottom:.8rem;display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}
+.paper-meta .tag{display:inline-block;padding:2px 10px;border-radius:10px;background:rgba(80,140,220,.15);color:#7aaeff;font-size:.75rem}
+.paper-authors{font-size:.82rem;color:rgba(180,200,220,.45);margin-bottom:.6rem}
+.paper-summary{font-size:.85rem;line-height:1.7;color:rgba(180,200,220,.55)}
+.paper-links{margin-top:.8rem;display:flex;gap:1rem}
+.paper-links a{
+  font-size:.8rem;color:#5a9eff;text-decoration:none;border-bottom:1px dashed rgba(90,160,255,.3);
+  transition:all .2s
+}
+.paper-links a:hover{color:#88c0ff;border-bottom-color:#88c0ff}
+#loading{text-align:center;padding:4rem;color:rgba(200,220,240,.3);font-size:.9rem}
+#empty{text-align:center;padding:3rem;color:rgba(200,220,240,.25)}
+.error{text-align:center;padding:2rem;color:rgba(255,120,120,.5)}
+.footer{text-align:center;padding:3rem 1rem;color:rgba(200,220,240,.2);font-size:.75rem;letter-spacing:.06em}
+@media(max-width:600px){
+  .paper-card{padding:1rem;border-radius:8px}
+  .paper-summary{font-size:.8rem}
+  .paper-title{font-size:.95rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📡 论文速览</h1>
+  <p>arxiv 最新 · 超表面 / 纳米光子学 / 计算光学</p>
+</div>
+
+<div class="container">
+  <div class="tag-bar">
+    <button class="tag-btn active" data-tag="all">全部</button>
+    <button class="tag-btn" data-tag="超表面">超表面</button>
+    <button class="tag-btn" data-tag="纳米光子学">纳米光子学</button>
+    <button class="tag-btn" data-tag="计算光学">计算光学</button>
+  </div>
+
+  <div id="papers"><div id="loading">⏳ 加载论文数据...</div></div>
+</div>
+
+<div class="footer">
+  数据来自 <a href="https://arxiv.org" style="color:rgba(200,220,240,.3);">arxiv.org</a> · 每 6 小时更新
+</div>
+
+<script>
+
+function dateFormat(iso) {
+  if (!iso) return '';
+  var d = new Date(iso);
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function authorStr(authors) {
+  if (!authors || !authors.length) return '';
+  var s = authors.join(', ');
+  if (authors.length >= 5) s += ' et al.';
+  return s;
+}
+
+function renderCard(p) {
+  return '<a class="paper-card" href="' + p.absLink + '" target="_blank" rel="noopener">' +
+    '<div class="paper-title">' + p.title + '</div>' +
+    '<div class="paper-meta">' +
+      '<span>' + dateFormat(p.date) + '</span>' +
+      '<span class="tag">' + (p.tag || p.categories?.[0] || 'physics') + '</span>' +
+    '</div>' +
+    '<div class="paper-authors">' + authorStr(p.authors) + '</div>' +
+    '<div class="paper-summary">' + p.summary.substring(0, 280) + (p.summary.length > 280 ? '...' : '') + '</div>' +
+    '<div class="paper-links">' +
+      '<a href="' + p.absLink + '" target="_blank">📄 arXiv</a>' +
+      '<a href="' + p.pdfLink + '" target="_blank">📥 PDF</a>' +
+    '</div>' +
+  '</a>';
+}
+
+fetch('/arxiv-papers.json')
+  .then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  })
+  .then(function(papers) {
+    if (!papers || !papers.length) {
+      document.getElementById('papers').innerHTML = '<div id="empty">暂无论文数据</div>';
+      return;
+    }
+    window.__ALL = papers;
+    filterPapers('all');
+  })
+  .catch(function(e) {
+    document.getElementById('papers').innerHTML = '<div class="error">加载失败: ' + e.message + '<br><small>请稍后刷新重试</small></div>';
+  });
+
+function filterPapers(tag) {
+  var papers = window.__ALL || [];
+  var filtered = tag === 'all' ? papers : papers.filter(function(p) { return p.tag === tag; });
+  var html = '';
+  if (filtered.length === 0) {
+    html = '<div id="empty">该分类暂无论文</div>';
+  } else {
+    filtered.forEach(function(p) { html += renderCard(p); });
+  }
+  document.getElementById('papers').innerHTML = html;
+}
+
+var btns = document.querySelectorAll('.tag-btn');
+btns.forEach(function(b) {
+  b.addEventListener('click', function() {
+    btns.forEach(function(x) { x.classList.remove('active'); });
+    b.classList.add('active');
+    filterPapers(b.dataset.tag);
+  });
+});
+</script>
+</body>
+</html>

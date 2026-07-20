@@ -1,3 +1,9 @@
 User-agent: *
 Allow: /
-Sitemap: https://sunfove.xyz/sitemap.xml
+Sitemap: https://time-frame.cloud/sitemap.xml
+Sitemap: https://time-frame.cloud/baidusitemap.xml
+
+User-agent: Baiduspider
+Allow: /
+Disallow: /js/
+Disallow: /css/

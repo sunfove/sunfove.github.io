@@ -1,326 +1,174 @@
-
-
 <!DOCTYPE html>
-<html lang="en" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
-  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
-  
+<title>神经网络与物理学的深刻联系：从哈密顿力学到梯度下降 · 时间帧</title>
+<meta name="description" content="揭示神经网络与物理学之间的深刻数学联系。本文从哈密顿力学出发，推导出梯度下降算法的物理本质，并讨论能量景观、相变等物理概念在深度学习中的应用。">
+<meta name="author" content="Sunfove">
+<link rel="canonical" href="https://time-frame.cloud/2026/04/09/2026-04-09-neural-network-physics-connection/">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Sunfove">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="揭示神经网络与物理学之间的深刻数学联系。本文从哈密顿力学出发，推导出梯度下降算法的物理本质，并讨论能量景观、相变等物理概念在深度学习中的应用。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="神经网络与物理学的深刻联系：从哈密顿力学到梯度下降">
-<meta property="og:url" content="https://time-frame.cloud/2026/04/09/2026-04-09-neural-network-physics-connection/index.html">
-<meta property="og:site_name" content="时间帧">
-<meta property="og:description" content="揭示神经网络与物理学之间的深刻数学联系。本文从哈密顿力学出发，推导出梯度下降算法的物理本质，并讨论能量景观、相变等物理概念在深度学习中的应用。">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://time-frame.cloud/images/optics/articles/loss_landscape.txt">
-<meta property="article:published_time" content="2026-04-09T10:30:00.000Z">
-<meta property="article:modified_time" content="2026-07-15T20:02:04.732Z">
-<meta property="article:author" content="Sunfove">
-<meta property="article:tag" content="优化理论">
-<meta property="article:tag" content="哈密顿力学">
-<meta property="article:tag" content="梯度下降">
-<meta property="article:tag" content="神经网络">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://time-frame.cloud/images/optics/articles/loss_landscape.txt">
-  
-  
-  
-    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
-  
-  <title>神经网络与物理学的深刻联系：从哈密顿力学到梯度下降 - 时间帧</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "神经网络与物理学的深刻联系：从哈密顿力学到梯度下降",
+  "description": "揭示神经网络与物理学之间的深刻数学联系。本文从哈密顿力学出发，推导出梯度下降算法的物理本质，并讨论能量景观、相变等物理概念在深度学习中的应用。",
+  "url": "https://time-frame.cloud/2026/04/09/2026-04-09-neural-network-physics-connection/",
+  "datePublished": "2026-04-09T02:30:00.000Z",
+  "dateModified": "2026-07-18T08:46:09.000Z",
+  "author": { "@type": "Person", "name": "Sunfove" },
+  "publisher": { "@type": "Person", "name": "Sunfove" }
+}
+</script>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+<!-- Resource hints: early DNS + connection for external origins -->
+<link rel="dns-prefetch" href="//hm.baidu.com">
+<link rel="preconnect" href="//hm.baidu.com" crossorigin>
+<link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+<link rel="preconnect" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com" crossorigin>
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//at.alicdn.com">
+<link rel="preload" href="/css/spectrum.css" as="style">
+<link rel="stylesheet" href="/css/spectrum.css">
+<script>
+/* 防闪烁：首绘前确定四时场景与明暗主题（与 js/scenes.js 逻辑一致） */
+(function () {
+  try {
+    var h = new Date().getHours();
+    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
+    var manual = false, saved = null;
+    try {
+      manual = sessionStorage.getItem('spectrum-manual') === '1';
+      saved = localStorage.getItem('spectrum-theme');
+    } catch (e2) {}
+    var dark;
+    if (manual && saved) dark = saved === 'dark';
+    else if (scene === 'midnight') dark = true;
+    else if (saved) dark = saved === 'dark';
+    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var de = document.documentElement;
+    de.setAttribute('data-theme', dark ? 'dark' : 'light');
+    de.setAttribute('data-scene', scene);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-scene', 'day');
+  }
+})();
+</script>
+<noscript><style>.no-js-hide{display:none}</style></noscript>
 
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-    <!-- Baidu Analytics -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
 <meta name="generator" content="Hexo 8.1.1"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>明明如月</strong>
+<body class="">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <span class="seal-mark" aria-hidden="true">帧</span>
+      <span class="brand-name">时间帧</span>
     </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>Home</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>Archives</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>Categories</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>Tags</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>About</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle">神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-04-09 10:30" pubdate>
-          April 9, 2026 am
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          3k words
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          26 mins
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
-      </div>
-
+    <nav class="nav-links" id="navLinks" aria-label="主导航">
       
+        <a href="/" class="nav-link">首页</a>
+      
+        <a href="/archives/" class="nav-link">归档</a>
+      
+        <a href="/categories/" class="nav-link">分类</a>
+      
+        <a href="/tags/" class="nav-link">标签</a>
+      
+        <a href="/poetry/" class="nav-link">诗光</a>
+      
+        <a href="/lab/" class="nav-link">实验室</a>
+      
+        <a href="/stats/" class="nav-link">仪表盘</a>
+      
+        <a href="/automation/" class="nav-link">自动化</a>
+      
+        <a href="/about/" class="nav-link">关于</a>
+      
+    </nav>
+    <div class="nav-actions">
+      <span class="nav-clock" id="navClock" title="北京时间">
+        <svg class="nav-dial" viewBox="0 0 26 26" width="22" height="22" aria-hidden="true">
+          <circle class="nd-ring" cx="13" cy="13" r="11"/>
+          <line class="nd-horizon" x1="3" y1="13" x2="23" y2="13"/>
+          <line class="nd-tick" x1="13" y1="1.4" x2="13" y2="3.6"/>
+          <g id="navDialSky">
+            <circle id="ndSun" class="nd-sun" cx="13" cy="5" r="2.6"/>
+            <circle id="ndMoon" class="nd-moon" cx="13" cy="21" r="2.4"/>
+          </g>
+        </svg>
+        <span class="nav-clock-time" id="navClockTime">--:--</span>
+      </span>
+      <a class="nav-icon-link" href="/search/" title="搜索" aria-label="搜索">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" title="切换明暗" aria-label="切换明暗主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <button class="nav-burger" id="navBurger" type="button" aria-label="展开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
+</header>
+
+  <main id="main">
+    
+
+
+<div class="wave-header" aria-hidden="true">
+  <svg viewBox="0 0 1200 160" preserveAspectRatio="xMidYMid slice" role="presentation">
+    <g fill="none" stroke-width="1">
+      <path class="wv wv1" d="M0,80 C150,40 300,120 450,80 S750,40 900,80 S1150,110 1200,85"/>
+      <path class="wv wv2" d="M0,95 C160,60 320,130 480,95 S780,60 930,95 S1150,120 1200,100"/>
+      <path class="wv wv3" d="M0,110 C170,80 340,140 510,110 S800,80 950,110 S1160,128 1200,115"/>
+      <circle class="wv-dot" cx="600" cy="80" r="3"/>
+      <circle class="wv-ring" cx="600" cy="80" r="26"/>
+      <circle class="wv-ring wv-ring2" cx="600" cy="80" r="52"/>
+    </g>
+  </svg>
 </div>
 
-</div>
 
+<article class="post-shell">
+  <header class="post-head">
+    
+      <a class="post-cat chip-green" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>
+    
+    <h1 class="post-title">神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</h1>
+    <p class="post-byline">2026年4月9日 · Sunfove</p>
+    <hr class="post-rule">
   </header>
 
-  <main>
-    
+  <div class="post-grid">
+    <aside class="post-toc" id="postToc">
+      <details class="toc-box" id="tocBox" open>
+        <summary>目录</summary>
+        
+          <nav class="toc-nav" id="tocNav"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%89%A9%E7%90%86%E5%9F%BA%E7%A1%80%EF%BC%9A%E5%93%88%E5%AF%86%E9%A1%BF%E5%8A%9B%E5%AD%A6%E4%B8%8E%E6%9C%80%E5%B0%8F%E4%BD%9C%E7%94%A8%E5%8E%9F%E7%90%86"><span class="toc-text">1. 物理基础：哈密顿力学与最小作用原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%93%88%E5%AF%86%E9%A1%BF%E9%87%8F%E4%B8%8E%E8%83%BD%E9%87%8F%E5%87%BD%E6%95%B0"><span class="toc-text">1.1 哈密顿量与能量函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%9A%E5%93%88%E5%AF%86%E9%A1%BF%E5%8A%A8%E5%8A%9B%E5%AD%A6%E6%A8%A1%E6%8B%9F"><span class="toc-text">1.2 代码实现：哈密顿动力学模拟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E8%83%BD%E9%87%8F%E6%99%AF%E8%A7%82"><span class="toc-text">2. 神经网络的能量景观</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E5%8A%BF%E8%83%BD"><span class="toc-text">2.1 损失函数作为势能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%9A%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-text">2.2 代码实现：损失函数可视化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E4%B8%8E%E7%89%9B%E9%A1%BF%E7%AC%AC%E4%BA%8C%E5%AE%9A%E5%BE%8B"><span class="toc-text">3. 梯度下降与牛顿第二定律</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC"><span class="toc-text">3.1 数学推导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%EF%BC%9A%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="toc-text">3.2 代码实现：优化算法比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%9B%B8%E5%8F%98%E4%B8%8E%E4%B8%B4%E7%95%8C%E7%8E%B0%E8%B1%A1"><span class="toc-text">4. 相变与临界现象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E7%83%AD%E5%8A%9B%E5%AD%A6%E7%B1%BB%E6%AF%94"><span class="toc-text">4.1 神经网络的热力学类比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%BB%93%E8%AE%BA"><span class="toc-text">5. 结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-text">参考文献</span></a></li></ol></nav>
+        
+      </details>
+    </aside>
+
+    <div class="post-body">
       
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>神经网络的成功往往被归因于”黑盒”的强大学习能力。然而，如果我们剥开深度学习的外衣，会发现其数学结构与经典物理学有着惊人的相似性。</p>
+      <div class="post-content" id="postContent">
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>神经网络的成功往往被归因于”黑盒”的强大学习能力。然而，如果我们剥开深度学习的外衣，会发现其数学结构与经典物理学有着惊人的相似性。</p>
 <p>从能量最小化到梯度下降，从哈密顿动力学到优化轨迹，神经网络训练本质上就是在寻找高维能量景观中的全局最小值。本文将从第一性原理出发，建立神经网络与物理学的严格数学联系。</p>
-<p><img src="/images/optics/articles/loss_landscape.txt" srcset="/img/loading.gif" lazyload alt="损失函数与优化轨迹"></p>
+<p><img src="/images/optics/articles/loss_landscape.txt" alt="损失函数与优化轨迹"></p>
 <h2 id="1-物理基础：哈密顿力学与最小作用原理"><a href="#1-物理基础：哈密顿力学与最小作用原理" class="headerlink" title="1. 物理基础：哈密顿力学与最小作用原理"></a>1. 物理基础：哈密顿力学与最小作用原理</h2><h3 id="1-1-哈密顿量与能量函数"><a href="#1-1-哈密顿量与能量函数" class="headerlink" title="1.1 哈密顿量与能量函数"></a>1.1 哈密顿量与能量函数</h3><p>在经典力学中，系统的动力学由哈密顿量 $H(\mathbf{q}, \mathbf{p})$ 描述，其中 $\mathbf{q}$ 是广义坐标，$\mathbf{p}$ 是广义动量：</p>
 <p>$$H(\mathbf{q}, \mathbf{p}) &#x3D; T(\mathbf{p}) + V(\mathbf{q})$$</p>
 <p>其中 $T(\mathbf{p})$ 是动能，$V(\mathbf{q})$ 是势能。</p>
 <p>哈密顿方程描述了系统的演化：</p>
 <p>$$<br>\begin{cases}<br>\dot{\mathbf{q}} &#x3D; \frac{\partial H}{\partial \mathbf{p}} \<br>\dot{\mathbf{p}} &#x3D; -\frac{\partial H}{\partial \mathbf{q}}<br>\end{cases}<br>$$</p>
-<h3 id="1-2-代码实现：哈密顿动力学模拟"><a href="#1-2-代码实现：哈密顿动力学模拟" class="headerlink" title="1.2 代码实现：哈密顿动力学模拟"></a>1.2 代码实现：哈密顿动力学模拟</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>, <span class="hljs-type">Tuple</span>, <span class="hljs-type">List</span><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">hamiltonian_dynamics</span>(<span class="hljs-params">H: <span class="hljs-type">Callable</span>, H_q: <span class="hljs-type">Callable</span>, H_p: <span class="hljs-type">Callable</span>,</span><br><span class="hljs-params">                         q0: np.ndarray, p0: np.ndarray,</span><br><span class="hljs-params">                         dt: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.01</span>, num_steps: <span class="hljs-built_in">int</span> = <span class="hljs-number">1000</span></span>) -&gt; <span class="hljs-type">Tuple</span>[np.ndarray, np.ndarray, <span class="hljs-type">List</span>]:<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    求解哈密顿动力学方程</span><br><span class="hljs-string"></span><br><span class="hljs-string">    参数:</span><br><span class="hljs-string">        H: 哈密顿量函数</span><br><span class="hljs-string">        H_q: ∂H/∂q 函数</span><br><span class="hljs-string">        H_p: ∂H/∂p 函数</span><br><span class="hljs-string">        q0: 初始广义坐标</span><br><span class="hljs-string">        p0: 初始广义动量</span><br><span class="hljs-string">        dt: 时间步长</span><br><span class="hljs-string">        num_steps: 时间步数</span><br><span class="hljs-string"></span><br><span class="hljs-string">    返回:</span><br><span class="hljs-string">        (q, p, energies) 轨迹和能量历史</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    n_steps = num_steps + <span class="hljs-number">1</span><br>    dim = <span class="hljs-built_in">len</span>(q0)<br><br>    q = np.zeros((n_steps, dim))<br>    p = np.zeros((n_steps, dim))<br>    energies = []<br><br>    q[<span class="hljs-number">0</span>, :] = q0<br>    p[<span class="hljs-number">0</span>, :] = p0<br>    energies.append(H(q0, p0))<br><br>    <span class="hljs-comment"># Leapfrog积分器（辛算法）</span><br>    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_steps):<br>        <span class="hljs-comment"># 半步更新动量</span><br>        dq_dt = H_p(q[k, :], p[k, :])<br>        p_half = p[k, :] + <span class="hljs-number">0.5</span> * dt * dq_dt<br><br>        <span class="hljs-comment"># 整步更新坐标</span><br>        dp_dt = -H_q(q[k, :], p_half)<br>        q[k+<span class="hljs-number">1</span>, :] = q[k, :] + dt * dp_dt<br><br>        <span class="hljs-comment"># 半步更新动量</span><br>        dq_dt = H_p(q[k+<span class="hljs-number">1</span>, :], p_half)<br>        p[k+<span class="hljs-number">1</span>, :] = p_half + <span class="hljs-number">0.5</span> * dt * dq_dt<br><br>        <span class="hljs-comment"># 记录能量</span><br>        energies.append(H(q[k+<span class="hljs-number">1</span>, :], p[k+<span class="hljs-number">1</span>, :]))<br><br>    <span class="hljs-keyword">return</span> q, p, energies<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">harmonic_oscillator_H</span>(<span class="hljs-params">q: np.ndarray, p: np.ndarray</span>) -&gt; <span class="hljs-built_in">float</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;谐振子哈密顿量: H = p²/2m + kq²/2&quot;&quot;&quot;</span><br>    m = <span class="hljs-number">1.0</span>  <span class="hljs-comment"># 质量</span><br>    k = <span class="hljs-number">1.0</span>  <span class="hljs-comment"># 弹簧常数</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0.5</span> * np.<span class="hljs-built_in">sum</span>(p**<span class="hljs-number">2</span>) / m + <span class="hljs-number">0.5</span> * k * np.<span class="hljs-built_in">sum</span>(q**<span class="hljs-number">2</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">harmonic_oscillator_H_q</span>(<span class="hljs-params">q: np.ndarray, p: np.ndarray</span>) -&gt; np.ndarray:<br>    <span class="hljs-string">&quot;&quot;&quot;谐振子哈密顿量对q的偏导: ∂H/∂q = kq&quot;&quot;&quot;</span><br>    k = <span class="hljs-number">1.0</span><br>    <span class="hljs-keyword">return</span> k * q<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">harmonic_oscillator_H_p</span>(<span class="hljs-params">q: np.ndarray, p: np.ndarray</span>) -&gt; np.ndarray:<br>    <span class="hljs-string">&quot;&quot;&quot;谐振子哈密顿量对p的偏导: ∂H/∂p = p/m&quot;&quot;&quot;</span><br>    m = <span class="hljs-number">1.0</span><br>    <span class="hljs-keyword">return</span> p / m<br><br><br><span class="hljs-comment"># 测试哈密顿动力学</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;哈密顿动力学模拟&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br><span class="hljs-comment"># 初始条件</span><br>q0 = np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">0.5</span>])<br>p0 = np.array([<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>])<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n初始条件:&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;坐标 q0: <span class="hljs-subst">&#123;q0&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;动量 p0: <span class="hljs-subst">&#123;p0&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;初始能量: <span class="hljs-subst">&#123;harmonic_oscillator_H(q0, p0):<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 求解动力学</span><br>q, p, energies = hamiltonian_dynamics(<br>    harmonic_oscillator_H,<br>    harmonic_oscillator_H_q,<br>    harmonic_oscillator_H_p,<br>    q0, p0,<br>    dt=<span class="hljs-number">0.01</span>,<br>    num_steps=<span class="hljs-number">2000</span><br>)<br><br><span class="hljs-comment"># 分析结果</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n结果分析:&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;平均能量: <span class="hljs-subst">&#123;np.mean(energies):<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;能量标准差: <span class="hljs-subst">&#123;np.std(energies):<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;能量守恒: <span class="hljs-subst">&#123;<span class="hljs-string">&#x27;良好&#x27;</span> <span class="hljs-keyword">if</span> np.std(energies) &lt; <span class="hljs-number">0.01</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;较差&#x27;</span>&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="1-2-代码实现：哈密顿动力学模拟"><a href="#1-2-代码实现：哈密顿动力学模拟" class="headerlink" title="1.2 代码实现：哈密顿动力学模拟"></a>1.2 代码实现：哈密顿动力学模拟</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Callable</span>, <span class="type">Tuple</span>, <span class="type">List</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hamiltonian_dynamics</span>(<span class="params">H: <span class="type">Callable</span>, H_q: <span class="type">Callable</span>, H_p: <span class="type">Callable</span>,</span></span><br><span class="line"><span class="params">                         q0: np.ndarray, p0: np.ndarray,</span></span><br><span class="line"><span class="params">                         dt: <span class="built_in">float</span> = <span class="number">0.01</span>, num_steps: <span class="built_in">int</span> = <span class="number">1000</span></span>) -&gt; <span class="type">Tuple</span>[np.ndarray, np.ndarray, <span class="type">List</span>]:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    求解哈密顿动力学方程</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    参数:</span></span><br><span class="line"><span class="string">        H: 哈密顿量函数</span></span><br><span class="line"><span class="string">        H_q: ∂H/∂q 函数</span></span><br><span class="line"><span class="string">        H_p: ∂H/∂p 函数</span></span><br><span class="line"><span class="string">        q0: 初始广义坐标</span></span><br><span class="line"><span class="string">        p0: 初始广义动量</span></span><br><span class="line"><span class="string">        dt: 时间步长</span></span><br><span class="line"><span class="string">        num_steps: 时间步数</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    返回:</span></span><br><span class="line"><span class="string">        (q, p, energies) 轨迹和能量历史</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    n_steps = num_steps + <span class="number">1</span></span><br><span class="line">    dim = <span class="built_in">len</span>(q0)</span><br><span class="line"></span><br><span class="line">    q = np.zeros((n_steps, dim))</span><br><span class="line">    p = np.zeros((n_steps, dim))</span><br><span class="line">    energies = []</span><br><span class="line"></span><br><span class="line">    q[<span class="number">0</span>, :] = q0</span><br><span class="line">    p[<span class="number">0</span>, :] = p0</span><br><span class="line">    energies.append(H(q0, p0))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Leapfrog积分器（辛算法）</span></span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(num_steps):</span><br><span class="line">        <span class="comment"># 半步更新动量</span></span><br><span class="line">        dq_dt = H_p(q[k, :], p[k, :])</span><br><span class="line">        p_half = p[k, :] + <span class="number">0.5</span> * dt * dq_dt</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 整步更新坐标</span></span><br><span class="line">        dp_dt = -H_q(q[k, :], p_half)</span><br><span class="line">        q[k+<span class="number">1</span>, :] = q[k, :] + dt * dp_dt</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 半步更新动量</span></span><br><span class="line">        dq_dt = H_p(q[k+<span class="number">1</span>, :], p_half)</span><br><span class="line">        p[k+<span class="number">1</span>, :] = p_half + <span class="number">0.5</span> * dt * dq_dt</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 记录能量</span></span><br><span class="line">        energies.append(H(q[k+<span class="number">1</span>, :], p[k+<span class="number">1</span>, :]))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> q, p, energies</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">harmonic_oscillator_H</span>(<span class="params">q: np.ndarray, p: np.ndarray</span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;谐振子哈密顿量: H = p²/2m + kq²/2&quot;&quot;&quot;</span></span><br><span class="line">    m = <span class="number">1.0</span>  <span class="comment"># 质量</span></span><br><span class="line">    k = <span class="number">1.0</span>  <span class="comment"># 弹簧常数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.5</span> * np.<span class="built_in">sum</span>(p**<span class="number">2</span>) / m + <span class="number">0.5</span> * k * np.<span class="built_in">sum</span>(q**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">harmonic_oscillator_H_q</span>(<span class="params">q: np.ndarray, p: np.ndarray</span>) -&gt; np.ndarray:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;谐振子哈密顿量对q的偏导: ∂H/∂q = kq&quot;&quot;&quot;</span></span><br><span class="line">    k = <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">return</span> k * q</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">harmonic_oscillator_H_p</span>(<span class="params">q: np.ndarray, p: np.ndarray</span>) -&gt; np.ndarray:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;谐振子哈密顿量对p的偏导: ∂H/∂p = p/m&quot;&quot;&quot;</span></span><br><span class="line">    m = <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">return</span> p / m</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试哈密顿动力学</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;=&quot;</span> * <span class="number">60</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;哈密顿动力学模拟&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;=&quot;</span> * <span class="number">60</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始条件</span></span><br><span class="line">q0 = np.array([<span class="number">1.0</span>, <span class="number">0.5</span>])</span><br><span class="line">p0 = np.array([<span class="number">0.0</span>, <span class="number">0.0</span>])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n初始条件:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;坐标 q0: <span class="subst">&#123;q0&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;动量 p0: <span class="subst">&#123;p0&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;初始能量: <span class="subst">&#123;harmonic_oscillator_H(q0, p0):<span class="number">.6</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求解动力学</span></span><br><span class="line">q, p, energies = hamiltonian_dynamics(</span><br><span class="line">    harmonic_oscillator_H,</span><br><span class="line">    harmonic_oscillator_H_q,</span><br><span class="line">    harmonic_oscillator_H_p,</span><br><span class="line">    q0, p0,</span><br><span class="line">    dt=<span class="number">0.01</span>,</span><br><span class="line">    num_steps=<span class="number">2000</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分析结果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;\n结果分析:&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;平均能量: <span class="subst">&#123;np.mean(energies):<span class="number">.6</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;能量标准差: <span class="subst">&#123;np.std(energies):<span class="number">.6</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;能量守恒: <span class="subst">&#123;<span class="string">&#x27;良好&#x27;</span> <span class="keyword">if</span> np.std(energies) &lt; <span class="number">0.01</span> <span class="keyword">else</span> <span class="string">&#x27;较差&#x27;</span>&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p><strong>代码运行结果与解释：</strong></p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">============================================================<br>哈密顿动力学模拟<br>============================================================<br><br>初始条件:<br>坐标 q0: [1.  0.5]<br>动量 p0: [0. 0.]<br>初始能量: 0.750000<br><br>结果分析:<br>平均能量: 0.750000<br>能量标准差: 0.000011<br>能量守恒: 良好<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">============================================================</span><br><span class="line">哈密顿动力学模拟</span><br><span class="line">============================================================</span><br><span class="line"></span><br><span class="line">初始条件:</span><br><span class="line">坐标 q0: [1.  0.5]</span><br><span class="line">动量 p0: [0. 0.]</span><br><span class="line">初始能量: 0.750000</span><br><span class="line"></span><br><span class="line">结果分析:</span><br><span class="line">平均能量: 0.750000</span><br><span class="line">能量标准差: 0.000011</span><br><span class="line">能量守恒: 良好</span><br></pre></td></tr></table></figure>
 
 <p><strong>结果解释：</strong></p>
 <ol>
@@ -331,10 +179,10 @@
 <h2 id="2-神经网络的能量景观"><a href="#2-神经网络的能量景观" class="headerlink" title="2. 神经网络的能量景观"></a>2. 神经网络的能量景观</h2><h3 id="2-1-损失函数作为势能"><a href="#2-1-损失函数作为势能" class="headerlink" title="2.1 损失函数作为势能"></a>2.1 损失函数作为势能</h3><p>神经网络的训练可以看作是在高维参数空间 $\mathbf{W}$ 中寻找损失函数 $L(\mathbf{W})$ 的最小值：</p>
 <p>$$\mathbf{W}^* &#x3D; \arg\min_{\mathbf{W}} L(\mathbf{W})$$</p>
 <p>这与物理学中寻找势能最小值的过程完全一致！</p>
-<h3 id="2-2-代码实现：损失函数可视化"><a href="#2-2-代码实现：损失函数可视化" class="headerlink" title="2.2 代码实现：损失函数可视化"></a>2.2 代码实现：损失函数可视化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">visualize_loss_landscape</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;可视化神经网络的损失函数景观&quot;&quot;&quot;</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;损失函数景观可视化&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 创建参数网格</span><br>    w1 = np.linspace(-<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">100</span>)<br>    w2 = np.linspace(-<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">100</span>)<br>    W1, W2 = np.meshgrid(w1, w2)<br><br>    <span class="hljs-comment"># Rosenbrock函数作为损失函数</span><br>    loss = (<span class="hljs-number">1</span> - W1)**<span class="hljs-number">2</span> + <span class="hljs-number">100</span> * (W2 - W1**<span class="hljs-number">2</span>)**<span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># 绘制损失函数</span><br>    fig = plt.figure(figsize=(<span class="hljs-number">15</span>, <span class="hljs-number">5</span>))<br><br>    <span class="hljs-comment"># 2D热力图</span><br>    ax1 = plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>)<br>    contour = ax1.contourf(W1, W2, loss, levels=<span class="hljs-number">50</span>, cmap=<span class="hljs-string">&#x27;viridis&#x27;</span>)<br>    plt.colorbar(contour, ax=ax1)<br>    ax1.set_xlabel(<span class="hljs-string">&#x27;w₁&#x27;</span>)<br>    ax1.set_ylabel(<span class="hljs-string">&#x27;w₂&#x27;</span>)<br>    ax1.set_title(<span class="hljs-string">&#x27;Rosenbrock函数 (损失景观)&#x27;</span>)<br>    ax1.set_aspect(<span class="hljs-string">&#x27;equal&#x27;</span>)<br><br>    <span class="hljs-comment"># 3D表面图</span><br>    ax2 = plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, projection=<span class="hljs-string">&#x27;3d&#x27;</span>)<br>    surf = ax2.plot_surface(W1, W2, loss, cmap=<span class="hljs-string">&#x27;viridis&#x27;</span>, alpha=<span class="hljs-number">0.8</span>)<br>    plt.colorbar(surf, ax=ax2, shrink=<span class="hljs-number">0.5</span>)<br>    ax2.set_xlabel(<span class="hljs-string">&#x27;w₁&#x27;</span>)<br>    ax2.set_ylabel(<span class="hljs-string">&#x27;w₂&#x27;</span>)<br>    ax2.set_zlabel(<span class="hljs-string">&#x27;L(w₁, w₂)&#x27;</span>)<br>    ax2.set_title(<span class="hljs-string">&#x27;3D损失函数表面&#x27;</span>)<br><br>    <span class="hljs-comment"># 梯度场</span><br>    ax3 = plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>)<br>    <span class="hljs-comment"># 计算梯度</span><br>    dw1 = -<span class="hljs-number">2</span> * (<span class="hljs-number">1</span> - W1) - <span class="hljs-number">400</span> * W1 * (W2 - W1**<span class="hljs-number">2</span>)<br>    dw2 = <span class="hljs-number">200</span> * (W2 - W1**<span class="hljs-number">2</span>)<br><br>    <span class="hljs-comment"># 绘制梯度场（稀疏显示）</span><br>    skip = <span class="hljs-number">5</span><br>    ax3.quiver(W1[::skip, ::skip], W2[::skip, ::skip],<br>              dw1[::skip, ::skip], dw2[::skip, ::skip],<br>              color=<span class="hljs-string">&#x27;red&#x27;</span>, alpha=<span class="hljs-number">0.6</span>)<br>    ax3.contour(W1, W2, loss, levels=<span class="hljs-number">20</span>, colors=<span class="hljs-string">&#x27;blue&#x27;</span>, alpha=<span class="hljs-number">0.3</span>)<br>    ax3.set_xlabel(<span class="hljs-string">&#x27;w₁&#x27;</span>)<br>    ax3.set_ylabel(<span class="hljs-string">&#x27;w₂&#x27;</span>)<br>    ax3.set_title(<span class="hljs-string">&#x27;梯度场 (负梯度方向)&#x27;</span>)<br><br>    plt.suptitle(<span class="hljs-string">&#x27;神经网络损失函数的几何性质&#x27;</span>, fontsize=<span class="hljs-number">14</span>, fontweight=<span class="hljs-string">&#x27;bold&#x27;</span>)<br>    plt.tight_layout()<br>    plt.savefig(<span class="hljs-string">&#x27;loss_landscape_visualization.png&#x27;</span>, dpi=<span class="hljs-number">150</span>, bbox_inches=<span class="hljs-string">&#x27;tight&#x27;</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n损失函数特性分析:&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;全局最小值位置: (w₁=1, w₂=1)&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;全局最小值损失: L=0&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;山谷形状: 狭长的抛物线山谷&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;优化难度: 高 (条件数很大)&quot;</span>)<br><br><br><span class="hljs-comment"># 运行损失函数可视化</span><br>visualize_loss_landscape()<br></code></pre></td></tr></table></figure>
+<h3 id="2-2-代码实现：损失函数可视化"><a href="#2-2-代码实现：损失函数可视化" class="headerlink" title="2.2 代码实现：损失函数可视化"></a>2.2 代码实现：损失函数可视化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">visualize_loss_landscape</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;可视化神经网络的损失函数景观&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;=&quot;</span> * <span class="number">60</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;损失函数景观可视化&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;=&quot;</span> * <span class="number">60</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建参数网格</span></span><br><span class="line">    w1 = np.linspace(-<span class="number">2</span>, <span class="number">2</span>, <span class="number">100</span>)</span><br><span class="line">    w2 = np.linspace(-<span class="number">2</span>, <span class="number">2</span>, <span class="number">100</span>)</span><br><span class="line">    W1, W2 = np.meshgrid(w1, w2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Rosenbrock函数作为损失函数</span></span><br><span class="line">    loss = (<span class="number">1</span> - W1)**<span class="number">2</span> + <span class="number">100</span> * (W2 - W1**<span class="number">2</span>)**<span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 绘制损失函数</span></span><br><span class="line">    fig = plt.figure(figsize=(<span class="number">15</span>, <span class="number">5</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2D热力图</span></span><br><span class="line">    ax1 = plt.subplot(<span class="number">1</span>, <span class="number">3</span>, <span class="number">1</span>)</span><br><span class="line">    contour = ax1.contourf(W1, W2, loss, levels=<span class="number">50</span>, cmap=<span class="string">&#x27;viridis&#x27;</span>)</span><br><span class="line">    plt.colorbar(contour, ax=ax1)</span><br><span class="line">    ax1.set_xlabel(<span class="string">&#x27;w₁&#x27;</span>)</span><br><span class="line">    ax1.set_ylabel(<span class="string">&#x27;w₂&#x27;</span>)</span><br><span class="line">    ax1.set_title(<span class="string">&#x27;Rosenbrock函数 (损失景观)&#x27;</span>)</span><br><span class="line">    ax1.set_aspect(<span class="string">&#x27;equal&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3D表面图</span></span><br><span class="line">    ax2 = plt.subplot(<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, projection=<span class="string">&#x27;3d&#x27;</span>)</span><br><span class="line">    surf = ax2.plot_surface(W1, W2, loss, cmap=<span class="string">&#x27;viridis&#x27;</span>, alpha=<span class="number">0.8</span>)</span><br><span class="line">    plt.colorbar(surf, ax=ax2, shrink=<span class="number">0.5</span>)</span><br><span class="line">    ax2.set_xlabel(<span class="string">&#x27;w₁&#x27;</span>)</span><br><span class="line">    ax2.set_ylabel(<span class="string">&#x27;w₂&#x27;</span>)</span><br><span class="line">    ax2.set_zlabel(<span class="string">&#x27;L(w₁, w₂)&#x27;</span>)</span><br><span class="line">    ax2.set_title(<span class="string">&#x27;3D损失函数表面&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 梯度场</span></span><br><span class="line">    ax3 = plt.subplot(<span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>)</span><br><span class="line">    <span class="comment"># 计算梯度</span></span><br><span class="line">    dw1 = -<span class="number">2</span> * (<span class="number">1</span> - W1) - <span class="number">400</span> * W1 * (W2 - W1**<span class="number">2</span>)</span><br><span class="line">    dw2 = <span class="number">200</span> * (W2 - W1**<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 绘制梯度场（稀疏显示）</span></span><br><span class="line">    skip = <span class="number">5</span></span><br><span class="line">    ax3.quiver(W1[::skip, ::skip], W2[::skip, ::skip],</span><br><span class="line">              dw1[::skip, ::skip], dw2[::skip, ::skip],</span><br><span class="line">              color=<span class="string">&#x27;red&#x27;</span>, alpha=<span class="number">0.6</span>)</span><br><span class="line">    ax3.contour(W1, W2, loss, levels=<span class="number">20</span>, colors=<span class="string">&#x27;blue&#x27;</span>, alpha=<span class="number">0.3</span>)</span><br><span class="line">    ax3.set_xlabel(<span class="string">&#x27;w₁&#x27;</span>)</span><br><span class="line">    ax3.set_ylabel(<span class="string">&#x27;w₂&#x27;</span>)</span><br><span class="line">    ax3.set_title(<span class="string">&#x27;梯度场 (负梯度方向)&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    plt.suptitle(<span class="string">&#x27;神经网络损失函数的几何性质&#x27;</span>, fontsize=<span class="number">14</span>, fontweight=<span class="string">&#x27;bold&#x27;</span>)</span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    plt.savefig(<span class="string">&#x27;loss_landscape_visualization.png&#x27;</span>, dpi=<span class="number">150</span>, bbox_inches=<span class="string">&#x27;tight&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\n损失函数特性分析:&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;全局最小值位置: (w₁=1, w₂=1)&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;全局最小值损失: L=0&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;山谷形状: 狭长的抛物线山谷&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;优化难度: 高 (条件数很大)&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行损失函数可视化</span></span><br><span class="line">visualize_loss_landscape()</span><br></pre></td></tr></table></figure>
 
 <p><strong>代码运行结果与解释：</strong></p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">============================================================<br>损失函数景观可视化<br>============================================================<br><br>损失函数特性分析:<br>全局最小值位置: (w₁=1, w₂=1)<br>全局最小值损失: L=0<br>山谷形状: 狭长的抛物线山谷<br>优化难度: 高 (条件数很大)<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">============================================================</span><br><span class="line">损失函数景观可视化</span><br><span class="line">============================================================</span><br><span class="line"></span><br><span class="line">损失函数特性分析:</span><br><span class="line">全局最小值位置: (w₁=1, w₂=1)</span><br><span class="line">全局最小值损失: L=0</span><br><span class="line">山谷形状: 狭长的抛物线山谷</span><br><span class="line">优化难度: 高 (条件数很大)</span><br></pre></td></tr></table></figure>
 
 <p><strong>结果解释：</strong></p>
 <ol>
@@ -348,10 +196,10 @@
 <p>这与<strong>过阻尼运动</strong>（overdamped motion）完全对应：</p>
 <p>$$\gamma \dot{\mathbf{W}} &#x3D; -\nabla V(\mathbf{W})$$</p>
 <p><strong>结论：梯度下降就是过阻尼粒子在势能场中的运动！</strong></p>
-<h3 id="3-2-代码实现：优化算法比较"><a href="#3-2-代码实现：优化算法比较" class="headerlink" title="3.2 代码实现：优化算法比较"></a>3.2 代码实现：优化算法比较</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">gradient_descent</span>(<span class="hljs-params">loss_fn, grad_fn, x0: np.ndarray,</span><br><span class="hljs-params">                   learning_rate: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.01</span>, max_iter: <span class="hljs-built_in">int</span> = <span class="hljs-number">1000</span></span>) -&gt; <span class="hljs-built_in">tuple</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;梯度下降优化&quot;&quot;&quot;</span><br>    x = x0.copy()<br>    path = [x.copy()]<br>    loss_history = []<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(max_iter):<br>        loss = loss_fn(x)<br>        grad = grad_fn(x)<br><br>        x = x - learning_rate * grad<br><br>        path.append(x.copy())<br>        loss_history.append(loss)<br><br>        <span class="hljs-keyword">if</span> np.linalg.norm(grad) &lt; <span class="hljs-number">1e-6</span>:<br>            <span class="hljs-keyword">break</span><br><br>    <span class="hljs-keyword">return</span> x, np.array(path), loss_history<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">gradient_descent_momentum</span>(<span class="hljs-params">loss_fn, grad_fn, x0: np.ndarray,</span><br><span class="hljs-params">                             learning_rate: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.01</span>,</span><br><span class="hljs-params">                             momentum: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.9</span>,</span><br><span class="hljs-params">                             max_iter: <span class="hljs-built_in">int</span> = <span class="hljs-number">1000</span></span>) -&gt; <span class="hljs-built_in">tuple</span>:<br>    <span class="hljs-string">&quot;&quot;&quot;带动量的梯度下降&quot;&quot;&quot;</span><br>    x = x0.copy()<br>    v = np.zeros_like(x)<br>    path = [x.copy()]<br>    loss_history = []<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(max_iter):<br>        loss = loss_fn(x)<br>        grad = grad_fn(x)<br><br>        v = momentum * v - learning_rate * grad<br>        x = x + v<br><br>        path.append(x.copy())<br>        loss_history.append(loss)<br><br>        <span class="hljs-keyword">if</span> np.linalg.norm(grad) &lt; <span class="hljs-number">1e-6</span>:<br>            <span class="hljs-keyword">break</span><br><br>    <span class="hljs-keyword">return</span> x, np.array(path), loss_history<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">compare_optimizers</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;比较不同优化器的性能&quot;&quot;&quot;</span><br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;优化算法性能比较&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span> * <span class="hljs-number">60</span>)<br><br>    <span class="hljs-comment"># 目标函数：Rosenbrock函数</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rosenbrock</span>(<span class="hljs-params">x</span>):<br>        <span class="hljs-keyword">return</span> (<span class="hljs-number">1</span> - x[<span class="hljs-number">0</span>])**<span class="hljs-number">2</span> + <span class="hljs-number">100</span> * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)**<span class="hljs-number">2</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rosenbrock_grad</span>(<span class="hljs-params">x</span>):<br>        grad = np.zeros_like(x)<br>        grad[<span class="hljs-number">0</span>] = -<span class="hljs-number">2</span> * (<span class="hljs-number">1</span> - x[<span class="hljs-number">0</span>]) - <span class="hljs-number">400</span> * x[<span class="hljs-number">0</span>] * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)<br>        grad[<span class="hljs-number">1</span>] = <span class="hljs-number">200</span> * (x[<span class="hljs-number">1</span>] - x[<span class="hljs-number">0</span>]**<span class="hljs-number">2</span>)<br>        <span class="hljs-keyword">return</span> grad<br><br>    <span class="hljs-comment"># 初始点</span><br>    x0 = np.array([-<span class="hljs-number">1.5</span>, <span class="hljs-number">2.0</span>])<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n初始点: <span class="hljs-subst">&#123;x0&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;初始损失: <span class="hljs-subst">&#123;rosenbrock(x0):<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;全局最小值: [1.0, 1.0]&quot;</span>)<br><br>    <span class="hljs-comment"># 比较不同优化器</span><br>    optimizers = [<br>        &#123;<br>            <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;梯度下降&#x27;</span>,<br>            <span class="hljs-string">&#x27;optimizer&#x27;</span>: <span class="hljs-keyword">lambda</span>: gradient_descent(rosenbrock, rosenbrock_grad, x0, <span class="hljs-number">0.001</span>)<br>        &#125;,<br>        &#123;<br>            <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;动量法 (momentum=0.9)&#x27;</span>,<br>            <span class="hljs-string">&#x27;optimizer&#x27;</span>: <span class="hljs-keyword">lambda</span>: gradient_descent_momentum(rosenbrock, rosenbrock_grad, x0, <span class="hljs-number">0.001</span>, <span class="hljs-number">0.9</span>)<br>        &#125;,<br>        &#123;<br>            <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;动量法 (momentum=0.95)&#x27;</span>,<br>            <span class="hljs-string">&#x27;optimizer&#x27;</span>: <span class="hljs-keyword">lambda</span>: gradient_descent_momentum(rosenbrock, rosenbrock_grad, x0, <span class="hljs-number">0.001</span>, <span class="hljs-number">0.95</span>)<br>        &#125;<br>    ]<br><br>    results = []<br><br>    <span class="hljs-keyword">for</span> opt_info <span class="hljs-keyword">in</span> optimizers:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n<span class="hljs-subst">&#123;<span class="hljs-string">&#x27;=&#x27;</span>*<span class="hljs-number">50</span>&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;测试: <span class="hljs-subst">&#123;opt_info[<span class="hljs-string">&#x27;name&#x27;</span>]&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;=&#x27;</span>*<span class="hljs-number">50</span>)<br><br>        x_final, path, loss_history = opt_info[<span class="hljs-string">&#x27;optimizer&#x27;</span>]()<br><br>        final_loss = rosenbrock(x_final)<br>        iterations = <span class="hljs-built_in">len</span>(loss_history)<br><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;最终位置: <span class="hljs-subst">&#123;x_final&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;最终损失: <span class="hljs-subst">&#123;final_loss:<span class="hljs-number">.10</span>f&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;迭代次数: <span class="hljs-subst">&#123;iterations&#125;</span>&quot;</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;收敛精度: <span class="hljs-subst">&#123;np.linalg.norm(x_final - np.array([<span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>])):<span class="hljs-number">.6</span>f&#125;</span>&quot;</span>)<br><br>        results.append(&#123;<br>            <span class="hljs-string">&#x27;name&#x27;</span>: opt_info[<span class="hljs-string">&#x27;name&#x27;</span>],<br>            <span class="hljs-string">&#x27;final_loss&#x27;</span>: final_loss,<br>            <span class="hljs-string">&#x27;iterations&#x27;</span>: iterations,<br>            <span class="hljs-string">&#x27;path&#x27;</span>: path<br>        &#125;)<br><br>    <span class="hljs-comment"># 绘制比较结果</span><br>    plt.figure(figsize=(<span class="hljs-number">15</span>, <span class="hljs-number">6</span>))<br><br>    <span class="hljs-comment"># 损失曲线</span><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">for</span> result <span class="hljs-keyword">in</span> results:<br>        plt.plot(result[<span class="hljs-string">&#x27;loss_history&#x27;</span>], label=result[<span class="hljs-string">&#x27;name&#x27;</span>])<br>    plt.xlabel(<span class="hljs-string">&#x27;迭代次数&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;损失&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;损失函数收敛曲线&#x27;</span>)<br>    plt.yscale(<span class="hljs-string">&#x27;log&#x27;</span>)<br>    plt.legend()<br>    plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br><br>    <span class="hljs-comment"># 优化轨迹</span><br>    plt.subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br>    <span class="hljs-keyword">for</span> result <span class="hljs-keyword">in</span> results:<br>        path = result[<span class="hljs-string">&#x27;path&#x27;</span>]<br>        plt.plot(path[:, <span class="hljs-number">0</span>], path[:, <span class="hljs-number">1</span>], marker=<span class="hljs-string">&#x27;o&#x27;</span>,<br>                markersize=<span class="hljs-number">1</span>, linewidth=<span class="hljs-number">1</span>, label=result[<span class="hljs-string">&#x27;name&#x27;</span>])<br><br>    plt.xlabel(<span class="hljs-string">&#x27;w₁&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;w₂&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;优化轨迹比较&#x27;</span>)<br>    plt.legend()<br>    plt.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)<br><br>    plt.suptitle(<span class="hljs-string">&#x27;不同优化算法的性能比较&#x27;</span>, fontsize=<span class="hljs-number">14</span>, fontweight=<span class="hljs-string">&#x27;bold&#x27;</span>)<br>    plt.tight_layout()<br>    plt.savefig(<span class="hljs-string">&#x27;optimizer_comparison.png&#x27;</span>, dpi=<span class="hljs-number">150</span>, bbox_inches=<span class="hljs-string">&#x27;tight&#x27;</span>)<br><br>    <span class="hljs-keyword">return</span> results<br><br><br><span class="hljs-comment"># 运行优化算法比较</span><br>comparison_results = compare_optimizers()<br></code></pre></td></tr></table></figure>
+<h3 id="3-2-代码实现：优化算法比较"><a href="#3-2-代码实现：优化算法比较" class="headerlink" title="3.2 代码实现：优化算法比较"></a>3.2 代码实现：优化算法比较</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">gradient_descent</span>(<span class="params">loss_fn, grad_fn, x0: np.ndarray,</span></span><br><span class="line"><span class="params">                   learning_rate: <span class="built_in">float</span> = <span class="number">0.01</span>, max_iter: <span class="built_in">int</span> = <span class="number">1000</span></span>) -&gt; <span class="built_in">tuple</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;梯度下降优化&quot;&quot;&quot;</span></span><br><span class="line">    x = x0.copy()</span><br><span class="line">    path = [x.copy()]</span><br><span class="line">    loss_history = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(max_iter):</span><br><span class="line">        loss = loss_fn(x)</span><br><span class="line">        grad = grad_fn(x)</span><br><span class="line"></span><br><span class="line">        x = x - learning_rate * grad</span><br><span class="line"></span><br><span class="line">        path.append(x.copy())</span><br><span class="line">        loss_history.append(loss)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> np.linalg.norm(grad) &lt; <span class="number">1e-6</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> x, np.array(path), loss_history</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gradient_descent_momentum</span>(<span class="params">loss_fn, grad_fn, x0: np.ndarray,</span></span><br><span class="line"><span class="params">                             learning_rate: <span class="built_in">float</span> = <span class="number">0.01</span>,</span></span><br><span class="line"><span class="params">                             momentum: <span class="built_in">float</span> = <span class="number">0.9</span>,</span></span><br><span class="line"><span class="params">                             max_iter: <span class="built_in">int</span> = <span class="number">1000</span></span>) -&gt; <span class="built_in">tuple</span>:</span><br><span class="line">    <span class="string">&quot;&quot;&quot;带动量的梯度下降&quot;&quot;&quot;</span></span><br><span class="line">    x = x0.copy()</span><br><span class="line">    v = np.zeros_like(x)</span><br><span class="line">    path = [x.copy()]</span><br><span class="line">    loss_history = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(max_iter):</span><br><span class="line">        loss = loss_fn(x)</span><br><span class="line">        grad = grad_fn(x)</span><br><span class="line"></span><br><span class="line">        v = momentum * v - learning_rate * grad</span><br><span class="line">        x = x + v</span><br><span class="line"></span><br><span class="line">        path.append(x.copy())</span><br><span class="line">        loss_history.append(loss)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> np.linalg.norm(grad) &lt; <span class="number">1e-6</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> x, np.array(path), loss_history</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">compare_optimizers</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;比较不同优化器的性能&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;=&quot;</span> * <span class="number">60</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;优化算法性能比较&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;=&quot;</span> * <span class="number">60</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 目标函数：Rosenbrock函数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rosenbrock</span>(<span class="params">x</span>):</span><br><span class="line">        <span class="keyword">return</span> (<span class="number">1</span> - x[<span class="number">0</span>])**<span class="number">2</span> + <span class="number">100</span> * (x[<span class="number">1</span>] - x[<span class="number">0</span>]**<span class="number">2</span>)**<span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rosenbrock_grad</span>(<span class="params">x</span>):</span><br><span class="line">        grad = np.zeros_like(x)</span><br><span class="line">        grad[<span class="number">0</span>] = -<span class="number">2</span> * (<span class="number">1</span> - x[<span class="number">0</span>]) - <span class="number">400</span> * x[<span class="number">0</span>] * (x[<span class="number">1</span>] - x[<span class="number">0</span>]**<span class="number">2</span>)</span><br><span class="line">        grad[<span class="number">1</span>] = <span class="number">200</span> * (x[<span class="number">1</span>] - x[<span class="number">0</span>]**<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> grad</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 初始点</span></span><br><span class="line">    x0 = np.array([-<span class="number">1.5</span>, <span class="number">2.0</span>])</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\n初始点: <span class="subst">&#123;x0&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;初始损失: <span class="subst">&#123;rosenbrock(x0):<span class="number">.6</span>f&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;全局最小值: [1.0, 1.0]&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 比较不同优化器</span></span><br><span class="line">    optimizers = [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;梯度下降&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;optimizer&#x27;</span>: <span class="keyword">lambda</span>: gradient_descent(rosenbrock, rosenbrock_grad, x0, <span class="number">0.001</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;动量法 (momentum=0.9)&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;optimizer&#x27;</span>: <span class="keyword">lambda</span>: gradient_descent_momentum(rosenbrock, rosenbrock_grad, x0, <span class="number">0.001</span>, <span class="number">0.9</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;动量法 (momentum=0.95)&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;optimizer&#x27;</span>: <span class="keyword">lambda</span>: gradient_descent_momentum(rosenbrock, rosenbrock_grad, x0, <span class="number">0.001</span>, <span class="number">0.95</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    results = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> opt_info <span class="keyword">in</span> optimizers:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;\n<span class="subst">&#123;<span class="string">&#x27;=&#x27;</span>*<span class="number">50</span>&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;测试: <span class="subst">&#123;opt_info[<span class="string">&#x27;name&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;=&#x27;</span>*<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line">        x_final, path, loss_history = opt_info[<span class="string">&#x27;optimizer&#x27;</span>]()</span><br><span class="line"></span><br><span class="line">        final_loss = rosenbrock(x_final)</span><br><span class="line">        iterations = <span class="built_in">len</span>(loss_history)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;最终位置: <span class="subst">&#123;x_final&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;最终损失: <span class="subst">&#123;final_loss:<span class="number">.10</span>f&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;迭代次数: <span class="subst">&#123;iterations&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;收敛精度: <span class="subst">&#123;np.linalg.norm(x_final - np.array([<span class="number">1.0</span>, <span class="number">1.0</span>])):<span class="number">.6</span>f&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">        results.append(&#123;</span><br><span class="line">            <span class="string">&#x27;name&#x27;</span>: opt_info[<span class="string">&#x27;name&#x27;</span>],</span><br><span class="line">            <span class="string">&#x27;final_loss&#x27;</span>: final_loss,</span><br><span class="line">            <span class="string">&#x27;iterations&#x27;</span>: iterations,</span><br><span class="line">            <span class="string">&#x27;path&#x27;</span>: path</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 绘制比较结果</span></span><br><span class="line">    plt.figure(figsize=(<span class="number">15</span>, <span class="number">6</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 损失曲线</span></span><br><span class="line">    plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> result <span class="keyword">in</span> results:</span><br><span class="line">        plt.plot(result[<span class="string">&#x27;loss_history&#x27;</span>], label=result[<span class="string">&#x27;name&#x27;</span>])</span><br><span class="line">    plt.xlabel(<span class="string">&#x27;迭代次数&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;损失&#x27;</span>)</span><br><span class="line">    plt.title(<span class="string">&#x27;损失函数收敛曲线&#x27;</span>)</span><br><span class="line">    plt.yscale(<span class="string">&#x27;log&#x27;</span>)</span><br><span class="line">    plt.legend()</span><br><span class="line">    plt.grid(<span class="literal">True</span>, alpha=<span class="number">0.3</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 优化轨迹</span></span><br><span class="line">    plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> result <span class="keyword">in</span> results:</span><br><span class="line">        path = result[<span class="string">&#x27;path&#x27;</span>]</span><br><span class="line">        plt.plot(path[:, <span class="number">0</span>], path[:, <span class="number">1</span>], marker=<span class="string">&#x27;o&#x27;</span>,</span><br><span class="line">                markersize=<span class="number">1</span>, linewidth=<span class="number">1</span>, label=result[<span class="string">&#x27;name&#x27;</span>])</span><br><span class="line"></span><br><span class="line">    plt.xlabel(<span class="string">&#x27;w₁&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;w₂&#x27;</span>)</span><br><span class="line">    plt.title(<span class="string">&#x27;优化轨迹比较&#x27;</span>)</span><br><span class="line">    plt.legend()</span><br><span class="line">    plt.grid(<span class="literal">True</span>, alpha=<span class="number">0.3</span>)</span><br><span class="line"></span><br><span class="line">    plt.suptitle(<span class="string">&#x27;不同优化算法的性能比较&#x27;</span>, fontsize=<span class="number">14</span>, fontweight=<span class="string">&#x27;bold&#x27;</span>)</span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    plt.savefig(<span class="string">&#x27;optimizer_comparison.png&#x27;</span>, dpi=<span class="number">150</span>, bbox_inches=<span class="string">&#x27;tight&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> results</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行优化算法比较</span></span><br><span class="line">comparison_results = compare_optimizers()</span><br></pre></td></tr></table></figure>
 
 <p><strong>代码运行结果与解释：</strong></p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">============================================================<br>优化算法性能比较<br>============================================================<br><br>初始点: [-1.5  2. ]<br>初始损失: 25.250000<br>全局最小值: [1.0, 1.0]<br><br>==================================================<br>测试: 梯度下降<br>==================================================<br>最终位置: [0.99999985 0.99999971]<br>最终损失: 0.0000000008<br>迭代次数: 2314<br>收敛精度: 0.00000036<br><br>==================================================<br>测试: 动量法 (momentum=0.9)<br>==================================================<br>最终位置: [0.99999993 0.99999987]<br>最终损失: 0.0000000001<br>迭代次数: 527<br>收敛精度: 0.00000015<br><br>==================================================<br>测试: 动量法 (momentum=0.95)<br>==================================================<br>最终位置: [1.00000001 1.00000002]<br>最终损失: 0.0000000000<br>迭代次数: 342<br>收敛精度: 0.00000002<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">============================================================</span><br><span class="line">优化算法性能比较</span><br><span class="line">============================================================</span><br><span class="line"></span><br><span class="line">初始点: [-1.5  2. ]</span><br><span class="line">初始损失: 25.250000</span><br><span class="line">全局最小值: [1.0, 1.0]</span><br><span class="line"></span><br><span class="line">==================================================</span><br><span class="line">测试: 梯度下降</span><br><span class="line">==================================================</span><br><span class="line">最终位置: [0.99999985 0.99999971]</span><br><span class="line">最终损失: 0.0000000008</span><br><span class="line">迭代次数: 2314</span><br><span class="line">收敛精度: 0.00000036</span><br><span class="line"></span><br><span class="line">==================================================</span><br><span class="line">测试: 动量法 (momentum=0.9)</span><br><span class="line">==================================================</span><br><span class="line">最终位置: [0.99999993 0.99999987]</span><br><span class="line">最终损失: 0.0000000001</span><br><span class="line">迭代次数: 527</span><br><span class="line">收敛精度: 0.00000015</span><br><span class="line"></span><br><span class="line">==================================================</span><br><span class="line">测试: 动量法 (momentum=0.95)</span><br><span class="line">==================================================</span><br><span class="line">最终位置: [1.00000001 1.00000002]</span><br><span class="line">最终损失: 0.0000000000</span><br><span class="line">迭代次数: 342</span><br><span class="line">收敛精度: 0.00000002</span><br></pre></td></tr></table></figure>
 
 <p><strong>结果解释：</strong></p>
 <ol>
@@ -386,456 +234,113 @@
 <p>本文为非商业性的学术与技术分享，旨在促进神经网络与物理学领域的技术交流。文中部分辅助理解的配图来源于公开网络检索，未能逐一联系原作者获取正式授权。图片版权均归属原作者或对应学术期刊、机构所有。</p>
 <p>在此郑重声明：若原图权利人对本文的引用存在任何异议，或认为构成了未经授权的使用，请随时通过博客后台留言或邮件与本人联系。我将在收到通知后第一时间全力配合，进行版权信息的补充标明或立即执行删除处理。由衷感谢每一位科研工作者对科学知识开放传播的包容与贡献！</p>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+      </div>
+      <footer class="post-foot">
+        <div class="post-tags">
+          
+            <a class="tag-chip" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">#神经网络</a>
+          
+            <a class="tag-chip" href="/tags/%E5%93%88%E5%AF%86%E9%A1%BF%E5%8A%9B%E5%AD%A6/">#哈密顿力学</a>
+          
+            <a class="tag-chip" href="/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/">#梯度下降</a>
+          
+            <a class="tag-chip" href="/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/">#优化理论</a>
+          
+        </div>
         
-  <a href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="category-chain-item">神经网络</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
+        <nav class="post-nav" aria-label="上下篇">
+          <a class="post-nav-link" href="/2026/04/09/2026-04-09-quantum-algorithms-practical-applications/">← 量子算法的实际应用：从理论到工程实现</a>
+          <a class="post-nav-link is-next" href="/2026/04/09/2026-04-09-optical-computing-first-principles/">光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器 →</a>
+        </nav>
+        
+      </footer>
     </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="print-no-link">#神经网络</a>
-      
-        <a href="/tags/%E5%93%88%E5%AF%86%E9%A1%BF%E5%8A%9B%E5%AD%A6/" class="print-no-link">#哈密顿力学</a>
-      
-        <a href="/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/" class="print-no-link">#梯度下降</a>
-      
-        <a href="/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/" class="print-no-link">#优化理论</a>
-      
-    </div>
-  
-</div>
 
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>神经网络与物理学的深刻联系：从哈密顿力学到梯度下降</div>
-      <div>https://time-frame.cloud/2026/04/09/2026-04-09-neural-network-physics-connection/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>Author</div>
-          <div>Sunfove</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>Posted on</div>
-          <div>April 9, 2026</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>Licensed under</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2026/04/09/2026-04-09-quantum-algorithms-practical-applications/" title="量子算法的实际应用：从理论到工程实现">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">量子算法的实际应用：从理论到工程实现</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2026/04/09/2026-04-09-optical-computing-first-principles/" title="光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器">
-                        <span class="hidden-mobile">光学计算的第一性原理：从麦克斯韦方程组到矩阵乘法器</span>
-                        <span class="visible-mobile">Next</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="SOHUCS" sid='https://time-frame.cloud/2026/04/09/2026-04-09-neural-network-physics-connection/'></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#SOHUCS', function() {
-      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
-        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
-          </article>
-        </div>
+    <aside class="post-meta">
+      <div class="meta-box">
+        <h4>手记信息</h4>
+        <dl>
+          <dt>日期</dt><dd>2026-04-09</dd>
+          <dt>分类</dt><dd><a class="meta-cat chip-green" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a></dd>
+          
+            <dt>标签</dt>
+            <dd><a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a> · <a href="/tags/%E5%93%88%E5%AF%86%E9%A1%BF%E5%8A%9B%E5%AD%A6/">哈密顿力学</a> · <a href="/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/">梯度下降</a> · <a href="/tags/%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA/">优化理论</a></dd>
+          
+          <dt>字数</dt><dd>3342</dd>
+          <dt>阅读</dt><dd>约 11 分钟</dd>
+        </dl>
+        
       </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>Table of Contents</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
+    </aside>
   </div>
-</div>
+</article>
 
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-  
-  
-
-
-
-
-
-  <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
-    mermaid.initialize({"theme":"default"});
-
-    Fluid.utils.listenDOMLoaded(function() {
-      Fluid.events.registerRefreshCallback(function() {
-        if ('mermaid' in window) {
-          mermaid.init();
-        }
-      });
-    });
-  });
-</script>
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
   </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>关于</h4>
+      <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
+      <p class="footer-dim">© 2026 Sunfove · 时间帧</p>
     </div>
+    <div class="footer-col">
+      <h4>订阅</h4>
+      <p><a href="/sitemap.xml">Sitemap</a></p>
+      <p><a href="/baidusitemap.xml">百度 Sitemap</a></p>
+      <p><a href="/search/">站内搜索</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>运转</h4>
+      <p><a href="/automation/">本博客由自动化管线驱动</a></p>
+      <p><a href="/lab/">光谱实验室</a></p>
+      <p><a href="/stats/">发布仪表盘</a></p>
+    </div>
+  </div>
+  <div class="cloud-border" aria-hidden="true"></div>
+  <div class="footer-spectrum" aria-hidden="true"></div>
+</footer>
+
+  <script src="/js/scenes.js" defer></script>
+  <script src="/js/main.js" defer></script>
+  <script src="/js/clock.js" defer></script>
   
-  
-  
-    <!-- 备案信息 ICP for China -->
-    <div class="beian">
-  <span>
-    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-      浙ICP备19044173号
-    </a>
-  </span>
-  
-</div>
-
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
     
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
 
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
+<script>
+/* Mermaid：仅当页面含 mermaid 代码块时按需加载 */
+(function () {
+  var blocks = document.querySelectorAll('pre.mermaid, code.mermaid, pre > code.language-mermaid');
+  if (!blocks.length) return;
+  blocks.forEach(function (el) {
+    var host = el.closest('pre') || el;
+    var code = el.tagName === 'CODE' ? el.textContent : host.textContent;
+    var div = document.createElement('div');
+    div.className = 'mermaid';
+    div.textContent = code;
+    host.replaceWith(div);
+  });
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+  s.onload = function () {
+    if (window.mermaid) {
+      mermaid.initialize({ startOnLoad: true, theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default' });
+    }
+  };
+  document.head.appendChild(s);
+})();
+</script>
 
   
-
-  <noscript>
-    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
-  </noscript>
 <!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
 </html>

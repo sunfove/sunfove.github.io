@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>时空涟漪 · Ripples</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#05080f;font-family:'Georgia','PingFang SC','Noto Serif SC','Microsoft YaHei',sans-serif}
+canvas{position:fixed;top:0;left:0;z-index:1}
+#ui{position:fixed;top:0;left:0;width:100%;height:100%;z-index:2;pointer-events:none;display:flex;flex-direction:column;justify-content:center;align-items:center}
+#card{
+  text-align:center;color:rgba(255,255,255,0.85);
+  background:rgba(8,14,24,0.6);backdrop-filter:blur(12px);
+  border-radius:20px;padding:3rem 2.5rem;max-width:90vw;
+  border:1px solid rgba(120,160,220,0.15);
+  box-shadow:0 0 80px rgba(80,120,200,0.08);
+  animation:cardIn 2s ease-out
+}
+@keyframes cardIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+#title{
+  font-size:clamp(1.6rem,5vw,3.2rem);font-weight:300;letter-spacing:0.2em;
+  margin-bottom:0.6em;color:rgba(200,220,255,0.9);
+  text-shadow:0 0 30px rgba(120,160,240,0.3)
+}
+#subtitle{
+  font-size:clamp(0.85rem,2vw,1.15rem);line-height:2.2;
+  color:rgba(180,200,230,0.6);letter-spacing:0.06em
+}
+#subtitle strong{color:rgba(130,180,255,0.85)}
+#hint{
+  position:fixed;bottom:6vh;left:50%;transform:translateX(-50%);z-index:2;
+  color:rgba(255,255,255,0.25);font-size:0.8rem;letter-spacing:0.08em;
+  pointer-events:none;animation:breathe 3s ease-in-out infinite
+}
+@keyframes breathe{0%,100%{opacity:0.2}50%{opacity:0.55}}
+@media(max-width:600px){
+  #card{padding:2rem 1.5rem;border-radius:14px}
+  #subtitle{line-height:2}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<canvas id="fg"></canvas>
+
+<div id="ui">
+  <div id="card">
+    <div id="title">时 空 涟 漪</div>
+    <div id="subtitle">
+      每一个粒子都是一束光<br>
+      在<strong>引力场</strong>中弯曲<br>
+      在<strong>时空</strong>里留下涟漪<br><br>
+      拖拽鼠标 · 扰动宇宙
+    </div>
+  </div>
+</div>
+<div id="hint">点击并拖动 · 创造涟漪</div>
+
+<script>
+(function(){
+const bgc=document.getElementById('bg'),bgx=bgc.getContext('2d');
+const fgc=document.getElementById('fg'),fgx=fgc.getContext('2d');
+let W,H;
+function size(){W=bgc.width=fgc.width=window.innerWidth;H=bgc.height=fgc.height=window.innerHeight;}
+size();window.addEventListener('resize',size);
+
+const stars=[];
+for(let i=0;i<200;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.3,a:Math.random()*.6+.15,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2});
+
+const pts=[];
+for(let i=0;i<120;i++)pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+1,a:Math.random()*.5+.25,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,h:200+Math.random()*40});
+
+const ripples=[];
+let mx=-200,my=-200,pressed=false,rc=0;
+const card=document.getElementById('card');
+
+function down(e){e.preventDefault();pressed=true;mx=e.touches?e.touches[0].clientX:e.clientX;my=e.touches?e.touches[0].clientY:e.clientY;card.style.transform='scale(1.03)';card.style.transition='transform .6s'}
+function move(e){if(!pressed)return;mx=e.touches?e.touches[0].clientX:e.clientX;my=e.touches?e.touches[0].clientY:e.clientY}
+function up(){pressed=false;card.style.transform='scale(1)'}
+document.body.addEventListener('mousedown',down);
+document.body.addEventListener('mousemove',move);
+document.body.addEventListener('mouseup',up);
+document.body.addEventListener('mouseleave',up);
+document.body.addEventListener('touchstart',down,{passive:false});
+document.body.addEventListener('touchmove',move,{passive:false});
+document.body.addEventListener('touchend',up);
+
+(function loop(){
+  bgx.clearRect(0,0,W,H);
+  stars.forEach(s=>{s.x+=s.vx;s.y+=s.vy;if(s.x<0)s.x=W;if(s.x>W)s.x=0;if(s.y<0)s.y=H;if(s.y>H)s.y=0;bgx.beginPath();bgx.arc(s.x,s.y,s.r,0,Math.PI*2);bgx.fillStyle='rgba(255,255,255,'+s.a+')';bgx.fill()});
+
+  fgx.clearRect(0,0,W,H);
+  rc++;if(pressed&&rc%3===0&&ripples.length<20)ripples.push({x:mx,y:my,r:4,life:1});
+  for(let i=ripples.length-1;i>=0;i--){const rp=ripples[i];rp.r+=3.5;rp.life*=.98;if(rp.life<.01){ripples.splice(i,1);continue}fgx.beginPath();fgx.arc(rp.x,rp.y,rp.r,0,Math.PI*2);fgx.strokeStyle='rgba(100,160,255,'+rp.life+')';fgx.lineWidth=1.8*rp.life;fgx.shadowColor='rgba(100,160,255,'+(rp.life*.4)+')';fgx.shadowBlur=10;fgx.stroke();fgx.shadowBlur=0}
+
+  pts.forEach(p=>{if(pressed){const dx=mx-p.x,dy=my-p.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<280&&dist>1){const f=(280-dist)/280*.12;p.vx+=dx/dist*f;p.vy+=dy/dist*f}}p.vx*=.994;p.vy*=.994;p.x+=p.vx;p.y+=p.vy;if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;if(p.y<-20)p.y=H+20;if(p.y>H+20)p.y=-20;fgx.beginPath();fgx.arc(p.x,p.y,p.r,0,Math.PI*2);fgx.fillStyle='hsla('+p.h+',55%,72%,'+p.a+')';fgx.fill();if(p.r>1.5){fgx.beginPath();fgx.arc(p.x,p.y,p.r*2.8,0,Math.PI*2);fgx.fillStyle='hsla('+p.h+',55%,72%,'+(p.a*.12)+')';fgx.fill()}});
+
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){fgx.beginPath();fgx.moveTo(pts[i].x,pts[i].y);fgx.lineTo(pts[j].x,pts[j].y);fgx.strokeStyle='rgba(120,160,220,'+(.08*(1-d/110))+')';fgx.lineWidth=.5;fgx.stroke()}}
+
+  requestAnimationFrame(loop);
+})();
+})();
+</script>
+</body>
+</html>

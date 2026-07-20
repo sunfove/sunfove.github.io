@@ -1,325 +1,168 @@
-
-
 <!DOCTYPE html>
-<html lang="en" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
-  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
-  
+<title>深入解析薄膜干涉：从物理本源到算法仿真 · 时间帧</title>
+<meta name="description" content="本文从第一性原理出发，详细推导薄膜干涉的物理机制，解析传输矩阵法（TMM）在多层膜光学中的应用，并提供基于Matlab的仿真与优化代码实现。">
+<meta name="author" content="Sunfove">
+<link rel="canonical" href="https://time-frame.cloud/2026/02/01/2026-02-01-thin-film-interference-simulation/">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="Sunfove">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="本文从第一性原理出发，详细推导薄膜干涉的物理机制，解析传输矩阵法（TMM）在多层膜光学中的应用，并提供基于Matlab的仿真与优化代码实现。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="深入解析薄膜干涉：从物理本源到算法仿真">
-<meta property="og:url" content="https://time-frame.cloud/2026/02/01/2026-02-01-thin-film-interference-simulation/index.html">
-<meta property="og:site_name" content="时间帧">
-<meta property="og:description" content="本文从第一性原理出发，详细推导薄膜干涉的物理机制，解析传输矩阵法（TMM）在多层膜光学中的应用，并提供基于Matlab的仿真与优化代码实现。">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_111048.png">
-<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_111335.png">
-<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_103508.png">
-<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_103807.png">
-<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_105920.png">
-<meta property="article:published_time" content="2026-02-01T13:30:00.000Z">
-<meta property="article:modified_time" content="2026-07-15T20:02:04.726Z">
-<meta property="article:author" content="Sunfove">
-<meta property="article:tag" content="Algorithms">
-<meta property="article:tag" content="Computational Physics">
-<meta property="article:tag" content="Matlab">
-<meta property="article:tag" content="Optics">
-<meta property="article:tag" content="Simulation">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_111048.png">
-  
-  
-  
-    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
-  
-  <title>深入解析薄膜干涉：从物理本源到算法仿真 - 时间帧</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "深入解析薄膜干涉：从物理本源到算法仿真",
+  "description": "本文从第一性原理出发，详细推导薄膜干涉的物理机制，解析传输矩阵法（TMM）在多层膜光学中的应用，并提供基于Matlab的仿真与优化代码实现。",
+  "url": "https://time-frame.cloud/2026/02/01/2026-02-01-thin-film-interference-simulation/",
+  "datePublished": "2026-02-01T05:30:00.000Z",
+  "dateModified": "2026-07-18T08:46:09.000Z",
+  "author": { "@type": "Person", "name": "Sunfove" },
+  "publisher": { "@type": "Person", "name": "Sunfove" }
+}
+</script>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+<!-- Resource hints: early DNS + connection for external origins -->
+<link rel="dns-prefetch" href="//hm.baidu.com">
+<link rel="preconnect" href="//hm.baidu.com" crossorigin>
+<link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
+<link rel="preconnect" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com" crossorigin>
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//at.alicdn.com">
+<link rel="preload" href="/css/spectrum.css" as="style">
+<link rel="stylesheet" href="/css/spectrum.css">
+<script>
+/* 防闪烁：首绘前确定四时场景与明暗主题（与 js/scenes.js 逻辑一致） */
+(function () {
+  try {
+    var h = new Date().getHours();
+    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
+    var manual = false, saved = null;
+    try {
+      manual = sessionStorage.getItem('spectrum-manual') === '1';
+      saved = localStorage.getItem('spectrum-theme');
+    } catch (e2) {}
+    var dark;
+    if (manual && saved) dark = saved === 'dark';
+    else if (scene === 'midnight') dark = true;
+    else if (saved) dark = saved === 'dark';
+    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var de = document.documentElement;
+    de.setAttribute('data-theme', dark ? 'dark' : 'light');
+    de.setAttribute('data-scene', scene);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-scene', 'day');
+  }
+})();
+</script>
+<noscript><style>.no-js-hide{display:none}</style></noscript>
 
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-    <!-- Baidu Analytics -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
-          var s = document.getElementsByTagName("script")[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
 <meta name="generator" content="Hexo 8.1.1"></head>
-
-
-<body>
-  
-
-  <header>
-    
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>明明如月</strong>
+<body class="">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <span class="seal-mark" aria-hidden="true">帧</span>
+      <span class="brand-name">时间帧</span>
     </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>Home</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>Archives</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>Categories</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>Tags</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>About</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle">深入解析薄膜干涉：从物理本源到算法仿真</span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-02-01 13:30" pubdate>
-          February 1, 2026 pm
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          5.4k words
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          46 mins
-        
-      </span>
-    
-
-    
-    
-  </div>
-
-
-        
-      </div>
-
+    <nav class="nav-links" id="navLinks" aria-label="主导航">
       
+        <a href="/" class="nav-link">首页</a>
+      
+        <a href="/archives/" class="nav-link">归档</a>
+      
+        <a href="/categories/" class="nav-link">分类</a>
+      
+        <a href="/tags/" class="nav-link">标签</a>
+      
+        <a href="/poetry/" class="nav-link">诗光</a>
+      
+        <a href="/lab/" class="nav-link">实验室</a>
+      
+        <a href="/stats/" class="nav-link">仪表盘</a>
+      
+        <a href="/automation/" class="nav-link">自动化</a>
+      
+        <a href="/about/" class="nav-link">关于</a>
+      
+    </nav>
+    <div class="nav-actions">
+      <span class="nav-clock" id="navClock" title="北京时间">
+        <svg class="nav-dial" viewBox="0 0 26 26" width="22" height="22" aria-hidden="true">
+          <circle class="nd-ring" cx="13" cy="13" r="11"/>
+          <line class="nd-horizon" x1="3" y1="13" x2="23" y2="13"/>
+          <line class="nd-tick" x1="13" y1="1.4" x2="13" y2="3.6"/>
+          <g id="navDialSky">
+            <circle id="ndSun" class="nd-sun" cx="13" cy="5" r="2.6"/>
+            <circle id="ndMoon" class="nd-moon" cx="13" cy="21" r="2.4"/>
+          </g>
+        </svg>
+        <span class="nav-clock-time" id="navClockTime">--:--</span>
+      </span>
+      <a class="nav-icon-link" href="/search/" title="搜索" aria-label="搜索">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" title="切换明暗" aria-label="切换明暗主题">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <button class="nav-burger" id="navBurger" type="button" aria-label="展开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
+</header>
+
+  <main id="main">
+    
+
+
+<div class="wave-header" aria-hidden="true">
+  <svg viewBox="0 0 1200 160" preserveAspectRatio="xMidYMid slice" role="presentation">
+    <g fill="none" stroke-width="1">
+      <path class="wv wv1" d="M0,80 C150,40 300,120 450,80 S750,40 900,80 S1150,110 1200,85"/>
+      <path class="wv wv2" d="M0,95 C160,60 320,130 480,95 S780,60 930,95 S1150,120 1200,100"/>
+      <path class="wv wv3" d="M0,110 C170,80 340,140 510,110 S800,80 950,110 S1160,128 1200,115"/>
+      <circle class="wv-dot" cx="600" cy="80" r="3"/>
+      <circle class="wv-ring" cx="600" cy="80" r="26"/>
+      <circle class="wv-ring wv-ring2" cx="600" cy="80" r="52"/>
+    </g>
+  </svg>
 </div>
 
-</div>
 
+<article class="post-shell">
+  <header class="post-head">
+    
+      <a class="post-cat chip-cyan" href="/categories/Technical-Deep-Dive/">Technical Deep Dive</a>
+    
+    <h1 class="post-title">深入解析薄膜干涉：从物理本源到算法仿真</h1>
+    <p class="post-byline">2026年2月1日 · Sunfove</p>
+    <hr class="post-rule">
   </header>
 
-  <main>
-    
+  <div class="post-grid">
+    <aside class="post-toc" id="postToc">
+      <details class="toc-box" id="tocBox" open>
+        <summary>目录</summary>
+        
+          <nav class="toc-nav" id="tocNav"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%89%A9%E7%90%86%E6%9C%AC%E6%BA%90%EF%BC%9A%E5%85%89%E6%B3%A2%E7%9A%84%E5%8F%A0%E5%8A%A0%E4%B8%8E%E7%9B%B8%E4%BD%8D"><span class="toc-text">1. 物理本源：光波的叠加与相位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%85%89%E7%A8%8B%E5%B7%AE%EF%BC%88Optical-Path-Difference-OPD%EF%BC%89"><span class="toc-text">1.1 光程差（Optical Path Difference, OPD）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%8D%8A%E6%B3%A2%E6%8D%9F%E5%A4%B1%EF%BC%88Half-wave-Loss%EF%BC%89"><span class="toc-text">1.2 半波损失（Half-wave Loss）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%B9%B2%E6%B6%89%E6%9D%A1%E4%BB%B6%EF%BC%9A%E7%9B%B8%E6%B6%88%E4%B8%8E%E7%9B%B8%E9%95%BF%E7%9A%84%E7%89%A9%E7%90%86%E5%88%A4%E6%8D%AE"><span class="toc-text">1.3 干涉条件：相消与相长的物理判据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%BF%9B%E9%98%B6%E7%90%86%E8%AE%BA%EF%BC%9A%E4%BC%A0%E8%BE%93%E7%9F%A9%E9%98%B5%E6%B3%95-Transfer-Matrix-Method"><span class="toc-text">2. 进阶理论：传输矩阵法 (Transfer Matrix Method)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%9A%E5%85%89%E5%AD%A6%E5%AF%BC%E7%BA%B3-Optical-Admittance"><span class="toc-text">2.1 核心概念：光学导纳 (Optical Admittance)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%8D%95%E5%B1%82%E8%96%84%E8%86%9C%E7%9A%84%E7%89%B9%E5%BE%81%E7%9F%A9%E9%98%B5"><span class="toc-text">2.2 单层薄膜的特征矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%B3%BB%E7%BB%9F%E6%80%BB%E7%9F%A9%E9%98%B5%E4%B8%8E%E2%80%9C%E7%AD%89%E6%95%88%E4%BB%8B%E8%B4%A8%E2%80%9D"><span class="toc-text">2.3 系统总矩阵与“等效介质”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E8%AE%A1%E7%AE%97%E9%80%8F%E5%B0%84%E7%8E%87-T-%E4%B8%8E%E5%8F%8D%E5%B0%84%E7%8E%87-R"><span class="toc-text">2.4 计算透射率 (T) 与反射率 (R)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B7%A5%E7%A8%8B%E4%BB%BF%E7%9C%9F%EF%BC%9AMATLAB-%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-text">3. 工程仿真：MATLAB 实现与可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%A0%B8%E5%BF%83%E7%AE%97%E6%B3%95%EF%BC%9A%E9%80%9A%E7%94%A8%E5%85%89%E5%AD%A6%E6%B1%82%E8%A7%A3%E5%99%A8"><span class="toc-text">3.1 核心算法：通用光学求解器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BB%BF%E7%9C%9F%E6%A1%88%E4%BE%8B%E4%B8%80%EF%BC%9A%E5%8D%95%E5%B1%82%E5%A2%9E%E9%80%8F%E8%86%9C-AR-Coating-%E5%88%86%E6%9E%90"><span class="toc-text">3.2 仿真案例一：单层增透膜 (AR Coating) 分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E4%BB%BF%E7%9C%9F%E6%A1%88%E4%BE%8B%E4%BA%8C%EF%BC%9A%E5%A4%9A%E5%B1%82%E5%B8%83%E6%8B%89%E6%A0%BC%E5%8F%8D%E5%B0%84%E9%95%9C-Bragg-Mirror"><span class="toc-text">3.3 仿真案例二：多层布拉格反射镜 (Bragg Mirror)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%80%86%E5%90%91%E8%AE%BE%E8%AE%A1%EF%BC%9A%E5%9F%BA%E4%BA%8E%E6%A2%AF%E5%BA%A6%E7%9A%84%E4%BC%98%E5%8C%96-Optimization"><span class="toc-text">4. 逆向设计：基于梯度的优化 (Optimization)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%A0%B8%E5%BF%83%E7%AD%96%E7%95%A5%EF%BC%9A%E7%BB%93%E6%9E%84%E4%BF%AE%E6%AD%A3%E4%B8%8E%E5%A4%9A%E8%B5%B7%E7%82%B9%E6%90%9C%E7%B4%A2"><span class="toc-text">4.1 核心策略：结构修正与多起点搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90"><span class="toc-text">4.2 结果分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%BB%93%E8%AF%AD"><span class="toc-text">5. 结语</span></a></li></ol></nav>
+        
+      </details>
+    </aside>
+
+    <div class="post-body">
       
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">深入解析薄膜干涉：从物理本源到算法仿真</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <p>薄膜干涉（Thin Film Interference）不仅是物理学中最迷人的现象之一——赋予了肥皂泡斑斓的色彩和昆虫翅膀金属般的光泽——更是现代精密光学的基石。从相机镜头上的抗反射涂层（AR Coating）到光刻机中的极紫外反射镜，这一机制支撑着现代光电子产业的半壁江山。</p>
+      <div class="post-content" id="postContent">
+        <p>薄膜干涉（Thin Film Interference）不仅是物理学中最迷人的现象之一——赋予了肥皂泡斑斓的色彩和昆虫翅膀金属般的光泽——更是现代精密光学的基石。从相机镜头上的抗反射涂层（AR Coating）到光刻机中的极紫外反射镜，这一机制支撑着现代光电子产业的半壁江山。</p>
 <p>本文将摒弃浅尝辄止的现象描述，从光波叠加的原理出发，推导干涉条件的数学本质，进而引入处理复杂多层膜系统的<strong>传输矩阵法（Transfer Matrix Method, TMM）</strong>，最后通过 <strong>Matlab</strong> 代码演示如何仿真并优化一个光学薄膜系统。</p>
 <hr>
 <h2 id="1-物理本源：光波的叠加与相位"><a href="#1-物理本源：光波的叠加与相位" class="headerlink" title="1. 物理本源：光波的叠加与相位"></a>1. 物理本源：光波的叠加与相位</h2><p>要理解薄膜干涉，我们必须回归光的波动性。当光从一种介质传播到另一种介质时，在界面处会发生反射和折射。薄膜干涉的核心在于：<strong>从薄膜上下两个表面反射的光波，在空间中重叠并发生干涉。</strong></p>
 <h3 id="1-1-光程差（Optical-Path-Difference-OPD）"><a href="#1-1-光程差（Optical-Path-Difference-OPD）" class="headerlink" title="1.1 光程差（Optical Path Difference, OPD）"></a>1.1 光程差（Optical Path Difference, OPD）</h3><p>假设一束单色光以入射角 $\theta_1$ 照射到折射率为 $n_2$、厚度为 $d$ 的薄膜上，薄膜上下方的介质折射率分别为 $n_1$ 和 $n_3$。</p>
-<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_111048.png" srcset="/img/loading.gif" lazyload alt="薄膜干涉光路示意图"></p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_111048.png" alt="薄膜干涉光路示意图"></p>
 <p>光在薄膜内部传播的几何路径长度并非简单的 $2d$，而是经过折射角 $\theta_2$ 修正后的路径。通过几何推导，上下两个表面反射光束的光程差 $\Delta$ 为：</p>
 <p>$$<br>\Delta &#x3D; 2 n_2 d \cos(\theta_2)<br>$$</p>
 <h3 id="1-2-半波损失（Half-wave-Loss）"><a href="#1-2-半波损失（Half-wave-Loss）" class="headerlink" title="1.2 半波损失（Half-wave Loss）"></a>1.2 半波损失（Half-wave Loss）</h3><p>除了几何路程引起的相位差，我们必须考虑<strong>界面反射引起的相位突变</strong>。根据菲涅尔方程（Fresnel Equations）：</p>
@@ -445,7 +288,7 @@
 </ul>
 <h3 id="2-3-系统总矩阵与“等效介质”"><a href="#2-3-系统总矩阵与“等效介质”" class="headerlink" title="2.3 系统总矩阵与“等效介质”"></a>2.3 系统总矩阵与“等效介质”</h3><p>对于一个由 $N$ 层薄膜堆叠而成的系统，光依次穿过每一层。根据线性代数的结合律，整个系统的总传输矩阵 $M$ 就是各层矩阵的乘积：</p>
 <p>$$<br>M &#x3D; M_1 \cdot M_2 \cdot \dots \cdot M_N &#x3D; \begin{bmatrix}<br>m_{11} &amp; m_{12} \<br>m_{21} &amp; m_{22}<br>\end{bmatrix}<br>$$</p>
-<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_111335.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_111335.png"></p>
 <p><strong>这一步的物理意义极其重大</strong>：它意味着，无论中间有多少层复杂的薄膜，我们都可以把它们看作一个<strong>黑盒</strong>。这个黑盒把最底层的基底（Substrate）包裹起来，形成了一个具有<strong>等效导纳 $Y$</strong> 的新虚拟介质。</p>
 <p>我们可以通过总矩阵计算这个<strong>系统的等效导纳 $Y$</strong>。假设基底的导纳为 $\eta_{sub}$，则：</p>
 <p>$$<br>\begin{bmatrix}<br>E_{total} \<br>H_{total}<br>\end{bmatrix}<br>&#x3D; M<br>\begin{bmatrix}<br>1 \<br>\eta_{sub}<br>\end{bmatrix}<br>$$<br><em>(注：这里假设基底处的电场归一化为 1，则磁场为 $\eta_{sub}$)</em></p>
@@ -459,16 +302,16 @@
 <hr>
 <h2 id="3-工程仿真：MATLAB-实现与可视化"><a href="#3-工程仿真：MATLAB-实现与可视化" class="headerlink" title="3. 工程仿真：MATLAB 实现与可视化"></a>3. 工程仿真：MATLAB 实现与可视化</h2><p>理论必须通过实践来验证。<strong>MATLAB</strong> 凭借其原生的矩阵运算能力，是处理传输矩阵法（TMM）的最佳工具。在本节中，我们将从简单的单层抗反射膜入手，逐步进阶到复杂的多层高反膜系设计。</p>
 <h3 id="3-1-核心算法：通用光学求解器"><a href="#3-1-核心算法：通用光学求解器" class="headerlink" title="3.1 核心算法：通用光学求解器"></a>3.1 核心算法：通用光学求解器</h3><p>首先，我们需要封装一个通用的计算函数。为了获得完整的物理图像，该函数将同时计算<strong>反射率 (R)</strong> 和<strong>透射率 (T)</strong>。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">[R, T]</span> = <span class="hljs-title">calculate_optical_properties</span><span class="hljs-params">(lambda, n_stack, d_stack, theta_inc)</span></span><br>    <span class="hljs-comment">% calculate_optical_properties 使用传输矩阵法计算多层膜 R 和 T</span><br>    <span class="hljs-comment">% 输入:</span><br>    <span class="hljs-comment">%   lambda:    入射波长向量 (nm)</span><br>    <span class="hljs-comment">%   n_stack:   各层折射率向量 [n_air, n_1, ..., n_sub]</span><br>    <span class="hljs-comment">%   d_stack:   各层厚度向量 (nm) [0, d_1, ..., 0] (首尾为0)</span><br>    <span class="hljs-comment">%   theta_inc: 入射角 (弧度)</span><br>    <span class="hljs-comment">% 输出:</span><br>    <span class="hljs-comment">%   R: 反射率 (Energy Reflectance)</span><br>    <span class="hljs-comment">%   T: 透射率 (Energy Transmittance)</span><br>    <br>    num_points = <span class="hljs-built_in">length</span>(lambda);<br>    R = <span class="hljs-built_in">zeros</span>(<span class="hljs-number">1</span>, num_points);<br>    T = <span class="hljs-built_in">zeros</span>(<span class="hljs-number">1</span>, num_points);<br>    <br>    <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:num_points<br>        curr_lambda = lambda(k);<br>        <br>        <span class="hljs-comment">% 1. 斯涅尔定律求各层角度</span><br>        <span class="hljs-comment">% n0*sin(th0) = ni*sin(thi)</span><br>        n0 = n_stack(<span class="hljs-number">1</span>);<br>        theta_list = <span class="hljs-built_in">asin</span>( (n0 * <span class="hljs-built_in">sin</span>(theta_inc)) ./ n_stack );<br>        <br>        <span class="hljs-comment">% 2. 计算修正导纳 (此处演示 S-Polarization / TE Mode)</span><br>        <span class="hljs-comment">% 若需 P-Polarization，公式改为: eta = n ./ cos(theta)</span><br>        eta_list = n_stack .* <span class="hljs-built_in">cos</span>(theta_list);<br>        <br>        <span class="hljs-comment">% 3. 矩阵连乘</span><br>        M_total = [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>; <span class="hljs-number">0</span>, <span class="hljs-number">1</span>];<br>        <br>        <span class="hljs-comment">% 遍历中间薄膜层 (索引 2 到 end-1)</span><br>        <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">2</span>:(<span class="hljs-built_in">length</span>(n_stack)<span class="hljs-number">-1</span>)<br>            nj = n_stack(<span class="hljs-built_in">j</span>);<br>            dj = d_stack(<span class="hljs-built_in">j</span>);<br>            thj = theta_list(<span class="hljs-built_in">j</span>);<br>            eta_j = eta_list(<span class="hljs-built_in">j</span>);<br>            <br>            <span class="hljs-comment">% 相位厚度</span><br>            delta = <span class="hljs-number">2</span> * <span class="hljs-built_in">pi</span> * nj * dj * <span class="hljs-built_in">cos</span>(thj) / curr_lambda;<br>            <br>            <span class="hljs-comment">% 特征矩阵 Mj</span><br>            M_layer = [<span class="hljs-built_in">cos</span>(delta),      (<span class="hljs-number">1</span><span class="hljs-built_in">i</span> / eta_j) * <span class="hljs-built_in">sin</span>(delta); ...<br>                       <span class="hljs-number">1</span><span class="hljs-built_in">i</span> * eta_j * <span class="hljs-built_in">sin</span>(delta), <span class="hljs-built_in">cos</span>(delta)];<br>            <br>            <span class="hljs-comment">% 左乘积累</span><br>            M_total = M_total * M_layer;<br>        <span class="hljs-keyword">end</span><br>        <br>        <span class="hljs-comment">% 4. 计算特征向量 [B; C] 并求解 R, T</span><br>        eta_sub = eta_list(<span class="hljs-keyword">end</span>);<br>        BC = M_total * [<span class="hljs-number">1</span>; eta_sub];<br>        B = BC(<span class="hljs-number">1</span>); <br>        C = BC(<span class="hljs-number">2</span>);<br>        <br>        <span class="hljs-comment">% 计算反射率 R</span><br>        eta_0 = eta_list(<span class="hljs-number">1</span>);<br>        Y = C / B; <span class="hljs-comment">% 输入光学导纳</span><br>        R(k) = <span class="hljs-built_in">abs</span>((eta_0 - Y)/(eta_0 + Y))^<span class="hljs-number">2</span>;<br>        <br>        <span class="hljs-comment">% 计算透射率 T (严谨公式，适用于含吸收介质)</span><br>        <span class="hljs-comment">% 透射系数 t = 2*eta0 / (eta0*B + C)</span><br>        t_coeff = (<span class="hljs-number">2</span> * eta_0) / (eta_0 * B + C);<br>        T(k) = <span class="hljs-built_in">real</span>(eta_sub) / <span class="hljs-built_in">real</span>(eta_0) * <span class="hljs-built_in">abs</span>(t_coeff)^<span class="hljs-number">2</span>;<br>    <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[R, T]</span> = <span class="title">calculate_optical_properties</span><span class="params">(lambda, n_stack, d_stack, theta_inc)</span></span></span><br><span class="line">    <span class="comment">% calculate_optical_properties 使用传输矩阵法计算多层膜 R 和 T</span></span><br><span class="line">    <span class="comment">% 输入:</span></span><br><span class="line">    <span class="comment">%   lambda:    入射波长向量 (nm)</span></span><br><span class="line">    <span class="comment">%   n_stack:   各层折射率向量 [n_air, n_1, ..., n_sub]</span></span><br><span class="line">    <span class="comment">%   d_stack:   各层厚度向量 (nm) [0, d_1, ..., 0] (首尾为0)</span></span><br><span class="line">    <span class="comment">%   theta_inc: 入射角 (弧度)</span></span><br><span class="line">    <span class="comment">% 输出:</span></span><br><span class="line">    <span class="comment">%   R: 反射率 (Energy Reflectance)</span></span><br><span class="line">    <span class="comment">%   T: 透射率 (Energy Transmittance)</span></span><br><span class="line">    </span><br><span class="line">    num_points = <span class="built_in">length</span>(lambda);</span><br><span class="line">    R = <span class="built_in">zeros</span>(<span class="number">1</span>, num_points);</span><br><span class="line">    T = <span class="built_in">zeros</span>(<span class="number">1</span>, num_points);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> k = <span class="number">1</span>:num_points</span><br><span class="line">        curr_lambda = lambda(k);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">% 1. 斯涅尔定律求各层角度</span></span><br><span class="line">        <span class="comment">% n0*sin(th0) = ni*sin(thi)</span></span><br><span class="line">        n0 = n_stack(<span class="number">1</span>);</span><br><span class="line">        theta_list = <span class="built_in">asin</span>( (n0 * <span class="built_in">sin</span>(theta_inc)) ./ n_stack );</span><br><span class="line">        </span><br><span class="line">        <span class="comment">% 2. 计算修正导纳 (此处演示 S-Polarization / TE Mode)</span></span><br><span class="line">        <span class="comment">% 若需 P-Polarization，公式改为: eta = n ./ cos(theta)</span></span><br><span class="line">        eta_list = n_stack .* <span class="built_in">cos</span>(theta_list);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">% 3. 矩阵连乘</span></span><br><span class="line">        M_total = [<span class="number">1</span>, <span class="number">0</span>; <span class="number">0</span>, <span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">% 遍历中间薄膜层 (索引 2 到 end-1)</span></span><br><span class="line">        <span class="keyword">for</span> <span class="built_in">j</span> = <span class="number">2</span>:(<span class="built_in">length</span>(n_stack)<span class="number">-1</span>)</span><br><span class="line">            nj = n_stack(<span class="built_in">j</span>);</span><br><span class="line">            dj = d_stack(<span class="built_in">j</span>);</span><br><span class="line">            thj = theta_list(<span class="built_in">j</span>);</span><br><span class="line">            eta_j = eta_list(<span class="built_in">j</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">% 相位厚度</span></span><br><span class="line">            delta = <span class="number">2</span> * <span class="built_in">pi</span> * nj * dj * <span class="built_in">cos</span>(thj) / curr_lambda;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">% 特征矩阵 Mj</span></span><br><span class="line">            M_layer = [<span class="built_in">cos</span>(delta),      (<span class="number">1</span><span class="built_in">i</span> / eta_j) * <span class="built_in">sin</span>(delta); ...</span><br><span class="line">                       <span class="number">1</span><span class="built_in">i</span> * eta_j * <span class="built_in">sin</span>(delta), <span class="built_in">cos</span>(delta)];</span><br><span class="line">            </span><br><span class="line">            <span class="comment">% 左乘积累</span></span><br><span class="line">            M_total = M_total * M_layer;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">% 4. 计算特征向量 [B; C] 并求解 R, T</span></span><br><span class="line">        eta_sub = eta_list(<span class="keyword">end</span>);</span><br><span class="line">        BC = M_total * [<span class="number">1</span>; eta_sub];</span><br><span class="line">        B = BC(<span class="number">1</span>); </span><br><span class="line">        C = BC(<span class="number">2</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">% 计算反射率 R</span></span><br><span class="line">        eta_0 = eta_list(<span class="number">1</span>);</span><br><span class="line">        Y = C / B; <span class="comment">% 输入光学导纳</span></span><br><span class="line">        R(k) = <span class="built_in">abs</span>((eta_0 - Y)/(eta_0 + Y))^<span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">% 计算透射率 T (严谨公式，适用于含吸收介质)</span></span><br><span class="line">        <span class="comment">% 透射系数 t = 2*eta0 / (eta0*B + C)</span></span><br><span class="line">        t_coeff = (<span class="number">2</span> * eta_0) / (eta_0 * B + C);</span><br><span class="line">        T(k) = <span class="built_in">real</span>(eta_sub) / <span class="built_in">real</span>(eta_0) * <span class="built_in">abs</span>(t_coeff)^<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="3-2-仿真案例一：单层增透膜-AR-Coating-分析"><a href="#3-2-仿真案例一：单层增透膜-AR-Coating-分析" class="headerlink" title="3.2 仿真案例一：单层增透膜 (AR Coating) 分析"></a>3.2 仿真案例一：单层增透膜 (AR Coating) 分析</h3><p>在这个案例中，我们将模拟经典的氟化镁 ($MgF_2$) 镀在玻璃上的场景。我们将完成两项任务：</p>
 <ol>
 <li><strong>光谱对比</strong>：直观展示镀膜前后，玻璃透光率的提升。</li>
 <li><strong>公差分析</strong>：通过扫描膜层厚度，生成反射率地形图，分析工艺误差对性能的影响。</li>
 </ol>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">% === 脚本 1: 单层 AR 膜仿真 ===</span><br>clear; clc; close all;<br><br><span class="hljs-comment">% --- A. 参数定义 ---</span><br>lambda_range = <span class="hljs-built_in">linspace</span>(<span class="hljs-number">400</span>, <span class="hljs-number">800</span>, <span class="hljs-number">500</span>); <span class="hljs-comment">% 可见光波段</span><br>n_air = <span class="hljs-number">1.0</span>;<br>n_MgF2 = <span class="hljs-number">1.38</span>;<br>n_Glass = <span class="hljs-number">1.52</span>;<br><span class="hljs-comment">% 最佳设计厚度：针对 550nm (绿光) 优化的 1/4 波长 (~99.6nm)</span><br>d_opt = <span class="hljs-number">550</span> / (<span class="hljs-number">4</span> * n_MgF2); <br><br><span class="hljs-comment">% --- B. 光谱计算 ---</span><br><span class="hljs-comment">% 1. 裸玻璃 (Bare Glass)</span><br>[R_bare, ~] = calculate_optical_properties(lambda_range, ...<br>    [n_air, n_Glass], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>], <span class="hljs-number">0</span>);<br><br><span class="hljs-comment">% 2. 镀膜玻璃 (Coated Glass)</span><br>[R_ar, ~] = calculate_optical_properties(lambda_range, ...<br>    [n_air, n_MgF2, n_Glass], [<span class="hljs-number">0</span>, d_opt, <span class="hljs-number">0</span>], <span class="hljs-number">0</span>);<br><br><span class="hljs-comment">% --- C. 参数扫描 (厚度 vs 波长) ---</span><br>d_scan = <span class="hljs-built_in">linspace</span>(<span class="hljs-number">0</span>, <span class="hljs-number">300</span>, <span class="hljs-number">300</span>); <span class="hljs-comment">% 扫描 0-300nm 厚度</span><br>R_map = <span class="hljs-built_in">zeros</span>(<span class="hljs-built_in">length</span>(d_scan), <span class="hljs-built_in">length</span>(lambda_range));<br><br>h = waitbar(<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;正在计算地形图...&#x27;</span>);<br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:<span class="hljs-built_in">length</span>(d_scan)<br>    [r_temp, ~] = calculate_optical_properties(lambda_range, ...<br>        [n_air, n_MgF2, n_Glass], [<span class="hljs-number">0</span>, d_scan(<span class="hljs-built_in">i</span>), <span class="hljs-number">0</span>], <span class="hljs-number">0</span>);<br>    R_map(<span class="hljs-built_in">i</span>, :) = r_temp;<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">mod</span>(<span class="hljs-built_in">i</span>, <span class="hljs-number">50</span>) == <span class="hljs-number">0</span>; waitbar(<span class="hljs-built_in">i</span>/<span class="hljs-built_in">length</span>(d_scan), h); <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br>close(h);<br><br><span class="hljs-comment">% --- D. 综合可视化 ---</span><br><span class="hljs-built_in">figure</span>(<span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;Position&#x27;</span>, [<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">1000</span>, <span class="hljs-number">500</span>]);<br><br><span class="hljs-comment">% 左图：光谱对比</span><br>subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>);<br><span class="hljs-built_in">plot</span>(lambda_range, R_bare*<span class="hljs-number">100</span>, <span class="hljs-string">&#x27;r--&#x27;</span>, <span class="hljs-string">&#x27;LineWidth&#x27;</span>, <span class="hljs-number">1.5</span>); <span class="hljs-built_in">hold</span> on;<br><span class="hljs-built_in">plot</span>(lambda_range, R_ar*<span class="hljs-number">100</span>, <span class="hljs-string">&#x27;b-&#x27;</span>, <span class="hljs-string">&#x27;LineWidth&#x27;</span>, <span class="hljs-number">2</span>);<br>title(<span class="hljs-string">&#x27;光谱对比: 有无增透膜&#x27;</span>, <span class="hljs-string">&#x27;FontSize&#x27;</span>, <span class="hljs-number">12</span>);<br>xlabel(<span class="hljs-string">&#x27;波长 (nm)&#x27;</span>); ylabel(<span class="hljs-string">&#x27;反射率 (%)&#x27;</span>);<br><span class="hljs-built_in">legend</span>(<span class="hljs-string">&#x27;裸玻璃 (约4.2%)&#x27;</span>, <span class="hljs-string">&#x27;镀MgF_2膜 (最低1.2%)&#x27;</span>);<br>grid on; axis([<span class="hljs-number">400</span> <span class="hljs-number">800</span> <span class="hljs-number">0</span> <span class="hljs-number">6</span>]);<br><br><span class="hljs-comment">% 右图：参数扫描地形图</span><br>subplot(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>);<br>imagesc(lambda_range, d_scan, R_map*<span class="hljs-number">100</span>);<br>colormap(jet); <br>cb = colorbar; cb.Label.String = <span class="hljs-string">&#x27;Reflectance (%)&#x27;</span>;<br>set(gca, <span class="hljs-string">&#x27;YDir&#x27;</span>, <span class="hljs-string">&#x27;normal&#x27;</span>); <span class="hljs-comment">% 坐标轴方向修正</span><br><br><span class="hljs-comment">% 标记最佳设计点</span><br><span class="hljs-built_in">hold</span> on; yline(d_opt, <span class="hljs-string">&#x27;w--&#x27;</span>, <span class="hljs-string">&#x27;LineWidth&#x27;</span>, <span class="hljs-number">2</span>); <br>text(<span class="hljs-number">420</span>, d_opt+<span class="hljs-number">20</span>, [<span class="hljs-string">&#x27;设计厚度 d \approx &#x27;</span> num2str(<span class="hljs-built_in">round</span>(d_opt)) <span class="hljs-string">&#x27;nm&#x27;</span>], ...<br>    <span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;FontWeight&#x27;</span>, <span class="hljs-string">&#x27;bold&#x27;</span>);<br><br>title(<span class="hljs-string">&#x27;反射率地形图 (厚度敏感度)&#x27;</span>, <span class="hljs-string">&#x27;FontSize&#x27;</span>, <span class="hljs-number">12</span>);<br>xlabel(<span class="hljs-string">&#x27;波长 (nm)&#x27;</span>); ylabel(<span class="hljs-string">&#x27;膜层厚度 (nm)&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% === 脚本 1: 单层 AR 膜仿真 ===</span></span><br><span class="line">clear; clc; close all;</span><br><span class="line"></span><br><span class="line"><span class="comment">% --- A. 参数定义 ---</span></span><br><span class="line">lambda_range = <span class="built_in">linspace</span>(<span class="number">400</span>, <span class="number">800</span>, <span class="number">500</span>); <span class="comment">% 可见光波段</span></span><br><span class="line">n_air = <span class="number">1.0</span>;</span><br><span class="line">n_MgF2 = <span class="number">1.38</span>;</span><br><span class="line">n_Glass = <span class="number">1.52</span>;</span><br><span class="line"><span class="comment">% 最佳设计厚度：针对 550nm (绿光) 优化的 1/4 波长 (~99.6nm)</span></span><br><span class="line">d_opt = <span class="number">550</span> / (<span class="number">4</span> * n_MgF2); </span><br><span class="line"></span><br><span class="line"><span class="comment">% --- B. 光谱计算 ---</span></span><br><span class="line"><span class="comment">% 1. 裸玻璃 (Bare Glass)</span></span><br><span class="line">[R_bare, ~] = calculate_optical_properties(lambda_range, ...</span><br><span class="line">    [n_air, n_Glass], [<span class="number">0</span>, <span class="number">0</span>], <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 2. 镀膜玻璃 (Coated Glass)</span></span><br><span class="line">[R_ar, ~] = calculate_optical_properties(lambda_range, ...</span><br><span class="line">    [n_air, n_MgF2, n_Glass], [<span class="number">0</span>, d_opt, <span class="number">0</span>], <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% --- C. 参数扫描 (厚度 vs 波长) ---</span></span><br><span class="line">d_scan = <span class="built_in">linspace</span>(<span class="number">0</span>, <span class="number">300</span>, <span class="number">300</span>); <span class="comment">% 扫描 0-300nm 厚度</span></span><br><span class="line">R_map = <span class="built_in">zeros</span>(<span class="built_in">length</span>(d_scan), <span class="built_in">length</span>(lambda_range));</span><br><span class="line"></span><br><span class="line">h = waitbar(<span class="number">0</span>, <span class="string">&#x27;正在计算地形图...&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="built_in">length</span>(d_scan)</span><br><span class="line">    [r_temp, ~] = calculate_optical_properties(lambda_range, ...</span><br><span class="line">        [n_air, n_MgF2, n_Glass], [<span class="number">0</span>, d_scan(<span class="built_in">i</span>), <span class="number">0</span>], <span class="number">0</span>);</span><br><span class="line">    R_map(<span class="built_in">i</span>, :) = r_temp;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">mod</span>(<span class="built_in">i</span>, <span class="number">50</span>) == <span class="number">0</span>; waitbar(<span class="built_in">i</span>/<span class="built_in">length</span>(d_scan), h); <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">close(h);</span><br><span class="line"></span><br><span class="line"><span class="comment">% --- D. 综合可视化 ---</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="string">&#x27;Color&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;Position&#x27;</span>, [<span class="number">100</span>, <span class="number">100</span>, <span class="number">1000</span>, <span class="number">500</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 左图：光谱对比</span></span><br><span class="line">subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(lambda_range, R_bare*<span class="number">100</span>, <span class="string">&#x27;r--&#x27;</span>, <span class="string">&#x27;LineWidth&#x27;</span>, <span class="number">1.5</span>); <span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(lambda_range, R_ar*<span class="number">100</span>, <span class="string">&#x27;b-&#x27;</span>, <span class="string">&#x27;LineWidth&#x27;</span>, <span class="number">2</span>);</span><br><span class="line">title(<span class="string">&#x27;光谱对比: 有无增透膜&#x27;</span>, <span class="string">&#x27;FontSize&#x27;</span>, <span class="number">12</span>);</span><br><span class="line">xlabel(<span class="string">&#x27;波长 (nm)&#x27;</span>); ylabel(<span class="string">&#x27;反射率 (%)&#x27;</span>);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;裸玻璃 (约4.2%)&#x27;</span>, <span class="string">&#x27;镀MgF_2膜 (最低1.2%)&#x27;</span>);</span><br><span class="line">grid on; axis([<span class="number">400</span> <span class="number">800</span> <span class="number">0</span> <span class="number">6</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 右图：参数扫描地形图</span></span><br><span class="line">subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">imagesc(lambda_range, d_scan, R_map*<span class="number">100</span>);</span><br><span class="line">colormap(jet); </span><br><span class="line">cb = colorbar; cb.Label.String = <span class="string">&#x27;Reflectance (%)&#x27;</span>;</span><br><span class="line">set(gca, <span class="string">&#x27;YDir&#x27;</span>, <span class="string">&#x27;normal&#x27;</span>); <span class="comment">% 坐标轴方向修正</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 标记最佳设计点</span></span><br><span class="line"><span class="built_in">hold</span> on; yline(d_opt, <span class="string">&#x27;w--&#x27;</span>, <span class="string">&#x27;LineWidth&#x27;</span>, <span class="number">2</span>); </span><br><span class="line">text(<span class="number">420</span>, d_opt+<span class="number">20</span>, [<span class="string">&#x27;设计厚度 d \approx &#x27;</span> num2str(<span class="built_in">round</span>(d_opt)) <span class="string">&#x27;nm&#x27;</span>], ...</span><br><span class="line">    <span class="string">&#x27;Color&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;FontWeight&#x27;</span>, <span class="string">&#x27;bold&#x27;</span>);</span><br><span class="line"></span><br><span class="line">title(<span class="string">&#x27;反射率地形图 (厚度敏感度)&#x27;</span>, <span class="string">&#x27;FontSize&#x27;</span>, <span class="number">12</span>);</span><br><span class="line">xlabel(<span class="string">&#x27;波长 (nm)&#x27;</span>); ylabel(<span class="string">&#x27;膜层厚度 (nm)&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_103508.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_103508.png"></p>
 <p><strong>结果解读</strong>：</p>
 <ul>
 <li><strong>左图</strong>展示了“相消干涉”的威力：在设计中心波长 550nm 处，反射率显著下降。</li>
@@ -479,17 +322,17 @@
 <li><strong>材料</strong>：$TiO_2$ ($n_H&#x3D;2.4$) 和 $SiO_2$ ($n_L&#x3D;1.46$)</li>
 <li><strong>结构</strong>：玻璃基底 + 10 对 $(HL)$ + 空气</li>
 </ul>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">% === 脚本 2: 多层 DBR 高反膜仿真 ===</span><br><span class="hljs-comment">% 1. DBR 设计参数</span><br>lambda_center = <span class="hljs-number">600</span>; <span class="hljs-comment">% 设计中心波长 (橙光)</span><br>n_H = <span class="hljs-number">2.4</span>;  d_H = lambda_center / (<span class="hljs-number">4</span> * n_H); <span class="hljs-comment">% TiO2</span><br>n_L = <span class="hljs-number">1.46</span>; d_L = lambda_center / (<span class="hljs-number">4</span> * n_L); <span class="hljs-comment">% SiO2</span><br>N_pairs = <span class="hljs-number">10</span>; <span class="hljs-comment">% 堆叠对数</span><br><br><span class="hljs-comment">% 2. 构建多层堆栈向量</span><br><span class="hljs-comment">% 结构: Air | H L H L ... H L | Glass</span><br>n_stack = [n_air]; <br>d_stack = [<span class="hljs-number">0</span>];<br><br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:N_pairs<br>    n_stack = [n_stack, n_H, n_L];<br>    d_stack = [d_stack, d_H, d_L];<br><span class="hljs-keyword">end</span><br><br>n_stack = [n_stack, n_Glass];<br>d_stack = [d_stack, <span class="hljs-number">0</span>];<br><br><span class="hljs-comment">% 3. 运行仿真</span><br>[R_dbr, T_dbr] = calculate_optical_properties(lambda_range, n_stack, d_stack, <span class="hljs-number">0</span>);<br><br><span class="hljs-comment">% 4. 可视化</span><br><span class="hljs-built_in">figure</span>(<span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;Position&#x27;</span>, [<span class="hljs-number">150</span>, <span class="hljs-number">150</span>, <span class="hljs-number">800</span>, <span class="hljs-number">400</span>]);<br>area(lambda_range, R_dbr*<span class="hljs-number">100</span>, <span class="hljs-string">&#x27;FaceColor&#x27;</span>, [<span class="hljs-number">0.85</span> <span class="hljs-number">0.33</span> <span class="hljs-number">0.1</span>], <span class="hljs-string">&#x27;EdgeColor&#x27;</span>, <span class="hljs-string">&#x27;none&#x27;</span>, <span class="hljs-string">&#x27;FaceAlpha&#x27;</span>, <span class="hljs-number">0.8</span>); <br><span class="hljs-built_in">hold</span> on;<br><span class="hljs-built_in">plot</span>(lambda_range, T_dbr*<span class="hljs-number">100</span>, <span class="hljs-string">&#x27;k-&#x27;</span>, <span class="hljs-string">&#x27;LineWidth&#x27;</span>, <span class="hljs-number">1.5</span>);<br><br>title([<span class="hljs-string">&#x27;10对 TiO_2/SiO_2 布拉格反射镜 (中心波长 &#x27;</span> num2str(lambda_center) <span class="hljs-string">&#x27;nm)&#x27;</span>], <span class="hljs-string">&#x27;FontSize&#x27;</span>, <span class="hljs-number">12</span>);<br>xlabel(<span class="hljs-string">&#x27;波长 (nm)&#x27;</span>); ylabel(<span class="hljs-string">&#x27;比率 (%)&#x27;</span>);<br><span class="hljs-built_in">legend</span>(<span class="hljs-string">&#x27;反射率 R&#x27;</span>, <span class="hljs-string">&#x27;透射率 T&#x27;</span>, <span class="hljs-string">&#x27;Location&#x27;</span>, <span class="hljs-string">&#x27;east&#x27;</span>);<br>grid on; ylim([<span class="hljs-number">0</span> <span class="hljs-number">105</span>]);<br><br><span class="hljs-comment">% 标注“禁带”宽度</span><br>text(lambda_center, <span class="hljs-number">50</span>, <span class="hljs-string">&#x27;光子禁带 (Stopband)&#x27;</span>, ...<br>     <span class="hljs-string">&#x27;HorizontalAlignment&#x27;</span>, <span class="hljs-string">&#x27;center&#x27;</span>, <span class="hljs-string">&#x27;FontSize&#x27;</span>, <span class="hljs-number">12</span>, <span class="hljs-string">&#x27;FontWeight&#x27;</span>, <span class="hljs-string">&#x27;bold&#x27;</span>, <span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% === 脚本 2: 多层 DBR 高反膜仿真 ===</span></span><br><span class="line"><span class="comment">% 1. DBR 设计参数</span></span><br><span class="line">lambda_center = <span class="number">600</span>; <span class="comment">% 设计中心波长 (橙光)</span></span><br><span class="line">n_H = <span class="number">2.4</span>;  d_H = lambda_center / (<span class="number">4</span> * n_H); <span class="comment">% TiO2</span></span><br><span class="line">n_L = <span class="number">1.46</span>; d_L = lambda_center / (<span class="number">4</span> * n_L); <span class="comment">% SiO2</span></span><br><span class="line">N_pairs = <span class="number">10</span>; <span class="comment">% 堆叠对数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 2. 构建多层堆栈向量</span></span><br><span class="line"><span class="comment">% 结构: Air | H L H L ... H L | Glass</span></span><br><span class="line">n_stack = [n_air]; </span><br><span class="line">d_stack = [<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:N_pairs</span><br><span class="line">    n_stack = [n_stack, n_H, n_L];</span><br><span class="line">    d_stack = [d_stack, d_H, d_L];</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">n_stack = [n_stack, n_Glass];</span><br><span class="line">d_stack = [d_stack, <span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">% 3. 运行仿真</span></span><br><span class="line">[R_dbr, T_dbr] = calculate_optical_properties(lambda_range, n_stack, d_stack, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 4. 可视化</span></span><br><span class="line"><span class="built_in">figure</span>(<span class="string">&#x27;Color&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;Position&#x27;</span>, [<span class="number">150</span>, <span class="number">150</span>, <span class="number">800</span>, <span class="number">400</span>]);</span><br><span class="line">area(lambda_range, R_dbr*<span class="number">100</span>, <span class="string">&#x27;FaceColor&#x27;</span>, [<span class="number">0.85</span> <span class="number">0.33</span> <span class="number">0.1</span>], <span class="string">&#x27;EdgeColor&#x27;</span>, <span class="string">&#x27;none&#x27;</span>, <span class="string">&#x27;FaceAlpha&#x27;</span>, <span class="number">0.8</span>); </span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(lambda_range, T_dbr*<span class="number">100</span>, <span class="string">&#x27;k-&#x27;</span>, <span class="string">&#x27;LineWidth&#x27;</span>, <span class="number">1.5</span>);</span><br><span class="line"></span><br><span class="line">title([<span class="string">&#x27;10对 TiO_2/SiO_2 布拉格反射镜 (中心波长 &#x27;</span> num2str(lambda_center) <span class="string">&#x27;nm)&#x27;</span>], <span class="string">&#x27;FontSize&#x27;</span>, <span class="number">12</span>);</span><br><span class="line">xlabel(<span class="string">&#x27;波长 (nm)&#x27;</span>); ylabel(<span class="string">&#x27;比率 (%)&#x27;</span>);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;反射率 R&#x27;</span>, <span class="string">&#x27;透射率 T&#x27;</span>, <span class="string">&#x27;Location&#x27;</span>, <span class="string">&#x27;east&#x27;</span>);</span><br><span class="line">grid on; ylim([<span class="number">0</span> <span class="number">105</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 标注“禁带”宽度</span></span><br><span class="line">text(lambda_center, <span class="number">50</span>, <span class="string">&#x27;光子禁带 (Stopband)&#x27;</span>, ...</span><br><span class="line">     <span class="string">&#x27;HorizontalAlignment&#x27;</span>, <span class="string">&#x27;center&#x27;</span>, <span class="string">&#x27;FontSize&#x27;</span>, <span class="number">12</span>, <span class="string">&#x27;FontWeight&#x27;</span>, <span class="string">&#x27;bold&#x27;</span>, <span class="string">&#x27;Color&#x27;</span>, <span class="string">&#x27;w&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_103807.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_103807.png"></p>
 <p><strong>仿真结果</strong>：<br>你将看到一个宽阔的**“高反平顶区” (Stopband)**。在这个波段内，光无法穿透薄膜，几乎被全反射。这就是激光器谐振腔镜片和高档介质反射镜的工作原理。通过简单地增加层数 $N$，我们可以让反射率无限接近 100%，这是金属反射镜无法做到的。</p>
 <hr>
 <h2 id="4-逆向设计：基于梯度的优化-Optimization"><a href="#4-逆向设计：基于梯度的优化-Optimization" class="headerlink" title="4. 逆向设计：基于梯度的优化 (Optimization)"></a>4. 逆向设计：基于梯度的优化 (Optimization)</h2><p>在实际工程中，我们面临的往往是<strong>逆向问题</strong>：<em>给定目标光谱（例如 400-700nm 全波段反射率 &lt; 0.5%），求各层薄膜的最佳厚度。</em></p>
 <p>对于 4 层宽带增透膜（BBAR），只要膜系结构设计合理，基于梯度的局部优化算法 <code>fmincon</code> 就足以找到完美的全局最优解，且速度极快。</p>
 <h3 id="4-1-核心策略：结构修正与多起点搜索"><a href="#4-1-核心策略：结构修正与多起点搜索" class="headerlink" title="4.1 核心策略：结构修正与多起点搜索"></a>4.1 核心策略：结构修正与多起点搜索</h3><p><strong>黄金法则</strong>：为了降低初始界面反射，<strong>最外层（接触空气层）必须是低折射率材料 (L)</strong>。<br>我们将采用 <strong>Air | L | H | L | H | Glass</strong> 的结构。如果错误地以高折射率 ($H$) 开头，优化器将极难收敛到 &lt; 0.5% 的目标。</p>
-<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs matlab"><span class="hljs-comment">% === 脚本 3: 宽带增透膜(BBAR) 逆向优化 ===</span><br>clear; clc; close all;<br><br><span class="hljs-comment">% 1. 优化目标设定</span><br><span class="hljs-comment">% 重点优化 400-700nm，增加采样点以提高精度</span><br>lambda_opt = <span class="hljs-built_in">linspace</span>(<span class="hljs-number">400</span>, <span class="hljs-number">700</span>, <span class="hljs-number">50</span>); <br>target_R = <span class="hljs-built_in">zeros</span>(<span class="hljs-built_in">size</span>(lambda_opt));  <span class="hljs-comment">% 目标：全波段 0 反射</span><br><br><span class="hljs-comment">% 2. 结构定义 (关键修正: L-first 结构)</span><br><span class="hljs-comment">% Air(1.0) | L(1.46) | H(2.4) | L(1.46) | H(2.4) | Glass(1.52)</span><br>n_air = <span class="hljs-number">1.0</span>; n_L = <span class="hljs-number">1.46</span>; n_H = <span class="hljs-number">2.4</span>; n_sub = <span class="hljs-number">1.52</span>;<br><span class="hljs-comment">% 注意顺序：Air 后面紧跟的是 n_L</span><br>n_stack_fixed = [n_air, n_L, n_H, n_L, n_H, n_sub];<br>num_layers = <span class="hljs-number">4</span>;<br><br><span class="hljs-comment">% 3. 定义优化器</span><br>lb = <span class="hljs-built_in">ones</span>(<span class="hljs-number">1</span>, num_layers) * <span class="hljs-number">10</span>;  <span class="hljs-comment">% 厚度下限 10nm</span><br>ub = <span class="hljs-built_in">ones</span>(<span class="hljs-number">1</span>, num_layers) * <span class="hljs-number">300</span>; <span class="hljs-comment">% 厚度上限 300nm</span><br><br><span class="hljs-comment">% 损失函数: 使用 Sum of Squares (SSE)</span><br>cost_func = @(x) sum((calculate_optical_properties(lambda_opt, ...<br>    n_stack_fixed, [<span class="hljs-number">0</span>, x, <span class="hljs-number">0</span>], <span class="hljs-number">0</span>) - target_R).^<span class="hljs-number">2</span>);<br><br>options = optimoptions(<span class="hljs-string">&#x27;fmincon&#x27;</span>, <span class="hljs-string">&#x27;Display&#x27;</span>, <span class="hljs-string">&#x27;none&#x27;</span>, ...<br>    <span class="hljs-string">&#x27;Algorithm&#x27;</span>, <span class="hljs-string">&#x27;sqp&#x27;</span>, <span class="hljs-string">&#x27;StepTolerance&#x27;</span>, <span class="hljs-number">1e-12</span>);<br><br><span class="hljs-comment">% --- 多起点全局搜索 (Multi-start) ---</span><br><span class="hljs-comment">% 防止掉入局部陷阱，我们随机尝试 20 个起点</span><br>fprintf(<span class="hljs-string">&#x27;正在启动多起点梯度优化 (L-first 结构)...\n&#x27;</span>);<br>best_loss = <span class="hljs-built_in">inf</span>;<br>best_x = [];<br><br><span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:<span class="hljs-number">20</span><br>    <span class="hljs-comment">% 随机生成初始猜测</span><br>    x0_random = <span class="hljs-number">20</span> + (<span class="hljs-number">250</span><span class="hljs-number">-20</span>) * <span class="hljs-built_in">rand</span>(<span class="hljs-number">1</span>, num_layers);<br>    <br>    <span class="hljs-comment">% 运行 fmincon</span><br>    [x_curr, loss_curr] = fmincon(cost_func, x0_random, [], [], [], [], lb, ub, [], options);<br>    <br>    <span class="hljs-comment">% 更新最优解</span><br>    <span class="hljs-keyword">if</span> loss_curr &lt; best_loss<br>        best_loss = loss_curr;<br>        best_x = x_curr;<br>        fprintf(<span class="hljs-string">&#x27;Iter %d: 发现更优解 (Loss: %.5f)\n&#x27;</span>, <span class="hljs-built_in">i</span>, loss_curr);<br>    <span class="hljs-keyword">end</span><br><span class="hljs-keyword">end</span><br><br>fprintf(<span class="hljs-string">&#x27;\n&gt;&gt;&gt; 最终最优厚度: d=[%.2f, %.2f, %.2f, %.2f] nm\n&#x27;</span>, best_x);<br><br><span class="hljs-comment">% 5. 结果验证与绘图</span><br>lambda_plot = <span class="hljs-built_in">linspace</span>(<span class="hljs-number">350</span>, <span class="hljs-number">800</span>, <span class="hljs-number">500</span>);<br><br><span class="hljs-comment">% 优化结果</span><br>[R_final, ~] = calculate_optical_properties(lambda_plot, ...<br>    n_stack_fixed, [<span class="hljs-number">0</span>, best_x, <span class="hljs-number">0</span>], <span class="hljs-number">0</span>);<br><br><span class="hljs-built_in">figure</span>(<span class="hljs-string">&#x27;Color&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;Position&#x27;</span>, [<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">800</span>, <span class="hljs-number">500</span>]);<br><span class="hljs-built_in">plot</span>(lambda_plot, R_final*<span class="hljs-number">100</span>, <span class="hljs-string">&#x27;r-&#x27;</span>, <span class="hljs-string">&#x27;LineWidth&#x27;</span>, <span class="hljs-number">2.5</span>);<br><br><span class="hljs-comment">% 绘制目标区域 (&lt;0.5%)</span><br>patch([<span class="hljs-number">400</span> <span class="hljs-number">700</span> <span class="hljs-number">700</span> <span class="hljs-number">400</span>], [<span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0.5</span> <span class="hljs-number">0.5</span>], <span class="hljs-string">&#x27;g&#x27;</span>, <span class="hljs-string">&#x27;FaceAlpha&#x27;</span>, <span class="hljs-number">0.2</span>, <span class="hljs-string">&#x27;EdgeColor&#x27;</span>, <span class="hljs-string">&#x27;none&#x27;</span>);<br>yline(<span class="hljs-number">0.5</span>, <span class="hljs-string">&#x27;g--&#x27;</span>, <span class="hljs-string">&#x27;Target &lt; 0.5%&#x27;</span>);<br><br>title([<span class="hljs-string">&#x27;4层 BBAR 优化结果 (L层接触空气)&#x27;</span>]);<br>xlabel(<span class="hljs-string">&#x27;波长 (nm)&#x27;</span>); ylabel(<span class="hljs-string">&#x27;反射率 (%)&#x27;</span>);<br>grid on; axis([<span class="hljs-number">350</span> <span class="hljs-number">800</span> <span class="hljs-number">0</span> <span class="hljs-number">3</span>]);<br><br><span class="hljs-comment">% 在图上标注厚度</span><br>str_res = sprintf(<span class="hljs-string">&#x27;Optimal d (nm):\n%.1f / %.1f / %.1f / %.1f&#x27;</span>, best_x);<br>text(<span class="hljs-number">420</span>, <span class="hljs-number">2.5</span>, str_res, <span class="hljs-string">&#x27;FontSize&#x27;</span>, <span class="hljs-number">12</span>, <span class="hljs-string">&#x27;BackgroundColor&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;EdgeColor&#x27;</span>, <span class="hljs-string">&#x27;k&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% === 脚本 3: 宽带增透膜(BBAR) 逆向优化 ===</span></span><br><span class="line">clear; clc; close all;</span><br><span class="line"></span><br><span class="line"><span class="comment">% 1. 优化目标设定</span></span><br><span class="line"><span class="comment">% 重点优化 400-700nm，增加采样点以提高精度</span></span><br><span class="line">lambda_opt = <span class="built_in">linspace</span>(<span class="number">400</span>, <span class="number">700</span>, <span class="number">50</span>); </span><br><span class="line">target_R = <span class="built_in">zeros</span>(<span class="built_in">size</span>(lambda_opt));  <span class="comment">% 目标：全波段 0 反射</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 2. 结构定义 (关键修正: L-first 结构)</span></span><br><span class="line"><span class="comment">% Air(1.0) | L(1.46) | H(2.4) | L(1.46) | H(2.4) | Glass(1.52)</span></span><br><span class="line">n_air = <span class="number">1.0</span>; n_L = <span class="number">1.46</span>; n_H = <span class="number">2.4</span>; n_sub = <span class="number">1.52</span>;</span><br><span class="line"><span class="comment">% 注意顺序：Air 后面紧跟的是 n_L</span></span><br><span class="line">n_stack_fixed = [n_air, n_L, n_H, n_L, n_H, n_sub];</span><br><span class="line">num_layers = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% 3. 定义优化器</span></span><br><span class="line">lb = <span class="built_in">ones</span>(<span class="number">1</span>, num_layers) * <span class="number">10</span>;  <span class="comment">% 厚度下限 10nm</span></span><br><span class="line">ub = <span class="built_in">ones</span>(<span class="number">1</span>, num_layers) * <span class="number">300</span>; <span class="comment">% 厚度上限 300nm</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 损失函数: 使用 Sum of Squares (SSE)</span></span><br><span class="line">cost_func = @(x) sum((calculate_optical_properties(lambda_opt, ...</span><br><span class="line">    n_stack_fixed, [<span class="number">0</span>, x, <span class="number">0</span>], <span class="number">0</span>) - target_R).^<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">options = optimoptions(<span class="string">&#x27;fmincon&#x27;</span>, <span class="string">&#x27;Display&#x27;</span>, <span class="string">&#x27;none&#x27;</span>, ...</span><br><span class="line">    <span class="string">&#x27;Algorithm&#x27;</span>, <span class="string">&#x27;sqp&#x27;</span>, <span class="string">&#x27;StepTolerance&#x27;</span>, <span class="number">1e-12</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% --- 多起点全局搜索 (Multi-start) ---</span></span><br><span class="line"><span class="comment">% 防止掉入局部陷阱，我们随机尝试 20 个起点</span></span><br><span class="line">fprintf(<span class="string">&#x27;正在启动多起点梯度优化 (L-first 结构)...\n&#x27;</span>);</span><br><span class="line">best_loss = <span class="built_in">inf</span>;</span><br><span class="line">best_x = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span>:<span class="number">20</span></span><br><span class="line">    <span class="comment">% 随机生成初始猜测</span></span><br><span class="line">    x0_random = <span class="number">20</span> + (<span class="number">250</span><span class="number">-20</span>) * <span class="built_in">rand</span>(<span class="number">1</span>, num_layers);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">% 运行 fmincon</span></span><br><span class="line">    [x_curr, loss_curr] = fmincon(cost_func, x0_random, [], [], [], [], lb, ub, [], options);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">% 更新最优解</span></span><br><span class="line">    <span class="keyword">if</span> loss_curr &lt; best_loss</span><br><span class="line">        best_loss = loss_curr;</span><br><span class="line">        best_x = x_curr;</span><br><span class="line">        fprintf(<span class="string">&#x27;Iter %d: 发现更优解 (Loss: %.5f)\n&#x27;</span>, <span class="built_in">i</span>, loss_curr);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">fprintf(<span class="string">&#x27;\n&gt;&gt;&gt; 最终最优厚度: d=[%.2f, %.2f, %.2f, %.2f] nm\n&#x27;</span>, best_x);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 5. 结果验证与绘图</span></span><br><span class="line">lambda_plot = <span class="built_in">linspace</span>(<span class="number">350</span>, <span class="number">800</span>, <span class="number">500</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 优化结果</span></span><br><span class="line">[R_final, ~] = calculate_optical_properties(lambda_plot, ...</span><br><span class="line">    n_stack_fixed, [<span class="number">0</span>, best_x, <span class="number">0</span>], <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">figure</span>(<span class="string">&#x27;Color&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;Position&#x27;</span>, [<span class="number">100</span>, <span class="number">100</span>, <span class="number">800</span>, <span class="number">500</span>]);</span><br><span class="line"><span class="built_in">plot</span>(lambda_plot, R_final*<span class="number">100</span>, <span class="string">&#x27;r-&#x27;</span>, <span class="string">&#x27;LineWidth&#x27;</span>, <span class="number">2.5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 绘制目标区域 (&lt;0.5%)</span></span><br><span class="line">patch([<span class="number">400</span> <span class="number">700</span> <span class="number">700</span> <span class="number">400</span>], [<span class="number">0</span> <span class="number">0</span> <span class="number">0.5</span> <span class="number">0.5</span>], <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;FaceAlpha&#x27;</span>, <span class="number">0.2</span>, <span class="string">&#x27;EdgeColor&#x27;</span>, <span class="string">&#x27;none&#x27;</span>);</span><br><span class="line">yline(<span class="number">0.5</span>, <span class="string">&#x27;g--&#x27;</span>, <span class="string">&#x27;Target &lt; 0.5%&#x27;</span>);</span><br><span class="line"></span><br><span class="line">title([<span class="string">&#x27;4层 BBAR 优化结果 (L层接触空气)&#x27;</span>]);</span><br><span class="line">xlabel(<span class="string">&#x27;波长 (nm)&#x27;</span>); ylabel(<span class="string">&#x27;反射率 (%)&#x27;</span>);</span><br><span class="line">grid on; axis([<span class="number">350</span> <span class="number">800</span> <span class="number">0</span> <span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 在图上标注厚度</span></span><br><span class="line">str_res = sprintf(<span class="string">&#x27;Optimal d (nm):\n%.1f / %.1f / %.1f / %.1f&#x27;</span>, best_x);</span><br><span class="line">text(<span class="number">420</span>, <span class="number">2.5</span>, str_res, <span class="string">&#x27;FontSize&#x27;</span>, <span class="number">12</span>, <span class="string">&#x27;BackgroundColor&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;EdgeColor&#x27;</span>, <span class="string">&#x27;k&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-2-结果分析"><a href="#4-2-结果分析" class="headerlink" title="4.2 结果分析"></a>4.2 结果分析</h3><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_105920.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="4-2-结果分析"><a href="#4-2-结果分析" class="headerlink" title="4.2 结果分析"></a>4.2 结果分析</h3><p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/clipboard_20260201_105920.png"></p>
 <p>通过修正膜系结构顺序（让低折射率材料接触空气），我们极大地简化了优化难度。</p>
 <ul>
 <li><strong>收敛性</strong>：<code>fmincon</code> 能够迅速找到全局最优解。</li>
@@ -501,458 +344,126 @@
 <p>这种从<strong>物理直觉</strong>到<strong>数学形式化</strong>，再到<strong>计算实现</strong>的过程，正是应用物理学和计算科学结合的最佳范例。</p>
 <hr>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+      </div>
+      <footer class="post-foot">
+        <div class="post-tags">
+          
+            <a class="tag-chip" href="/tags/Matlab/">#Matlab</a>
+          
+            <a class="tag-chip" href="/tags/Optics/">#Optics</a>
+          
+            <a class="tag-chip" href="/tags/Algorithms/">#Algorithms</a>
+          
+            <a class="tag-chip" href="/tags/Computational-Physics/">#Computational Physics</a>
+          
+            <a class="tag-chip" href="/tags/Simulation/">#Simulation</a>
+          
+        </div>
         
-  <a href="/categories/Technical-Deep-Dive/" class="category-chain-item">Technical Deep Dive</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
+        <nav class="post-nav" aria-label="上下篇">
+          <a class="post-nav-link" href="/2026/02/01/2026-02-01-daily-english/">← 🌍 Daily English: Beyond the Tourist Trail: How Immersive Travel Fosters Global Understanding | 2026-02-01</a>
+          <a class="post-nav-link is-next" href="/2026/02/01/2026-02-01-bragg-grating-physics-and-applications/">光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践 →</a>
+        </nav>
+        
+      </footer>
     </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Matlab/" class="print-no-link">#Matlab</a>
-      
-        <a href="/tags/Algorithms/" class="print-no-link">#Algorithms</a>
-      
-        <a href="/tags/Optics/" class="print-no-link">#Optics</a>
-      
-        <a href="/tags/Computational-Physics/" class="print-no-link">#Computational Physics</a>
-      
-        <a href="/tags/Simulation/" class="print-no-link">#Simulation</a>
-      
-    </div>
-  
-</div>
 
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>深入解析薄膜干涉：从物理本源到算法仿真</div>
-      <div>https://time-frame.cloud/2026/02/01/2026-02-01-thin-film-interference-simulation/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>Author</div>
-          <div>Sunfove</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>Posted on</div>
-          <div>February 1, 2026</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>Licensed under</div>
-          <div>
+    <aside class="post-meta">
+      <div class="meta-box">
+        <h4>手记信息</h4>
+        <dl>
+          <dt>日期</dt><dd>2026-02-01</dd>
+          <dt>分类</dt><dd><a class="meta-cat chip-cyan" href="/categories/Technical-Deep-Dive/">Technical Deep Dive</a></dd>
+          
+            <dt>标签</dt>
+            <dd><a href="/tags/Matlab/">Matlab</a> · <a href="/tags/Optics/">Optics</a> · <a href="/tags/Algorithms/">Algorithms</a> · <a href="/tags/Computational-Physics/">Computational Physics</a> · <a href="/tags/Simulation/">Simulation</a></dd>
+          
+          <dt>字数</dt><dd>5803</dd>
+          <dt>阅读</dt><dd>约 19 分钟</dd>
+        </dl>
+        
+          <h4>相关文章</h4>
+          <ul class="related-list">
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
+              <li><a href="/2026/01/30/2026-01-30-bayesian-optimization-first-principles/">贝叶斯优化：从第一性原理看黑盒函数的最优解</a></li>
             
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2026/02/01/2026-02-01-daily-english/" title="🌍 Daily English: Beyond the Tourist Trail: How Immersive Travel Fosters Global Understanding | 2026-02-01">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">🌍 Daily English: Beyond the Tourist Trail: How Immersive Travel Fosters Global Understanding | 2026-02-01</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2026/02/01/2026-02-01-bragg-grating-physics-and-applications/" title="光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践">
-                        <span class="hidden-mobile">光与物质的周期性耦合：布拉格光栅（FBG）的模态分析与工程实践</span>
-                        <span class="visible-mobile">Next</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
+              <li><a href="/2026/01/22/2026-01-22-kalman-filter-from-scratch/">在噪声中看见真相：卡尔曼滤波的第一性原理推导</a></li>
             
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="SOHUCS" sid='https://time-frame.cloud/2026/02/01/2026-02-01-thin-film-interference-simulation/'></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#SOHUCS', function() {
-      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
-        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
-          </article>
-        </div>
+              <li><a href="/2026/01/22/2026-01-22-shannon-sampling-theorem-deep-dive/">离散与连续的桥梁：香农采样定理的第一性原理</a></li>
+            
+          </ul>
+        
       </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>Table of Contents</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
+    </aside>
   </div>
-</div>
+</article>
 
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-  
-  
-
-
-
-
-
-  <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
-    mermaid.initialize({"theme":"default"});
-
-    Fluid.utils.listenDOMLoaded(function() {
-      Fluid.events.registerRefreshCallback(function() {
-        if ('mermaid' in window) {
-          mermaid.init();
-        }
-      });
-    });
-  });
-</script>
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
   </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>关于</h4>
+      <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
+      <p class="footer-dim">© 2026 Sunfove · 时间帧</p>
     </div>
+    <div class="footer-col">
+      <h4>订阅</h4>
+      <p><a href="/sitemap.xml">Sitemap</a></p>
+      <p><a href="/baidusitemap.xml">百度 Sitemap</a></p>
+      <p><a href="/search/">站内搜索</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>运转</h4>
+      <p><a href="/automation/">本博客由自动化管线驱动</a></p>
+      <p><a href="/lab/">光谱实验室</a></p>
+      <p><a href="/stats/">发布仪表盘</a></p>
+    </div>
+  </div>
+  <div class="cloud-border" aria-hidden="true"></div>
+  <div class="footer-spectrum" aria-hidden="true"></div>
+</footer>
+
+  <script src="/js/scenes.js" defer></script>
+  <script src="/js/main.js" defer></script>
+  <script src="/js/clock.js" defer></script>
   
-  
-  
-    <!-- 备案信息 ICP for China -->
-    <div class="beian">
-  <span>
-    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-      浙ICP备19044173号
-    </a>
-  </span>
-  
-</div>
-
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
     
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
 
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
+<script>
+/* Mermaid：仅当页面含 mermaid 代码块时按需加载 */
+(function () {
+  var blocks = document.querySelectorAll('pre.mermaid, code.mermaid, pre > code.language-mermaid');
+  if (!blocks.length) return;
+  blocks.forEach(function (el) {
+    var host = el.closest('pre') || el;
+    var code = el.tagName === 'CODE' ? el.textContent : host.textContent;
+    var div = document.createElement('div');
+    div.className = 'mermaid';
+    div.textContent = code;
+    host.replaceWith(div);
+  });
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+  s.onload = function () {
+    if (window.mermaid) {
+      mermaid.initialize({ startOnLoad: true, theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default' });
+    }
+  };
+  document.head.appendChild(s);
+})();
+</script>
 
   
-
-  <noscript>
-    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
-  </noscript>
 <!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
 </html>
