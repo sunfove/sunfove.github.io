@@ -1,132 +1,178 @@
 /**
- * Lightweight particle effect for banner area (~30 particles).
- * Optimized: rAF pauses when tab hidden, passive resize, pre-computed constants.
+ * Spectrum · 星空粒子系统
+ * Hero 涟漪池上方漂浮的微光粒子 —— 浅色如阳光尘埃，深色如银河星点。
+ * 粒子间有极淡连线（星座感），鼠标靠近时微偏移。
+ * 尊重 prefers-reduced-motion。
  */
 (function () {
+  'use strict';
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var board = document.getElementById('board');
-  if (!board) return;
+  var tank = document.querySelector('.hero-tank');
+  if (!tank) return;
 
   var canvas = document.createElement('canvas');
-  canvas.id = 'particle-bg';
+  canvas.id = 'starfield';
   canvas.setAttribute('aria-hidden', 'true');
-  board.style.position = 'relative';
-  board.insertBefore(canvas, board.firstChild);
+  canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1';
+  tank.style.position = 'relative';
+  tank.insertBefore(canvas, tank.firstChild);
 
   var ctx = canvas.getContext('2d');
   var W, H, raf;
-  var particles = [];
-  var COUNT = 30;
-  var mouse = { x: -200, y: -200 };
+  var COUNT = 80;
+  var stars = [];
+  var mouse = { x: -300, y: -300 };
   var TAU = Math.PI * 2;
-  var LINE_DIST = 80;
-  var MOUSE_DIST = 150;
   var running = true;
+  var t = 0;
 
   function size() {
-    var rect = board.getBoundingClientRect();
-    W = canvas.width = rect.width;
-    H = canvas.height = rect.height;
+    var rect = tank.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.width = rect.width * dpr;
+    H = canvas.height = rect.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = rect.width;
+    H = rect.height;
   }
 
-  function initParticles() {
-    particles.length = 0;
+  function isDark() {
+    return document.documentElement.getAttribute('data-theme') === 'dark';
+  }
+
+  function initStars() {
+    stars.length = 0;
+    var dark = isDark();
     for (var i = 0; i < COUNT; i++) {
-      particles.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: Math.random() * 1.8 + 0.3,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        a: Math.random() * 0.35 + 0.1
+      stars.push({
+        x: Math.random() * (W || 1200),
+        y: Math.random() * (H || 400),
+        r: Math.random() * 1.2 + 0.3,
+        baseAlpha: dark ? Math.random() * 0.3 + 0.2 : Math.random() * 0.15 + 0.05,
+        phase: Math.random() * TAU,        // twinkle phase offset
+        speed: Math.random() * 0.02 + 0.008, // twinkle speed
+        vy: -(Math.random() * 0.15 + 0.04), // slow upward drift
+        vx: (Math.random() - 0.5) * 0.08
       });
     }
   }
 
-  board.addEventListener('mousemove', function (e) {
-    var rect = board.getBoundingClientRect();
+  tank.addEventListener('mousemove', function (e) {
+    var rect = tank.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
   }, { passive: true });
 
-  board.addEventListener('mouseleave', function () {
-    mouse.x = -200;
-    mouse.y = -200;
+  tank.addEventListener('mouseleave', function () {
+    mouse.x = -300;
+    mouse.y = -300;
   });
 
   function loop() {
-    if (!running) {
-      raf = requestAnimationFrame(loop);
-      return;
-    }
+    if (!running) { raf = requestAnimationFrame(loop); return; }
+    t++;
     ctx.clearRect(0, 0, W, H);
 
-    var i, j, p, dx, dy, dist, f;
-    for (i = 0; i < COUNT; i++) {
-      p = particles[i];
+    var dark = isDark();
+    var i, j, s, dx, dy, dist, alpha;
 
-      dx = mouse.x - p.x;
-      dy = mouse.y - p.y;
-      dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < MOUSE_DIST && dist > 0.5) {
-        f = (1.5 - 1.5 * dist / MOUSE_DIST) / dist;
-        p.vx += dx * f * 0.003;
-        p.vy += dy * f * 0.003;
-      }
-
-      p.vx *= 0.998;
-      p.vy *= 0.998;
-      p.x += p.vx;
-      p.y += p.vy;
-
-      // Wrap
-      if (p.x < -5) p.x = W + 5;
-      if (p.x > W + 5) p.x = -5;
-      if (p.y < -5) p.y = H + 5;
-      if (p.y > H + 5) p.y = -5;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, TAU);
-      ctx.fillStyle = 'rgba(255,255,255,' + p.a + ')';
-      ctx.fill();
-    }
-
-    // Lines between nearby particles
-    for (i = 0; i < COUNT; i++) {
-      for (j = i + 1; j < COUNT; j++) {
-        var dx2 = particles[i].x - particles[j].x;
-        var dy2 = particles[i].y - particles[j].y;
-        var d2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-        if (d2 < LINE_DIST) {
+    // Draw constellation lines first (behind stars)
+    var LINE_DIST = dark ? 130 : 100;
+    var lineAlpha = dark ? 0.06 : 0.03;
+    for (i = 0; i < stars.length; i++) {
+      for (j = i + 1; j < stars.length; j++) {
+        dx = stars[i].x - stars[j].x;
+        dy = stars[i].y - stars[j].y;
+        dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < LINE_DIST) {
           ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = 'rgba(255,255,255,' + (0.06 * (1 - d2 / LINE_DIST)) + ')';
-          ctx.lineWidth = 0.5;
+          ctx.moveTo(stars[i].x, stars[i].y);
+          ctx.lineTo(stars[j].x, stars[j].y);
+          alpha = lineAlpha * (1 - dist / LINE_DIST);
+          ctx.strokeStyle = dark
+            ? 'rgba(180,200,240,' + alpha + ')'
+            : 'rgba(196,164,90,' + alpha + ')';
+          ctx.lineWidth = 0.4;
           ctx.stroke();
         }
       }
     }
 
+    // Draw stars
+    for (i = 0; i < stars.length; i++) {
+      s = stars[i];
+
+      // Gentle mouse attraction
+      dx = mouse.x - s.x;
+      dy = mouse.y - s.y;
+      dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 180 && dist > 0.5) {
+        var f = (1 - dist / 180) * 0.003;
+        s.vx += dx * f;
+        s.vy += dy * f * 0.5;
+      }
+
+      // Drift
+      s.x += s.vx;
+      s.y += s.vy;
+
+      // Damping
+      s.vx *= 0.999;
+      s.vy *= 0.999;
+
+      // Wrap around edges
+      if (s.x < -10) s.x = W + 10;
+      if (s.x > W + 10) s.x = -10;
+      if (s.y < -20) s.y = H + 20;
+      if (s.y > H + 20) { s.y = -20; s.x = Math.random() * W; }
+
+      // Twinkle
+      alpha = s.baseAlpha + Math.sin(t * s.speed + s.phase) * s.baseAlpha * 0.6;
+      alpha = Math.max(0.03, Math.min(0.9, alpha));
+
+      // Draw glow + core
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r * 3, 0, TAU);
+      ctx.fillStyle = dark
+        ? 'rgba(180,200,240,' + (alpha * 0.25) + ')'
+        : 'rgba(196,164,90,' + (alpha * 0.2) + ')';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, TAU);
+      ctx.fillStyle = dark
+        ? 'rgba(220,230,255,' + alpha + ')'
+        : 'rgba(220,200,160,' + alpha + ')';
+      ctx.fill();
+    }
+
     raf = requestAnimationFrame(loop);
   }
 
-  // Pause when tab is hidden to save CPU
+  // Pause when tab hidden
   document.addEventListener('visibilitychange', function () {
     running = !document.hidden;
   });
 
   size();
-  initParticles();
+  initStars();
   loop();
 
+  // Resize
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       size();
-      initParticles();
-    }, 200);
+      initStars();
+    }, 300);
   }, { passive: true });
+
+  // Watch theme changes (dark/light switching)
+  var observer = new MutationObserver(function () {
+    initStars();
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
