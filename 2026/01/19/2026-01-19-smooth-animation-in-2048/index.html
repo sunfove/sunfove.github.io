@@ -17,7 +17,7 @@
   "description": "本文是 2048 开发系列的进阶篇。为了解决方块瞬间移动带来的糟糕视觉体验，我们将引入计算机图形学的核心概念——线性插值（Lerp）。文章将详细阐述如何通过数学方法在两个离散状态之间构建平滑过渡，并对原有的逻辑引擎进行架构级重构，引入 Tile 对象模型以追踪方块的运动轨迹。",
   "url": "https://time-frame.cloud/2026/01/19/2026-01-19-smooth-animation-in-2048/",
   "datePublished": "2026-01-19T02:00:00.000Z",
-  "dateModified": "2026-07-20T14:36:53.649Z",
+  "dateModified": "2026-07-20T19:17:47.606Z",
   "author": { "@type": "Person", "name": "Sunfove" },
   "publisher": { "@type": "Person", "name": "Sunfove" }
 }
@@ -200,6 +200,7 @@
 <p><strong>进阶思考：</strong><br>当前的实现中，合并的方块是瞬间变化的。如何利用 <code>new_tile.merged_from</code> 属性，实现两个旧方块移动到一起，然后新方块“弹出来”（Scale Animation）的效果？这需要更复杂的动画状态管理。</p>
 
       </div>
+      <div class="post-fin" aria-hidden="true"><span class="post-fin-icon">◆ 終 ◆</span></div>
       <footer class="post-foot">
         <div class="post-tags">
           
