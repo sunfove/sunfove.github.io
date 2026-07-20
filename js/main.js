@@ -1,5 +1,23 @@
 (function () {
   'use strict';
+  var siteNav = document.getElementById('siteNav');
+  var navScrollTicking = false;
+  function updateNavScroll() {
+    if (!siteNav) return;
+    if (window.scrollY > 10) {
+      siteNav.classList.add('is-scrolled');
+    } else {
+      siteNav.classList.remove('is-scrolled');
+    }
+    navScrollTicking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!navScrollTicking) {
+      requestAnimationFrame(updateNavScroll);
+      navScrollTicking = true;
+    }
+  }, { passive: true });
+  updateNavScroll();
   var toggle = document.getElementById('themeToggle');
   if (toggle) {
     toggle.addEventListener('click', function () {
@@ -20,6 +38,27 @@
       var open = links.classList.toggle('is-open');
       burger.setAttribute('aria-expanded', String(open));
     });
+    links.querySelectorAll('.nav-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        links.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (links.classList.contains('is-open') &&
+          !links.contains(e.target) &&
+          !burger.contains(e.target)) {
+        links.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && links.classList.contains('is-open')) {
+        links.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+        burger.focus();
+      }
+    });
   }
   var tocNav = document.getElementById('tocNav');
   if (tocNav) {
@@ -33,7 +72,7 @@
     if (pairs.length) {
       var current = null;
       var onScroll = function () {
-        var y = window.scrollY + 90;
+        var y = window.scrollY + 100;
         var active = pairs[0];
         for (var i = 0; i < pairs.length; i++) {
           if (pairs[i].h.offsetTop <= y) active = pairs[i];

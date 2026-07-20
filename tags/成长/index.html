@@ -2,24 +2,76 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f3ecd8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1612" media="(prefers-color-scheme: dark)">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 
 <title>时间帧 — 光学 · 超表面 · 硬核科普</title>
 <meta name="description" content="时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。">
 <meta name="author" content="Sunfove">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://time-frame.cloud/tags/%E6%88%90%E9%95%BF/index.html">
 
-<!-- Resource hints: early DNS + connection for external origins -->
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:site_name" content="时间帧">
+<meta property="og:title" content="时间帧">
+<meta property="og:description" content="时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。">
+<meta property="og:url" content="https://time-frame.cloud/tags/%E6%88%90%E9%95%BF/index.html">
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="时间帧">
+<meta name="twitter:description" content="时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。">
+
+
+
+
+
+<!-- Structured Data: Website -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "时间帧",
+  "url": "https://time-frame.cloud",
+  "description": "时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。",
+  "inLanguage": "zh-CN"
+}
+</script>
+
+
+<!-- Resource hints -->
 <link rel="dns-prefetch" href="//hm.baidu.com">
 <link rel="preconnect" href="//hm.baidu.com" crossorigin>
 <link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com">
 <link rel="preconnect" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com" crossorigin>
 <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
 <link rel="dns-prefetch" href="//at.alicdn.com">
+
+<!-- Preload critical CSS -->
 <link rel="preload" href="/css/spectrum.css" as="style">
 <link rel="stylesheet" href="/css/spectrum.css">
+
+<!-- Preconnect to CDN for fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="时间帧 RSS" href="/atom.xml">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="时间帧">
+
+<!-- Anti-flicker: scene + theme detection -->
 <script>
-/* 防闪烁：首绘前确定四时场景与明暗主题（与 js/scenes.js 逻辑一致） */
 (function () {
   try {
     var h = new Date().getHours();
@@ -50,8 +102,8 @@
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-nav" id="siteNav">
   <div class="nav-inner">
-    <a class="brand" href="/">
-      <span class="seal-mark" aria-hidden="true">帧</span>
+    <a class="brand" href="/" aria-label="返回首页">
+      <span class="brand-mark" aria-hidden="true"></span>
       <span class="brand-name">时间帧</span>
     </a>
     <nav class="nav-links" id="navLinks" aria-label="主导航">
@@ -64,8 +116,6 @@
       
         <a href="/tags/" class="nav-link is-active">标签</a>
       
-        <a href="/poetry/" class="nav-link">诗光</a>
-      
         <a href="/lab/" class="nav-link">实验室</a>
       
         <a href="/stats/" class="nav-link">仪表盘</a>
@@ -76,7 +126,7 @@
       
     </nav>
     <div class="nav-actions">
-      <span class="nav-clock" id="navClock" title="北京时间">
+      <span class="nav-clock" id="navClock" title="北京时间" aria-label="当前北京时间">
         <svg class="nav-dial" viewBox="0 0 26 26" width="22" height="22" aria-hidden="true">
           <circle class="nd-ring" cx="13" cy="13" r="11"/>
           <line class="nd-horizon" x1="3" y1="13" x2="23" y2="13"/>
@@ -88,14 +138,14 @@
         </svg>
         <span class="nav-clock-time" id="navClockTime">--:--</span>
       </span>
-      <a class="nav-icon-link" href="/search/" title="搜索" aria-label="搜索">
+      <a class="nav-icon-link" href="/search/" title="搜索文章" aria-label="搜索">
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       </a>
-      <button class="theme-toggle" id="themeToggle" type="button" title="切换明暗" aria-label="切换明暗主题">
+      <button class="theme-toggle" id="themeToggle" type="button" title="切换明暗主题" aria-label="切换明暗主题">
         <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
       </button>
-      <button class="nav-burger" id="navBurger" type="button" aria-label="展开菜单" aria-expanded="false">
+      <button class="nav-burger" id="navBurger" type="button" aria-label="展开导航菜单" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -174,33 +224,38 @@
 
 
   </main>
-  <footer class="site-footer">
+  <footer class="site-footer" role="contentinfo">
   <div class="footer-inner">
     <div class="footer-col">
       <h4>关于</h4>
       <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
-      <p class="footer-dim">© 2026 Sunfove · 时间帧</p>
+      <p class="footer-dim">&copy; 2026 Sunfove · 时间帧</p>
+      <p class="footer-dim"><a href="/sitemap.xml">Sitemap</a> · <a href="/atom.xml">RSS</a></p>
     </div>
     <div class="footer-col">
-      <h4>订阅</h4>
-      <p><a href="/sitemap.xml">Sitemap</a></p>
-      <p><a href="/baidusitemap.xml">百度 Sitemap</a></p>
+      <h4>导航</h4>
+      <p><a href="/archives/">文章归档</a></p>
+      <p><a href="/categories/">分类索引</a></p>
+      <p><a href="/tags/">标签云</a></p>
       <p><a href="/search/">站内搜索</a></p>
     </div>
     <div class="footer-col">
-      <h4>运转</h4>
-      <p><a href="/automation/">本博客由自动化管线驱动</a></p>
+      <h4>实验室</h4>
       <p><a href="/lab/">光谱实验室</a></p>
       <p><a href="/stats/">发布仪表盘</a></p>
+      <p><a href="/automation/">自动化管线</a></p>
+      <p><a href="/about/">关于本站</a></p>
     </div>
   </div>
-  <div class="cloud-border" aria-hidden="true"></div>
-  <div class="footer-spectrum" aria-hidden="true"></div>
+  <div class="footer-line" aria-hidden="true"></div>
 </footer>
 
+  <!-- Theme scripts: order matters -->
   <script src="/js/scenes.js" defer></script>
-  <script src="/js/main.js" defer></script>
   <script src="/js/clock.js" defer></script>
+  <script src="/js/main.js" defer></script>
+  <!-- Performance enhancements: reading progress, lazy loading, reveal animations, back-to-top -->
+  <script src="/js/performance.js" defer></script>
   
 </body>
 </html>
