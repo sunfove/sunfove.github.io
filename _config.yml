@@ -105,7 +105,7 @@ tag_common:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: fluid
+theme: spectrum
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -118,6 +118,12 @@ deploy:
   #   repo: root@47.116.163.133:/var/repo/blog.git
   #   branch: master
 
+
+# 本地搜索（hexo-generator-search，供 /search 页与主题搜索使用）
+search:
+  path: local-search.xml
+  field: post
+  content: true
 
 # Google/Bing 用的标准 Sitemap
 sitemap:

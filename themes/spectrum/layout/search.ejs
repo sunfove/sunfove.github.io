@@ -1,0 +1,13 @@
+<section class="search-shell">
+  <header class="post-head">
+    <h1 class="post-title">站内搜索</h1>
+    <p class="post-byline">索引全部手记的标题与正文</p>
+    <hr class="post-rule">
+  </header>
+  <div class="search-box">
+    <input type="search" id="searchInput" class="search-input" placeholder="输入关键词，如：超表面、偏振、傅里叶…" aria-label="搜索关键词" autocomplete="off">
+  </div>
+  <p class="search-status" id="searchStatus">正在加载索引…</p>
+  <ul class="search-results" id="searchResults"></ul>
+</section>
+<script src="<%- url_for('/js/search.js') %>" defer></script>

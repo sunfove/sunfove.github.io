@@ -1,0 +1,36 @@
+<% if (page.mathjax) { %>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script src="<%= theme.mathjax_cdn %>" id="MathJax-script" async></script>
+<% } %>
+<script>
+/* Mermaid：仅当页面含 mermaid 代码块时按需加载 */
+(function () {
+  var blocks = document.querySelectorAll('pre.mermaid, code.mermaid, pre > code.language-mermaid');
+  if (!blocks.length) return;
+  blocks.forEach(function (el) {
+    var host = el.closest('pre') || el;
+    var code = el.tagName === 'CODE' ? el.textContent : host.textContent;
+    var div = document.createElement('div');
+    div.className = 'mermaid';
+    div.textContent = code;
+    host.replaceWith(div);
+  });
+  var s = document.createElement('script');
+  s.src = '<%= theme.mermaid_cdn %>';
+  s.onload = function () {
+    if (window.mermaid) {
+      mermaid.initialize({ startOnLoad: true, theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default' });
+    }
+  };
+  document.head.appendChild(s);
+})();
+</script>

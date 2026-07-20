@@ -1,0 +1,32 @@
+<section class="stats-shell">
+  <header class="post-head">
+    <a class="post-cat chip-blue">Stats</a>
+    <h1 class="post-title">发布仪表盘</h1>
+    <p class="post-byline">构建期扫描全部手记生成 · 纯 SVG 手绘图表</p>
+    <hr class="post-rule">
+  </header>
+
+  <div class="stats-numbers" id="statsNumbers">
+    <div class="stat-card"><span class="stat-num" data-key="totalPosts">—</span><span class="stat-label">总篇数</span></div>
+    <div class="stat-card"><span class="stat-num" data-key="totalWords">—</span><span class="stat-label">总字数（估）</span></div>
+    <div class="stat-card"><span class="stat-num" data-key="yearPosts">—</span><span class="stat-label">近一年篇数</span></div>
+    <div class="stat-card"><span class="stat-num" data-key="streak">—</span><span class="stat-label">最长连续（天）</span></div>
+  </div>
+
+  <section class="stats-block">
+    <h2 class="stats-title">近一年发布热力图</h2>
+    <div class="heatmap-wrap" id="heatmapWrap" aria-label="近一年每日发布热力图"></div>
+    <div class="heatmap-legend"><span>少</span><i class="hl0"></i><i class="hl1"></i><i class="hl2"></i><i class="hl3"></i><i class="hl4"></i><span>多</span></div>
+  </section>
+
+  <section class="stats-block">
+    <h2 class="stats-title">分类分布</h2>
+    <div class="catbars" id="catBars"></div>
+  </section>
+
+  <section class="stats-block">
+    <h2 class="stats-title">月度发文</h2>
+    <div class="monthbars" id="monthBars"></div>
+  </section>
+</section>
+<script src="<%- url_for('/js/stats.js') %>" defer></script>

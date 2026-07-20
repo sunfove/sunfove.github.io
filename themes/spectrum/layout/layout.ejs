@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="<%= config.language || 'zh-CN' %>">
+<head>
+  <%- partial('partials/head') %>
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <%- partial('partials/nav') %>
+  <main id="main">
+    <%- body %>
+  </main>
+  <%- partial('partials/footer') %>
+  <script src="<%- url_for('/js/main.js') %>" defer></script>
+  <% if (page.__post) { %>
+    <%- partial('partials/math') %>
+  <% } %>
+</body>
+</html>

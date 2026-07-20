@@ -1,8 +1,8 @@
 /**
  * SEO 增强脚本
  * 1. 文章自动 description（取正文前 160 字）
- * 2. 文章页 Article JSON-LD 结构化数据
- * 3. 性能：关键资源 preload
+ * 2. 文章页 Article JSON-LD 结构化数据（由 spectrum 主题 head 输出，hexo 8 injector
+ *    会在注册时立即求值，无法按页注入，故迁移到模板中）
  */
 
 'use strict';
@@ -25,30 +25,4 @@ hexo.extend.filter.register('after_post_render', function (data) {
   }
 
   return data;
-});
-
-// 注入文章结构化数据到 head
-hexo.extend.injector.register('head_end', function () {
-  const page = this.page;
-  if (!page || !page.__post) return '';  // 只对文章页生效
-
-  const title = (page.title || '').replace(/"/g, '\\"');
-  const desc = (page.description || '').replace(/"/g, '\\"').substring(0, 200);
-  const url = this.url_for(page.path);
-  const date = page.date ? page.date.toISOString() : '';
-  const updated = page.updated ? page.updated.toISOString() : '';
-
-  return `<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "${title}",
-  "description": "${desc}",
-  "url": "${url}",
-  "datePublished": "${date}",
-  "dateModified": "${updated || date}",
-  "author": { "@type": "Person", "name": "Sunfove" },
-  "publisher": { "@type": "Person", "name": "Sunfove" }
-}
-</script>`;
 });

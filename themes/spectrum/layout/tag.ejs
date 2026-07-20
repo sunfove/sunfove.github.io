@@ -1,0 +1,31 @@
+<%- partial('partials/wave-header') %>
+<% if (page.tag) { %>
+  <section class="archive-shell">
+    <header class="post-head">
+      <h1 class="post-title"># <%= page.tag %></h1>
+      <p class="post-byline"><%= page.posts.length %> 篇</p>
+      <hr class="post-rule">
+    </header>
+    <ul class="archive-list">
+      <% page.posts.each(function (p) { %>
+        <li class="archive-item">
+          <span class="archive-date"><%= p.date.format('YYYY-MM-DD') %></span>
+          <a class="archive-title" href="<%- url_for(p.path) %>"><%= p.title %></a>
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+  <%- partial('partials/pager') %>
+<% } else { %>
+  <section class="archive-shell">
+    <header class="post-head">
+      <h1 class="post-title">标签</h1>
+      <hr class="post-rule">
+    </header>
+    <div class="tag-cloud">
+      <% site.tags.sort('name').each(function (t) { %>
+        <a class="tag-chip" href="<%- url_for(t.path) %>">#<%= t.name %><span class="tag-n"><%= t.length %></span></a>
+      <% }) %>
+    </div>
+  </section>
+<% } %>

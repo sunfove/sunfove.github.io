@@ -1,0 +1,38 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<%
+  var siteTitle = config.title;
+  var pageTitle = page.title ? page.title + ' · ' + siteTitle : siteTitle + ' — ' + (config.subtitle || '');
+  var desc = page.description || config.description || '';
+%>
+<title><%= pageTitle %></title>
+<meta name="description" content="<%= String(desc).replace(/"/g, '&quot;') %>">
+<meta name="author" content="<%= config.author %>">
+<link rel="canonical" href="<%= full_url_for(page.path || '') %>">
+<% if (page.__post) { %>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": <%- JSON.stringify(page.title || '') %>,
+  "description": <%- JSON.stringify(String(page.description || '').substring(0, 200)) %>,
+  "url": <%- JSON.stringify(full_url_for(page.path)) %>,
+  "datePublished": <%- JSON.stringify(page.date ? page.date.toISOString() : '') %>,
+  "dateModified": <%- JSON.stringify((page.updated || page.date) ? (page.updated || page.date).toISOString() : '') %>,
+  "author": { "@type": "Person", "name": <%- JSON.stringify(config.author || '') %> },
+  "publisher": { "@type": "Person", "name": <%- JSON.stringify(config.author || '') %> }
+}
+</script>
+<% } %>
+<link rel="stylesheet" href="<%- url_for('/css/spectrum.css') %>">
+<script>
+/* 防闪烁：首绘前确定明暗主题 */
+(function () {
+  try {
+    var saved = localStorage.getItem('spectrum-theme');
+    var dark = saved ? saved === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
+<noscript><style>.no-js-hide{display:none}</style></noscript>

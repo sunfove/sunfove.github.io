@@ -1,0 +1,11 @@
+<% if (page.total > 1) { %>
+<nav class="pager" aria-label="分页">
+  <% if (page.prev) { %>
+    <a class="pager-link" href="<%- url_for(page.prev_link) %>">← 较新</a>
+  <% } else { %><span class="pager-link is-disabled">← 较新</span><% } %>
+  <span class="pager-info"><%= page.current %> / <%= page.total %></span>
+  <% if (page.next) { %>
+    <a class="pager-link" href="<%- url_for(page.next_link) %>">较旧 →</a>
+  <% } else { %><span class="pager-link is-disabled">较旧 →</span><% } %>
+</nav>
+<% } %>

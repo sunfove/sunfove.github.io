@@ -1,0 +1,80 @@
+<%
+  var cats = page.categories.toArray() || [];
+  var tags = page.tags.toArray() || [];
+  var cat = cats[0];
+  var tocHtml = toc(page.content, { class: 'toc', max_depth: 3, min_depth: 2, list_number: false });
+  var related = relatedPosts(page, theme.related_count);
+%>
+<%- partial('partials/wave-header') %>
+
+<article class="post-shell">
+  <header class="post-head">
+    <% if (cat) { %>
+      <a class="post-cat chip-<%= catColorKey(cat.name) %>" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+    <% } %>
+    <h1 class="post-title"><%= page.title %></h1>
+    <p class="post-byline"><%= date(page.date, 'YYYY年M月D日') %> · <%= config.author %></p>
+    <hr class="post-rule">
+  </header>
+
+  <div class="post-grid">
+    <aside class="post-toc" id="postToc">
+      <details class="toc-box" id="tocBox" open>
+        <summary>目录</summary>
+        <% if (tocHtml) { %>
+          <nav class="toc-nav" id="tocNav"><%- tocHtml %></nav>
+        <% } else { %>
+          <p class="toc-empty">本文无小节</p>
+        <% } %>
+      </details>
+    </aside>
+
+    <div class="post-body">
+      <% if (page.index_img) { %>
+        <figure class="post-cover">
+          <img src="<%- url_for(page.index_img) %>" alt="<%= page.title %>" loading="lazy">
+        </figure>
+      <% } %>
+      <div class="post-content" id="postContent">
+        <%- page.content %>
+      </div>
+      <footer class="post-foot">
+        <div class="post-tags">
+          <% tags.forEach(function (t) { %>
+            <a class="tag-chip" href="<%- url_for(t.path) %>">#<%= t.name %></a>
+          <% }) %>
+        </div>
+        <% if (page.prev || page.next) { %>
+        <nav class="post-nav" aria-label="上下篇">
+          <% if (page.prev) { %><a class="post-nav-link" href="<%- url_for(page.prev.path) %>">← <%= page.prev.title %></a><% } %>
+          <% if (page.next) { %><a class="post-nav-link is-next" href="<%- url_for(page.next.path) %>"><%= page.next.title %> →</a><% } %>
+        </nav>
+        <% } %>
+      </footer>
+    </div>
+
+    <aside class="post-meta">
+      <div class="meta-box">
+        <h4>手记信息</h4>
+        <dl>
+          <dt>日期</dt><dd><%= date(page.date, 'YYYY-MM-DD') %></dd>
+          <% if (cat) { %><dt>分类</dt><dd><a class="meta-cat chip-<%= catColorKey(cat.name) %>" href="<%- url_for(cat.path) %>"><%= cat.name %></a></dd><% } %>
+          <% if (tags.length) { %>
+            <dt>标签</dt>
+            <dd><% tags.forEach(function (t, i) { %><a href="<%- url_for(t.path) %>"><%= t.name %></a><%= i < tags.length - 1 ? ' · ' : '' %><% }) %></dd>
+          <% } %>
+          <dt>字数</dt><dd><%= wordCount(page) %></dd>
+          <dt>阅读</dt><dd>约 <%= readingTime(page) %> 分钟</dd>
+        </dl>
+        <% if (related.length) { %>
+          <h4>相关文章</h4>
+          <ul class="related-list">
+            <% related.forEach(function (p) { %>
+              <li><a href="<%- url_for(p.path) %>"><%= p.title %></a></li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </div>
+    </aside>
+  </div>
+</article>

@@ -1,0 +1,40 @@
+<%- partial('partials/wave-header') %>
+<% if (page.category) { %>
+  <%/* 单分类页 */%>
+  <section class="archive-shell">
+    <header class="post-head">
+      <a class="post-cat chip-<%= catColorKey(page.category) %>">分类</a>
+      <h1 class="post-title"><%= page.category %></h1>
+      <p class="post-byline"><%= page.posts.length %> 篇</p>
+      <hr class="post-rule">
+    </header>
+    <ul class="archive-list">
+      <% page.posts.each(function (p) { %>
+        <li class="archive-item">
+          <span class="archive-date"><%= p.date.format('YYYY-MM-DD') %></span>
+          <a class="archive-title" href="<%- url_for(p.path) %>"><%= p.title %></a>
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+  <%- partial('partials/pager') %>
+<% } else { %>
+  <%/* 分类总览 */%>
+  <section class="archive-shell">
+    <header class="post-head">
+      <h1 class="post-title">分类</h1>
+      <p class="post-byline">按光谱色标识的知识分区</p>
+      <hr class="post-rule">
+    </header>
+    <ul class="cat-index">
+      <% site.categories.sort('name').each(function (c) { %>
+        <li>
+          <a class="cat-row chip-<%= catColorKey(c.name) %>" href="<%- url_for(c.path) %>">
+            <span class="cat-name"><%= c.name %></span>
+            <span class="cat-count"><%= c.length %> 篇</span>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+<% } %>

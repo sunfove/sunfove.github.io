@@ -1,0 +1,33 @@
+<%- partial('partials/wave-header') %>
+<%
+  var posts = page.posts ? page.posts.toArray() : [];
+  var byYear = {};
+  posts.forEach(function (p) {
+    var y = p.date.format('YYYY');
+    (byYear[y] = byYear[y] || []).push(p);
+  });
+  var years = Object.keys(byYear).sort(function (a, b) { return b - a; });
+%>
+<section class="archive-shell">
+  <header class="post-head">
+    <h1 class="post-title">归档</h1>
+    <p class="post-byline">共 <%= site.posts.length %> 篇手记</p>
+    <hr class="post-rule">
+  </header>
+  <% years.forEach(function (y) { %>
+    <section class="archive-year">
+      <h2 class="archive-year-title"><%= y %></h2>
+      <ul class="archive-list">
+        <% byYear[y].forEach(function (p) { %>
+          <li class="archive-item">
+            <span class="archive-date"><%= p.date.format('MM-DD') %></span>
+            <a class="archive-title" href="<%- url_for(p.path) %>"><%= p.title %></a>
+            <% var c = (p.categories.toArray() || [])[0]; %>
+            <% if (c) { %><span class="archive-dot chip-<%= catColorKey(c.name) %>" title="<%= c.name %>"></span><% } %>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+  <% }) %>
+</section>
+<%- partial('partials/pager') %>

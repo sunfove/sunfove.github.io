@@ -1,0 +1,16 @@
+<%/* 静态 SVG 波纹头图：文章页/内页专用（性能优先，不跑 Canvas 模拟） */%>
+<%
+  var variant = typeof variant !== 'undefined' ? variant : 0;
+%>
+<div class="wave-header" aria-hidden="true">
+  <svg viewBox="0 0 1200 160" preserveAspectRatio="xMidYMid slice" role="presentation">
+    <g fill="none" stroke-width="1">
+      <path class="wv wv1" d="M0,80 C150,40 300,120 450,80 S750,40 900,80 S1150,110 1200,85"/>
+      <path class="wv wv2" d="M0,95 C160,60 320,130 480,95 S780,60 930,95 S1150,120 1200,100"/>
+      <path class="wv wv3" d="M0,110 C170,80 340,140 510,110 S800,80 950,110 S1160,128 1200,115"/>
+      <circle class="wv-dot" cx="600" cy="80" r="3"/>
+      <circle class="wv-ring" cx="600" cy="80" r="26"/>
+      <circle class="wv-ring wv-ring2" cx="600" cy="80" r="52"/>
+    </g>
+  </svg>
+</div>

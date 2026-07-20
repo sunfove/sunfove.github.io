@@ -1,0 +1,26 @@
+# Spectrum（光谱手记）主题默认配置
+
+# 顶部导航
+nav:
+  - { name: "首页", link: "/" }
+  - { name: "归档", link: "/archives/" }
+  - { name: "分类", link: "/categories/" }
+  - { name: "标签", link: "/tags/" }
+  - { name: "实验室", link: "/lab/" }
+  - { name: "仪表盘", link: "/stats/" }
+  - { name: "自动化", link: "/automation/" }
+  - { name: "关于", link: "/about/" }
+
+# 首页 Hero
+hero:
+  title: "时间帧"
+  subtitle: "光学 · 超表面 · 硬核科普"
+  note: "一本会呼吸的物理实验手记"
+
+# 数学公式 / 流程图 CDN（仅在有需要的页面加载）
+mathjax_cdn: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+mermaid_cdn: "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"
+
+# 每页文章数之外的微调
+excerpt_length: 140
+related_count: 3

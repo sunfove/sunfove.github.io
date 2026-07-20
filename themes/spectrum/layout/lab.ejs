@@ -1,0 +1,72 @@
+<%
+  var extras = labExtras();
+%>
+<section class="lab-shell">
+  <header class="post-head">
+    <a class="post-cat chip-cyan">Lab</a>
+    <h1 class="post-title">光谱实验室</h1>
+    <p class="post-byline">所有视觉均由代码绘制 · 无照片 · 无图库图</p>
+    <hr class="post-rule">
+  </header>
+
+  <div class="lab-intro post-content">
+    <%- page.content %>
+  </div>
+
+  <section class="lab-demo" id="double-slit">
+    <h2 class="lab-demo-title"><span class="lab-no chip-blue">01</span> 双缝干涉 · 涟漪池</h2>
+    <p class="lab-demo-desc">两个相干点源在水面上激起的波叠加成干涉条纹。切换单源 / 双源，或点击水面加入新的扰动。</p>
+    <div class="lab-stage">
+      <canvas id="slitTank" aria-label="双缝干涉模拟画布"></canvas>
+      <div class="lab-controls">
+        <button class="lab-btn is-on" id="srcSingle" type="button">单源</button>
+        <button class="lab-btn" id="srcDouble" type="button">双源</button>
+        <button class="lab-btn" id="srcClear" type="button">清空</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="lab-demo" id="prism">
+    <h2 class="lab-demo-title"><span class="lab-no chip-violet">02</span> 棱镜色散</h2>
+    <p class="lab-demo-desc">白光进入棱镜后按波长偏折成可见光谱。拖动滑块改变入射角，观察色散角变化。</p>
+    <div class="lab-stage lab-stage-svg">
+      <svg id="prismSvg" viewBox="0 0 640 360" role="img" aria-label="棱镜色散示意图">
+        <polygon class="prism-glass" points="320,60 200,300 440,300"/>
+        <line id="rayIn" class="ray-white" x1="40" y1="180" x2="252" y2="222"/>
+        <g id="fanOut">
+          <line class="ray" style="--rc:#b20155" x1="388" y1="222" x2="620" y2="196"/>
+          <line class="ray" style="--rc:#df6536" x1="388" y1="222" x2="620" y2="206"/>
+          <line class="ray" style="--rc:#ebb137" x1="388" y1="222" x2="620" y2="216"/>
+          <line class="ray" style="--rc:#2c6469" x1="388" y1="222" x2="620" y2="226"/>
+          <line class="ray" style="--rc:#0891b2" x1="388" y1="222" x2="620" y2="236"/>
+          <line class="ray" style="--rc:#2563eb" x1="388" y1="222" x2="620" y2="246"/>
+          <line class="ray" style="--rc:#6d28d9" x1="388" y1="222" x2="620" y2="256"/>
+        </g>
+        <text class="prism-label" x="46" y="168">白光</text>
+        <text class="prism-label" x="566" y="330">光谱</text>
+      </svg>
+      <div class="lab-controls">
+        <label class="lab-slider">入射角
+          <input type="range" id="prismAngle" min="-24" max="24" value="0" step="1">
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <% if (extras.length) { %>
+  <section class="lab-extras">
+    <h2 class="lab-demo-title"><span class="lab-no chip-amber">03</span> 历史实验</h2>
+    <div class="lab-cards">
+      <% extras.forEach(function (x) { %>
+        <a class="lab-card" href="<%- url_for(x.path) %>">
+          <h3><%= x.title %></h3>
+          <p><%= x.desc %></p>
+          <span class="lab-card-go">进入 →</span>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+  <% } %>
+</section>
+<script src="<%- url_for('/js/ripple.js') %>" defer></script>
+<script src="<%- url_for('/js/lab.js') %>" defer></script>

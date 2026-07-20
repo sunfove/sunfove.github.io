@@ -1,0 +1,75 @@
+<%
+  var autoPosts = site.posts.toArray().filter(function (p) {
+    return (p.categories.toArray() || []).some(function (c) {
+      return /English|日报|Daily|超表面技术|metasurface/i.test(c.name);
+    });
+  }).slice(0, 6);
+%>
+<section class="auto-shell">
+  <header class="post-head">
+    <a class="post-cat chip-amber">Pipeline</a>
+    <h1 class="post-title">本博客如何自动运转</h1>
+    <p class="post-byline">从 arXiv 采集到发布，无人值守的出版管线</p>
+    <hr class="post-rule">
+  </header>
+
+  <div class="lab-intro post-content">
+    <%- page.content %>
+  </div>
+
+  <div class="pipe-wrap">
+    <svg class="pipe-svg" viewBox="0 0 1080 300" role="img" aria-label="自动化管线流程图">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" class="pipe-arrow"/>
+        </marker>
+      </defs>
+      <g class="pipe-links">
+        <path d="M196,150 H236" marker-end="url(#arr)"/>
+        <path d="M412,150 H452" marker-end="url(#arr)"/>
+        <path d="M628,150 H668" marker-end="url(#arr)"/>
+        <path d="M844,150 H884" marker-end="url(#arr)"/>
+      </g>
+      <g class="pipe-node" transform="translate(70,110)">
+        <rect class="pn pn-cyan" width="126" height="80" rx="4"/>
+        <text class="pn-title" x="63" y="36">arXiv 采集</text>
+        <text class="pn-sub" x="63" y="58">每日抓取新论文</text>
+      </g>
+      <g class="pipe-node" transform="translate(286,110)">
+        <rect class="pn pn-violet" width="126" height="80" rx="4"/>
+        <text class="pn-title" x="63" y="36">DeepSeek 生成</text>
+        <text class="pn-sub" x="63" y="58">LLM 撰写初稿</text>
+      </g>
+      <g class="pipe-node" transform="translate(502,110)">
+        <rect class="pn pn-blue" width="126" height="80" rx="4"/>
+        <text class="pn-title" x="63" y="36">GitHub 仓库</text>
+        <text class="pn-sub" x="63" y="58">blog-source 提交</text>
+      </g>
+      <g class="pipe-node" transform="translate(718,110)">
+        <rect class="pn pn-green" width="126" height="80" rx="4"/>
+        <text class="pn-title" x="63" y="36">服务器重建</text>
+        <text class="pn-sub" x="63" y="58">hexo generate</text>
+      </g>
+      <g class="pipe-node" transform="translate(934,110)">
+        <rect class="pn pn-amber" width="126" height="80" rx="4"/>
+        <text class="pn-title" x="63" y="36">公众号草稿</text>
+        <text class="pn-sub" x="63" y="58">同步分发</text>
+      </g>
+      <text class="pipe-cap" x="540" y="260">每日 08:00（北京时间）定时触发 · GitHub Actions · 全程无需人工干预</text>
+    </svg>
+  </div>
+
+  <section class="stats-block">
+    <h2 class="stats-title">最新自动生成</h2>
+    <ul class="archive-list">
+      <% autoPosts.forEach(function (p) { %>
+        <li class="archive-item">
+          <span class="archive-date"><%= p.date.format('YYYY-MM-DD') %></span>
+          <a class="archive-title" href="<%- url_for(p.path) %>"><%= p.title %></a>
+          <% var c = (p.categories.toArray() || [])[0]; %>
+          <% if (c) { %><a class="cat-chip chip-<%= catColorKey(c.name) %>" href="<%- url_for(c.path) %>"><%= c.name %></a><% } %>
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+</section>

@@ -1,0 +1,37 @@
+<% if (page.current === 1) { %>
+<section class="hero">
+  <div class="hero-text">
+    <h1 class="hero-title"><%= theme.hero.title %></h1>
+    <p class="hero-subtitle"><%= theme.hero.subtitle %></p>
+    <p class="hero-note"><%= theme.hero.note %></p>
+  </div>
+  <div class="hero-tank">
+    <canvas id="rippleTank" aria-label="涟漪池：移动指针可激起水波"></canvas>
+    <p class="hero-hint no-js-hide">— 涟漪池 · 触碰水面 —</p>
+  </div>
+</section>
+<script src="<%- url_for('/js/ripple.js') %>" defer></script>
+<% } %>
+
+<section class="feed" aria-label="文章列表">
+  <% page.posts.each(function (post) { %>
+    <% var cat = (post.categories.toArray() || [])[0]; %>
+    <article class="feed-item">
+      <a class="feed-date" href="<%- url_for(post.path) %>">
+        <span class="feed-day"><%= post.date.format('DD') %></span>
+        <span class="feed-ym"><%= post.date.format('YYYY · MM') %></span>
+      </a>
+      <div class="feed-main">
+        <h2 class="feed-title"><a href="<%- url_for(post.path) %>"><%= post.title %></a></h2>
+        <p class="feed-excerpt"><%= plainExcerpt(post, theme.excerpt_length) %></p>
+      </div>
+      <div class="feed-side">
+        <% if (cat) { %>
+          <a class="cat-chip chip-<%= catColorKey(cat.name) %>" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+        <% } %>
+      </div>
+    </article>
+  <% }) %>
+</section>
+
+<%- partial('partials/pager') %>
