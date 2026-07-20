@@ -124,7 +124,7 @@
     if (revealEls.length > 4) {
       for (var ri = 0; ri < revealEls.length; ri++) {
         revealEls[ri].classList.add('reveal-hidden');
-        revealEls[ri].style.transitionDelay = Math.min(ri * 0.02, 0.3) + 's';
+        revealEls[ri].style.transitionDelay = Math.min(ri * 0.015, 0.2) + 's';
       }
 
       var observer = new IntersectionObserver(function (entries) {

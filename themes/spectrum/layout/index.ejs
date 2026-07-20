@@ -29,20 +29,8 @@
   </ul>
 </section>
 
-<section class="light-note" aria-label="今日之光">
-  <span class="light-note-label">✦ 今日之光</span>
-  <div id="lightQuote">
-    <blockquote class="light-quote-text">光，是宇宙的信使。</blockquote>
-    <cite class="light-quote-author">—— 加载中……</cite>
-  </div>
-  <div class="light-note-actions">
-    <button class="light-refresh" id="lightQuoteBtn">⟳ 换一条</button>
-  </div>
-</section>
-
 <script>window.SPECTRUM_OTD = { url: '<%- url_for('/on-this-day-data.json') %>' };</script>
 <script src="<%- url_for('/js/on-this-day.js') %>" defer></script>
-<script src="<%- url_for('/js/quotes.js') %>" defer></script>
 <script src="<%- url_for('/js/ripple.js') %>" defer></script>
 <% } %>
 

@@ -1,178 +1,222 @@
 /**
- * Spectrum · 星空粒子系统
- * Hero 涟漪池上方漂浮的微光粒子 —— 浅色如阳光尘埃，深色如银河星点。
- * 粒子间有极淡连线（星座感），鼠标靠近时微偏移。
- * 尊重 prefers-reduced-motion。
+ * Spectrum · 涟漪池引擎（色散光谱环 + 子夜星野）
+ * 首页 Hero 与实验室双缝干涉共用。纯 Canvas 2D，无依赖。
  */
 (function () {
   'use strict';
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var tank = document.querySelector('.hero-tank');
-  if (!tank) return;
+  var SPREAD = 34;
+  var DRIFT = 0.10;
+  var CH_OFF = 1.7;
 
-  var canvas = document.createElement('canvas');
-  canvas.id = 'starfield';
-  canvas.setAttribute('aria-hidden', 'true');
-  canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1';
-  tank.style.position = 'relative';
-  tank.insertBefore(canvas, tank.firstChild);
-
-  var ctx = canvas.getContext('2d');
-  var W, H, raf;
-  var COUNT = 80;
-  var stars = [];
-  var mouse = { x: -300, y: -300 };
-  var TAU = Math.PI * 2;
-  var running = true;
-  var t = 0;
-
-  function size() {
-    var rect = tank.getBoundingClientRect();
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = canvas.width = rect.width * dpr;
-    H = canvas.height = rect.height * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    W = rect.width;
-    H = rect.height;
+  function themeState() {
+    var de = document.documentElement;
+    return {
+      dark: de.getAttribute('data-theme') === 'dark',
+      scene: de.getAttribute('data-scene') || 'day'
+    };
   }
 
-  function isDark() {
-    return document.documentElement.getAttribute('data-theme') === 'dark';
+  function hsl2rgb(h, s, l, out) {
+    h = (((h % 360) + 360) % 360) / 60;
+    var c = (1 - Math.abs(2 * l - 1)) * s;
+    var x = c * (1 - Math.abs((h % 2) - 1));
+    var m = l - c / 2;
+    var r, g, b;
+    if (h < 1) { r = c; g = x; b = 0; }
+    else if (h < 2) { r = x; g = c; b = 0; }
+    else if (h < 3) { r = 0; g = c; b = x; }
+    else if (h < 4) { r = 0; g = x; b = c; }
+    else if (h < 5) { r = x; g = 0; b = c; }
+    else { r = c; g = 0; b = x; }
+    out[0] = (r + m) * 255; out[1] = (g + m) * 255; out[2] = (b + m) * 255;
   }
 
-  function initStars() {
-    stars.length = 0;
-    var dark = isDark();
-    for (var i = 0; i < COUNT; i++) {
-      stars.push({
-        x: Math.random() * (W || 1200),
-        y: Math.random() * (H || 400),
-        r: Math.random() * 1.2 + 0.3,
-        baseAlpha: dark ? Math.random() * 0.3 + 0.2 : Math.random() * 0.15 + 0.05,
-        phase: Math.random() * TAU,        // twinkle phase offset
-        speed: Math.random() * 0.02 + 0.008, // twinkle speed
-        vy: -(Math.random() * 0.15 + 0.04), // slow upward drift
-        vx: (Math.random() - 0.5) * 0.08
-      });
+  function Tank(canvas, opts) {
+    opts = opts || {};
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.cell = opts.cell || 5;
+    this.damping = opts.damping || 0.986;
+    this.sources = (opts.sources || []).slice();
+    this.interactive = opts.interactive !== false;
+    this.wantStars = !!opts.stars;
+    this.stars = null;
+    this.t = 0;
+    this.running = false;
+    this._onFrame = this._onFrame.bind(this);
+    this._onPointer = this._onPointer.bind(this);
+
+    var self = this;
+    this._resize = function () {
+      var rect = canvas.getBoundingClientRect();
+      var dpr = window.devicePixelRatio || 1;
+      var w = rect.width, h = rect.height;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      self.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      self.cols = Math.ceil(w / self.cell);
+      self.rows = Math.ceil(h / self.cell);
+      self.w = w; self.h = h;
+      self._initGrid();
+    };
+
+    this._resize();
+    window.addEventListener('resize', this._resize);
+
+    if (this.interactive) {
+      canvas.addEventListener('pointermove', this._onPointer);
+      canvas.addEventListener('pointerdown', this._onPointer);
+      canvas.addEventListener('pointerleave', function () { self._mx = self._my = -1000; });
     }
   }
 
-  tank.addEventListener('mousemove', function (e) {
-    var rect = tank.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
-  }, { passive: true });
+  Tank.prototype._initGrid = function () {
+    var cols = this.cols, rows = this.rows;
+    this.buf0 = new Float32Array(cols * rows);
+    this.buf1 = new Float32Array(cols * rows);
+    this.buf2 = new Float32Array(cols * rows);
+    for (var i = 0; i < cols * rows; i++) {
+      this.buf0[i] = this.buf1[i] = this.buf2[i] = 0;
+    }
+  };
 
-  tank.addEventListener('mouseleave', function () {
-    mouse.x = -300;
-    mouse.y = -300;
-  });
+  Tank.prototype._onPointer = function (e) {
+    var rect = this.canvas.getBoundingClientRect();
+    var cx = (e.clientX - rect.left) / this.cell;
+    var cy = (e.clientY - rect.top) / this.cell;
+    var cols = this.cols, rows = this.rows;
+    var r = 4;
+    var x0 = Math.max(0, Math.floor(cx - r)), x1 = Math.min(cols - 1, Math.ceil(cx + r));
+    var y0 = Math.max(0, Math.floor(cy - r)), y1 = Math.min(rows - 1, Math.ceil(cy + r));
+    for (var x = x0; x <= x1; x++) {
+      for (var y = y0; y <= y1; y++) {
+        var dx = x - cx, dy = y - cy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < r) {
+          var v = e.type === 'pointerdown' ? 1.8 : 0.7;
+          this.buf0[y * cols + x] = v * (1 - dist / r);
+        }
+      }
+    }
+  };
 
-  function loop() {
-    if (!running) { raf = requestAnimationFrame(loop); return; }
-    t++;
-    ctx.clearRect(0, 0, W, H);
+  Tank.prototype._onFrame = function () {
+    if (!this.running) return;
+    this.t++;
+    var cols = this.cols, rows = this.rows;
+    var b0 = this.buf0, b1 = this.buf1, b2 = this.buf2;
+    var damp = this.damping;
 
-    var dark = isDark();
-    var i, j, s, dx, dy, dist, alpha;
+    for (var y = 1; y < rows - 1; y++) {
+      for (var x = 1; x < cols - 1; x++) {
+        var i = y * cols + x;
+        b2[i] = (b0[i - 1] + b0[i + 1] + b0[i - cols] + b0[i + cols]) / 2 - b1[i];
+        b2[i] *= damp;
+      }
+    }
 
-    // Draw constellation lines first (behind stars)
-    var LINE_DIST = dark ? 130 : 100;
-    var lineAlpha = dark ? 0.06 : 0.03;
-    for (i = 0; i < stars.length; i++) {
-      for (j = i + 1; j < stars.length; j++) {
-        dx = stars[i].x - stars[j].x;
-        dy = stars[i].y - stars[j].y;
-        dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < LINE_DIST) {
-          ctx.beginPath();
-          ctx.moveTo(stars[i].x, stars[i].y);
-          ctx.lineTo(stars[j].x, stars[j].y);
-          alpha = lineAlpha * (1 - dist / LINE_DIST);
-          ctx.strokeStyle = dark
-            ? 'rgba(180,200,240,' + alpha + ')'
-            : 'rgba(196,164,90,' + alpha + ')';
-          ctx.lineWidth = 0.4;
-          ctx.stroke();
+    var tmp = b0; b0 = b1; b1 = b2; b2 = tmp;
+    this.buf0 = b0; this.buf1 = b1; this.buf2 = b2;
+    this._draw();
+    requestAnimationFrame(this._onFrame);
+  };
+
+  Tank.prototype._draw = function () {
+    var ctx = this.ctx, w = this.w, h = this.h;
+    var cols = this.cols, rows = this.rows;
+    var b1 = this.buf1, cell = this.cell;
+    var ts = themeState();
+    var dark = ts.dark, scene = ts.scene;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Subgrid rendering via ImageData for performance
+    var img = ctx.createImageData(w, h);
+    var data = img.data;
+    var rgb = [0, 0, 0];
+
+    for (var y = 0; y < rows; y++) {
+      for (var x = 0; x < cols; x++) {
+        var v = b1[y * cols + x];
+        var abs = Math.abs(v);
+        if (abs < 0.008) continue;
+
+        var px = x * cell, py = y * cell;
+        var hue = (180 + v * 800 + this.t * DRIFT) % 360;
+
+        if (dark) {
+          // Dark mode: spectral glow with lighter composite
+          var l = Math.min(abs * 5, 0.6);
+          hsl2rgb(hue, 0.7, l, rgb);
+          var alpha = Math.min(abs * 400, 200);
+          for (var dy = 0; dy < cell && (py + dy) < h; dy++) {
+            for (var dx = 0; dx < cell && (px + dx) < w; dx++) {
+              var di = ((py + dy) * w + (px + dx)) * 4;
+              data[di] = Math.min(255, data[di] + rgb[0]);
+              data[di + 1] = Math.min(255, data[di + 1] + rgb[1]);
+              data[di + 2] = Math.min(255, data[di + 2] + rgb[2]);
+              data[di + 3] = Math.min(255, data[di + 3] + alpha);
+            }
+          }
+        } else {
+          // Light mode: ink-toned subtle rings
+          var gray = Math.floor(45 + abs * 15);
+          var a2 = Math.min(abs * 60, 60);
+          for (var dy2 = 0; dy2 < cell && (py + dy2) < h; dy2++) {
+            for (var dx2 = 0; dx2 < cell && (px + dx2) < w; dx2++) {
+              var di2 = ((py + dy2) * w + (px + dx2)) * 4;
+              data[di2] = Math.min(255, data[di2] + gray);
+              data[di2 + 1] = Math.min(255, data[di2 + 1] + gray);
+              data[di2 + 2] = Math.min(255, data[di2 + 2] + gray);
+              data[di2 + 3] = Math.min(255, data[di2 + 3] + a2);
+            }
+          }
         }
       }
     }
 
-    // Draw stars
-    for (i = 0; i < stars.length; i++) {
-      s = stars[i];
+    ctx.putImageData(img, 0, 0);
 
-      // Gentle mouse attraction
-      dx = mouse.x - s.x;
-      dy = mouse.y - s.y;
-      dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 180 && dist > 0.5) {
-        var f = (1 - dist / 180) * 0.003;
-        s.vx += dx * f;
-        s.vy += dy * f * 0.5;
+    // Ambient raindrop
+    if (Math.random() < 0.015) {
+      var rx = Math.floor(Math.random() * cols);
+      var ry = Math.floor(Math.random() * rows);
+      for (var rr = -2; rr <= 2; rr++) {
+        for (var rc = -2; rc <= 2; rc++) {
+          var ri = Math.min(rows - 1, Math.max(0, ry + rr)) * cols + Math.min(cols - 1, Math.max(0, rx + rc));
+          var rd = Math.sqrt(rr * rr + rc * rc);
+          if (rd < 2.5) this.buf0[ri] = 0.6 * (1 - rd / 2.5);
+        }
       }
-
-      // Drift
-      s.x += s.vx;
-      s.y += s.vy;
-
-      // Damping
-      s.vx *= 0.999;
-      s.vy *= 0.999;
-
-      // Wrap around edges
-      if (s.x < -10) s.x = W + 10;
-      if (s.x > W + 10) s.x = -10;
-      if (s.y < -20) s.y = H + 20;
-      if (s.y > H + 20) { s.y = -20; s.x = Math.random() * W; }
-
-      // Twinkle
-      alpha = s.baseAlpha + Math.sin(t * s.speed + s.phase) * s.baseAlpha * 0.6;
-      alpha = Math.max(0.03, Math.min(0.9, alpha));
-
-      // Draw glow + core
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r * 3, 0, TAU);
-      ctx.fillStyle = dark
-        ? 'rgba(180,200,240,' + (alpha * 0.25) + ')'
-        : 'rgba(196,164,90,' + (alpha * 0.2) + ')';
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, TAU);
-      ctx.fillStyle = dark
-        ? 'rgba(220,230,255,' + alpha + ')'
-        : 'rgba(220,200,160,' + alpha + ')';
-      ctx.fill();
     }
+  };
 
-    raf = requestAnimationFrame(loop);
+  Tank.prototype.start = function () {
+    if (this.running) return;
+    this.running = true;
+    this._onFrame();
+  };
+
+  Tank.prototype.stop = function () {
+    this.running = false;
+  };
+
+  // Boot
+  var tankEl = document.getElementById('rippleTank');
+  if (tankEl) {
+    var tank = new Tank(tankEl, { stars: true });
+    tank.start();
+    window.addEventListener('beforeunload', function () { tank.stop(); });
+    if (document.addEventListener) {
+      document.addEventListener('visibilitychange', function () {
+        document.hidden ? tank.stop() : tank.start();
+      });
+    }
   }
 
-  // Pause when tab hidden
-  document.addEventListener('visibilitychange', function () {
-    running = !document.hidden;
-  });
-
-  size();
-  initStars();
-  loop();
-
-  // Resize
-  var resizeTimer;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () {
-      size();
-      initStars();
-    }, 300);
-  }, { passive: true });
-
-  // Watch theme changes (dark/light switching)
-  var observer = new MutationObserver(function () {
-    initStars();
-  });
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  // Expose for lab page
+  window.SpectrumRipple = Tank;
 })();
