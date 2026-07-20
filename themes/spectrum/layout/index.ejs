@@ -1,7 +1,7 @@
 <% if (page.current === 1) { %>
 <section class="hero">
   <div class="hero-text">
-    <h1 class="hero-title"><%= theme.hero.title %></h1>
+    <h1 class="hero-title gradient-title"><%= theme.hero.title %></h1>
     <p class="hero-subtitle"><%= theme.hero.subtitle %></p>
     <p class="hero-note"><%= theme.hero.note %></p>
   </div>
@@ -10,13 +10,27 @@
     <p class="hero-hint no-js-hide">— 涟漪池 · 触碰水面 —</p>
   </div>
 </section>
+
+<section class="on-this-day" id="on-this-day" aria-label="那年今日">
+  <header class="otd-head">
+    <h2 class="otd-title">那年今日</h2>
+    <span class="otd-date" id="otdDate"></span>
+    <span class="otd-note" id="otdNote"></span>
+  </header>
+  <ul class="otd-list" id="otdList">
+    <li class="otd-empty">时光打捞中……</li>
+  </ul>
+</section>
+<script>window.SPECTRUM_OTD = { url: '<%- url_for('/on-this-day-data.json') %>' };</script>
+<script src="<%- url_for('/js/on-this-day.js') %>" defer></script>
 <script src="<%- url_for('/js/ripple.js') %>" defer></script>
 <% } %>
 
 <section class="feed" aria-label="文章列表">
   <% page.posts.each(function (post) { %>
     <% var cat = (post.categories.toArray() || [])[0]; %>
-    <article class="feed-item">
+    <% var ckey = cat ? catColorKey(cat.name) : 'blue'; %>
+    <article class="feed-item fc-<%= ckey %>">
       <a class="feed-date" href="<%- url_for(post.path) %>">
         <span class="feed-day"><%= post.date.format('DD') %></span>
         <span class="feed-ym"><%= post.date.format('YYYY · MM') %></span>

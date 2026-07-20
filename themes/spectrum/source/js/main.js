@@ -2,14 +2,18 @@
 (function () {
   'use strict';
 
-  /* ---- 明暗主题切换 ---- */
+  /* ---- 明暗主题切换（接入四时场景：会话内手动选择优先） ---- */
   var toggle = document.getElementById('themeToggle');
   if (toggle) {
     toggle.addEventListener('click', function () {
       var root = document.documentElement;
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('spectrum-theme', next); } catch (e) {}
+      if (window.SpectrumScenes && window.SpectrumScenes.setManual) {
+        window.SpectrumScenes.setManual(next);
+      } else {
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('spectrum-theme', next); } catch (e) {}
+      }
     });
   }
 

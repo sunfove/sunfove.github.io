@@ -1,22 +1,39 @@
-/* Spectrum · 涟漪池引擎（波动方程近似，双缓冲，DPR 感知）
-   首页 Hero 与实验室双缝干涉共用。 */
+/* Spectrum · 涟漪池引擎 v2（波动方程近似 + 色散光谱环 + 子夜星野）
+   色散（dispersion）：每个涟漪环拆为 3 个光谱通道，沿传播方向取微小半径偏移，
+   色相随环龄（波场相位 + 时间）缓慢漂移；暗房用 'lighter' 加色混合，稿纸用法线 alpha。
+   首页 Hero 与实验室双缝干涉共用。纯 Canvas 2D，无依赖。 */
 (function () {
   'use strict';
 
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var PALETTE = [
-    [182, 1, 85],    /* red    */
-    [223, 101, 54],  /* amber  */
-    [235, 177, 55],  /* yellow */
-    [44, 100, 105],  /* green  */
-    [8, 145, 178],   /* cyan   */
-    [37, 99, 235],   /* blue   */
-    [109, 40, 217]   /* violet */
-  ];
+  /* 色散参数 */
+  var SPREAD = 34;    /* 色散通道间色相角距（度） */
+  var DRIFT = 0.10;   /* 色相随环龄漂移速度（度/帧） */
+  var CH_OFF = 1.7;   /* 色散通道半径偏移（网格单元） */
 
-  function isDark() {
-    return document.documentElement.getAttribute('data-theme') === 'dark';
+  function themeState() {
+    var de = document.documentElement;
+    return {
+      dark: de.getAttribute('data-theme') === 'dark',
+      scene: de.getAttribute('data-scene') || 'day'
+    };
+  }
+
+  /* h: 度, s/l: 0-1 → out = [r,g,b] 0-255 */
+  function hsl2rgb(h, s, l, out) {
+    h = (((h % 360) + 360) % 360) / 60;
+    var c = (1 - Math.abs(2 * l - 1)) * s;
+    var x = c * (1 - Math.abs((h % 2) - 1));
+    var m = l - c / 2;
+    var r, g, b;
+    if (h < 1) { r = c; g = x; b = 0; }
+    else if (h < 2) { r = x; g = c; b = 0; }
+    else if (h < 3) { r = 0; g = c; b = x; }
+    else if (h < 4) { r = 0; g = x; b = c; }
+    else if (h < 5) { r = x; g = 0; b = c; }
+    else { r = c; g = 0; b = x; }
+    out[0] = (r + m) * 255; out[1] = (g + m) * 255; out[2] = (b + m) * 255;
   }
 
   function Tank(canvas, opts) {
@@ -27,6 +44,8 @@
     this.damping = opts.damping || 0.986;
     this.sources = (opts.sources || []).slice();
     this.interactive = opts.interactive !== false;
+    this.wantStars = !!opts.stars;          /* 子夜星野（仅 Hero 开启） */
+    this.stars = null;
     this.t = 0;
     this.running = false;
     this.visible = true;
@@ -42,6 +61,7 @@
     if (this.interactive && !REDUCED) this._bindPointer();
 
     if (opts.rain && !REDUCED) this._rain();
+    if (opts.ambient && !REDUCED) this._ambientRain();
 
     if (REDUCED) {
       /* 动效降级：画一帧静态同心环后停止 */
@@ -66,6 +86,35 @@
     this.off.width = this.w;
     this.off.height = this.h;
     this.img = this.offCtx.createImageData(this.w, this.h);
+    if (this.wantStars) this._makeStars();
+  };
+
+  /* 子夜星野：静态小星，无视差，随画布尺寸重建 */
+  Tank.prototype._makeStars = function () {
+    var cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
+    var n = Math.max(24, Math.min(150, Math.round(cw * ch / 9000)));
+    this.stars = [];
+    for (var i = 0; i < n; i++) {
+      this.stars.push({
+        x: Math.random() * cw,
+        y: Math.random() * ch * 0.9,
+        r: 0.4 + Math.random() * 0.9,
+        a: 0.18 + Math.random() * 0.5
+      });
+    }
+  };
+
+  Tank.prototype._drawStars = function (ctx) {
+    var s = this.stars;
+    if (!s) return;
+    ctx.fillStyle = '#e8e2d4';
+    for (var i = 0; i < s.length; i++) {
+      ctx.globalAlpha = s[i].a;
+      ctx.beginPath();
+      ctx.arc(s[i].x, s[i].y, s[i].r, 0, 6.2832);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
   };
 
   Tank.prototype._bindPointer = function () {
@@ -108,16 +157,27 @@
 
   Tank.prototype._rain = function () {
     var self = this;
-    var drops = 4 + Math.floor(Math.random() * 2);
+    var drops = 5 + Math.floor(Math.random() * 3);
     for (var i = 0; i < drops; i++) {
       (function (i) {
         setTimeout(function () {
           var gx = Math.round(self.w * (0.15 + Math.random() * 0.7));
           var gy = Math.round(self.h * (0.25 + Math.random() * 0.5));
           self.disturb(gx, gy, 5, 3);
-        }, 350 + i * 420 + Math.random() * 250);
+        }, 350 + i * 380 + Math.random() * 220);
       })(i);
     }
+  };
+
+  /* 环境雨滴：Hero 常开，保持水面生气 */
+  Tank.prototype._ambientRain = function () {
+    var self = this;
+    setInterval(function () {
+      if (!self.visible || !self.running || !self.w) return;
+      var gx = Math.round(self.w * (0.08 + Math.random() * 0.84));
+      var gy = Math.round(self.h * (0.15 + Math.random() * 0.7));
+      self.disturb(gx, gy, 3.2 + Math.random() * 2.4, 3);
+    }, 3400);
   };
 
   Tank.prototype._observe = function () {
@@ -171,35 +231,72 @@
     this.t += 1;
   };
 
+  /* 在（小数）网格坐标处取波场梯度幅值，供色散通道做半径偏移采样 */
+  Tank.prototype._magAt = function (fx, fy) {
+    var w = this.w, h = this.h, cur = this.cur;
+    var x = Math.round(fx), y = Math.round(fy);
+    if (x < 1) x = 1; else if (x > w - 2) x = w - 2;
+    if (y < 1) y = 1; else if (y > h - 2) y = h - 2;
+    var i = y * w + x;
+    return Math.abs(cur[i + 1] - cur[i - 1]) + Math.abs(cur[i + w] - cur[i - w]);
+  };
+
   Tank.prototype._render = function () {
     var w = this.w, h = this.h, cur = this.cur, data = this.img.data;
-    var dark = isDark();
+    var st = themeState();
+    var dark = st.dark;
+    var t = this.t;
+    var sat = dark ? 0.85 : 0.62;
+    var lum = dark ? 0.60 : 0.40;
+    var rgb = [0, 0, 0];
     for (var y = 1; y < h - 1; y++) {
       var row = y * w;
       for (var x = 1; x < w - 1; x++) {
         var i = row + x;
+        var o = i * 4;
         var gx = cur[i + 1] - cur[i - 1];
         var gy = cur[i + w] - cur[i - w];
         var mag = Math.abs(gx) + Math.abs(gy);
+        if (mag < 0.02) { data[o + 3] = 0; continue; }
         var a = Math.min(1, mag * 1.4);
-        var o = i * 4;
-        if (dark) {
-          /* 暗房：微光光谱色，按相位选色 */
-          var c = PALETTE[((cur[i] > 0 ? 5 : 6) + (x % 3)) % PALETTE.length];
-          data[o] = c[0]; data[o + 1] = c[1]; data[o + 2] = c[2];
-          data[o + 3] = Math.round(a * 110);
-        } else {
-          /* 稿纸：墨色细环 */
-          data[o] = 62; data[o + 1] = 56; data[o + 2] = 50;
-          data[o + 3] = Math.round(a * 90);
+        /* 传播方向（沿波前法线） */
+        var len = Math.sqrt(gx * gx + gy * gy) || 1;
+        var dx = gx / len, dy = gy / len;
+        /* 色散：外缘 / 内缘两个半径偏移通道 */
+        var aO = Math.min(1, this._magAt(x + dx * CH_OFF, y + dy * CH_OFF) * 1.4);
+        var aI = Math.min(1, this._magAt(x - dx * CH_OFF, y - dy * CH_OFF) * 1.4);
+        /* 色相：波场相位 + 时间漂移——环越老，色越偏 */
+        var hue = cur[i] * 24 + t * DRIFT;
+        /* 三个光谱通道合成 */
+        var R = 0, G = 0, B = 0;
+        hsl2rgb(hue + SPREAD, sat, lum, rgb);
+        R += rgb[0] * aO; G += rgb[1] * aO; B += rgb[2] * aO;
+        hsl2rgb(hue, sat, lum, rgb);
+        R += rgb[0] * a; G += rgb[1] * a; B += rgb[2] * a;
+        hsl2rgb(hue - SPREAD, sat, lum, rgb);
+        R += rgb[0] * aI; G += rgb[1] * aI; B += rgb[2] * aI;
+        if (!dark) {
+          /* 稿纸：光谱与墨色混合，保持纸面克制 */
+          R = R * 0.6 + 62 * 0.4; G = G * 0.6 + 56 * 0.4; B = B * 0.6 + 50 * 0.4;
         }
+        var aMax = Math.max(a, aO, aI);
+        data[o] = R > 255 ? 255 : R;
+        data[o + 1] = G > 255 ? 255 : G;
+        data[o + 2] = B > 255 ? 255 : B;
+        data[o + 3] = Math.round(aMax * (dark ? 150 : 100));
       }
     }
     this.offCtx.putImageData(this.img, 0, 0);
     var cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
-    this.ctx.clearRect(0, 0, cw, ch);
-    this.ctx.imageSmoothingEnabled = true;
-    this.ctx.drawImage(this.off, 0, 0, w, h, 0, 0, cw, ch);
+    var ctx = this.ctx;
+    ctx.clearRect(0, 0, cw, ch);
+    /* 子夜：星野衬底 */
+    if (this.wantStars && dark && st.scene === 'midnight') this._drawStars(ctx);
+    /* 暗房：加色混合，涟漪如微光叠加于星野之上 */
+    ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over';
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(this.off, 0, 0, w, h, 0, 0, cw, ch);
+    ctx.globalCompositeOperation = 'source-over';
   };
 
   Tank.prototype._frame = function () {
@@ -228,9 +325,9 @@
 
   window.SpectrumRipple = { mount: function (canvas, opts) { return new Tank(canvas, opts); } };
 
-  /* 首页 Hero 自动挂载 */
+  /* 首页 Hero 自动挂载（环境雨滴 + 子夜星野） */
   var hero = document.getElementById('rippleTank');
   if (hero) {
-    window.SpectrumRipple.mount(hero, { rain: true, interactive: true, cell: 5 });
+    window.SpectrumRipple.mount(hero, { rain: true, ambient: true, stars: true, interactive: true, cell: 5 });
   }
 })();
