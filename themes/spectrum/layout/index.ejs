@@ -11,19 +11,6 @@
   </div>
 </section>
 
-<section class="on-this-day" id="on-this-day" aria-label="那年今日">
-  <header class="otd-head">
-    <h2 class="otd-title">那年今日</h2>
-    <span class="otd-date" id="otdDate"></span>
-    <span class="otd-note" id="otdNote"></span>
-  </header>
-  <ul class="otd-list" id="otdList">
-    <li class="otd-empty">时光打捞中……</li>
-  </ul>
-</section>
-
-<script>window.SPECTRUM_OTD = { url: '<%- url_for('/on-this-day-data.json') %>' };</script>
-<script src="<%- url_for('/js/on-this-day.js') %>" defer></script>
 <script src="<%- url_for('/js/ripple.js') %>" defer></script>
 <% } %>
 
