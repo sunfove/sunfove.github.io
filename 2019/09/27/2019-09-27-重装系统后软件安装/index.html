@@ -10,7 +10,7 @@
 
 <title>重装系统后软件安装 · 时间帧</title>
 <meta name="description" content="重装系统后常用软件安装参考。 待卸装软件 使用助手 office onedrive 反馈中心 电影和电视 移动套餐 skype 基本设置 进入设置–&amp;gt;主题–&amp;gt;添加桌面图标，将计算机添加到桌面，并重命名 桌面任务栏设置，小任务栏按钮 更改账户设置–&amp;gt;改用Microsoft账户登录 待安装软件 输入法：搜">
-<meta name="author" content="Sunfove">
+<meta name="author" content="Time Frame">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://time-frame.cloud/2019/09/27/2019-09-27-%E9%87%8D%E8%A3%85%E7%B3%BB%E7%BB%9F%E5%90%8E%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/">
 
@@ -39,9 +39,9 @@
   "description": "重装系统后常用软件安装参考。 待卸装软件 使用助手 office onedrive 反馈中心 电影和电视 移动套餐 skype 基本设置 进入设置–&gt;主题–&gt;添加桌面图标，将计算机添加到桌面，并重命名 桌面任务栏设置，小任务栏按钮 更改账户设置–&gt;改用Microsoft账户登录 待安装软件 输入法：搜",
   "url": "https://time-frame.cloud/2019/09/27/2019-09-27-%E9%87%8D%E8%A3%85%E7%B3%BB%E7%BB%9F%E5%90%8E%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/",
   "datePublished": "2019-09-27T15:48:58.000Z",
-  "dateModified": "2026-07-21T03:39:34.575Z",
-  "author": { "@type": "Person", "name": "Sunfove" },
-  "publisher": { "@type": "Person", "name": "Sunfove" },
+  "dateModified": "2026-07-21T13:13:28.293Z",
+  "author": { "@type": "Person", "name": "Time Frame" },
+  "publisher": { "@type": "Person", "name": "Time Frame" },
   "inLanguage": "zh-CN"
 }
 </script>
@@ -78,24 +78,12 @@
 <script>
 (function () {
   try {
-    var h = new Date().getHours();
-    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
-    var manual = false, saved = null;
-    try {
-      manual = sessionStorage.getItem('spectrum-manual') === '1';
-      saved = localStorage.getItem('spectrum-theme');
-    } catch (e2) {}
-    var dark;
-    if (manual && saved) dark = saved === 'dark';
-    else if (scene === 'midnight') dark = true;
-    else if (saved) dark = saved === 'dark';
-    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var saved = localStorage.getItem('spectrum-theme');
+    var dark = saved === 'dark';
     var de = document.documentElement;
     de.setAttribute('data-theme', dark ? 'dark' : 'light');
-    de.setAttribute('data-scene', scene);
   } catch (e) {
     document.documentElement.setAttribute('data-theme', 'light');
-    document.documentElement.setAttribute('data-scene', 'day');
   }
 })();
 </script>
@@ -103,6 +91,7 @@
 
 <meta name="generator" content="Hexo 8.1.1"></head>
 <body class="">
+  <canvas id="particleBg" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-nav" id="siteNav">
   <div class="nav-inner">
@@ -170,7 +159,7 @@
     <h1 class="post-title" itemprop="headline">重装系统后软件安装</h1>
     <p class="post-byline">
       <time datetime="2019-09-27T15:48:58.000Z" itemprop="datePublished">2019年9月27日</time>
-      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Sunfove</span></span>
+      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Time Frame</span></span>
     </p>
     <hr class="post-rule">
   </header>
@@ -313,7 +302,7 @@
     <div class="footer-col">
       <h4>关于</h4>
       <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
-      <p class="footer-dim">&copy; 2026 Sunfove · 时间帧</p>
+      <p class="footer-dim">&copy; 2026 Time Frame · 时间帧</p>
       <p class="footer-dim"><a href="/sitemap.xml">Sitemap</a> · <a href="/atom.xml">RSS</a></p>
     </div>
     <div class="footer-col">
@@ -334,10 +323,8 @@
   <div class="footer-line" aria-hidden="true"></div>
 </footer>
 
-  <!-- Theme scripts: order matters -->
-  <script src="/js/scenes.js" defer></script>
+  <script src="/js/ripple.js" defer></script>
   <script src="/js/main.js" defer></script>
-  <!-- Performance enhancements: reading progress, lazy loading, reveal animations, back-to-top -->
   <script src="/js/performance.js" defer></script>
   
     

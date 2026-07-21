@@ -10,7 +10,7 @@
 
 <title>CPO vs 可插拔光模块：系统级互连架构的深度对比 · 时间帧</title>
 <meta name="description" content="一、为什么需要做这个对比在讨论光电共封装（CPO）时，经常会出现一种误解： CPO 是“更先进的光模块”，可插拔光模块是“即将被淘汰的方案”。 这是一个典型的认知偏差。 事实上，CPO 与可插拔光模块并不是简单的“新旧替代关系”，而是针对不同系统约束条件所做出的两种架构选择。 要理解它们的本质差异，必须站在系统层级而非">
-<meta name="author" content="Sunfove">
+<meta name="author" content="Time Frame">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://time-frame.cloud/2026/01/17/2026-01-18-%20CPO%20vs%20%E5%8F%AF%E6%8F%92%E6%8B%94%E5%85%89%E6%A8%A1%E5%9D%97/">
 
@@ -39,9 +39,9 @@
   "description": "一、为什么需要做这个对比在讨论光电共封装（CPO）时，经常会出现一种误解： CPO 是“更先进的光模块”，可插拔光模块是“即将被淘汰的方案”。 这是一个典型的认知偏差。 事实上，CPO 与可插拔光模块并不是简单的“新旧替代关系”，而是针对不同系统约束条件所做出的两种架构选择。 要理解它们的本质差异，必须站在系统层级而非",
   "url": "https://time-frame.cloud/2026/01/17/2026-01-18-%20CPO%20vs%20%E5%8F%AF%E6%8F%92%E6%8B%94%E5%85%89%E6%A8%A1%E5%9D%97/",
   "datePublished": "2026-01-17T16:00:00.000Z",
-  "dateModified": "2026-07-21T03:39:34.581Z",
-  "author": { "@type": "Person", "name": "Sunfove" },
-  "publisher": { "@type": "Person", "name": "Sunfove" },
+  "dateModified": "2026-07-21T13:13:28.297Z",
+  "author": { "@type": "Person", "name": "Time Frame" },
+  "publisher": { "@type": "Person", "name": "Time Frame" },
   "inLanguage": "zh-CN"
 }
 </script>
@@ -78,24 +78,12 @@
 <script>
 (function () {
   try {
-    var h = new Date().getHours();
-    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
-    var manual = false, saved = null;
-    try {
-      manual = sessionStorage.getItem('spectrum-manual') === '1';
-      saved = localStorage.getItem('spectrum-theme');
-    } catch (e2) {}
-    var dark;
-    if (manual && saved) dark = saved === 'dark';
-    else if (scene === 'midnight') dark = true;
-    else if (saved) dark = saved === 'dark';
-    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var saved = localStorage.getItem('spectrum-theme');
+    var dark = saved === 'dark';
     var de = document.documentElement;
     de.setAttribute('data-theme', dark ? 'dark' : 'light');
-    de.setAttribute('data-scene', scene);
   } catch (e) {
     document.documentElement.setAttribute('data-theme', 'light');
-    document.documentElement.setAttribute('data-scene', 'day');
   }
 })();
 </script>
@@ -103,6 +91,7 @@
 
 <meta name="generator" content="Hexo 8.1.1"></head>
 <body class="">
+  <canvas id="particleBg" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-nav" id="siteNav">
   <div class="nav-inner">
@@ -170,7 +159,7 @@
     <h1 class="post-title" itemprop="headline">CPO vs 可插拔光模块：系统级互连架构的深度对比</h1>
     <p class="post-byline">
       <time datetime="2026-01-17T16:00:00.000Z" itemprop="datePublished">2026年1月18日</time>
-      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Sunfove</span></span>
+      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Time Frame</span></span>
     </p>
     <hr class="post-rule">
   </header>
@@ -372,8 +361,8 @@ PCB 走线 + 连接器
         </div>
         
         <nav class="post-nav" aria-label="上下篇导航">
-          <a class="post-nav-link" href="/2026/01/17/2026-01-18-%20CPO%E6%9C%AC%E8%B4%A8%E9%97%AE%E9%A2%98/">← 为什么说 CPO 的本质问题不是“光”，而是“电”</a>
-          <a class="post-nav-link is-next" href="/2026/01/17/2026-01-18-python-oop-complete/">Python 面向对象编程：从过程式思维到对象模型 →</a>
+          <a class="post-nav-link" href="/2026/01/18/2026-01-19-building-2048-with-matrix-logic/">← 方格中的混沌与秩序：用线性代数思想构建 2048 游戏引擎</a>
+          <a class="post-nav-link is-next" href="/2026/01/17/2026-01-18-%20CPO%E6%9C%AC%E8%B4%A8%E9%97%AE%E9%A2%98/">为什么说 CPO 的本质问题不是“光”，而是“电” →</a>
         </nav>
         
       </footer>
@@ -396,9 +385,9 @@ PCB 走线 + 连接器
           <h4>相关文章</h4>
           <ul class="related-list">
             
-              <li><a href="/2026/01/17/2026-01-18-cpo/">光电共封装（CPO）：突破算力互连瓶颈的关键架构</a></li>
-            
               <li><a href="/2026/01/17/2026-01-18-%20CPO%E6%9C%AC%E8%B4%A8%E9%97%AE%E9%A2%98/">为什么说 CPO 的本质问题不是“光”，而是“电”</a></li>
+            
+              <li><a href="/2026/01/17/2026-01-18-cpo/">光电共封装（CPO）：突破算力互连瓶颈的关键架构</a></li>
             
           </ul>
         
@@ -413,7 +402,7 @@ PCB 走线 + 连接器
     <div class="footer-col">
       <h4>关于</h4>
       <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
-      <p class="footer-dim">&copy; 2026 Sunfove · 时间帧</p>
+      <p class="footer-dim">&copy; 2026 Time Frame · 时间帧</p>
       <p class="footer-dim"><a href="/sitemap.xml">Sitemap</a> · <a href="/atom.xml">RSS</a></p>
     </div>
     <div class="footer-col">
@@ -434,10 +423,8 @@ PCB 走线 + 连接器
   <div class="footer-line" aria-hidden="true"></div>
 </footer>
 
-  <!-- Theme scripts: order matters -->
-  <script src="/js/scenes.js" defer></script>
+  <script src="/js/ripple.js" defer></script>
   <script src="/js/main.js" defer></script>
-  <!-- Performance enhancements: reading progress, lazy loading, reveal animations, back-to-top -->
   <script src="/js/performance.js" defer></script>
   
     

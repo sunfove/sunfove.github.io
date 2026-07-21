@@ -9,8 +9,8 @@
 
 
 <title>Hexo搭建个人博客 · 时间帧</title>
-<meta name="description" content="个人网站：https://sunfove.xyz HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexojs/he">
-<meta name="author" content="Sunfove">
+<meta name="description" content="个人网站：https://time-frame.cloud HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexo">
+<meta name="author" content="Time Frame">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://time-frame.cloud/2019/09/24/2019-09-24-Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
 
@@ -19,14 +19,14 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:site_name" content="时间帧">
 <meta property="og:title" content="Hexo搭建个人博客">
-<meta property="og:description" content="个人网站：https://sunfove.xyz HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexojs/he">
+<meta property="og:description" content="个人网站：https://time-frame.cloud HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexo">
 <meta property="og:url" content="https://time-frame.cloud/2019/09/24/2019-09-24-Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
 
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hexo搭建个人博客">
-<meta name="twitter:description" content="个人网站：https://sunfove.xyz HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexojs/he">
+<meta name="twitter:description" content="个人网站：https://time-frame.cloud HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexo">
 
 
 
@@ -36,12 +36,12 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Hexo搭建个人博客",
-  "description": "个人网站：https://sunfove.xyz HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexojs/he",
+  "description": "个人网站：https://time-frame.cloud HexoHexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。hexo官网： http://hexo.iogithub: https://github.com/hexo",
   "url": "https://time-frame.cloud/2019/09/24/2019-09-24-Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/",
   "datePublished": "2019-09-24T13:25:53.000Z",
-  "dateModified": "2026-07-21T03:39:34.575Z",
-  "author": { "@type": "Person", "name": "Sunfove" },
-  "publisher": { "@type": "Person", "name": "Sunfove" },
+  "dateModified": "2026-07-21T13:13:28.293Z",
+  "author": { "@type": "Person", "name": "Time Frame" },
+  "publisher": { "@type": "Person", "name": "Time Frame" },
   "inLanguage": "zh-CN"
 }
 </script>
@@ -78,24 +78,12 @@
 <script>
 (function () {
   try {
-    var h = new Date().getHours();
-    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
-    var manual = false, saved = null;
-    try {
-      manual = sessionStorage.getItem('spectrum-manual') === '1';
-      saved = localStorage.getItem('spectrum-theme');
-    } catch (e2) {}
-    var dark;
-    if (manual && saved) dark = saved === 'dark';
-    else if (scene === 'midnight') dark = true;
-    else if (saved) dark = saved === 'dark';
-    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var saved = localStorage.getItem('spectrum-theme');
+    var dark = saved === 'dark';
     var de = document.documentElement;
     de.setAttribute('data-theme', dark ? 'dark' : 'light');
-    de.setAttribute('data-scene', scene);
   } catch (e) {
     document.documentElement.setAttribute('data-theme', 'light');
-    document.documentElement.setAttribute('data-scene', 'day');
   }
 })();
 </script>
@@ -103,6 +91,7 @@
 
 <meta name="generator" content="Hexo 8.1.1"></head>
 <body class="">
+  <canvas id="particleBg" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-nav" id="siteNav">
   <div class="nav-inner">
@@ -170,7 +159,7 @@
     <h1 class="post-title" itemprop="headline">Hexo搭建个人博客</h1>
     <p class="post-byline">
       <time datetime="2019-09-24T13:25:53.000Z" itemprop="datePublished">2019年9月24日</time>
-      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Sunfove</span></span>
+      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Time Frame</span></span>
     </p>
     <hr class="post-rule">
   </header>
@@ -188,7 +177,7 @@
     <div class="post-body">
       
       <div class="post-content" id="postContent" itemprop="articleBody">
-        <p>个人网站：<a target="_blank" rel="noopener" href="https://sunfove.xyz/">https://sunfove.xyz</a></p>
+        <p>个人网站：<a href="https://time-frame.cloud/">https://time-frame.cloud</a></p>
 <h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。<br>hexo官网： <a target="_blank" rel="noopener" href="http://hexo.io/">http://hexo.io</a><br>github: <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo">https://github.com/hexojs/hexo</a><span id="more"></span></p>
 <h3 id="hexo优势"><a href="#hexo优势" class="headerlink" title="hexo优势"></a>hexo优势</h3><p>由于github pages存放的都是静态文件，hexo所做的就是将md文件都放在本地，每次写完文章后调用写好的命令来批量完成相关页面的生成，然后再将有改动的页面提交到github。<br>hexo具有以下特点：</p>
 <blockquote>
@@ -240,7 +229,7 @@
 <h2 id="Next主题修改"><a href="#Next主题修改" class="headerlink" title="Next主题修改"></a>Next主题修改</h2><h3 id="Next安装"><a href="#Next安装" class="headerlink" title="Next安装"></a>Next安装</h3><p>安装next主题：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd hexo</span><br><span class="line">$ git clone https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
 <h3 id="语言修改"><a href="#语言修改" class="headerlink" title="语言修改"></a>语言修改</h3><p>在站点文件_config.yml中查找language并将en修改为简体中文（zh-CN）：</p>
-<figure class="highlight plaintext"><figcaption><span>Site</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title: 明明如月</span><br><span class="line">subtitle:</span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">author: sunfove</span><br><span class="line">language: zh-CN //语言名称要写对</span><br><span class="line">timezone:</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><figcaption><span>Site</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title: 明明如月</span><br><span class="line">subtitle:</span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">author: Time Frame</span><br><span class="line">language: zh-CN //语言名称要写对</span><br><span class="line">timezone:</span><br></pre></td></tr></table></figure>
 <p>注意更改的语言名称要写对，具体查看主题文件夹下的language文件夹中的名称。</p>
 <h3 id="新建带日期格式的博文"><a href="#新建带日期格式的博文" class="headerlink" title="新建带日期格式的博文"></a>新建带日期格式的博文</h3><p>使用hexo new post “博文名称”生成的博文以博文名称生成文件，当文件太多时不便于管理查看，生成yyyy-MM-dd-博文名称的名称有助于我们管理自己的博文。<br>在站点文件_config.yml中设置博客生成名称:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Writing</span><br><span class="line">new_post_name: :year-:month-:day-:title.md # File name of new posts </span><br></pre></td></tr></table></figure>
@@ -445,7 +434,7 @@
             <dt>标签</dt>
             <dd><a href="/tags/hexo/">hexo</a> · <a href="/tags/%E6%8A%80%E8%83%BD/">技能</a> · <a href="/tags/%E5%85%B4%E8%B6%A3/">兴趣</a></dd>
           
-          <dt>字数</dt><dd>5644</dd>
+          <dt>字数</dt><dd>5646</dd>
           <dt>阅读</dt><dd>约 19 分钟</dd>
         </dl>
         
@@ -471,7 +460,7 @@
     <div class="footer-col">
       <h4>关于</h4>
       <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
-      <p class="footer-dim">&copy; 2026 Sunfove · 时间帧</p>
+      <p class="footer-dim">&copy; 2026 Time Frame · 时间帧</p>
       <p class="footer-dim"><a href="/sitemap.xml">Sitemap</a> · <a href="/atom.xml">RSS</a></p>
     </div>
     <div class="footer-col">
@@ -492,10 +481,8 @@
   <div class="footer-line" aria-hidden="true"></div>
 </footer>
 
-  <!-- Theme scripts: order matters -->
-  <script src="/js/scenes.js" defer></script>
+  <script src="/js/ripple.js" defer></script>
   <script src="/js/main.js" defer></script>
-  <!-- Performance enhancements: reading progress, lazy loading, reveal animations, back-to-top -->
   <script src="/js/performance.js" defer></script>
   
     

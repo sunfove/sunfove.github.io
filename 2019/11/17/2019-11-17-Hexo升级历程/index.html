@@ -10,7 +10,7 @@
 
 <title>Hexo升级历程 · 时间帧</title>
 <meta name="description" content="从2019年9月下旬突然想要创建自己的网站，发现可以通过hexo便捷地搭建自己的网站，这里记录了hexo的升级之路。 hexo 1 初始版hexo，主题为默认的landscape hexo 2 hexo 2.0hexo 2.1 更换hexo主题，更换为next主题 将hexo部署到github上 将github的静态网">
-<meta name="author" content="Sunfove">
+<meta name="author" content="Time Frame">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://time-frame.cloud/2019/11/17/2019-11-17-Hexo%E5%8D%87%E7%BA%A7%E5%8E%86%E7%A8%8B/">
 
@@ -39,9 +39,9 @@
   "description": "从2019年9月下旬突然想要创建自己的网站，发现可以通过hexo便捷地搭建自己的网站，这里记录了hexo的升级之路。 hexo 1 初始版hexo，主题为默认的landscape hexo 2 hexo 2.0hexo 2.1 更换hexo主题，更换为next主题 将hexo部署到github上 将github的静态网",
   "url": "https://time-frame.cloud/2019/11/17/2019-11-17-Hexo%E5%8D%87%E7%BA%A7%E5%8E%86%E7%A8%8B/",
   "datePublished": "2019-11-17T13:15:25.000Z",
-  "dateModified": "2026-07-21T03:39:34.575Z",
-  "author": { "@type": "Person", "name": "Sunfove" },
-  "publisher": { "@type": "Person", "name": "Sunfove" },
+  "dateModified": "2026-07-21T13:13:28.293Z",
+  "author": { "@type": "Person", "name": "Time Frame" },
+  "publisher": { "@type": "Person", "name": "Time Frame" },
   "inLanguage": "zh-CN"
 }
 </script>
@@ -78,24 +78,12 @@
 <script>
 (function () {
   try {
-    var h = new Date().getHours();
-    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
-    var manual = false, saved = null;
-    try {
-      manual = sessionStorage.getItem('spectrum-manual') === '1';
-      saved = localStorage.getItem('spectrum-theme');
-    } catch (e2) {}
-    var dark;
-    if (manual && saved) dark = saved === 'dark';
-    else if (scene === 'midnight') dark = true;
-    else if (saved) dark = saved === 'dark';
-    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var saved = localStorage.getItem('spectrum-theme');
+    var dark = saved === 'dark';
     var de = document.documentElement;
     de.setAttribute('data-theme', dark ? 'dark' : 'light');
-    de.setAttribute('data-scene', scene);
   } catch (e) {
     document.documentElement.setAttribute('data-theme', 'light');
-    document.documentElement.setAttribute('data-scene', 'day');
   }
 })();
 </script>
@@ -103,6 +91,7 @@
 
 <meta name="generator" content="Hexo 8.1.1"></head>
 <body class="">
+  <canvas id="particleBg" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-nav" id="siteNav">
   <div class="nav-inner">
@@ -170,7 +159,7 @@
     <h1 class="post-title" itemprop="headline">Hexo升级历程</h1>
     <p class="post-byline">
       <time datetime="2019-11-17T13:15:25.000Z" itemprop="datePublished">2019年11月17日</time>
-      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Sunfove</span></span>
+      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Time Frame</span></span>
     </p>
     <hr class="post-rule">
   </header>
@@ -195,7 +184,7 @@
 <h2 id="hexo-2"><a href="#hexo-2" class="headerlink" title=" hexo 2 "></a><center style="color: red"> hexo 2 </center></h2><div class="tabs"><input type="radio" name="tabs-1" id="tabs-1-0" class="tabs-radio" checked><input type="radio" name="tabs-1" id="tabs-1-1" class="tabs-radio"><label for="tabs-1-0" class="tabs-label">hexo 2.0</label><label for="tabs-1-1" class="tabs-label">hexo 2.1</label><div class="tabs-pane"><ul>
 <li><strong>更换hexo主题，更换为next主题</strong></li>
 <li><strong>将hexo部署到github上</strong></li>
-<li><strong>将github的静态网页解析到个人域名sunfove.xyz上</strong><br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/hexo%E5%8D%87%E7%BA%A72.png" alt="hexo 2.0"></li>
+<li><strong>将github的静态网页解析到个人域名上</strong><br><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/hexo%E5%8D%87%E7%BA%A72.png" alt="hexo 2.0"></li>
 </ul>
 <div class="note note-primary"><p>百度网盘：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1vhouqz8r35yIGcxupCt-Zg">https://pan.baidu.com/s/1vhouqz8r35yIGcxupCt-Zg</a><br>提取码：ppaj </p>
 </div></div><div class="tabs-pane"><ul>
@@ -249,7 +238,7 @@
             <dt>标签</dt>
             <dd><a href="/tags/hexo/">hexo</a></dd>
           
-          <dt>字数</dt><dd>298</dd>
+          <dt>字数</dt><dd>296</dd>
           <dt>阅读</dt><dd>约 1 分钟</dd>
         </dl>
         
@@ -275,7 +264,7 @@
     <div class="footer-col">
       <h4>关于</h4>
       <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
-      <p class="footer-dim">&copy; 2026 Sunfove · 时间帧</p>
+      <p class="footer-dim">&copy; 2026 Time Frame · 时间帧</p>
       <p class="footer-dim"><a href="/sitemap.xml">Sitemap</a> · <a href="/atom.xml">RSS</a></p>
     </div>
     <div class="footer-col">
@@ -296,10 +285,8 @@
   <div class="footer-line" aria-hidden="true"></div>
 </footer>
 
-  <!-- Theme scripts: order matters -->
-  <script src="/js/scenes.js" defer></script>
+  <script src="/js/ripple.js" defer></script>
   <script src="/js/main.js" defer></script>
-  <!-- Performance enhancements: reading progress, lazy loading, reveal animations, back-to-top -->
   <script src="/js/performance.js" defer></script>
   
     

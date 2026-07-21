@@ -9,8 +9,8 @@
 
 
 <title>WELCOME · 时间帧</title>
-<meta name="description" content="Sunfove的个人网站,主要分享一些软件技巧和个人感悟，欢迎交流">
-<meta name="author" content="Sunfove">
+<meta name="description" content="个人网站,主要分享一些软件技巧和个人感悟，欢迎交流">
+<meta name="author" content="Time Frame">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://time-frame.cloud/2019/09/29/2019-09-29-WELCOME/">
 
@@ -19,14 +19,14 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:site_name" content="时间帧">
 <meta property="og:title" content="WELCOME">
-<meta property="og:description" content="Sunfove的个人网站,主要分享一些软件技巧和个人感悟，欢迎交流">
+<meta property="og:description" content="个人网站,主要分享一些软件技巧和个人感悟，欢迎交流">
 <meta property="og:url" content="https://time-frame.cloud/2019/09/29/2019-09-29-WELCOME/">
 
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="WELCOME">
-<meta name="twitter:description" content="Sunfove的个人网站,主要分享一些软件技巧和个人感悟，欢迎交流">
+<meta name="twitter:description" content="个人网站,主要分享一些软件技巧和个人感悟，欢迎交流">
 
 
 
@@ -36,12 +36,12 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "WELCOME",
-  "description": "Sunfove的个人网站,主要分享一些软件技巧和个人感悟，欢迎交流",
+  "description": "个人网站,主要分享一些软件技巧和个人感悟，欢迎交流",
   "url": "https://time-frame.cloud/2019/09/29/2019-09-29-WELCOME/",
   "datePublished": "2019-09-29T03:02:52.000Z",
-  "dateModified": "2026-07-21T03:39:34.575Z",
-  "author": { "@type": "Person", "name": "Sunfove" },
-  "publisher": { "@type": "Person", "name": "Sunfove" },
+  "dateModified": "2026-07-21T13:13:28.293Z",
+  "author": { "@type": "Person", "name": "Time Frame" },
+  "publisher": { "@type": "Person", "name": "Time Frame" },
   "inLanguage": "zh-CN"
 }
 </script>
@@ -78,24 +78,12 @@
 <script>
 (function () {
   try {
-    var h = new Date().getHours();
-    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
-    var manual = false, saved = null;
-    try {
-      manual = sessionStorage.getItem('spectrum-manual') === '1';
-      saved = localStorage.getItem('spectrum-theme');
-    } catch (e2) {}
-    var dark;
-    if (manual && saved) dark = saved === 'dark';
-    else if (scene === 'midnight') dark = true;
-    else if (saved) dark = saved === 'dark';
-    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var saved = localStorage.getItem('spectrum-theme');
+    var dark = saved === 'dark';
     var de = document.documentElement;
     de.setAttribute('data-theme', dark ? 'dark' : 'light');
-    de.setAttribute('data-scene', scene);
   } catch (e) {
     document.documentElement.setAttribute('data-theme', 'light');
-    document.documentElement.setAttribute('data-scene', 'day');
   }
 })();
 </script>
@@ -103,6 +91,7 @@
 
 <meta name="generator" content="Hexo 8.1.1"></head>
 <body class="">
+  <canvas id="particleBg" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-nav" id="siteNav">
   <div class="nav-inner">
@@ -170,7 +159,7 @@
     <h1 class="post-title" itemprop="headline">WELCOME</h1>
     <p class="post-byline">
       <time datetime="2019-09-29T03:02:52.000Z" itemprop="datePublished">2019年9月29日</time>
-      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Sunfove</span></span>
+      · <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Time Frame</span></span>
     </p>
     <hr class="post-rule">
   </header>
@@ -188,7 +177,7 @@
     <div class="post-body">
       
       <div class="post-content" id="postContent" itemprop="articleBody">
-        <p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/Welcome.jpg" style="width: 90%"><strong><center style="color: #1E90FF; font-size: 20px; font-family: 楷体"> Sunfove的个人网站,主要分享一些软件技巧和个人感悟，欢迎交流</center></strong></p>
+        <p><img src="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/Welcome.jpg" style="width: 90%"><strong><center style="color: #1E90FF; font-size: 20px; font-family: 楷体"> 个人网站,主要分享一些软件技巧和个人感悟，欢迎交流</center></strong></p>
 <!---more-->
 
 <audio autoplay>
@@ -217,7 +206,7 @@
           <dt>日期</dt><dd><time datetime="2019-09-29T03:02:52.000Z">2019-09-29</time></dd>
           <dt>分类</dt><dd><a class="meta-cat chip-yellow" href="/categories/%E4%B8%AA%E4%BA%BA/">个人</a></dd>
           
-          <dt>字数</dt><dd>25</dd>
+          <dt>字数</dt><dd>23</dd>
           <dt>阅读</dt><dd>约 1 分钟</dd>
         </dl>
         
@@ -232,7 +221,7 @@
     <div class="footer-col">
       <h4>关于</h4>
       <p>时间帧——探索光学的奥秘。聚焦超表面（Metasurface）、纳米光子学、计算光学等前沿领域，提供深度硬核科普、学术动态与技术解读。</p>
-      <p class="footer-dim">&copy; 2026 Sunfove · 时间帧</p>
+      <p class="footer-dim">&copy; 2026 Time Frame · 时间帧</p>
       <p class="footer-dim"><a href="/sitemap.xml">Sitemap</a> · <a href="/atom.xml">RSS</a></p>
     </div>
     <div class="footer-col">
@@ -253,10 +242,8 @@
   <div class="footer-line" aria-hidden="true"></div>
 </footer>
 
-  <!-- Theme scripts: order matters -->
-  <script src="/js/scenes.js" defer></script>
+  <script src="/js/ripple.js" defer></script>
   <script src="/js/main.js" defer></script>
-  <!-- Performance enhancements: reading progress, lazy loading, reveal animations, back-to-top -->
   <script src="/js/performance.js" defer></script>
   
     
