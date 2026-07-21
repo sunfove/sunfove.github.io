@@ -1,0 +1,65 @@
+name: Daily Paper Review
+
+on:
+  schedule:
+    - cron: '30 0 * * *'   # 每天北京时间 8:30
+  workflow_dispatch:
+    inputs:
+      arxiv_id:
+        description: '指定 arXiv ID（如 2401.12345）'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PAT_TOKEN }}
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install deps
+      run: pip install requests
+
+    - name: Generate Paper Review
+      env:
+        LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+        LLM_MODEL: ${{ secrets.LLM_MODEL }}
+      run: |
+        if [ -n "${{ github.event.inputs.arxiv_id }}" ]; then
+          python py_scripts/daily_paper_review.py --arxiv-id "${{ github.event.inputs.arxiv_id }}"
+        else
+          python py_scripts/daily_paper_review.py
+        fi
+
+    - name: Check changes
+      id: check
+      run: |
+        git add source/_posts/ temp/ 2>/dev/null || true
+        if git diff --staged --quiet; then
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+          echo "No changes."
+        else
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Commit and Push
+      if: steps.check.outputs.has_changes == 'true'
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        DATE=$(date '+%Y-%m-%d')
+        git commit -m "feat: 📄 每日文献解读 - $DATE"
+        git push
