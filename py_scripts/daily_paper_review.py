@@ -200,13 +200,19 @@ index_img:
 math: true
 ---"""
 
-    body = f"""
-> **原文标题**：{paper['title']}
+    body = f"""## 📌 论文引用
+
+> **标题**：{paper['title']}
 > **作者**：{authors_str}
-> **arXiv**：[{arxiv_id}]({paper['url']}) | [PDF]({paper['pdf']})
-> **发布日期**：{paper['published'][:10]}
+> **来源**：arXiv:{arxiv_id}
+> **日期**：{paper['published'][:10]}
 
 {review_text}
+
+## 📎 论文地址
+
+- **arXiv**：[{arxiv_id}]({paper['url']})
+- **PDF**：[{paper['pdf']}]({paper['pdf']})
 
 ---
 
