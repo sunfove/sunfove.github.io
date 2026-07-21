@@ -6,12 +6,12 @@
     <p class="hero-note"><%= theme.hero.note %></p>
   </div>
   <div class="hero-tank">
-    <canvas id="rippleTank" aria-label="涟漪池：移动指针可激起水波"></canvas>
-    <p class="hero-hint no-js-hide">— 涟漪池 · 触碰水面 —</p>
+    <canvas id="rippleTank" aria-label="粒子流场：光点沿流线漂移，鼠标吸引"></canvas>
+    <p class="hero-hint no-js-hide">— 粒子流场 · 触碰即聚 —</p>
   </div>
 </section>
 
-<script src="<%- url_for('/js/ripple.js') %>" defer></script>
+<script src="<%- url_for('/js/ripple.js') %>?v=2" defer></script>
 <% } %>
 
 <section class="feed" aria-label="文章列表">
