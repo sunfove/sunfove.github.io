@@ -33,6 +33,7 @@ const CATEGORY_MAP = {
   'GDS': 'violet',
   '生活物理': 'yellow', 'English Learning': 'green',
   '科研笔记': 'cyan', 'Technical Deep Dive': 'cyan', '技术深度解析': 'cyan', '技术深度': 'cyan',
+  '文献解读': 'amber',
   'Theoretical Foundations': 'violet', 'Computational Mathematics': 'red',
   'Computer Science': 'blue', 'Artificial Intelligence': 'green', 'Machine Learning': 'green',
   'Theoretical Computer Science': 'violet'

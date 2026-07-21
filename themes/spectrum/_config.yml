@@ -6,6 +6,7 @@ nav:
   - { name: "归档", link: "/archives/" }
   - { name: "分类", link: "/categories/" }
   - { name: "标签", link: "/tags/" }
+  - { name: "文献解读", link: "/categories/文献解读/" }
   - { name: "实验室", link: "/lab/" }
   - { name: "仪表盘", link: "/stats/" }
   - { name: "自动化", link: "/automation/" }
