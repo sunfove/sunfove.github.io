@@ -97,24 +97,12 @@
 <script>
 (function () {
   try {
-    var h = new Date().getHours();
-    var scene = (h >= 5 && h < 8) ? 'dawn' : (h >= 8 && h < 17) ? 'day' : (h >= 17 && h < 20) ? 'dusk' : 'midnight';
-    var manual = false, saved = null;
-    try {
-      manual = sessionStorage.getItem('spectrum-manual') === '1';
-      saved = localStorage.getItem('spectrum-theme');
-    } catch (e2) {}
-    var dark;
-    if (manual && saved) dark = saved === 'dark';
-    else if (scene === 'midnight') dark = true;
-    else if (saved) dark = saved === 'dark';
-    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var saved = localStorage.getItem('spectrum-theme');
+    var dark = saved === 'dark';
     var de = document.documentElement;
     de.setAttribute('data-theme', dark ? 'dark' : 'light');
-    de.setAttribute('data-scene', scene);
   } catch (e) {
     document.documentElement.setAttribute('data-theme', 'light');
-    document.documentElement.setAttribute('data-scene', 'day');
   }
 })();
 </script>

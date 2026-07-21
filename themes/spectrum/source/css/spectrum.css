@@ -104,6 +104,13 @@ body {
 
 img { max-width: 100%; height: auto; display: block; }
 
+/* 全页背景粒子 */
+#particleBg {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+}
+
 .skip-link {
   position: absolute; left: -9999px; top: 0;
   background: var(--ink); color: var(--paper); padding: 8px 16px; z-index: 99;
@@ -192,34 +199,23 @@ main { padding-top: var(--nav-h); min-height: 70vh; }
   pointer-events: none;
 }
 
-/* ── 5. Hero + 涟漪池 ── */
+/* ── 5. Hero ── */
 .hero {
   max-width: 1200px; margin: 0 auto; padding: 60px 24px 24px;
 }
 .hero-text { text-align: left; }
 .hero-title {
   margin: 0 0 8px;
-  font-size: clamp(2.6rem, 8vw, 6rem);
-  line-height: 1.05; font-weight: 700; color: var(--ink);
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  line-height: 1.1; font-weight: 700; color: var(--ink);
 }
 .hero-subtitle {
-  margin: 0; font-size: clamp(1rem, 2.2vw, 1.35rem);
-  color: var(--ink-soft); letter-spacing: 0.08em;
+  margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+  color: var(--ink-soft);
 }
 .hero-note {
-  margin: 8px 0 0; font-family: var(--sans); font-size: 13px;
-  color: var(--ink-faint); letter-spacing: 0.15em;
-}
-.hero-tank { margin-top: 36px; position: relative; }
-#rippleTank {
-  display: block; width: 100%; height: clamp(220px, 38vh, 380px);
-  border: 1px solid var(--hairline); border-radius: var(--radius);
-  cursor: crosshair;
-}
-.hero-hint {
-  position: absolute; bottom: 8px; right: 14px; margin: 0;
-  font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em;
-  color: var(--ink-faint); pointer-events: none;
+  margin: 6px 0 0; font-family: var(--sans); font-size: 13px;
+  color: var(--ink-faint);
 }
 
 /* ── 6. 首页文章流 ── */
@@ -252,7 +248,7 @@ main { padding-top: var(--nav-h); min-height: 70vh; }
   color: var(--ink-faint);
 }
 .feed-title {
-  margin: 0 0 6px; font-size: 1.25rem; line-height: 1.5; font-weight: 700;
+  margin: 0 0 6px; font-size: 1.1rem; line-height: 1.5; font-weight: 700;
 }
 .feed-title a { color: var(--ink); text-decoration: none; }
 .feed-title a:hover { color: var(--accent); }
@@ -867,7 +863,7 @@ pre code { background: none; padding: 0; }
 /* ── 22. 打印 ── */
 @media print {
   .site-nav, .post-toc, .post-meta, .site-footer,
-  #read-progress, #backToTop, .hero-tank, .on-this-day {
+  #read-progress, #backToTop, #particleBg {
     display: none !important;
   }
   body { background: white; color: black; font-size: 14px; }

@@ -2,6 +2,7 @@ name: Auto Blog Generator
 
 on:
   # 开关 1：定时器 (每天北京时间 8:00，即 UTC 0:00)
+  # 注意：GitHub Actions 调度有 ±30 分钟延迟
   schedule:
     - cron: '0 0 * * *'
 

@@ -14,8 +14,8 @@ nav:
 # 首页 Hero
 hero:
   title: "时间帧"
-  subtitle: "光学 · 超表面 · 硬核科普"
-  note: "一本会呼吸的物理实验手记"
+  subtitle: "技术笔记"
+  note: ""
 
 # 数学公式 / 流程图 CDN（仅在有需要的页面加载）
 mathjax_cdn: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"

@@ -72,7 +72,7 @@ $$E(r, z) = E_0 \frac{w_0}{w(z)} \exp \left( -\frac{r^2}{w(z)^2} \right) \exp \l
     这是因光束横向限制而产生的额外轴向相移。光束从 $-\infty$ 传到 $+\infty$，总共会比平面波多经历 $\pi$ 的相位差。**这对于计算激光谐振腔的共振频率至关重要。**
 
 ---
-更多高斯光束核心参数介绍，可参考[激光物理笔记：从波动方程到高斯光束 (Gaussian Beam) 的完整推导与核心指标](https://sunfove.xyz/2026/01/09/2026-01-09-gaussian-beam-derivation/)
+更多高斯光束核心参数介绍，可参考[激光物理笔记：从波动方程到高斯光束 (Gaussian Beam) 的完整推导与核心指标](https://time-frame.cloud/2026/01/09/2026-01-09-gaussian-beam-derivation/)
 
 
 ## 第三章：复光束参数 q 与 ABCD 定律

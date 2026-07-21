@@ -196,20 +196,17 @@
 
   Tank.prototype._bindFlowPointer = function () {
     var self = this;
-    this.canvas.addEventListener('pointermove', function (e) {
-      var r = self.canvas.getBoundingClientRect();
-      self.mx = e.clientX - r.left;
-      self.my = e.clientY - r.top;
+    document.addEventListener('pointermove', function (e) {
+      self.mx = e.clientX;
+      self.my = e.clientY;
     });
-    this.canvas.addEventListener('pointerleave', function () { self.mx = -1; self.my = -1; });
-    this.canvas.addEventListener('pointerdown', function (e) {
-      var r = self.canvas.getBoundingClientRect();
-      var px = e.clientX - r.left, py = e.clientY - r.top;
+    document.addEventListener('pointerleave', function () { self.mx = -1; self.my = -1; });
+    document.addEventListener('pointerdown', function (e) {
       var ps = self.particles;
       if (!ps) return;
       for (var i = 0; i < ps.length; i++) {
         var p = ps[i];
-        var dx = p.x - px, dy = p.y - py;
+        var dx = p.x - e.clientX, dy = p.y - e.clientY;
         var dist = Math.sqrt(dx * dx + dy * dy) || 1;
         if (dist < 140) {
           p.vx += (dx / dist) * 2.5;
@@ -295,9 +292,9 @@
 
   window.SpectrumRipple = { mount: function (canvas, opts) { return new Tank(canvas, opts); } };
 
-  /* 首页 Hero：粒子流场 */
-  var hero = document.getElementById('rippleTank');
-  if (hero) {
-    window.SpectrumRipple.mount(hero, { mode: 'flow', interactive: true, cell: 5 });
+  /* 全页背景粒子流场 */
+  var bg = document.getElementById('particleBg');
+  if (bg) {
+    window.SpectrumRipple.mount(bg, { mode: 'flow', interactive: true, cell: 6 });
   }
 })();

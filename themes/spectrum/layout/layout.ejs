@@ -4,16 +4,15 @@
   <%- partial('partials/head') %>
 </head>
 <body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+  <canvas id="particleBg" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">跳到正文</a>
   <%- partial('partials/nav') %>
   <main id="main">
     <%- body %>
   </main>
   <%- partial('partials/footer') %>
-  <!-- Theme scripts: order matters -->
-  <script src="<%- url_for('/js/scenes.js') %>" defer></script>
+  <script src="<%- url_for('/js/ripple.js') %>" defer></script>
   <script src="<%- url_for('/js/main.js') %>" defer></script>
-  <!-- Performance enhancements: reading progress, lazy loading, reveal animations, back-to-top -->
   <script src="<%- url_for('/js/performance.js') %>" defer></script>
   <% if (page.__post) { %>
     <%- partial('partials/math') %>
