@@ -11,15 +11,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/lab/index.html</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/search/index.html</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -39,6 +30,15 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/index.html</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/lab/index.html</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -74,52 +74,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/07/09/2026-07-09-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/07/10/2026-07-10-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/07/11/2026-07-11-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/07/14/2026-07-15-metasurface-%E7%BA%B3%E7%B1%B3%E5%8E%8B%E5%8D%B0%E8%B6%85%E8%A1%A8%E9%9D%A2%E6%89%B9%E9%87%8F%E5%88%B6%E5%A4%87/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/07/12/2026-07-13-metasurface-%E8%B6%85%E8%A1%A8%E9%9D%A2%E5%A4%AA%E9%98%B3%E8%83%BD%E7%94%B5%E6%B1%A0%E5%A2%9E%E5%BC%BA/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/07/13/2026-07-14-metasurface-%E8%B6%85%E8%A1%A8%E9%9D%A2%E5%85%89%E5%AD%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://time-frame.cloud/2026/07/17/2026-07-18-metasurface-%E8%B6%85%E8%A1%A8%E9%9D%A2%E7%9F%A2%E9%87%8F%E5%85%A8%E6%81%AF%E6%8A%80%E6%9C%AF/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -137,7 +92,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/07/17/2026-07-18-metasurface-%E8%B6%85%E8%A1%A8%E9%9D%A2%E7%9F%A2%E9%87%8F%E5%85%A8%E6%81%AF%E6%8A%80%E6%9C%AF/</loc>
+    <loc>https://time-frame.cloud/2026/07/18/2026-07-19-metasurface-%E5%85%A8%E5%85%89%E5%AD%A6%E8%B6%85%E8%A1%A8%E9%9D%A2AI%E5%8A%A0%E9%80%9F%E5%99%A8/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -155,24 +110,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/07/18/2026-07-19-metasurface-%E5%85%A8%E5%85%89%E5%AD%A6%E8%B6%85%E8%A1%A8%E9%9D%A2AI%E5%8A%A0%E9%80%9F%E5%99%A8/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/07/19/2026-07-20-duffing-oscillator-improved-lindstedt/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/07/19/2026-07-20-clear-air-turbulence-lidar/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -182,61 +119,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/06/22/2026-06-22-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/23/2026-06-23-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/25/2026-06-25-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/24/2026-06-24-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/27/2026-06-27-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/30/2026-06-30-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/07/02/2026-07-02-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/07/19/2026-07-20-duffing-oscillator-improved-lindstedt/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -263,7 +146,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/06/28/2026-06-28-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/07/04/2026-07-04-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -281,7 +164,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/07/04/2026-07-04-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/07/09/2026-07-09-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -291,6 +174,213 @@
   
   <url>
     <loc>https://time-frame.cloud/2026/07/07/2026-07-07-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/07/10/2026-07-10-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/07/11/2026-07-11-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/07/12/2026-07-13-metasurface-%E8%B6%85%E8%A1%A8%E9%9D%A2%E5%A4%AA%E9%98%B3%E8%83%BD%E7%94%B5%E6%B1%A0%E5%A2%9E%E5%BC%BA/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/07/14/2026-07-15-metasurface-%E7%BA%B3%E7%B1%B3%E5%8E%8B%E5%8D%B0%E8%B6%85%E8%A1%A8%E9%9D%A2%E6%89%B9%E9%87%8F%E5%88%B6%E5%A4%87/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/07/13/2026-07-14-metasurface-%E8%B6%85%E8%A1%A8%E9%9D%A2%E5%85%89%E5%AD%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/17/2026-06-17-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/18/2026-06-18-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/19/2026-06-19-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/21/2026-06-21-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/20/2026-06-20-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/22/2026-06-22-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/24/2026-06-24-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/25/2026-06-25-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/28/2026-06-28-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/27/2026-06-27-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/07/02/2026-07-02-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/30/2026-06-30-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/23/2026-06-23-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/03/2026-06-03-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/04/2026-06-04-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/05/2026-06-05-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/06/2026-06-06-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/06/07/2026-06-07-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -344,6 +434,15 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/06/14/2026-06-14-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/06/13/2026-06-13-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -362,42 +461,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/06/14/2026-06-14-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/17/2026-06-17-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/18/2026-06-18-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/19/2026-06-19-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/06/16/2026-06-16-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -407,7 +470,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/06/20/2026-06-20-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/22/2026-05-22-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -416,7 +479,25 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/06/21/2026-06-21-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/23/2026-05-23-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/05/24/2026-05-24-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/05/26/2026-05-26-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -443,25 +524,16 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/28/2026-05-28-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/05/26/2026-05-26-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/05/29/2026-05-29-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/05/30/2026-05-30-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -479,7 +551,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/30/2026-05-30-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/28/2026-05-28-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -506,7 +578,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/06/04/2026-06-04-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/07/2026-05-07-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -515,7 +587,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/06/05/2026-06-05-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/09/2026-05-09-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -524,25 +596,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/06/03/2026-06-03-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/06/2026-06-06-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/06/07/2026-06-07-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/08/2026-05-08-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -569,7 +623,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/14/2026-05-14-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/15/2026-05-15-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -578,7 +632,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/15/2026-05-15-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/14/2026-05-14-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -614,7 +668,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/20/2026-05-20-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/19/2026-05-19-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -623,7 +677,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/19/2026-05-19-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/05/20/2026-05-20-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -641,7 +695,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/23/2026-05-23-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/23/2026-04-23-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -650,16 +704,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/22/2026-05-22-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/05/24/2026-05-24-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/24/2026-04-24-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -704,15 +749,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/29/2026-04-29-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/05/01/2026-05-01-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -722,7 +758,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/02/2026-05-02-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/29/2026-04-29-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -732,6 +768,15 @@
   
   <url>
     <loc>https://time-frame.cloud/2026/05/03/2026-05-03-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/05/02/2026-05-02-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -767,34 +812,16 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/05/07/2026-05-07-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/05/08/2026-05-08-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/05/09/2026-05-09-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/04/12/2026-04-12-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/04/11/2026-04-11-%E5%85%89%E5%AD%A6%E8%B6%85%E5%88%86%E8%BE%A8%E6%88%90%E5%83%8F%E6%8A%80%E6%9C%AF/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -812,25 +839,16 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/15/2026-04-15-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/04/16/2026-04-16-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/04/14/2026-04-14-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/04/15/2026-04-15-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -857,7 +875,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/19/2026-04-19-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/16/2026-04-16-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -866,7 +884,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/21/2026-04-21-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/19/2026-04-19-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -884,6 +902,15 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/04/21/2026-04-21-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/04/22/2026-04-22-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -893,16 +920,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/23/2026-04-23-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/04/24/2026-04-24-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/08/2026-04-08-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -920,7 +938,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/09/2026-04-09-optical-computing-first-principles/</loc>
+    <loc>https://time-frame.cloud/2026/04/09/2026-04-09-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -938,25 +956,16 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/04/09/2026-04-09-optical-computing-first-principles/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/04/09/2026-04-09-quantum-algorithms-practical-applications/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/04/09/2026-04-09-neural-network-physics-connection/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/04/09/2026-04-09-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -974,7 +983,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/11/2026-04-11-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/09/2026-04-09-neural-network-physics-connection/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -983,7 +992,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/11/2026-04-11-%E5%85%89%E5%AD%A6%E8%B6%85%E5%88%86%E8%BE%A8%E6%88%90%E5%83%8F%E6%8A%80%E6%9C%AF/</loc>
+    <loc>https://time-frame.cloud/2026/04/11/2026-04-11-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1019,7 +1028,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/03/31/2026-03-31-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/01/2026-04-01-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1028,7 +1037,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/01/2026-04-01-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/03/30/2026-03-30-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1046,7 +1055,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/03/2026-04-03-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/03/31/2026-03-31-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1055,7 +1064,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/03/30/2026-03-30-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/03/2026-04-03-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1082,15 +1091,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/07/2026-04-07-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/04/05/2026-04-05-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1100,16 +1100,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/04/08/2026-04-08-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/03/13/2026-03-13-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/04/07/2026-04-07-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1136,6 +1127,15 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/03/17/2026-03-17-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/03/16/2026-03-16-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1146,15 +1146,6 @@
   
   <url>
     <loc>https://time-frame.cloud/2026/03/18/2026-03-18-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/03/17/2026-03-17-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1190,6 +1181,15 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/03/23/2026-03-23-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/03/22/2026-03-22-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1200,15 +1200,6 @@
   
   <url>
     <loc>https://time-frame.cloud/2026/03/24/2026-03-24-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/03/23/2026-03-23-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1244,25 +1235,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/27/2026-02-27-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/03/01/2026-03-01-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/03/03/2026-03-03-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1298,6 +1271,15 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/03/07/2026-03-07-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/03/08/2026-03-08-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1307,7 +1289,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/03/07/2026-03-07-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/03/03/2026-03-03-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1334,15 +1316,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/03/10/2026-03-10-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/03/12/2026-03-12-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1352,7 +1325,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/18/2026-02-18-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/03/13/2026-03-13-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1361,7 +1334,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/19/2026-02-19-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/03/10/2026-03-10-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1388,15 +1361,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/20/2026-02-20-principles-of-raman-scattering/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/02/21/2026-02-21-raman-spectroscopy-instrumentation-and-analysis/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1406,7 +1370,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/21/2026-02-21-what-is-polarizability/</loc>
+    <loc>https://time-frame.cloud/2026/02/20/2026-02-20-principles-of-raman-scattering/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1416,6 +1380,15 @@
   
   <url>
     <loc>https://time-frame.cloud/2026/02/22/2026-02-22-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/02/21/2026-02-21-what-is-polarizability/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1460,7 +1433,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/07/2026-02-08-optical-polarization-devices-physics-and-applications/</loc>
+    <loc>https://time-frame.cloud/2026/02/27/2026-02-27-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1469,7 +1442,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/08/2026-02-08-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/02/07/2026-02-08-optical-polarization-devices-physics-and-applications/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1514,15 +1487,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/13/2026-02-13-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/02/14/2026-02-14-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1532,16 +1496,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/10/2026-02-10-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/02/16/2026-02-16-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/02/13/2026-02-13-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1559,6 +1514,24 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/02/16/2026-02-16-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/02/10/2026-02-10-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/02/17/2026-02-17-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1568,7 +1541,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/03/2026-02-03-color-coordinates-and-non-uniformity-analysis/</loc>
+    <loc>https://time-frame.cloud/2026/02/19/2026-02-19-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1577,7 +1550,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/03/2026-02-03-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/02/18/2026-02-18-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1604,15 +1577,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/04/2026-02-04-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/02/04/2026-02-04-polarization-principles-te-tm-analysis/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -1631,7 +1595,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/06/2026-02-06-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/02/04/2026-02-04-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1641,6 +1605,15 @@
   
   <url>
     <loc>https://time-frame.cloud/2026/02/05/2026-02-05-the-mirror-symmetry-paradox/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/02/06/2026-02-06-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1676,34 +1649,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/30/2026-01-30-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/30/2026-01-30-lithography-scanner-stepper-types/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/30/2026-01-30-polarization-in-photolithography-vector-imaging/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/31/2026-01-31-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/02/08/2026-02-08-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1721,7 +1667,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/31/2026-01-31-holographic-lithography-principles-and-applications/</loc>
+    <loc>https://time-frame.cloud/2026/01/31/2026-01-31-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1739,7 +1685,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/02/02/2026-02-02-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/01/31/2026-01-31-holographic-lithography-principles-and-applications/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1766,7 +1712,178 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/02/02/2026-02-02-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/02/03/2026-02-03-color-coordinates-and-non-uniformity-analysis/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/02/02/2026-02-02-photometry-mathematical-derivation/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/02/03/2026-02-03-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/26/2026-01-27-evanescent-waves-tunneling-spr/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/27/2026-01-28-depth-of-field-vs-depth-of-focus-analysis/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/28/2026-01-29-fast-simulated-annealing-analysis/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/28/2026-01-28-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/27/2026-01-27-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/30/2026-01-30-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/29/2026-01-30-bayesian-optimization-first-principles/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/30/2026-01-30-lithography-scanner-stepper-types/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/30/2026-01-30-polarization-in-photolithography-vector-imaging/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-shannon-sampling-theorem-deep-dive/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/22/2026-01-23-comprehensive-guide-to-deep-learning-optimization/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/23/2026-01-23-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/23/2026-01-23-simulated-annealing-physics-optimization/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/23/2026-01-23-the-mystery-of-anhui-beef-noodles-in-hebei/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/24/2026-01-24-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/30/2026-01-24-jones-matrix-polarization-calculus/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -1811,195 +1928,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/27/2026-01-27-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/26/2026-01-27-evanescent-waves-tunneling-spr/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/28/2026-01-28-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/27/2026-01-28-depth-of-field-vs-depth-of-focus-analysis/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/28/2026-01-29-fast-simulated-annealing-analysis/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/29/2026-01-30-bayesian-optimization-first-principles/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-clustering-first-principles-analysis/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/22/2026-01-22-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-hessian-matrix-geometry-and-optimization/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-shannon-sampling-theorem-deep-dive/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-kalman-filter-from-scratch/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/22/2026-01-23-comprehensive-guide-to-deep-learning-optimization/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/23/2026-01-23-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/23/2026-01-23-the-mystery-of-anhui-beef-noodles-in-hebei/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/23/2026-01-23-simulated-annealing-physics-optimization/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/24/2026-01-24-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/30/2026-01-24-jones-matrix-polarization-calculus/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/19/2026-01-20-genetic-algorithm-matlab-deep-dive/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/19/2026-01-20-decision-tree-principles-and-applications/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/20/2026-01-20-vitamin-c-mechanisms-and-safety/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/21/2026-01-21-bayesian-neural-networks-pytorch/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/01/20/2026-01-21-bayesian-principles-application/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -2018,7 +1946,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-bfgs-algorithm-deep-dive-and-implementation/</loc>
+    <loc>https://time-frame.cloud/2026/01/20/2026-01-21-nsga-ii-iii-principles-and-implementation/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2036,7 +1964,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/20/2026-01-21-nsga-ii-iii-principles-and-implementation/</loc>
+    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-clustering-first-principles-analysis/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2045,7 +1973,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/18/2026-01-18-spontaneous-vs-stimulated-emission/</loc>
+    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-hessian-matrix-geometry-and-optimization/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2054,7 +1982,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/19/2026-01-19-PSO/</loc>
+    <loc>https://time-frame.cloud/2026/01/22/2026-01-22-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2063,7 +1991,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/19/2026-01-19-Particle-Swarm-Optimization-From-Social-Psychology-to-Engineering-Solutions/</loc>
+    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-bfgs-algorithm-deep-dive-and-implementation/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2072,16 +2000,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/19/2026-01-19-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/18/2026-01-19-building-2048-with-matrix-logic/</loc>
+    <loc>https://time-frame.cloud/2026/01/21/2026-01-22-kalman-filter-from-scratch/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2144,7 +2063,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/01/19/2026-01-20-decision-tree-principles-and-applications/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2153,7 +2072,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-lidar-principles-and-applications/</loc>
+    <loc>https://time-frame.cloud/2026/01/21/2026-01-21-bayesian-neural-networks-pytorch/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2162,7 +2081,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-phase-unwrapping-algorithm/</loc>
+    <loc>https://time-frame.cloud/2026/01/19/2026-01-20-genetic-algorithm-matlab-deep-dive/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2171,25 +2090,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-design-your-own-app/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-wavefront-phase-amplitude-physics/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/17/2026-01-17-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/01/20/2026-01-20-vitamin-c-mechanisms-and-safety/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2216,16 +2117,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/16/2026-01-16-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/17/2026-01-18-cpo/</loc>
+    <loc>https://time-frame.cloud/2026/01/17/2026-01-17-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2243,15 +2135,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/18/2026-01-18-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/01/18/2026-01-18-generalized-snells-law/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -2261,7 +2144,223 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/01/18/2026-01-18-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/17/2026-01-18-cpo/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/01/17/2026-01-18-python-oop-complete/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/18/2026-01-18-spontaneous-vs-stimulated-emission/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/19/2026-01-19-Particle-Swarm-Optimization-From-Social-Psychology-to-Engineering-Solutions/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/18/2026-01-19-building-2048-with-matrix-logic/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/19/2026-01-19-PSO/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/19/2026-01-19-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/13/2026-01-13-mtf-calculation-principle/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/13/2026-01-13-physics-of-metasurfaces/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/14/2026-01-14-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/14/2026-01-14-metasurface-for-super-resolution/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/14/2026-01-14-principles-of-super-resolution/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/16/2026-01-15-coordinate-transformation-rotation/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-design-your-own-app/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-Gaussian-Beam-APP/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-lidar-principles-and-applications/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-phase-unwrapping-algorithm/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/16/2026-01-16-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-wavefront-phase-amplitude-physics/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/11/2026-01-10-optical-switch-principles/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/11/2026-01-10-research-psychological-guidance/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/10/2026-01-10-wss-principles-and-lcos/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/11/2026-01-11-greens-function-explained/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2280,6 +2379,24 @@
   
   <url>
     <loc>https://time-frame.cloud/2026/01/12/2026-01-12-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/11/2026-01-11-gaussian-beam-modes/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/11/2026-01-11-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2333,7 +2450,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/13/2026-01-13-physics-of-metasurfaces/</loc>
+    <loc>https://time-frame.cloud/2026/01/08/2026-01-08-dof-vs-depth-of-focus/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2342,7 +2459,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/14/2026-01-14-daily-english/</loc>
+    <loc>https://time-frame.cloud/2026/01/08/2026-01-08-laplacian-and-maxwell/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2351,7 +2468,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/14/2026-01-14-metasurface-for-super-resolution/</loc>
+    <loc>https://time-frame.cloud/2026/01/09/2026-01-09-bayesian-model-principles/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2360,7 +2477,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/14/2026-01-14-principles-of-super-resolution/</loc>
+    <loc>https://time-frame.cloud/2026/01/08/2026-01-08-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2369,34 +2486,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/13/2026-01-13-mtf-calculation-principle/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/15/2026-01-15-Gaussian-Beam-APP/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/16/2026-01-15-coordinate-transformation-rotation/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/09/2026-01-09-history-of-nobel-physics/</loc>
+    <loc>https://time-frame.cloud/2026/01/09/2026-01-09-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2414,15 +2504,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/10/2026-01-09-probability-theory-basics/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/01/09/2026-01-09-laser-principles-and-applications/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -2432,7 +2513,34 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2026/01/09/2026-01-09-history-of-nobel-physics/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/10/2026-01-09-probability-theory-basics/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2026/01/10/2026-01-10-daily-english/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2026/01/10/2026-01-10-fourier-transform-1d-principle/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2459,268 +2567,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/10/2026-01-10-fourier-transform-1d-principle/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/11/2026-01-10-optical-switch-principles/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/11/2026-01-10-research-psychological-guidance/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/10/2026-01-10-wss-principles-and-lcos/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/11/2026-01-11-gaussian-beam-modes/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/11/2026-01-11-greens-function-explained/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/11/2026-01-11-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/05/2026-01-05-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/05/2026-01-05-economics-08/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/06/2026-01-06-economics-09/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/06/2026-01-06-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/06/2026-01-06-economics-10/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/07/2026-01-07-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/08/2026-01-07-illuminance-vs-luminance-math/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/07/2026-01-07-optics-photometry-basics/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/08/2026-01-08-dof-vs-depth-of-focus/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/08/2026-01-08-laplacian-and-maxwell/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/08/2026-01-08-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/09/2026-01-09-bayesian-model-principles/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/09/2026-01-09-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2020/04/04/2020-04-04-%E7%90%90%E7%A2%8E023/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2025/12/27/2025-12-27-%E9%80%9A%E8%BF%87Github%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E7%BD%91%E7%AB%99/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2025/12/31/2025-12-31-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2025/12/30/2025-12-30-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/02/2026-01-02-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/01/2026-01-01-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/03/2026-01-03-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/03/2026-01-03-economics-01/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/01/03/2026-01-03-economics-03/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2026/01/03/2026-01-03-economics-02/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2756,15 +2603,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2026/01/04/2026-01-04-daily-english/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2026/01/03/2026-01-03-economics-07/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -2774,7 +2612,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/15/2019-11-25-%E7%90%90%E7%A2%8E013/</loc>
+    <loc>https://time-frame.cloud/2026/01/04/2026-01-04-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2783,7 +2621,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/28/2019-11-29-%E7%BB%99%E5%B0%91%E5%B9%B4%E7%9A%84%E4%B8%80%E5%B0%81%E4%BF%A1%E2%80%94%E2%80%94%E5%91%A8%E5%9B%BD%E5%B9%B3/</loc>
+    <loc>https://time-frame.cloud/2026/01/05/2026-01-05-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2792,7 +2630,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/30/2019-12-02-%E7%90%90%E7%A2%8E015/</loc>
+    <loc>https://time-frame.cloud/2026/01/05/2026-01-05-economics-08/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2801,7 +2639,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/12/02/2019-12-02-%E7%90%90%E7%A2%8E016/</loc>
+    <loc>https://time-frame.cloud/2026/01/06/2026-01-06-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2810,7 +2648,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/12/06/2019-12-06-A-River-Runs-Through-It/</loc>
+    <loc>https://time-frame.cloud/2026/01/06/2026-01-06-economics-09/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2819,7 +2657,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/26/2019-11-26-%E7%90%90%E7%A2%8E014/</loc>
+    <loc>https://time-frame.cloud/2026/01/07/2026-01-07-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2828,7 +2666,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/12/10/2019-12-10-%E6%B1%AA%E6%9B%BE%E7%A5%BA%E3%80%8A%E6%A0%80%E5%AD%90%E8%8A%B1%E3%80%8B/</loc>
+    <loc>https://time-frame.cloud/2026/01/06/2026-01-06-economics-10/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2837,7 +2675,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/12/07/2019-12-08-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%A2%A6/</loc>
+    <loc>https://time-frame.cloud/2026/01/07/2026-01-07-optics-photometry-basics/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2846,7 +2684,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/12/10/2019-12-10-%E9%B2%81%E8%BF%85%E3%80%8A%E7%83%AD%E9%A3%8E%C2%B7%E9%9A%8F%E6%84%9F%E5%BD%95%E5%9B%9B%E5%8D%81%E4%B8%80%E3%80%8B/</loc>
+    <loc>https://time-frame.cloud/2026/01/08/2026-01-07-illuminance-vs-luminance-math/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2855,16 +2693,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2020/01/03/2020-01-03-Kevin-Breel-Confessions-of-a-depressed-comic/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/2020/01/03/2020-01-03-Reborn/</loc>
+    <loc>https://time-frame.cloud/2020/01/07/2020-01-07-%E7%90%90%E7%A2%8E017/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2882,7 +2711,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2020/01/07/2020-01-07-%E7%90%90%E7%A2%8E017/</loc>
+    <loc>https://time-frame.cloud/2020/01/03/2020-01-03-Reborn/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2909,15 +2738,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2020/03/22/2020-03-22-%E7%90%90%E7%A2%8E019/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2020/03/22/2020-03-22-%E5%8C%86%E5%8C%86/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -2927,7 +2747,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/10/15/2019-10-15-%E7%BA%B3%E7%B1%B3%E9%94%A5%E7%94%B5%E5%9C%BA%E5%88%86%E5%B8%83/</loc>
+    <loc>https://time-frame.cloud/2020/03/22/2020-03-22-%E7%90%90%E7%A2%8E019/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2936,7 +2756,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/10/16/2019-10-17-%E7%90%90%E7%A2%8E011/</loc>
+    <loc>https://time-frame.cloud/2025/12/27/2025-12-27-%E9%80%9A%E8%BF%87Github%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E7%BD%91%E7%AB%99/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2945,7 +2765,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/10/17/2019-10-18-Hexo%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</loc>
+    <loc>https://time-frame.cloud/2025/12/30/2025-12-30-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2954,7 +2774,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/08/2019-11-08-%E5%8D%81%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://time-frame.cloud/2025/12/31/2025-12-31-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2963,7 +2783,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/17/2019-11-17-Hexo%E5%8D%87%E7%BA%A7%E5%8E%86%E7%A8%8B/</loc>
+    <loc>https://time-frame.cloud/2020/04/04/2020-04-04-%E7%90%90%E7%A2%8E023/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2972,7 +2792,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/18/2019-11-18-%E5%96%9C%E6%AC%A2%E7%9A%84%E5%B1%82%E6%AC%A1/</loc>
+    <loc>https://time-frame.cloud/2026/01/01/2026-01-01-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2981,7 +2801,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/18/2019-11-18-%E5%BE%AA%E7%8E%AF/</loc>
+    <loc>https://time-frame.cloud/2026/01/02/2026-01-02-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2990,7 +2810,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/10/17/2019-10-17-%E6%8A%98%E5%B0%84%E7%8E%87%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%8E%A8%E5%AF%BC/</loc>
+    <loc>https://time-frame.cloud/2026/01/03/2026-01-03-economics-01/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -2999,7 +2819,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/18/2019-11-18-%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/</loc>
+    <loc>https://time-frame.cloud/2026/01/03/2026-01-03-daily-english/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3008,7 +2828,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/19/2019-11-19-Potplayer%E7%9C%8B%E5%9C%A8%E7%BA%BF%E8%A7%86%E9%A2%91/</loc>
+    <loc>https://time-frame.cloud/2026/01/03/2026-01-03-economics-02/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3017,7 +2837,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/11/22/2019-11-23-Hexo%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E5%92%8C%E9%9F%B3%E4%B9%90%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</loc>
+    <loc>https://time-frame.cloud/2019/11/15/2019-11-25-%E7%90%90%E7%A2%8E013/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3026,7 +2846,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-Matlab%E6%89%B9%E5%A4%84%E7%90%86/</loc>
+    <loc>https://time-frame.cloud/2019/11/26/2019-11-26-%E7%90%90%E7%A2%8E014/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3035,7 +2855,70 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-%E4%B8%89%E4%B8%AA%E6%A2%A6/</loc>
+    <loc>https://time-frame.cloud/2019/11/30/2019-12-02-%E7%90%90%E7%A2%8E015/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/11/28/2019-11-29-%E7%BB%99%E5%B0%91%E5%B9%B4%E7%9A%84%E4%B8%80%E5%B0%81%E4%BF%A1%E2%80%94%E2%80%94%E5%91%A8%E5%9B%BD%E5%B9%B3/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/12/02/2019-12-02-%E7%90%90%E7%A2%8E016/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/12/06/2019-12-06-A-River-Runs-Through-It/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/12/07/2019-12-08-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%A2%A6/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/12/10/2019-12-10-%E6%B1%AA%E6%9B%BE%E7%A5%BA%E3%80%8A%E6%A0%80%E5%AD%90%E8%8A%B1%E3%80%8B/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/12/10/2019-12-10-%E9%B2%81%E8%BF%85%E3%80%8A%E7%83%AD%E9%A3%8E%C2%B7%E9%9A%8F%E6%84%9F%E5%BD%95%E5%9B%9B%E5%8D%81%E4%B8%80%E3%80%8B/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2020/01/03/2020-01-03-Kevin-Breel-Confessions-of-a-depressed-comic/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3053,7 +2936,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-%E6%A2%A6%E7%9A%84%E5%BC%80%E5%A7%8B/</loc>
+    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-%E4%B8%89%E4%B8%AA%E6%A2%A6/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3062,7 +2945,16 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-%E7%A7%8B%E5%A4%9C/</loc>
+    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-Matlab%E6%89%B9%E5%A4%84%E7%90%86/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-%E6%A2%A6%E7%9A%84%E5%BC%80%E5%A7%8B/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3080,7 +2972,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-%E8%BF%BD%E7%81%AB%E8%BD%A6/</loc>
+    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-%E7%A7%8B%E5%A4%9C/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3089,7 +2981,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/09/27/2019-09-28-%E7%90%90%E7%A2%8E001/</loc>
+    <loc>https://time-frame.cloud/2019/09/24/2019-09-24-%E8%BF%BD%E7%81%AB%E8%BD%A6/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3107,7 +2999,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/09/29/2019-09-29-WELCOME/</loc>
+    <loc>https://time-frame.cloud/2019/09/27/2019-09-28-%E7%90%90%E7%A2%8E001/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3125,7 +3017,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/09/29/2019-09-29-%E4%B9%9D%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://time-frame.cloud/2019/09/29/2019-09-29-WELCOME/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3152,15 +3044,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/10/07/2019-10-07-%E7%90%90%E7%A2%8E004/</loc>
-    
-    <lastmod>2026-07-21</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/2019/10/08/2019-10-08-%E7%90%90%E7%A2%8E005/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -3171,6 +3054,24 @@
   
   <url>
     <loc>https://time-frame.cloud/2019/10/09/2019-10-10-%E7%90%90%E7%A2%8E006/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/10/07/2019-10-07-%E7%90%90%E7%A2%8E004/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/09/29/2019-09-29-%E4%B9%9D%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3197,6 +3098,15 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/2019/10/12/2019-10-12-%E7%90%90%E7%A2%8E009/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/2019/10/14/2019-10-14-%E7%90%90%E7%A2%8E010/</loc>
     
     <lastmod>2026-07-21</lastmod>
@@ -3206,7 +3116,97 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/2019/10/12/2019-10-12-%E7%90%90%E7%A2%8E009/</loc>
+    <loc>https://time-frame.cloud/2019/10/15/2019-10-15-%E7%BA%B3%E7%B1%B3%E9%94%A5%E7%94%B5%E5%9C%BA%E5%88%86%E5%B8%83/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/10/17/2019-10-17-%E6%8A%98%E5%B0%84%E7%8E%87%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%8E%A8%E5%AF%BC/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/10/16/2019-10-17-%E7%90%90%E7%A2%8E011/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/11/08/2019-11-08-%E5%8D%81%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/11/17/2019-11-17-Hexo%E5%8D%87%E7%BA%A7%E5%8E%86%E7%A8%8B/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/11/18/2019-11-18-%E5%BE%AA%E7%8E%AF/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/10/17/2019-10-18-Hexo%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/11/18/2019-11-18-%E5%96%9C%E6%AC%A2%E7%9A%84%E5%B1%82%E6%AC%A1/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/11/18/2019-11-18-%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/11/22/2019-11-23-Hexo%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E5%92%8C%E9%9F%B3%E4%B9%90%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</loc>
+    
+    <lastmod>2026-07-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/2019/11/19/2019-11-19-Potplayer%E7%9C%8B%E5%9C%A8%E7%BA%BF%E8%A7%86%E9%A2%91/</loc>
     
     <lastmod>2026-07-21</lastmod>
     
@@ -3222,27 +3222,6 @@
     <priority>1.0</priority>
   </url>
 
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Matlab/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E6%A2%A6/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E5%AE%B6/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
   
   <url>
     <loc>https://time-frame.cloud/tags/hexo/</loc>
@@ -3266,7 +3245,35 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/tags/%E6%A2%A6/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E5%AE%B6/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Matlab/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/tags/%E6%80%9D%E8%80%83/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E8%B6%A3%E4%BA%8B/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3280,7 +3287,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/%E8%B6%A3%E4%BA%8B/</loc>
+    <loc>https://time-frame.cloud/tags/%E8%BD%AF%E4%BB%B6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3301,20 +3308,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/%E8%BD%AF%E4%BB%B6/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E8%AF%BB%E4%B9%A6/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/FDTD/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -3322,14 +3315,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/math/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E6%83%85%E6%84%9F/</loc>
+    <loc>https://time-frame.cloud/tags/%E8%AF%BB%E4%B9%A6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3344,6 +3330,20 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/%E6%8A%98%E5%B0%84%E7%8E%87/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/math/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E6%83%85%E6%84%9F/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3455,7 +3455,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Nature-Wildlife-Documentary/</loc>
+    <loc>https://time-frame.cloud/tags/Optics-Metasurfaces-Technology/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3476,7 +3476,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Optics-Metasurfaces-Technology/</loc>
+    <loc>https://time-frame.cloud/tags/Nature-Wildlife-Documentary/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3518,6 +3518,13 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/tags/%E6%8A%95%E8%B5%84%E9%80%BB%E8%BE%91/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/tags/%E7%BE%8E%E8%81%94%E5%82%A8/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -3540,13 +3547,6 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/%E9%99%8D%E6%81%AF/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E6%8A%95%E8%B5%84%E9%80%BB%E8%BE%91/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3679,6 +3679,13 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/tags/Global-Travel-Cultural-Exploration/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/tags/%E7%BE%8E%E5%80%BA/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -3686,7 +3693,28 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Global-Travel-Cultural-Exploration/</loc>
+    <loc>https://time-frame.cloud/tags/%E5%85%89%E5%AD%A6%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E8%BE%90%E5%B0%84%E5%BA%A6%E5%AD%A6/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E5%85%89%E5%BA%A6%E5%AD%A6/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E7%89%A9%E7%90%86%E5%85%AC%E5%BC%8F/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3722,34 +3750,6 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/%E7%89%A9%E7%90%86%E5%85%89%E5%AD%A6/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E5%85%89%E5%AD%A6%E8%AE%BE%E8%AE%A1/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E8%BE%90%E5%B0%84%E5%BA%A6%E5%AD%A6/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E5%85%89%E5%BA%A6%E5%AD%A6/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E7%89%A9%E7%90%86%E5%85%AC%E5%BC%8F/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3847,6 +3847,62 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/tags/%E6%BF%80%E5%85%89%E7%89%A9%E7%90%86/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E5%82%8D%E8%BD%B4%E8%BF%91%E4%BC%BC/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E5%8F%97%E6%BF%80%E8%BE%90%E5%B0%84/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E7%B2%92%E5%AD%90%E6%95%B0%E5%8F%8D%E8%BD%AC/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E8%B0%90%E6%8C%AF%E8%85%94/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E5%85%89%E7%BA%A4%E9%80%9A%E4%BF%A1/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E6%BF%80%E5%85%89%E5%8A%A0%E5%B7%A5/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/tags/%E7%89%A9%E7%90%86%E5%8F%B2/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -3889,27 +3945,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/%E6%BF%80%E5%85%89%E7%89%A9%E7%90%86/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E5%82%8D%E8%BD%B4%E8%BF%91%E4%BC%BC/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -3945,70 +3980,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/%E5%8F%97%E6%BF%80%E8%BE%90%E5%B0%84/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E7%B2%92%E5%AD%90%E6%95%B0%E5%8F%8D%E8%BD%AC/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E8%B0%90%E6%8C%AF%E8%85%94/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E5%85%89%E7%BA%A4%E9%80%9A%E4%BF%A1/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E6%BF%80%E5%85%89%E5%8A%A0%E5%B7%A5/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E6%B3%9B%E5%87%BD%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E6%AD%A3%E4%BA%A4%E5%9F%BA/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E4%BD%8D%E7%A7%BB%E7%94%B5%E6%B5%81/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4030,6 +4002,34 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/%E9%A2%91%E5%9F%9F%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E6%B3%9B%E5%87%BD%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E6%AD%A3%E4%BA%A4%E5%9F%BA/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E4%BD%8D%E7%A7%BB%E7%94%B5%E6%B5%81/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4134,13 +4134,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/M2%E5%9B%A0%E5%AD%90/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -4184,6 +4177,13 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/Cognitive-Psychology-Mental-Health/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/M2%E5%9B%A0%E5%AD%90/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4303,6 +4303,34 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/PageRank/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/MTF/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/PSF/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E6%96%9C%E8%BE%B9%E6%B3%95/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4442,34 +4470,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/MTF/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/PSF/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E6%96%9C%E8%BE%B9%E6%B3%95/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -4506,6 +4506,27 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/%E9%BD%90%E6%AC%A1%E5%9D%90%E6%A0%87/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Streamlit/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/github/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/APP/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4582,27 +4603,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Streamlit/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/github/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/APP/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E7%9B%B8%E4%BD%8D%E8%B0%83%E5%88%B6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -4666,13 +4666,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Silicon-Photonics/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/SerDes/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -4715,6 +4708,13 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/tags/Silicon-Photonics/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/tags/OOP/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -4743,35 +4743,14 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Algorithm/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Swarm-Intelligence/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Visualization/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Optimization/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/Particle-Swarm-Optimization/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Algorithm/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4786,6 +4765,13 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/Mathematics/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Optimization/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4814,6 +4800,20 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/Algorithms/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Swarm-Intelligence/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Visualization/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4925,6 +4925,41 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/tags/Information-Theory/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/PyTorch/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Bayesian-Deep-Learning/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Variational-Inference/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/AI-Research/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/tags/Evolutionary-Computation/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -4947,13 +4982,6 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/Heuristic-Search/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Information-Theory/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4995,34 +5023,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/PyTorch/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Bayesian-Deep-Learning/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Variational-Inference/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/AI-Research/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/Probability-Theory/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -5045,6 +5045,34 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/BFGS/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Evolutionary-Algorithms/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Multi-Objective-Optimization/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/NSGA-II/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/NSGA-III/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5128,28 +5156,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Evolutionary-Algorithms/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Multi-Objective-Optimization/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/NSGA-II/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/NSGA-III/</loc>
+    <loc>https://time-frame.cloud/tags/Statistical-Mechanics/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5191,13 +5198,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Statistical-Mechanics/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E5%81%8F%E6%8C%AF/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -5233,34 +5233,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/Biology/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Neuroscience/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Popular-Science/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Health/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E9%9B%86%E6%88%90%E5%85%89%E8%B7%AF/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -5290,6 +5262,34 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/Math/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Biology/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Neuroscience/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Popular-Science/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Health/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5366,34 +5366,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/%E5%85%A8%E6%81%AF%E6%9B%9D%E5%85%89/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E6%BF%80%E5%85%89%E5%B9%B2%E6%B6%89%E5%85%89%E5%88%BB/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/%E5%85%89%E5%AD%90%E6%99%B6%E4%BD%93/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/AR%E8%A1%8D%E5%B0%84%E5%85%89%E6%B3%A2%E5%AF%BC/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E5%85%89%E7%BA%A4%E5%85%89%E5%AD%A6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -5429,6 +5401,34 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/tags/%E5%85%A8%E6%81%AF%E6%9B%9D%E5%85%89/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E6%BF%80%E5%85%89%E5%B9%B2%E6%B6%89%E5%85%89%E5%88%BB/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E5%85%89%E5%AD%90%E6%99%B6%E4%BD%93/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/AR%E8%A1%8D%E5%B0%84%E5%85%89%E6%B3%A2%E5%AF%BC/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/tags/Computational-Physics/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -5437,13 +5437,6 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/Simulation/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Rendering/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5465,6 +5458,13 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/%E6%98%BE%E7%A4%BA%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Rendering/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5667,13 +5667,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/%E5%85%89%E5%AD%A6%E8%AE%A1%E7%AE%97/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E5%85%89%E5%AD%90%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -5689,6 +5682,13 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%85%89%E5%AD%A6/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E5%85%89%E5%AD%A6%E8%AE%A1%E7%AE%97/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5772,20 +5772,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/tags/%E7%BA%B3%E7%B1%B3%E5%88%B6%E9%80%A0/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/tags/Nanofabrication/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/tags/%E5%BA%94%E7%94%A8%E5%99%A8%E4%BB%B6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -5794,6 +5780,20 @@
   
   <url>
     <loc>https://time-frame.cloud/tags/Applications/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/%E7%BA%B3%E7%B1%B3%E5%88%B6%E9%80%A0/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/tags/Nanofabrication/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5842,6 +5842,13 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/tags/%E5%B9%B2%E6%B6%89/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/tags/%E7%89%A9%E7%90%86%E5%8E%9F%E7%90%86/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -5855,17 +5862,10 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://time-frame.cloud/tags/%E5%B9%B2%E6%B6%89/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E8%BD%AF%E4%BB%B6/</loc>
+    <loc>https://time-frame.cloud/categories/Hexo/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5879,7 +5879,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Hexo/</loc>
+    <loc>https://time-frame.cloud/categories/%E8%BD%AF%E4%BB%B6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5914,14 +5914,14 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E6%83%85%E6%84%9F/</loc>
+    <loc>https://time-frame.cloud/categories/%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://time-frame.cloud/categories/%E6%83%85%E6%84%9F/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6047,27 +6047,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/%E5%89%8D%E6%B2%BF%E4%BA%A4%E5%8F%89/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/categories/%E6%95%B0%E5%AD%A6%E4%B8%8E%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -6075,7 +6054,14 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E5%8D%8A%E5%AF%BC%E4%BD%93%E7%89%A9%E7%90%86%E4%B8%8E%E5%99%A8%E4%BB%B6/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/</loc>
+    <loc>https://time-frame.cloud/categories/APP/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6096,13 +6082,6 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/APP/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/categories/Python-%E8%A7%86%E8%A7%89%E5%AE%9E%E6%88%98/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -6111,13 +6090,6 @@
   
   <url>
     <loc>https://time-frame.cloud/categories/Optoelectronics/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/APP/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6152,7 +6124,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E5%85%89%E7%94%B5%E6%8A%80%E6%9C%AF/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AD%A6/</loc>
+    <loc>https://time-frame.cloud/categories/%E5%8D%8A%E5%AF%BC%E4%BD%93%E7%89%A9%E7%90%86%E4%B8%8E%E5%99%A8%E4%BB%B6/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6173,6 +6145,13 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/categories/Engineering-Implementation/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/categories/Technical-Algorithms/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -6187,7 +6166,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Engineering-Implementation/</loc>
+    <loc>https://time-frame.cloud/categories/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/%E5%89%8D%E6%B2%BF%E4%BA%A4%E5%8F%89/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6208,14 +6187,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Technical-Deep-Dive/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/</loc>
+    <loc>https://time-frame.cloud/categories/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6229,21 +6201,35 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/categories/Technical-Deep-Dive/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/%E9%AB%98%E6%96%AF%E5%85%89%E6%9D%9F/APP/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/%E5%85%89%E7%94%B5%E6%8A%80%E6%9C%AF/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AD%A6/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/categories/%E7%94%9F%E6%B4%BB%E7%99%BE%E7%A7%91/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/Computer-Science/Theoretical-Computer-Science/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/Computer-Science/Bio-inspired-Computing/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6257,42 +6243,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Computer-Science/Artificial-Intelligence/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://time-frame.cloud/categories/%E7%A7%91%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/Computer-Science/Game-Engineering/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/Life-Sciences/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/%E7%A1%AC%E6%A0%B8%E7%89%A9%E7%90%86/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/Computer-Science/Applied-Engineering/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6313,14 +6264,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Python-%E5%AE%9E%E6%88%98/%E8%87%AA%E5%8A%A8%E5%8C%96%E8%84%9A%E6%9C%AC/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/Computer-Science/Theoretical-Foundations/</loc>
+    <loc>https://time-frame.cloud/categories/Life-Sciences/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6348,14 +6292,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Artificial-Intelligence/Computer-Science/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/%E7%B2%BE%E5%AF%86%E5%88%B6%E9%80%A0/</loc>
+    <loc>https://time-frame.cloud/categories/Computer-Science/Artificial-Intelligence/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6369,7 +6306,21 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Artificial-Intelligence/Theoretical-Computer-Science/</loc>
+    <loc>https://time-frame.cloud/categories/%E7%B2%BE%E5%AF%86%E5%88%B6%E9%80%A0/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/Computer-Science/Game-Engineering/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/Computer-Science/Bio-inspired-Computing/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6377,6 +6328,13 @@
   
   <url>
     <loc>https://time-frame.cloud/categories/Physics/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/Computer-Science/Applied-Engineering/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6397,6 +6355,13 @@
   </url>
   
   <url>
+    <loc>https://time-frame.cloud/categories/Python-%E5%AE%9E%E6%88%98/%E8%87%AA%E5%8A%A8%E5%8C%96%E8%84%9A%E6%9C%AC/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://time-frame.cloud/categories/%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -6404,7 +6369,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Computational-Mathematics/Machine-Learning/</loc>
+    <loc>https://time-frame.cloud/categories/Computer-Science/Theoretical-Foundations/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6425,7 +6390,14 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Computer-Science/Applied-Mathematics/</loc>
+    <loc>https://time-frame.cloud/categories/Artificial-Intelligence/Computer-Science/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/Artificial-Intelligence/Theoretical-Computer-Science/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6439,14 +6411,35 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Technical-Deep-Dive/AI-Theory/</loc>
+    <loc>https://time-frame.cloud/categories/Technology/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Technology/</loc>
+    <loc>https://time-frame.cloud/categories/Computational-Mathematics/Machine-Learning/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/%E7%A7%91%E7%A0%94%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/Computer-Science/Applied-Mathematics/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/Technical-Deep-Dive/AI-Theory/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6481,7 +6474,14 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E7%A7%91%E7%A0%94%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://time-frame.cloud/categories/Computer-Science/Theoretical-Computer-Science/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/%E7%A1%AC%E6%A0%B8%E7%89%A9%E7%90%86/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6502,14 +6502,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E7%B2%BE%E5%AF%86%E5%88%B6%E9%80%A0/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://time-frame.cloud/categories/%E5%85%89%E9%80%9A%E4%BF%A1/%E5%85%88%E8%BF%9B%E5%85%89%E5%AD%90%E5%AD%A6/</loc>
+    <loc>https://time-frame.cloud/categories/%E5%85%89%E5%AD%90%E8%AE%A1%E7%AE%97/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6523,7 +6516,7 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E5%85%89%E5%AD%90%E8%AE%A1%E7%AE%97/</loc>
+    <loc>https://time-frame.cloud/categories/%E5%85%89%E9%80%9A%E4%BF%A1/%E5%85%88%E8%BF%9B%E5%85%89%E5%AD%90%E5%AD%A6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6537,14 +6530,21 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Physics/Theoretical-Optics/</loc>
+    <loc>https://time-frame.cloud/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    <loc>https://time-frame.cloud/categories/%E7%B2%BE%E5%AF%86%E5%88%B6%E9%80%A0/%E5%85%89%E5%AD%A6%E5%B7%A5%E7%A8%8B/</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://time-frame.cloud/categories/%E5%89%8D%E6%B2%BF%E7%A7%91%E6%8A%80/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6558,14 +6558,14 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/Engineering-Technology/Optics/</loc>
+    <loc>https://time-frame.cloud/categories/Physics/Theoretical-Optics/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E5%89%8D%E6%B2%BF%E7%A7%91%E6%8A%80/</loc>
+    <loc>https://time-frame.cloud/categories/Engineering-Technology/Optics/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -6621,14 +6621,14 @@
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E5%89%8D%E6%B2%BF%E7%A7%91%E6%8A%80/%E5%AD%A6%E6%9C%AF%E6%B7%B1%E5%BA%A6/</loc>
+    <loc>https://time-frame.cloud/categories/%E8%B6%85%E8%A1%A8%E9%9D%A2%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://time-frame.cloud/categories/%E8%B6%85%E8%A1%A8%E9%9D%A2%E6%8A%80%E6%9C%AF/</loc>
+    <loc>https://time-frame.cloud/categories/%E5%89%8D%E6%B2%BF%E7%A7%91%E6%8A%80/%E5%AD%A6%E6%9C%AF%E6%B7%B1%E5%BA%A6/</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
