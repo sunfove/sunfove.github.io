@@ -39,7 +39,7 @@
   "description": "本文是 2048 开发系列的进阶篇。为了解决方块瞬间移动带来的糟糕视觉体验，我们将引入计算机图形学的核心概念——线性插值（Lerp）。文章将详细阐述如何通过数学方法在两个离散状态之间构建平滑过渡，并对原有的逻辑引擎进行架构级重构，引入 Tile 对象模型以追踪方块的运动轨迹。",
   "url": "https://time-frame.cloud/2026/01/19/2026-01-19-smooth-animation-in-2048/",
   "datePublished": "2026-01-19T02:00:00.000Z",
-  "dateModified": "2026-07-21T00:17:07.453Z",
+  "dateModified": "2026-07-21T00:32:51.658Z",
   "author": { "@type": "Person", "name": "Sunfove" },
   "publisher": { "@type": "Person", "name": "Sunfove" },
   "inLanguage": "zh-CN"
@@ -130,7 +130,6 @@
       
     </nav>
     <div class="nav-actions">
-      <span class="nav-clock" id="navClockTime" title="北京时间">--:--</span>
       <a class="nav-icon-link" href="/search/" title="搜索文章" aria-label="搜索">
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       </a>
@@ -317,7 +316,6 @@
 
   <!-- Theme scripts: order matters -->
   <script src="/js/scenes.js" defer></script>
-  <script src="/js/clock.js" defer></script>
   <script src="/js/main.js" defer></script>
   <!-- Performance enhancements: reading progress, lazy loading, reveal animations, back-to-top -->
   <script src="/js/performance.js" defer></script>
