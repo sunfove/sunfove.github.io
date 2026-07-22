@@ -1,10 +1,11 @@
 <% if (page.current === 1) { %>
 <section class="hero">
-  <div class="hero-text">
-    <h1 class="hero-title"><%= theme.hero.title %></h1>
-    <% if (theme.hero.subtitle) { %><p class="hero-subtitle"><%= theme.hero.subtitle %></p><% } %>
-    <% if (theme.hero.note) { %><p class="hero-note"><%= theme.hero.note %></p><% } %>
-  </div>
+  <% if (theme.hero.img) { %>
+    <img class="hero-img" src="<%- theme.hero.img %>" alt="<%= config.title %>" loading="eager" decoding="async">
+  <% } %>
+  <% if (theme.hero.title) { %><h1 class="hero-title"><%= theme.hero.title %></h1><% } %>
+  <% if (theme.hero.subtitle) { %><p class="hero-subtitle"><%= theme.hero.subtitle %></p><% } %>
+  <% if (theme.hero.note) { %><p class="hero-note"><%= theme.hero.note %></p><% } %>
 </section>
 <% } %>
 

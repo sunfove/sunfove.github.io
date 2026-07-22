@@ -308,45 +308,67 @@ main { padding-top: var(--nav-h); min-height: 70vh; }
 /* ── 5. Hero ── */
 .hero {
   max-width: 1200px; margin: 0 auto;
-  padding: 80px 28px 40px;
+  padding: 0;
   position: relative;
   overflow: hidden;
 }
-/* 光晕：更大、更明显的暖色渐变 */
+/* Hero 背景大图 */
+.hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+}
+/* 图片上的暖色渐变蒙层：让图片与纸面自然融合 */
 .hero::before {
   content: ''; position: absolute;
-  top: -160px; left: 50%; transform: translateX(-50%);
-  width: 800px; height: 380px;
-  background:
-    radial-gradient(ellipse at 35% 50%, rgba(53, 96, 128, 0.07) 0%, transparent 55%),
-    radial-gradient(ellipse at 65% 40%, rgba(149, 101, 64, 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse at center, rgba(53, 96, 128, 0.03) 0%, transparent 70%);
+  top: 0; left: 0; right: 0;
+  height: 420px;
+  background: linear-gradient(180deg,
+    rgba(250, 247, 240, 0.05) 0%,
+    rgba(250, 247, 240, 0.35) 70%,
+    rgba(250, 247, 240, 0.92) 100%);
   pointer-events: none;
+  z-index: 2;
 }
-/* 光谱色散装饰点 */
+[data-theme="dark"] .hero::before {
+  background: linear-gradient(180deg,
+    rgba(32, 29, 23, 0.05) 0%,
+    rgba(32, 29, 23, 0.35) 70%,
+    rgba(32, 29, 23, 0.92) 100%);
+}
+/* 光谱色散装饰线 —— 图片底部 */
 .hero::after {
   content: ''; position: absolute;
-  top: 56px; left: 50%; transform: translateX(-50%);
-  width: 340px; height: 1px;
+  top: 396px; left: 50%; transform: translateX(-50%);
+  width: 320px; height: 1px;
   background: linear-gradient(90deg,
     transparent, var(--c-violet), var(--c-blue), var(--c-cyan),
     var(--c-green), var(--c-amber), var(--c-red), transparent);
-  opacity: 0.45;
+  opacity: 0.5;
   pointer-events: none;
+  z-index: 3;
 }
-.hero-text { text-align: center; position: relative; z-index: 1; }
+/* 图片下方的标题区 */
+.hero-text {
+  padding: 36px 28px 16px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
 .hero-title {
-  margin: 0 0 12px;
-  font-size: clamp(2.2rem, 6vw, 3.5rem);
-  line-height: 1.08; font-weight: 700; color: var(--ink);
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  line-height: 1.15; font-weight: 700; color: var(--ink);
   letter-spacing: -0.01em;
 }
 .hero-subtitle {
-  margin: 0; font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  margin: 0; font-size: clamp(1rem, 2vw, 1.2rem);
   color: var(--ink-soft); font-weight: 400;
 }
 .hero-note {
-  margin: 10px 0 0; font-family: var(--sans); font-size: 13px;
+  margin: 6px 0 0; font-family: var(--sans); font-size: 13px;
   color: var(--ink-faint);
 }
 
@@ -1115,7 +1137,10 @@ pre code { background: none; padding: 0; border: none; }
   }
   .nav-burger { display: inline-flex; }
   #navClockTime { display: none; }
-  .hero { padding: 48px 20px 24px; }
+  .hero-img { max-height: 280px; }
+  .hero::before { height: 280px; }
+  .hero::after { top: 260px; }
+  .hero-text { padding: 28px 20px 12px; }
   .stats-numbers { grid-template-columns: 1fr 1fr; gap: 12px; }
   .stat-num { font-size: 1.6rem; }
   .feed-item { grid-template-columns: 48px 1fr; gap: 16px; padding-left: 12px; }
@@ -1127,8 +1152,10 @@ pre code { background: none; padding: 0; border: none; }
 @media (max-width: 480px) {
   .nav-inner { padding: 0 14px; gap: 10px; }
   .brand-name { font-size: 16px; }
-  .hero-title { font-size: clamp(1.8rem, 9vw, 2.8rem); }
-  .hero::before { width: 400px; height: 200px; }
+  .hero-title { font-size: clamp(1.6rem, 8vw, 2.4rem); }
+  .hero-img { max-height: 220px; }
+  .hero::before { height: 220px; }
+  .hero::after { top: 204px; width: 220px; }
   .feed-item { grid-template-columns: 40px 1fr; gap: 12px; padding: 20px 10px 20px 10px; margin: 0 -4px; }
   .feed-day { font-size: 1.2rem; }
   .feed-title { font-size: 1rem; }

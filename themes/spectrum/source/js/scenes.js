@@ -1,5 +1,6 @@
 /* Spectrum · 四时场景：按访客本地时辰切换纸面色相
-   晨曦 5-8 / 白昼 8-17 / 黄昏 17-20 / 子夜 20-5（自动等效暗房）。
+   晨曦 5-8 / 白昼 8-17 / 黄昏 17-20 / 子夜 20-5。
+   默认亮色模式；子夜时遵循系统/既有偏好，不强制暗色。
    会话内的手动明暗选择优先于场景自动切换（sessionStorage 标记）。
    仅在页面加载时应用，无持续动画。 */
 (function () {
@@ -26,8 +27,7 @@
     var saved = read('spectrum-theme');
     var theme;
     if (manual && saved) theme = saved;                    /* 会话内手动选择优先 */
-    else if (scene === 'midnight') theme = 'dark';         /* 子夜自动暗房 */
-    else if (saved) theme = saved;                         /* 既有跨会话偏好 */
+    else if (saved) theme = saved;                          /* 既有跨会话偏好 */
     else theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
     return { scene: scene, theme: theme };
   }
