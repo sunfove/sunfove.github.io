@@ -54,10 +54,10 @@ jobs:
         publish_dir: ./public
         publish_branch: gh-pages
 
-    - name: Refresh CDN
+    - name: Refresh CDN (全量清除)
       uses: keithnull/tencent-cloud-cdn-purge-cache@v1.0
-      continue-on-error: true
       env:
         SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
         SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
-        PATHS: "https://time-frame.cloud/,https://time-frame.cloud/css/,https://time-frame.cloud/js/,https://time-frame.cloud/page/"
+        PATHS: "https://time-frame.cloud/"
+        FLUSH_TYPE: "delete"
