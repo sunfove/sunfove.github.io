@@ -47,15 +47,20 @@
   if (burger && links) {
     burger.addEventListener('click', function () {
       var open = links.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
       burger.setAttribute('aria-expanded', String(open));
     });
 
+    // Helper to close menu
+    function closeMenu() {
+      links.classList.remove('is-open');
+      burger.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+
     // 点击导航链接后自动关闭菜单
     links.querySelectorAll('.nav-link').forEach(function (link) {
-      link.addEventListener('click', function () {
-        links.classList.remove('is-open');
-        burger.setAttribute('aria-expanded', 'false');
-      });
+      link.addEventListener('click', closeMenu);
     });
 
     // 点击外部关闭菜单
@@ -63,16 +68,14 @@
       if (links.classList.contains('is-open') &&
           !links.contains(e.target) &&
           !burger.contains(e.target)) {
-        links.classList.remove('is-open');
-        burger.setAttribute('aria-expanded', 'false');
+        closeMenu();
       }
     });
 
     // ESC 关闭菜单
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && links.classList.contains('is-open')) {
-        links.classList.remove('is-open');
-        burger.setAttribute('aria-expanded', 'false');
+        closeMenu();
         burger.focus();
       }
     });
