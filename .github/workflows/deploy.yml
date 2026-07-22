@@ -60,4 +60,4 @@ jobs:
       env:
         SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
         SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
-        PATHS: 'https://time-frame.cloud/'
+        PATHS: "https://time-frame.cloud/,https://time-frame.cloud/css/,https://time-frame.cloud/js/,https://time-frame.cloud/page/"
