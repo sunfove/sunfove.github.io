@@ -105,7 +105,7 @@ tag_common:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: spectrum
+theme: fluid
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
