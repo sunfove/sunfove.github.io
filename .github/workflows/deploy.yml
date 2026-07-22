@@ -40,7 +40,7 @@ jobs:
       uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.HEXO_DEPLOY_PRI }}
-        ARGS: "-rlgoDzvc -i"
+        ARGS: "-rlgoDzvc --delete -i"
         SOURCE: "public/"
         REMOTE_HOST: 124.220.80.92
         REMOTE_USER: root
