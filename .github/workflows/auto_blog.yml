@@ -71,7 +71,7 @@ jobs:
         cache: 'npm'
 
     - name: Install Node dependencies
-      run: npm install
+      run: npm ci
 
     - name: Generate Blog Content
       id: generate
@@ -119,7 +119,8 @@ jobs:
     - name: Check for changes
       id: check
       run: |
-        git add .
+        # 只添加生成的内容，不误伤 theme/package-lock 等文件
+        git add source/_posts/ temp/ 2>/dev/null || true
         if git diff --staged --quiet; then
           echo "has_changes=false" >> $GITHUB_OUTPUT
           echo "No changes to commit."
@@ -170,7 +171,7 @@ jobs:
 
     - name: Build and Deploy
       run: |
-        npm install
+        npm ci
         npx hexo clean
         npx hexo generate
 
