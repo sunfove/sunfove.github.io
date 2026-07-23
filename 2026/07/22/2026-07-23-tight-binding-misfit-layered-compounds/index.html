@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><link href="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/css/index.css" rel="stylesheet"/><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  <link rel="icon" href="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/%E6%9C%88%E4%BA%AE.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Time Frame">
+  <meta name="keywords" content="超表面,metasurface,光学,纳米光子学,计算光学,全息,矢量光场,物理科普,学术科研">
+  
+    <meta name="description" content="本文解读一篇统一紧束缚模型论文，揭示失配层状化合物的电子结构及其伊辛超导保护机制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="统一紧束缚模型：失配层状化合物的电子结构与伊辛超导">
+<meta property="og:url" content="https://time-frame.cloud/2026/07/22/2026-07-23-tight-binding-misfit-layered-compounds/index.html">
+<meta property="og:site_name" content="时间帧">
+<meta property="og:description" content="本文解读一篇统一紧束缚模型论文，揭示失配层状化合物的电子结构及其伊辛超导保护机制。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/benjamin-voros-phIFdC6lA4E-unsplash.jpg">
+<meta property="article:published_time" content="2026-07-22T22:46:01.000Z">
+<meta property="article:modified_time" content="2026-07-23T00:39:18.467Z">
+<meta property="article:author" content="Time Frame">
+<meta property="article:tag" content="凝聚态物理">
+<meta property="article:tag" content="半导体">
+<meta property="article:tag" content="器件物理">
+<meta property="article:tag" content="能带">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/benjamin-voros-phIFdC6lA4E-unsplash.jpg">
+  
+  
+  
+    <link rel="dns-prefetch" href="//lib.baomitu.com"><link rel="preconnect" href="//lib.baomitu.com" crossorigin><link rel="dns-prefetch" href="//at.alicdn.com"><link rel="dns-prefetch" href="//hm.baidu.com"><link rel="dns-prefetch" href="//suncos-01-1254144885.cos.ap-shanghai.myqcloud.com"><link rel="preload" href="/js/particles.js" as="script"><style>#particle-bg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35}img.lazyload:not([src]){visibility:hidden}</style><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"时间帧","url":"https://time-frame.cloud","description":"探索光学的奥秘——超表面、纳米光子学、计算光学领域的硬核科普与学术动态","author":{"@type":"Person","name":"Sunfove"},"inLanguage":"zh-CN"}</script>
+  
+  <title>统一紧束缚模型：失配层状化合物的电子结构与伊辛超导 - 时间帧</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"time-frame.cloud","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"a41f823c63196c4c6518678dffb957a1","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?a41f823c63196c4c6518678dffb957a1";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>时间帧</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/arxiv/" target="_self">
+                
+                <span>arxiv</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/ripples/" target="_self">
+                
+                <span>🤿</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://suncos-01-1254144885.cos.ap-shanghai.myqcloud.com/Hexo/benjamin-voros-phIFdC6lA4E-unsplash.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">统一紧束缚模型：失配层状化合物的电子结构与伊辛超导</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-23 06:46" pubdate>
+          2026年7月23日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">统一紧束缚模型：失配层状化合物的电子结构与伊辛超导</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="研究背景"><a href="#研究背景" class="headerlink" title="研究背景"></a>研究背景</h2><p>近年来，二维过渡金属硫族化合物（TMD）因其独特的电子性质，特别是伊辛超导性，成为凝聚态物理的研究热点。伊辛超导的核心在于，强自旋-轨道耦合（SOC）在面外方向形成有效自旋极化，使得超导配对对破坏配对的面内磁场具有异常强的鲁棒性。然而，二维材料的实际应用受限于其薄层制备和器件集成的挑战。失配层状化合物（MLC）提供了一种有趣的替代方案：它们是天然存在的三维块体材料，由交替堆叠的TMD层和四方晶系层构成，且两层之间晶格失配。实验已表明，某些MLC展现出与单层TMD类似的伊辛超导行为，这暗示其电子结构可能继承了二维特征。但长期以来，理论描述大多将MLC简化为“电子上孤立的TMD层”，将四方层仅视为电荷库，忽略了层间耦合的主动作用。这种简化显然无法解释MLC中观测到的三维性和自旋纹理的复杂性。</p>
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>本工作的核心突破在于，它提出了一个统一紧束缚模型，首次将MLC中TMD层与四方层之间的层间耦合，尤其是层间自旋-轨道耦合，纳入理论框架。作者的核心思想是：四方层绝非被动的电荷库，而是通过其晶格结构和轨道特征，在TMD层之间引入了一种全新的、非平庸的自旋-轨道耦合机制。这种“层间SOC”在传统的刚性带模型中完全缺失，却是准确描述MLC电子结构的关键。更重要的是，当这种层间SOC被纳入超导理论后，它自然地为伊辛超导的增强提供了微观机制：它进一步钉扎了自旋方向，使得面内临界磁场显著高于仅考虑层内SOC时的预测值。因此，MLC不再仅仅是二维TMD的简单堆叠，而是一类具有内在耦合层和涌现自旋-轨道现象的独特三维材料。</p>
+<h2 id="方法与技术路线"><a href="#方法与技术路线" class="headerlink" title="方法与技术路线"></a>方法与技术路线</h2><p>研究团队采用了理论与计算相结合的策略。首先，他们针对多种结构构型和化学组分的MLC（例如基于NbSe₂、TaS₂等TMD与SnSe、PbSe等四方层的组合），进行了广泛的密度泛函理论（DFT）计算。这些DFT结果提供了准确但计算成本高昂的能带结构基准。</p>
+<p>基于DFT数据，他们构建并参数化了一个紧束缚模型。该模型的关键创新在于，除了标准的层内跃迁和SOC项（描述TMD层内的自旋劈裂）之外，还引入了两个关键项：</p>
+<ol>
+<li><strong>层间跃迁</strong>：描述TMD层与四方层之间以及相邻TMD层之间的电子跳跃。</li>
+<li><strong>层间自旋-轨道耦合</strong>：这是模型的核心。作者发现，四方层中原子（如Sn、Pb）的强SOC通过其轨道与TMD层的 $d$ 轨道杂化，产生了一种有效自旋混合。这种耦合可以形式化地写为 $H_{\text{inter-SOC}} &#x3D; i\lambda_{\perp} \sum_{\langle i,j \rangle} \mathbf{c}<em>i^\dagger (\mathbf{n}</em>{ij} \cdot \boldsymbol{\sigma}) \mathbf{c}<em>j$，其中 $\lambda</em>{\perp}$ 是层间SOC强度，$\mathbf{n}_{ij}$ 依赖于键的方向，$\boldsymbol{\sigma}$ 是泡利矩阵。</li>
+</ol>
+<p>随后，他们将这个紧束缚模型与博戈留波夫-德热纳（BdG）方程结合，计算超导态。在BdG框架下，他们考察了超导能隙对面内磁场的响应。通过对比仅含层内SOC的模型和包含层间SOC的完整模型，他们量化了层间SOC对伊辛保护机制的贡献。结果表明，层间SOC可以大幅提升面内临界场，在某些情况下甚至使其远超泡利顺磁极限。</p>
+<h2 id="意义与影响"><a href="#意义与影响" class="headerlink" title="意义与影响"></a>意义与影响</h2><p>这项工作的意义是多方面的。首先，它为理解MLC的电子结构提供了一个精确且可扩展的理论框架。以往依赖“刚性带”近似的模型无法复现DFT能带的细节，而本模型做到了这一点，这为后续研究MLC中的其他量子态（如电荷密度波、拓扑相）奠定了基础。</p>
+<p>其次，它揭示了“层间SOC”这一此前被忽视的物理机制。这不仅是技术上的修正，更是一种概念上的突破：它表明，在异质或失配层状结构中，自旋-轨道效应可以跨越原子层，形成一种非局域的、协同的耦合。这一发现可能适用于其他层状异质结构，而不仅仅是MLC。</p>
+<p>最后，从应用角度看，该工作为设计更高临界场的超导材料提供了新思路。通过调控四方层的化学组分和晶格结构，可以工程化地增强层间SOC，从而制备出在更高磁场下仍能保持超导性的块体材料。这对于超导磁体、量子计算等领域的应用具有潜在价值。</p>
+<h2 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h2><p>尽管成果显著，本研究仍存在一些局限性。首先，紧束缚模型虽然成功，但其参数化高度依赖于DFT计算。DFT本身对强关联电子体系的描述存在近似，因此模型在强关联极限下的可靠性有待验证。其次，模型目前主要针对特定的MLC家族，其普适性——例如是否能推广到包含磁性四方层或不同晶格对称性的体系——尚需进一步测试。此外，论文主要关注了能带结构和超导临界场，对于MLC中可能存在的其他有序态（如电荷密度波）与超导的竞争关系，并未深入讨论。最后，层间SOC的微观起源虽然被归因于四方层原子的轨道杂化，但作者并未提供一种直观的、可解析理解的图像，这在物理直觉上略显不足。</p>
+<p>论文原文：<a target="_blank" rel="noopener" href="http://arxiv.org/abs/2607.19308v1">http://arxiv.org/abs/2607.19308v1</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%A7%91%E7%A0%94%E7%AC%94%E8%AE%B0/" class="category-chain-item">科研笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8D%8A%E5%AF%BC%E4%BD%93/" class="print-no-link">#半导体</a>
+      
+        <a href="/tags/%E5%87%9D%E8%81%9A%E6%80%81%E7%89%A9%E7%90%86/" class="print-no-link">#凝聚态物理</a>
+      
+        <a href="/tags/%E8%83%BD%E5%B8%A6/" class="print-no-link">#能带</a>
+      
+        <a href="/tags/%E5%99%A8%E4%BB%B6%E7%89%A9%E7%90%86/" class="print-no-link">#器件物理</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>统一紧束缚模型：失配层状化合物的电子结构与伊辛超导</div>
+      <div>https://time-frame.cloud/2026/07/22/2026-07-23-tight-binding-misfit-layered-compounds/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Time Frame</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/07/23/2026-07-23-noise-speed-perception-study/" title="车内噪音如何影响速度感知">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">车内噪音如何影响速度感知</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/22/2026-07-23-ev-noise-speed-perception/" title="电动车静音如何影响速度感知">
+                        <span class="hidden-mobile">电动车静音如何影响速度感知</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="SOHUCS" sid='https://time-frame.cloud/2026/07/22/2026-07-23-tight-binding-misfit-layered-compounds/'></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#SOHUCS', function() {
+      Fluid.utils.createScript("https://changyan.sohu.com/upload/changyan.js", function() {
+        window.changyan.api.config({"appid":"cyuxpCk8o","appkey":"f8c285c3ec3462cdf39ccaa25e563036"})
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      浙ICP备19044173号
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/particles.js"></script>
+<script src="/js/performance.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="https://fastly.jsdelivr.net/npm/hexo-tag-common@0.2.0/js/index.js"></script><!-- hexo injector body_end end --></body>
+</html>
