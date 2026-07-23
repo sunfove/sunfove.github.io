@@ -31,10 +31,27 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: 🔒 强制确保 Fluid 主题
+      run: |
+        echo "当前主题配置:"
+        grep "^theme:" _config.yml
+        # 强制写回 fluid，防止任何意外覆盖
+        sed -i 's/^theme:.*/theme: fluid/' _config.yml
+        echo "已强制设置为:"
+        grep "^theme:" _config.yml
+
     - name: Build Hexo
       run: |
         npx hexo clean
         npx hexo generate
+        # 验证 Fluid 主题已生效
+        echo "=== 验证主题 ==="
+        if grep -q "fluid" public/index.html || ls public/css/main.css 2>/dev/null; then
+          echo "✅ Fluid 主题生效"
+        else
+          echo "❌ 主题不是 Fluid！中止部署"
+          exit 1
+        fi
 
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
